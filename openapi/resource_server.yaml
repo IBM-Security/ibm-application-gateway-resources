@@ -1,0 +1,564 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+resource_server:
+  description: >
+    The definition for a single resource server which provides content for
+    the gateway.
+  type: object
+  properties:
+
+    path:
+      description: >
+        The path at which the resource server will be made available.
+        This entry is required if the virtual\_host entry has not been
+        specified. It is not valid to have both path and virtual\_host
+        entries specified.
+        Example: path: /static
+      type: string
+
+    virtual_host:
+      description: >
+        The virtual host, as defined by the host header in the request, at
+        which the resource server will be made available. Port information may
+        also be specified if the virtual host is on a non-default port for the
+        intended protocol. This entry is required if the path entry has not
+        been specified. It is not valid to have both path and virtual\_host
+        entries specified.
+        Example: virtual_host: "application.ibm.com:9443" 
+      type: string
+
+    connection_type:
+      description: >
+        The connection type the reverse proxy will make for this resource
+        server.
+        Example: connection_type: ssl
+      type: string
+      default: tcp
+      enum:
+        - tcp
+        - ssl
+        - tcp_proxy
+        - ssl_proxy
+
+    transparent_path:
+      description: >
+        A boolean flag indicating whether or not this resource server uses
+        a transparent path. For path type resource servers, setting this entry
+        to true will result in the passing of the entire URL as
+        observed by the reverse proxy to the resource server, including the
+        value given in "path". If set to false the reverse proxy will filter
+        the path from the URL and pass only the remainder of the URL to the
+        resource server.
+        Example: transparent_path: true
+      type: boolean
+      default: false
+
+    stateful:
+      description: >
+        A boolean flag indicating whether or not user requests, for the
+        lifetime of a session, are always processed by the same resource
+        server. 
+        Example: stateful: true
+      type: boolean
+      default: false
+
+    http2:
+      description: >
+        Specifies the information associated with the HTTP2 configuration
+        of the resource server.
+        Example: resource_server:
+                     http2:
+                         enabled: true
+                         sni: www.test.com
+      type: object
+      properties:
+
+        enabled:
+          description: >
+            A boolean flag indicating whether or not to use HTTP/2 when making requests
+            by the reverse proxy to the resource server.
+          type: boolean
+          default: false
+
+        sni:
+          description: >
+            The Server Name Indicator the reverse proxy will indicate to the
+            resource server when communicating using HTTP/2.
+          type: string
+
+    identity_headers:
+      description: |
+        Specifies the configuration information associated with the provision of identity
+        information to the resource server.
+
+        ## Encoding
+        Type | Description
+        ---- | -----------
+        utf8_bin | Unencoded UTF-8 data. This setting allows data to be transmitted without data loss, and the user does not need to URI-decode the data.
+        utf8_uri | URI encoded UTF-8 data. All white space and non\-ASCII bytes are encoded %XY, where X and Y are hex values (0 - F).
+        lcp_bin | Unencoded local code page data. Data loss can potentially occur with this mode. Use with caution.
+        lcp_uri | URI encoded local code page data. Any UTF-8 characters that cannot be converted to a local code page are converted to question marks (?).
+
+        ## Basic Auth
+        Type | Description
+        ---- | -----------
+        filter | The reverse proxy will remove any basic authentication headers from client requests before sending them to the resource server.
+        supply | The reverse proxy will provide the username and a dummy password to the resource server. Use the entry advanced:configuration:junction:basicauth-dummy-passwd to set the dummy password.
+        ignore | The reverse proxy will pass any basic authentication headers to the resource server.
+
+        Example: resource_server:
+                     identity_headers:
+                         encoding: utf8_uri
+                         basic_auth: filter
+                         ip_address: true
+                         attributes:
+                             - attribute: emailAddress
+                               header: email_header
+                             - attribute: AUTHENTICATION_LEVEL
+                               header: auth_level
+                         session_cookie: true
+
+      type: object
+      properties:
+
+        encoding:
+          description: >
+            The encoding type to use for any identity headers passed to the
+            resource server. See the Encoding table for a description of the available options.
+          type: string
+          default: utf8_uri
+          enum:
+            - utf8_bin
+            - utf8_uri
+            - lcp_bin
+            - lcp_uri
+
+        basic_auth:
+          description: >
+            Controls whether or not basic authentication headers presented
+            by clients are forwarded to the resource server. See the
+            Basic Auth table for a description of the available options.
+          type: string
+          default: ignore
+          enum:
+            - filter
+            - supply
+            - ignore
+
+        ip_address:
+          description: >
+            A boolean flag indicating whether or not to provide the client IP address
+            as a HTTP header in requests forwarded to the resource server.
+          type: boolean
+          default: false
+
+        attributes:
+          description: >
+             Specifies a list of attributes from the authenticated credential which will
+             be inserted into the HTTP requests sent to the resource server.
+          type: array
+          items:
+            type: object
+            properties:
+              attribute:
+                description: The name of the credential attribute.
+                type: string
+              header:
+                description: >
+                  The name of the HTTP header which will contain the
+                  credential attribute. If no name is supplied the name
+                  of the credential attribute itself will be used.
+                type: string
+
+        session_cookie:
+          description: >
+            A boolean flag indicating whether or not to forward the reverse proxy cookie to the
+            resource server. The name of this cookie is configured in the server:session:cookie_name entry.
+          type: boolean
+          default: false
+
+    cookies:
+      description: >
+        Specifies the configuration information associated with the processing
+        of cookies from the resource server.
+        Example: resource_server:
+                     cookies:
+                         junction_cookie:
+                             position: inhead
+                             version: onfocus
+                             ensure_unique: true
+                             preserve_name: true
+      type: object
+      properties:
+
+        junction_cookie:
+          description: >
+            The reverse proxy can set a "junction cookie" in returned HTML
+            pages indicating which junction the page was served from. This
+            is useful for resource servers which dynamically generate URLs that
+            may not be aware or capable of generating URLs containing the
+            path which the reverse proxy served them from.
+          type: object
+          properties:
+
+            position:
+              description: >
+                Controls the position in which the \<script\> block will be
+                inserted.
+              type: string
+              enum:
+                - inhead
+                - trailer
+
+            version:
+              description: >
+                Controls how the cookie is set.
+              type: string
+              enum:
+                - onfocus
+                - xhtml10
+
+            ensure_unique:
+              description: >
+                A boolean flag indicating whether or not to insert the resource server
+                path or host to ensure that the cookie is unique.
+              type: boolean
+              default: false
+
+            preserve_name:
+              description: >
+                A boolean flag indicating whether or not to preserve the original cookie name.
+                When set to false, non-domain cookies are renamed AMWEBJCT!\<path\>.
+              type: boolean
+              default: false
+
+    mutual_auth:
+      description: >
+        Specifies the configuration information associated with mutual authentication
+        processing for the resource server.
+        Example: resource_server:
+                     mutual_auth:
+                         basic_auth:
+                             username: admin
+                             password: passw0rd
+                         certificate_auth:
+                             certificate: "@cert.pem"
+      type: object
+      properties:
+
+        basic_auth:
+          description: >
+            Specifies the configuration information associated with the basic authentication
+            header which will be sent to the resource server.
+          type: object
+          properties:
+
+            username:
+              description: >
+                The name of the user to be included in the basic
+                authentication header.
+              type: string
+
+            password:
+              description: >
+                The password of the user to be inclued in the basic
+                authentication header.
+              type: string
+
+        certificate_auth:
+          description: >
+            Specifies the configuration information associated with the client certificate
+            which will be sent to the resource server.
+          type: object
+          properties:
+
+            certificate:
+              description: >
+                The PEM encoded client certificate.
+              type: string
+
+    servers:
+      description: >
+        Specifies the location of the resource server that is being protected.
+        This is an array type and multiple resource servers can be specified.
+        Example: resource_server:
+                     servers:
+                         - host: www.test.com
+                           port: 443
+                           virtual_host: testportal.test.com
+                           ssl:
+                               certificate: "@cert.crt"
+                               server_dn: cn=test
+                               sni: www.test.com
+                           url_style:
+                               case_insensitive: true
+                               windows: false
+      type: array
+      items:
+        type: object
+        properties:
+
+          host:
+            description: >
+              The name or IP address of the server.
+            type: string
+
+          port:
+            description: >
+              The port on which the server is listening.
+            type: number
+
+          virtual_host: 
+            description: >
+              If the resource server resides on a virtual host, this parameter
+              can be used to specify the hostname which the reverse proxy
+              should present in the host header for requests to this
+              resource server. If this resource server definition is for a virtual
+              host, this will be inherited from the resource server definition
+              and should not be specified.
+            type: string
+
+          ssl:
+            description: >
+              SSL settings for the server.
+            type: object
+            properties:
+
+              certificate:
+                description: >
+                  If required, a signer certificate required for the reverse
+                  proxy to trust the resource server can be specified
+                  here in PEM format.
+                type: string
+
+              server_dn:
+                description: >
+                  This option can be used to ensure that the resource
+                  server presents a specific certificate.
+                type: string
+
+              sni:
+                description: > 
+                  Specifies the expected SNI of the resource server.
+                type: string
+
+          url_style:
+            description: >
+              This entry defines how the resource server URLs are handled.
+            type: object
+            properties:
+
+              case_insensitive:
+                description: >
+                  A boolean flag indicating whether or not URLs are case insensitive.
+                type: boolean
+                default: false
+
+              windows:
+                description: >
+                  A boolean flag indicating whether or not to forbid requests to
+                  URLs that appear to be Windows style file name aliases. If this
+                  entry is set to true it will also enforce that URLs are case
+                  insensitive.
+                type: boolean
+                default: false
+
+    health:
+      description: >
+        Specifies the configuration which is used to establish
+        the health of the resource server.
+        Example: resource_server:
+                     health:
+                         ping:
+                             method: HEAD
+                             url: /
+                             policy:
+                                 frequency: 600
+                                 threshold: 1
+                                 recovery: 
+                                     frequency: 300
+                                     threshold: 1
+                                 timeout: 10
+                                 rule:
+                                     - -50?
+                                     - +*
+                             rule:
+                                 - -50?
+                                 - +*
+      type: object
+      properties:
+
+        ping:
+          description: >
+            Specifies the configuration that allows the reverse proxy to periodically
+            ping each resource server to determine whether it is running.  
+          type: object
+          properties:
+
+            method:
+              description: >
+                The HTTP method which will be used in the ping request.
+              type: string
+
+            url:
+              description: >
+                The URL to which the ping request will be sent.
+              type: string
+
+            policy:
+              description: >
+                The policy associated with the ping requests.
+              type: object
+              properties:
+
+                frequency:
+                  description: >
+                    The frequency (in seconds) which ping requests will
+                    be sent. If set to 0 the ping will be disabled.
+                  type: number
+                  minimum: 0
+                  maximum: unlimited
+                  default: 300
+
+                threshold:
+                  description: >
+                    Specifies how many consecutive times the ping must
+                    fail before the resource server is considered 
+                    unhealthy.
+                  type: number
+                  minimum: 1
+                  maximum: unlimited
+                  default: 1
+
+                recovery:
+                  description: >
+                    When the resource server is unhealthy, these
+                    entries specify how often they should be pinged and
+                    how many consecutive successful pings should be
+                    observed before the resource server is considered
+                    healthy again.
+                  type: object
+                  properties:
+                    frequency:
+                      description: >
+                        The frequency (in seconds) which ping requests
+                        will be sent. If this value is not set it will
+                        default to the value of the ping frequency.
+                      type: number
+                      minimum: 1
+                      maximum: unlimited
+
+                    threshold:
+                      description: >
+                        Specifies how many consecutive times the ping
+                        must fail before the resrouce server is
+                        considered unhealthy.
+                      type: number
+                      minimum: 1
+                      maximum: unlimited
+                      default: 1
+
+                timeout:
+                  description: >
+                    Specifies how long the reverse proxy should wait for
+                    responses to ping requests. A value of 0 will result in
+                    an indefinite wait. If not specified the timeout will default
+                    to the http or https timeout.
+                  type: number
+                  minimum: 0
+                  maximum: unlimited
+
+                rule:
+                  description: >
+                    Specifies how to interpret responses to ping
+                    requests. This entry is an ordered list of rules
+                    based on the response status codes. Status codes
+                    prefixed with a '+' are considered healthy, and
+                    codes prefixed with '-' unhealthy. The wildcard
+                    characters '*' and '?' can be used.
+                  type: array
+                  items:
+                    type: string
+
+            rule:
+              description: >
+                Regular (client initiated) requests can also be observed
+                to determine the resource server health. This entry
+                is an ordered list of rules based on the response status
+                codes. Status codes prefixed with a '+' are considered
+                healthy, and codes prefixed with '-' unhealthy. The
+                wildcard characters '*' and '?' can be used.
+              type: array
+              items:
+                type: string
+
+    worker_threads:
+      description: >
+        Specifies the limits that can be set on the percentage of worker
+        threads that may be consumed by this resource server.
+        Example: resource_server:
+                     worker_threads:
+                         soft_limit: 60
+                         hard_limit: 80
+      type: object
+      properties:
+
+        soft_limit:
+          description: >
+            Specifies the soft limit (as a percentage) of worker threads that the resource server can use.
+            Warning messages will be displayed when the resource server uses more worker threads than allowed.
+          type: string
+
+        hard_limit:
+          description: >
+            Specifies the hard limit (as a percentage) of worker threads that the resource server can use.
+            Warning messages will be displayed when the resource server uses more worker threads than allowed and
+            clients are returned the 503 Service Unavailable message.
+          type: string
+
+    persistent_connections:
+      description: >
+        Configures the pool of persistent connections which is maintained
+        for the resource server.  A persistent connection will allow an
+        established connection to the resource server to be used for multiple
+        requests.  
+        Example: resource_server:
+                   persistent_connections:
+                     max_cache_size: 100
+                     connection_timeout: 5
+      type: object
+      properties:
+
+        max_cache_size:
+          description: >
+            The maximum number of persistent connections which will be 
+            stored in the cache for future use.  Connections with resource 
+            servers will be cached for future use unless the configured 
+            limit is reached, or the 'connection: close' header is received 
+            in the HTTP response.  Please note that if enabled there is the 
+            potential for different user sessions to use the same connection 
+            when processing requests.  To disable the persistent connection 
+            functionality simply specify a value of 0.
+          type: number
+          default: 0
+          minimum: 0
+          maximum: unlimited
+
+        connection_timeout:
+          description: >
+            The maximum number of seconds a persistent connection can 
+            remain idle in the cache before the connection is cleaned up 
+            and closed by the IAG.  This value should be lower than the 
+            configured maximum connection lifetime for the resource server.  
+            This behaviour is controlled for the Apache Web server, as an 
+            example only, by the KeepAliveTimeout configuration entry.
+          type: number
+          default: 5
+          minimum: 0
+          maximum: unlimited
+

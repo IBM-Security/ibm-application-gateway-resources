@@ -1,0 +1,10 @@
+---
+version: 19.12
+
+identity:
+  ci_oidc:
+    tenant: iag-dev.pre1.idng.ibmcloudsecurity.com
+    client_id: 2cbfe647-9e5f-4d99-8e05-8ec1c862eb47
+    client_secret: lPP8rM8N0d
+    mapped_identity: "{iss}/{sub}"
+

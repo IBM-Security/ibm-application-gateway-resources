@@ -1,0 +1,65 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+authorization:
+  description: >
+    The 'authorization' node defines the authorization rules.
+  type: object
+  properties:
+
+    rules:
+      description: |
+        The gateway can apply authorization rules to incoming requests. These rules can be either:
+          * Defined directly in a policies:authorization entry.
+          * Defined here in the authorization section and reference by name in a policies:authorization entry.
+
+        This entry defines authorization rules which can be referred to by name in a
+        policies:authorization entry.
+
+        This entry is an array and can be used to specify multiple rules.
+
+        ## Rule Format
+
+        Authorization rules are composed of credential attributes and
+        the following operators:
+        
+        Name | Values
+        ---- | ------
+        logical operators | and, or, not
+        multi-valued operators | any, all
+        relational operators | =, !=, matches, >, >=, <, <=, exists
+
+        Parenthesis can be used for controlling the order of evaluation.
+
+        Examples:
+
+        Rule | Description
+        ---- | -----------
+        (any groupIds = "administrator") | Match when the user is in the administrator group. 
+        (all authenticationLevels >= "2") | Match when all credential authenticationLevels are at least level 2.
+        (attribute\_a matches "a(?:bc)*") | Match when the value of the credential attribute "attribute\_a" matches the regular expression.
+        (level >= "2") and (any groupIds = "forbidden") | Match when the credential attribute "level" is at least level 2 and the user is in the forbidden group.
+        (not exists attribute\_c) | Match when the credential does not have an attribute named "attribute\_c".
+        (AZN\_CRED\_PRINCIPAL\_NAME = "user\_a") | Match when the credential attribute "AZN\_CRED\_PRINCIPAL\_NAME" is equal to "user\_a".
+        
+        Example: authorization:
+                     rules:
+                         - name: ruleA
+                           rule: (any groupIds = "administrator")
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            description: >
+              The name which will be given to this authorization rule.
+            type: string
+          rule:
+            description: >
+              The authorization rule. See the Rule Format table for a description of the expected format. 
+            type: string
+

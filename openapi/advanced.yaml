@@ -1,0 +1,59 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+advanced:
+  description: >
+    The 'advanced' node defines advanced daemon tuning parameters.
+  type: object
+  properties:
+
+    configuration:
+      description: |
+        This entry defines customize legacy reverse proxy daemon configuration
+        entries. This configuration is applied last and can be used to overload
+        parameters specified in other sections of the configuration YAML. 
+
+        This entry is an array and can be used to specify multiple tuning parameters.
+        Example: advanced:
+                     configuration:
+                         - stanza: server
+                           entry: web-http-port
+                           operation: set
+                           value: ["80"]
+                         - stanza: server
+                           entry: web-https-port
+                           operation: set
+                           value: ["443"]  
+      type: array
+      items:
+        type: object
+        properties:
+          stanza:
+            description: >
+              The name of the configuration stanza which contains the
+              configuration entry.
+            type: string
+          entry:
+            description: >
+              The name of the configuration entry.
+            type: string
+          operation:
+            description: >
+              The operation to be perform on the configuration entry.
+            type: string
+            enum:
+              - delete
+              - add
+              - set
+          value:
+            description:
+              The value(s) for the new configuration entry. The value is
+              only required for the 'add' and 'set' operations.
+            type: array
+            items:
+              type: string
+

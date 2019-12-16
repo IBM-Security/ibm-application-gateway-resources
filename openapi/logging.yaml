@@ -1,0 +1,251 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+logging:
+  description: >
+    The 'logging' node defines the configuration entries which are
+    used to manage the various logging capabilities of the IBM Application
+    Gateway.
+  type: object
+  properties:
+
+    json_logging:
+      description: >
+        A boolean which indicates whether the logging will be
+        in JSON format or not. If not specified logging will not be
+        in JSON format.
+        Example: json_logging: true
+      type: boolean
+      default: false
+
+    components:
+      description: >
+        Specifies an array of auditing components to be enabled.
+        Example: components: ["audit.authn", "audit.azn"]
+      type: array 
+      items:
+        type: string
+        enum:
+          - audit.authn
+          - audit.azn
+
+    request_log:
+      description: |
+        Defines and enables request logging.
+
+        ## Log Format
+        The following directives can be added to the format property to customize the log format:
+        
+        Directive | Description
+        --------- | -----------
+        %a | Client IP Address.
+        %A | Local IP Address.
+        %b | Bytes in the response excluding HTTP headers in CLF format: '-' instead of 0 when no bytes are returned.
+        %B | Bytes in the response excluding HTTP headers.
+        %{attribute}C | Attribute from the credential named 'attribute'.
+        %{cookie}e | Contents of the Cookie 'cookie' in the request.
+        %{cookie}E | Contents of the Cookie 'cookie' in the response.
+        %d | Transaction identifier, or session sequence number.
+        %F | Time taken to serve the request in microseconds.
+        %h | Client host.
+        %H | Request protocol.
+        %{header}i | Contents of the Header 'header' in the request.
+        %j | The name of the resource server servicing the request.
+        %J | The length of time, in microseconds, that the resource server server spent processing the request.<br>This will include the time that it took to send the request to the server,<br>the length of time that it took the server to process the request,<br>and the length of time that it took to read and process the response header.
+        %l | Client logname (RFC 1314) (default -).
+        %m | Request method (i.e. GET, POST, HEAD).
+        %{header}o | Contents of the Header 'header' in the response.
+        %M | The time, in Common Log Format, at which the request was received with millisecond precision.
+        %p | Port over which the request was received.
+        %q | The decoded query string (prepended with '?' or empty).
+        %Q | The raw query string (prepended with '?' or empty).
+        %r | First line of the request with decoded URL.
+        %R | First line of the request with decoded URL including HTTP://HOSTNAME.
+        %s | Response status.
+        %S | The hostname of the backend server which serviced this request.
+        %t | Time in Common Log Format format.
+        %{format}t | The time in the given format.
+        %T | Time taken to serve the request in seconds, or part thereof.
+        %u | Remote user.
+        %U | The URL requested.
+        %v | Canonical ServerName of the server servicing the request.
+        %z | The decoded path string.
+        %Z | The raw path string.
+
+        Example: logging:
+                     request_log:
+                         file:
+                             file_name: /var/iag/logs/request.log
+                         format: "%t %a %R"
+      type: object
+      properties:
+        file:
+          description: >
+            By default the request log events will be written to the console
+            of the container.  By setting the 'file' configuration the
+            request log events can instead be written to a local file.
+          type: object
+          properties:
+            file_name:
+              description: >
+                The full path name of the generated log file. 
+              type: string
+            max_file_size:
+              description: >
+                The maximum size (in MB) that the file can reach before it
+                is rolled over.
+              type: number
+              minimum: 1
+              maximum: unlimited
+            max_rollover_files:
+              description: >
+                The maximum number of rollover files to be kept on disk.  When
+                the number of rollover log files reaches the specified 
+                threshold, the oldest log file is deleted.
+              type: number
+              default: unlimited
+              minimum: 1
+              maximum: unlimited
+            compress:
+              description: >
+                A boolean which indicates whether rolled over log files should
+                be automatically compressed to conserve disk space.
+              type: boolean
+              default: true
+
+        format:
+          description: >
+            The format of the events written to the request log.
+            See the Log Format table above for the available directives.
+          type: string
+          default: '"%h %u %t %r %s %b"'
+
+    tracing:
+      type: array
+      description: >
+        Specifies an array of trace components to be enabled.
+        Tracing can be used to assist with problem determination in
+        the environment.
+        Example: logging:
+                     tracing:
+                         - file_name: /var/iag/logs/http_trans.log
+                           component: pdweb.http.transformation
+                           level: 9
+                         - file_name: /var/iag/logs/http.log
+                           component: pdweb.http
+                           level: 5
+      items:
+        type: object
+        properties:
+          file_name:
+            description: >
+              The full path name of the generated log file.
+            type: string
+          component:
+            description: >
+              The name of the tracing component to be enabled. Refer to
+              the troubleshooting documentation for the full list of component names.
+            type: string
+          level:
+            description: >
+              The level of detail to be gathered by the tracing component in the range 0 to 9.
+              Level 1 specifies the least detailed output and level 9 specifies the most
+              detailed output. Level 0 will disable tracing for the component.
+            type: number
+            minimum: 0
+            maximum: 9
+
+    transaction:
+      description: >
+        Defines and enables transaction logging. This
+        logging can be used to pinpoint performance issues in the
+        environment.
+        Example: logging:
+                     transaction:
+                         file_name: /var/iag/logs/trans.log
+                         max_file_size: 1024
+                         max_files: 5
+                         compress: true
+      type: object
+      properties:
+        file_name:
+          description: >
+            The full path name of the generated log file.
+          type: string
+        max_file_size:
+          description: >
+            The maximum size of the log file (in bytes) before it is rolled over.
+            If not specified the file size is unlimited.
+          type: number
+          minimum: 1
+          maximum: unlimited
+          default: unlimited
+        max_files:
+          description: > 
+            The maximum number of files to be created, including rollover files.
+            If not specified the max number of files is unlimited.
+          type: number
+          minimum: 1
+          maximum: unlimited
+          default: unlimited
+        compress:
+          description: >
+            A boolean which indicates whether the generated
+            file should be compressed. If not specified the files will not be
+            compressed.
+          type: boolean
+          default: false
+
+    statistics:
+      description: >
+        Specifies an array of statistic gathering components to be enabled.
+        Statistics can be used to assist with problem determination in
+        the environment.
+        Example: logging:
+                     statistics:
+                         - file_name: /var/iag/logs/authn_stats.log
+                           component: pdweb.authn
+                           count: 20
+                           interval: 20
+                        - file_name: /var/iag/logs/http_stats.log
+                           component: pdweb.http
+                           count: 20
+                           interval: 20
+      type: array
+      items:
+        type: object
+        properties:
+          file_name:
+            description: >
+              The full path name of the generated log file.
+            type: string
+          component:
+            description: >
+              The name of the statistical component to be enabled. Refer to
+              the troubleshooting documentation for the full list of component names.
+            type: string
+          count:
+            description: >
+              The number of reports sent to the log file. After the count value is reached,
+              reporting to a log file stops. However, the statistic component is still enabled.
+              If the interval value is not set or is set to 0 the count will have no effect.
+              If the interval value is set and count is not set, statistics information will
+              be sent to the log file at the interval indefinitely.
+            type: number
+            minimum: 1
+            maximum: unlimited
+          interval:
+            description: >
+              The time interval (in seconds) when statistics are sent from the
+              memory buffer to the log file. If the interval is not set or is set to 0,
+              no statistics are sent to the log file. However, the statistic component is still enabled.
+              If interval is set and count value is not set, statistics information will
+              be sent to the log file at the interval indefinitely.
+            type: number
+            minimum: 0
+            maximum: unlimited
+

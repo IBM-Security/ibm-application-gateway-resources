@@ -1,0 +1,796 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+server:
+  description: >
+    The 'server' node defines configuration for the gateway daemon front-end.
+  type: object
+  properties:
+
+    ssl:
+      description: >
+        Specifies the secure configuration for the gateway server.
+      type: object
+      properties:
+
+        front_end:
+          description: |
+            Specifies the configuration the gateway server will use when securely
+            communicating with clients. This configuration includes:
+              * A PEM based personal certificate. If a certificate is
+                not provided, the gateway will generate a self-signed certificate
+                during bootstrapping.
+              * The TLS protocols that are enabled for client communication.
+              * Any additional server certificates which should be used for
+                specific hosts using the 'server name indication' (SNI) TLS
+                extension.
+            Example: server:
+                         ssl:
+                             front_end:
+                                 certificate: "@cert.pem"
+                                 tlsv12: true
+                                 sni:
+                                     - certificate: "@test.pem"
+                                       hostname: www.test.com
+                                     - certificate: "@example.pem"
+                                       hostname: www.example.com
+
+          type: object
+          properties:
+
+            certificate:
+              description: >
+                The certificate to be used for secure communication with clients.
+              type: string
+
+            tlsv10:
+              description: >
+                A boolean which indicates whether or not TLS v1.0 is enabled.
+              type: boolean
+              default: false
+
+            tlsv11:
+              description: >
+                A boolean which indicates whether or not TLS v1.1 is enabled.
+              type: boolean
+              default: false
+
+            tlsv12:
+              description: >
+                A boolean which indicates whether or not TLS v1.2 is enabled.
+              type: boolean
+              default: true
+
+            tlsv13:
+              description: >
+                A boolean which indicates whether or not TLS v1.3 is enabled.
+              type: boolean
+              default: false
+
+            sni:
+              description: >
+                Specifies a list of SNI certificate to hostname mappings for the front end.
+              type: array
+              items:
+                type: object
+                properties:
+
+                  certificate:
+                    description: >
+                      The PEM encoded certificate for this SNI entry.
+                    type: string
+
+                  hostname:
+                    description: >
+                      The name of the host for this SNI entry.
+                    type: string
+
+        applications:
+          description: >
+            Enables or disables the TLS protocols that are used for communication
+            between the gateway daemon and the protected application.
+            Example: server:
+                         ssl:
+                             applications:
+                                 tlsv13: true
+          type: object
+          properties:
+
+            tlsv10:
+              description: >
+                A boolean which indicates whether or not TLS v1.0 is enabled.
+              type: boolean
+              default: false
+
+            tlsv11:
+              description: >
+                A boolean which indicates whether or not TLS v1.1 is enabled.
+              type: boolean
+              default: false
+
+            tlsv12:
+              description: >
+                A boolean which indicates whether or not TLS v1.2 is enabled.
+              type: boolean
+              default: true
+
+            tlsv13:
+              description: >
+                A boolean which indicates whether or not TLS v1.3 is enabled.
+              type: boolean
+              default: false
+
+        ciphers:
+          description: |
+            Specifies the ciphers and cipher suites which will be permitted for
+            all secure communications. The following tables show the list of
+            available ciphers.
+
+            ## Supported Cipher Names
+
+            Name |
+            ---- |
+            TLS\_DHE\_PSK\_WITH\_AES\_128\_CCM\_8 |
+            TLS\_DHE\_PSK\_WITH\_AES\_128\_CCM |
+            TLS\_DHE\_PSK\_WITH\_AES\_256\_CCM\_8 |
+            TLS\_DHE\_PSK\_WITH\_AES\_256\_CCM |
+            TLS\_DHE\_RSA\_WITH\_AES\_128\_CCM\_8 |
+            TLS\_DHE\_RSA\_WITH\_AES\_128\_CCM |
+            TLS\_DHE\_RSA\_WITH\_AES\_128\_GCM\_SHA256 |
+            TLS\_DHE\_RSA\_WITH\_AES\_256\_CCM\_8 |
+            TLS\_DHE\_RSA\_WITH\_AES\_256\_CCM |
+            TLS\_DHE\_RSA\_WITH\_AES\_256\_GCM\_SHA384 |
+            TLS\_ECDHE\_ECDSA\_WITH\_3DES\_EDE\_CBC\_SHA |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CBC\_SHA256 |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CBC\_SHA |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_CCM\_8 |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_128\_GCM\_SHA256 |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_256\_CBC\_SHA384 |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_256\_CBC\_SHA |
+            TLS\_ECDHE\_ECDSA\_WITH\_AES\_256\_GCM\_SHA384 |
+            TLS\_ECDHE\_ECDSA\_WITH\_RC4\_128\_SHA |
+            TLS\_ECDHE\_RSA\_WITH\_3DES\_EDE\_CBC\_SHA |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_128\_CBC\_SHA256 |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_128\_CBC\_SHA |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_128\_GCM\_SHA256 |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_256\_CBC\_SHA384 |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_256\_CBC\_SHA |
+            TLS\_ECDHE\_RSA\_WITH\_AES\_256\_GCM\_SHA384 |
+            TLS\_ECDHE\_RSA\_WITH\_RC4\_128\_SHA |
+            TLS\_PSK\_WITH\_AES\_128\_CCM\_8 |
+            TLS\_PSK\_WITH\_AES\_128\_CCM |
+            TLS\_PSK\_WITH\_AES\_256\_CCM\_8 |
+            TLS\_PSK\_WITH\_AES\_256\_CCM |
+            TLS\_RSA\_EXPORT1024\_WITH\_DES\_CBC\_SHA |
+            TLS\_RSA\_EXPORT1024\_WITH\_RC4\_56\_SHA |
+            TLS\_RSA\_EXPORT\_WITH\_RC2\_CBC\_40\_MD5 |
+            TLS\_RSA\_EXPORT\_WITH\_RC4\_40\_MD5 |
+            TLS\_RSA\_WITH\_3DES\_EDE\_CBC\_SHA |
+            TLS\_RSA\_WITH\_AES\_128\_CBC\_SHA256 |
+            TLS\_RSA\_WITH\_AES\_128\_CBC\_SHA |
+            TLS\_RSA\_WITH\_AES\_128\_CCM\_8 |
+            TLS\_RSA\_WITH\_AES\_128\_CCM |
+            TLS\_RSA\_WITH\_AES\_128\_GCM\_SHA256 |
+            TLS\_RSA\_WITH\_AES\_256\_CBC\_SHA256 |
+            TLS\_RSA\_WITH\_AES\_256\_CBC\_SHA |
+            TLS\_RSA\_WITH\_AES\_256\_CCM\_8 |
+            TLS\_RSA\_WITH\_AES\_256\_CCM |
+            TLS\_RSA\_WITH\_AES\_256\_GCM\_SHA384 |
+            TLS\_RSA\_WITH\_DES\_CBC\_SHA |
+            TLS\_RSA\_WITH\_NULL\_MD5 |
+            TLS\_RSA\_WITH\_NULL\_NULL |
+            TLS\_RSA\_WITH\_NULL\_SHA |
+            TLS\_RSA\_WITH\_RC4\_128\_MD5 |
+            TLS\_RSA\_WITH\_RC4\_128\_SHA |
+            TLS\_RSA\_WITH\_NULL\_SHA256 |
+            TLS\_ECDHE\_ECDSA\_WITH\_NULL\_SHA |
+            TLS\_ECDHE\_RSA\_WITH\_NULL\_SHA |
+
+            ## Supported TLSv1.3 Cipher Names
+
+            Name |
+            ---- |
+            TLS\_AES\_128\_GCM\_SHA256 |
+            TLS\_AES\_256\_GCM\_SHA384 |
+            TLS\_CHACHA20\_POLY1305\_SHA256 |
+            TLS\_AES\_128\_CCM\_SHA256 |
+            TLS\_AES\_128\_CCM\_8\_SHA256 |
+
+            Example: server:
+                         ssl:
+                             ciphers:
+                                 - TLS_PSK_WITH_AES_256_CCM
+                                 - TLS_AES_128_CCM_8_SHA256
+          type: array
+          items:
+            type: string
+
+    failover:
+      description: >
+        Specifies the configuration related to failover support for the
+        IBM Application Gateway.
+        Example: server:
+                     failover:
+                         key: 123A....
+                         cookie_name: jwe_cookie
+                         domain_cookie: false
+      type: object
+      properties:
+
+        key:
+          description: >
+            The key which is used to protect the failover JWE cookie. This
+            key should be 512 bits in length. If the key is greater than this
+            size it will be truncated, and if it is less than this size it
+            will be right-padded with 0's. An example openssl command to
+            create this key is: 'openssl rand -out oct-512-bit.bin 64'
+          type: string
+
+        cookie_name:
+          description: >
+            The name of the cookie which will be used to store the failover JWE.
+          type: string
+
+        domain_cookie:
+          description: >
+            A boolean flag indicating whether or not the failover cookie should include a domain.
+            By including a domain the failover cookie will be sent to any server within the same DNS
+            domain. For example, a failover cookie which is generated by
+            server_a.ibm.com will also be sent to server_b.ibm.com. The name
+            of the domain which is used in the failover cookie is derived from
+            the Host header in the HTTP request.
+          type: boolean
+          default: false
+
+    session:
+      description: >
+        Specifies the configuration for client sessions.
+        Example: server:
+                     session:
+                         cookie_name: sess_cookie
+                         max_sessions: 20
+                         timeout: 600
+                         inactive_timeout: 100
+      type: object
+      properties:
+
+        cookie_name:
+          description: >
+            The name of the session cookie presented to clients.
+          type: string
+
+        max_sessions:
+          description: >
+            The maximum number of concurrent sessions.
+          type: number
+          minimum: 1
+          maximum: unlimited
+          default: 4096
+
+        timeout:
+          description: >
+            The maximum lifetime (in seconds) for a session. If set to 0 the
+            sessions will not have a maximum lifetime, however once
+            max_sessions is reached sessions will be reaped using a least
+            recently used algorithm.
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 3600
+
+        inactive_timeout: 
+          description: >
+            The maximum lifetime (in seconds) a session can remain inactive
+            before it is expired. If set to 0 the sessions will not have a
+            maximum inactive lifetime.
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 600
+
+    worker_threads:
+      description: >
+        The number of configured worker threads specifies the number of
+        concurrent incoming requests that can be serviced by this gateway
+        instance. Choosing the optimal number depends on the quantity and
+        type of traffic on your network. Modifying this value should be done
+        carefully to ensure optimal performance.
+        Example: worker_threads: 300
+      type: number
+      minimum: 1
+      maximum: unlimited
+      default: 100
+
+    max_ratelimiting_buckets:
+      description: >
+        The number of unique request buckets to hold on to for the rate
+        limiting capability. When a request is tokenized, it gets a bucket
+        assigned. If this limit is reached, rate limiting information about
+        the oldest requests will be ejected. This effectively resets the rate
+        limiting counters for this client(s). This number needs to be higher
+        than the number of requests being rate limited across a refresh
+        interval.
+        Example: max_ratelimiting_buckets: 16384
+      type: number
+      minimum: 1
+      maximum: unlimited
+      default: 16384
+
+    http2:
+      description: >
+        A boolean which indicates whether or not to enable support for HTTP/2 clients.
+        HTTP/2 supports a reduced set of cipher suites. The minimum cipher is
+        TLS\_ECDHE\_RSA\_WITH\_AES\_128\_GCM\_SHA256 which should be added to the
+        server:ssl:ciphers entry.
+        Example: http2: true
+      type: boolean
+      default: false
+
+    websocket:
+      description: >
+        Specifies the configuration for Web socket support.
+        Example: server:
+                     websocket:
+                         worker_threads: 300
+                         max: 100
+                         idle: 0
+                         timeouts:
+                             applications:
+                                 read: 30
+                                 write: 30
+                             front_end:
+                                 read: 30
+                                 write: 30
+      type: object
+      properties:
+
+        worker_threads:
+          description: >
+            The number of available Web socket worker threads.
+          type: number
+          minimum: 1
+          maximum: unlimited
+
+        max:
+          description: >
+            The maximum number of threads which will be used used to proxy web
+            socket connections through the gateway. A value of zero will cause
+            web sockets to be blocked. Each web socket connection will require
+            two worker threads. If more than the max value are in use,
+            the daemon will immediately close the web socket even if the web
+            socket upgrade request to the application succeeded. The web
+            socket threads operate independently from the server:worker_threads
+            entry.
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 0
+
+        idle:
+          description: >
+            To avoid the overhead of starting and stopping web socket worker
+            threads a number of threads can be left running idle. This will
+            consume memory resources to keep them alive and idle when not in
+            use, but will save CPU and thread start-up time when a new web
+            socket requires threads. This option specifies the maximum count
+            of cached idle worker threads. A value of zero will disable the
+            caching of idle threads.
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 0
+
+        timeouts:
+          description: >
+            Web socket timeout settings.
+          type: object
+          properties:
+
+            applications:
+              description: >
+                Specifies the web socket timeouts for connections between the gateway daemon
+                and protected applications (in seconds). If the timeout is
+                reached the web socket connection will be closed.
+              type: object
+              properties:
+
+                read:
+                  description: >
+                    The maximum length of time (in seconds) to wait on a read
+                    operation to complete.
+                  type: number
+                  minimum: 1
+                  maximum: unlimited
+                  default: 120
+
+                write:
+                  description: >
+                    The maximum length of time (in seconds) to wait on a write
+                    operation to complete.
+                  type: number
+                  minimum: 1
+                  maximum: unlimited
+                  default: 120
+
+            front_end:
+              description: >
+                Specifies the web socket timeouts for connections to the gateway (in
+                seconds). If the timeout is reached the web socket connection
+                will be closed.
+              type: object
+              properties:
+
+                read:
+                  description: >
+                    The maximum length of time (in seconds) to wait on a read
+                    operation to complete.
+                  type: number
+                  minimum: 1
+                  maximum: unlimited
+                  default: 120
+
+                write:
+                  description: >
+                    The maximum length of time (in seconds) to wait on a write
+                    operation to complete.
+                  type: number
+                  minimum: 1
+                  maximum: unlimited
+                  default: 120
+
+    local_pages:
+      description: >
+        Defines static assets which are served from the default '/' path of
+        the reverse proxy. This entry must be either a zip file or a path 
+        which is relative to the '/var/iag/config' directory of the container.
+        The provided contents will completely replace the default set of 
+        pages served from the '/' path of the IAG.
+
+        ### Defaults
+
+        If no value is specified here, the default set of pages will be used.
+        The default set of pages, 'local_pages.zip', can be downloaded from GitHub
+        (https://github.com/IBM-Security/ibm-application-gateway-resources/pages)
+        and used as a starting point for creating custom pages.
+
+        Example: server:
+                     local_pages:
+                         content: "@myPages.zip"
+                         type: zip
+
+      type: object
+      properties:
+        content:
+          description: >
+            The content which will be used for the local web space.  The
+            content can either be the name of a directory, relative to the
+            '/var/iag/config' directory of the container, or a zip file.
+          type: string
+        type:
+          description: >
+            The type of content which is being supplied.  Either a zip file
+            or a directory name.
+          type: string
+          enum:
+            - zip
+            - path
+
+    management_pages:
+      description: |
+        This entry overloads the server generated management response pages.
+        This entry must be either a zip file or a path which is relative to 
+        the '/var/iag/config' directory of the container.  The provided 
+        contents will completely replace the default set of management pages
+        served by the IAG.
+
+        The pages which are provided should conform to the directory
+        structure and file name syntax explained below. The directory
+        structure is:
+
+        '<language\_code>/<page\_name>.<response\_code>.<mime\_type>'
+
+        ### language_code
+
+        '<language\_code>' is a directory containing all the pages which will be
+        presented to clients which prefer that language. If you do not wish to
+        ever return pages to clients in a specific language, the corresponding
+        language_code directory can be omitted. The reverse proxy will use the
+        container language (set via the 'LANG' environment variable) if a page
+        is requested in a language which is not provided.
+
+        For example, to only ever return management pages in English and French,
+        include only the 'C' and 'fr' directories in the zip file and run the
+        container with 'LANG=C'. When a language other than English or French
+        is requested, the page will fall back to 'LANG' and be returned in
+        English.
+
+        | 'language_code' | Language              |
+        |-----------------|-----------------------|
+        | pt              | Brazilian Portuguese  |
+        | cs              | Czech                 |
+        | zh_CN           | Chinese (Simplified)  |
+        | zh_TW           | Chinese (Traditional) |
+        | C               | English               |
+        | fr              | French                |
+        | de              | German                |
+        | hu              | Hungarian             |
+        | it              | Italian               |
+        | ja              | Japanese              |
+        | ko              | Korean                |
+        | pl              | Polish                |
+        | es              | Spanish               |
+        | ru              | Russian               |
+
+        ### page_name
+
+        '<page\_name>' corresponds to the specific event which the page is
+        returned for. The list of valid page_names are:
+
+        | 'page_name'           |
+        |-----------------------|
+        | help                  |
+        | login_success         |
+        | logout                |
+        | oidc_fragment         |
+        | ratelimit             |
+        | redirect              |
+        | temp\_cache\_response |
+
+        ### response_code
+
+        '<response\_code>' can be used to control the HTTP status code which
+        the reverse proxy presents when it serves the page. This part of
+        filename is optional and 200 will be used if no response_code is
+        indicated.
+
+        ### mime_type
+
+        '<mime\_type>' corresponds to the mime sub-type which this page will be
+        returned for. For example, if a client request contains the 'accept'
+        header 'text/html', 'html' is the mime sub-type and should be used
+        for the file extension. If an 'accept' header is not present, the
+        reverse proxy will also consider the 'content-type' header.
+
+        ### Examples
+
+        For example, to customise:
+
+        - the 'ratelimit' management response
+        - for English language
+        - to return HTTP status 500
+        - for clients expecting 'text/html'
+
+        Create the following file in the zip file of management response pages:
+
+        'C/ratelimit.500.html'
+
+        ### Defaults
+
+        If no value is specified here, the default set of pages will be used.
+        The default set of pages, 'management_pages.zip', can be downloaded from 
+        GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+        and used as a starting point for creating custom management pages.
+
+        Example: server:
+                     management_pages:
+                         content: "@mgmtPages.zip"
+                         type: zip
+      type: object
+      properties:
+        content:
+          description: >
+            The content which will be used for the management pages.  The
+            content can either be the name of a directory, relative to the
+            '/var/iag/config' directory of the container, or a zip file.
+          type: string
+        type:
+          description: >
+            The type of content which is being supplied.  Either a zip file
+            or a directory name.
+          type: string
+          enum:
+            - zip
+            - path
+
+    error_pages:
+      description: |
+        This entry overloads the server generated error response pages.
+        This entry must be either a zip file or a path which is relative to 
+        the '/var/iag/config' directory of the container.  The provided 
+        contents will completely replace the default set of error pages
+        served by the IAG.
+
+        The pages which are provided should conform to the directory
+        structure and file name syntax explained below. The directory
+        structure is:
+
+        '<language\_code>/<error\_code>.<response\_code>.<mime\_type>'
+
+        ### language_code
+
+        '<language\_code>' is a directory containing all the pages which will be
+        presented to clients which prefer that language. If you do not wish to
+        ever return pages to clients in a specific language, the corresponding
+        language_code directory can be omitted. The reverse proxy will use the
+        container language (set via the 'LANG' environment variable) if a page
+        is requested in a language which is not provided.
+
+        For example, to only ever return error pages in English and French,
+        include only the 'C' and 'fr' directories in the zip file and run the
+        container with 'LANG=C'. When a language other than English or French
+        is requested, the page will fall back to 'LANG' and be returned in
+        English.
+
+        | 'language_code' | Language              |
+        |-----------------|-----------------------|
+        | pt              | Brazilian Portuguese  |
+        | cs              | Czech                 |
+        | zh_CN           | Chinese (Simplified)  |
+        | zh_TW           | Chinese (Traditional) |
+        | C               | English               |
+        | fr              | French                |
+        | de              | German                |
+        | hu              | Hungarian             |
+        | it              | Italian               |
+        | ja              | Japanese              |
+        | ko              | Korean                |
+        | pl              | Polish                |
+        | es              | Spanish               |
+        | ru              | Russian               |
+
+        ### error_code
+
+        '<error\_code>' corresponds to a specific error code in hexadecimal
+        format. The special error code of 'default' can also be used to
+        configure a default page which is used for any error codes which do
+        not have a specific page.
+
+        ### response_code
+
+        '<response\_code>' can be used to control the HTTP status code which
+        the reverse proxy presents when it serves the page. This part of
+        filename is optional and the default value will be used if no
+        response_code is indicated.
+
+        | 'error_code' | Default 'response_code' | Description             |
+        |--------------|-------------------------|-------------------------|
+        | 38cf0420     | 301                     | Moved Permanently       |
+        | 38cf0421     | 302                     | Moved Temporarily       |
+        | 38cf0427     | 403                     | Forbidden               |
+        | 38cf0428     | 404                     | Not Found               |
+        | 38cf04c6     | 500                     | Server Not Responding   |
+        | 38cf04d7     | 500                     | Server Not Responding   |
+        | 38cf08cc     | 403                     | Forbidden (Time based)  |
+        | default      | 400                     | Any other error code    |
+
+        ### mime_type
+
+        '<mime\_type>' corresponds to the mime sub-type which this page will be
+        returned for. For example, if a client request contains the 'accept'
+        header 'text/html', 'html' is the mime sub-type and should be used
+        for the file extension. If an 'accept' header is not present, the
+        reverse proxy will also consider the 'content-type' header.
+
+        ### Examples
+
+        For example, to customise:
+
+        - the 'forbidden' error response (error code '38cf0427')
+        - for Korean language
+        - to return HTTP status 500
+        - for clients expecting 'application/json'
+
+        Create the following file in the zip file of error response pages:
+
+        'ko/38cf0427.500.json'
+
+        ### Defaults
+
+        If no value is specified here, the default set of pages will be used.
+        The default set of pages, 'error_pages.zip', can be downloaded from GitHub 
+        (https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+        and used as a starting point for creating custom error pages.
+
+        Example: server:
+                     error_pages:
+                         content: "@errorPages.zip"
+                         type: zip
+      type: object
+      properties:
+        content:
+          description: >
+            The content which will be used for the error pages.  The
+            content can either be the name of a directory, relative to the
+            '/var/iag/config' directory of the container, or a zip file.
+          type: string
+        type:
+          description: >
+            The type of content which is being supplied.  Either a zip file
+            or a directory name.
+          type: string
+          enum:
+            - zip
+            - path
+
+    local_applications:
+      description: >
+        Specifies the configuration for any embedded applications.
+
+      type: object
+      properties:
+
+        cred_viewer:
+          description: >
+            Specifies the configuration information related to the embedded
+            credential viewer application. The credential viewer application
+            can be used to display information about the credential associated
+            with the current user session. 
+            Example: server:
+                         local_applications:
+                             cred_viewer: 
+                                 path_segment: credview
+                                 enable_html: true
+
+          type: object
+          properties:
+
+            path_segment:
+              description: >
+                The path at which the application will be available. The
+                path should be a simple path segment (i.e. should not contain
+                a '/' character).
+              type: string
+
+            enable_html:
+              description: >
+                A boolean flag indicating whether or not the embedded HTML page
+                which can render the JSON data is enabled.
+              type: boolean
+              default: true
+
+        azn_decision:
+          description: >
+            Specifies the configuration information related to the embedded
+            authorization decision application. The authorization decision
+            application provides a Web service for making remote authorization
+            decisions.
+            Example: server:
+                         local_applications:
+                             azn_decision:
+                                 path_segment: azndec
+                                 max_cache_size: 100
+                                 max_cache_lifetime: 60
+
+          type: object
+          properties:
+
+            path_segment:
+              description: >
+                The path at which the application will be available. The
+                path should be a simple path segment (i.e. should not contain
+                a '/' character).
+              type: string
+
+            max_cache_size:
+              description: >
+                The maximum number of credentials which can be cached. If the
+                addition of a new credential will exceed this maximum cache
+                size a least-recently-used algorithm will be used to remove an
+                older entry, making room for the new credential.
+              type: number
+              minimum: 1
+              maximum: unlimited
+              default: 8192
+
+            max_cache_lifetime:
+              description: >
+                The maximum lifetime, in seconds, of an entry in the cache.
+              type: number
+              minimum: 1
+              maximum: unlimited
+              default: 300
+

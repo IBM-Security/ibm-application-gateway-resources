@@ -1,0 +1,60 @@
+# IBM Confidential
+# Object Code Only Source Materials
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+openapi: '3.0'
+info:
+  version: 19.12
+  title: IBM Application Gateway Configuration Specification (OpenAPI)
+
+components:
+  schemas:
+    version:
+      type: string
+
+    advanced:
+      $ref: "advanced.yaml#/advanced"
+
+    resource_servers:
+      description:
+        The 'resource_servers' node defines the resource servers which provide
+        content for the gateway.
+      type: array
+      items:
+        $ref: "resource_server.yaml#/resource_server"
+
+    authorization:
+      $ref: "authorization.yaml#/authorization"
+
+    identity:
+      description: >
+        This node defines how users will authenticate to the reverse proxy.
+        Only one identity method can be used at a time and this parameter should
+        contain only a single child.
+      type: object
+      properties:
+        ci_oidc:
+          $ref: "ci_oidc.yaml#/ci_oidc"
+
+    logging:
+      $ref: "logging.yaml#/logging"
+
+    server:
+      $ref: "server.yaml#/server"
+
+    policies:
+      $ref: "policies.yaml#/policies"
+
+paths:
+  /:
+    get:
+      description: >
+        We ignore the path as we are documenting a yaml 
+        configuration format and not a Web Service API.
+      responses:
+        default:
+          description: No response.
+
