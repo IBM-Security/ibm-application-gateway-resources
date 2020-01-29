@@ -82,6 +82,8 @@ policies:
                                      - "/alt/resource_1"
                                    method: GET
                                    rule: "@http_trans_rule.xsl"
+                                   attributes:
+                                     - AZN_CRED_PRINCIPAL_NAME
           type: array
           items:
             type: object
@@ -114,6 +116,16 @@ policies:
                 description: >
                   The HTTP transformation rule.
                 type: string
+              attributes:
+                description: >
+                  The credential attributes which will be included in the XML
+                  input document, used when evaluating the HTTP transformation
+                  rule.  The attributes will be stored in the 
+                  HTTPResponse/credential/attributes/attribute path of the 
+                  XML document.
+                type: array
+                items:
+                  type: string
 
     cors:
       description: |
@@ -260,7 +272,7 @@ policies:
 
         This entry is an array and can be used to define multiple policies.
         Example: policies:
-                     rate-limiting:
+                     rate_limiting:
                          - name: rate_policy_A
                            methods: 
                                - GET
@@ -344,13 +356,33 @@ policies:
             items:
               type: string
 
+          full_line_match:
+            description: >
+              Should the location match a full line, or should it match 
+              any string in the response?  When a full line match is configured
+              the content will be inserted prior to the matching line.  When a
+              partial line match is configured the content will be inserted 
+              immediately prior to the matching string.
+            type: boolean
+            default: true
+
           location:
             description: >
-              The location where the content should be injected. The
-              location is pattern matched against a line in the response
-              using the '*.' wildcard characters.  The maximum length of
-              a line which can be matched by this mechanism is 8192 bytes.
+              The location where the content should be injected. If a full
+              line match is being used the location is pattern matched against 
+              a line in the response using the '*.' wildcard characters.  The 
+              maximum length of a line which can be matched is 8192 bytes.
             type: string
+
+          replace_match:
+            description: >
+              If a partial line match is being used this configuration entry
+              will control whether the matching string is replaced with
+              the supplied content, or whether the supplied content is
+              inserted prior to the matching string.  This configuration
+              entry will be ignored if full line matches are being used.
+            type: boolean
+            default: false
 
           content:
             description: >

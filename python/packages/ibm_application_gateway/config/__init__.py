@@ -40,6 +40,7 @@ from ibm_application_gateway.config.policies_authorization import *
 from ibm_application_gateway.config.logging_request_log import *
 from ibm_application_gateway.config.__init__ import *
 from ibm_application_gateway.config.server_websocket import *
+from ibm_application_gateway.config.server_local_applications_jwks import *
 from ibm_application_gateway.config.resource_server_servers import *
 from ibm_application_gateway.config.server_local_applications import *
 from ibm_application_gateway.config.resource_server_health import *
@@ -56,7 +57,9 @@ from ibm_application_gateway.config.server_ssl_front_end import *
 from ibm_application_gateway.config.policies_http_transformation_rule import *
 from ibm_application_gateway.config.logging_request_log_file import *
 from ibm_application_gateway.config.policies_rate_limiting import *
+from ibm_application_gateway.config.resource_server_identity_headers_jwt_claims import *
 from ibm_application_gateway.config.server_ssl import *
+from ibm_application_gateway.config.resource_server_identity_headers_jwt import *
 from ibm_application_gateway.config.resource_server_persistent_connections import *
 from ibm_application_gateway.config.identity import *
 from ibm_application_gateway.config.server_websocket_timeouts_applications import *

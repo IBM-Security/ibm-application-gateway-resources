@@ -31,25 +31,30 @@ class ServerLocalApplications(object):
     """
     openapi_types = {
         'cred_viewer': 'ServerLocalApplicationsCredViewer',
-        'azn_decision': 'ServerLocalApplicationsAznDecision'
+        'azn_decision': 'ServerLocalApplicationsAznDecision',
+        'jwks': 'ServerLocalApplicationsJwks'
     }
 
     attribute_map = {
         'cred_viewer': 'cred_viewer',
-        'azn_decision': 'azn_decision'
+        'azn_decision': 'azn_decision',
+        'jwks': 'jwks'
     }
 
-    def __init__(self, cred_viewer=None, azn_decision=None):  # noqa: E501
+    def __init__(self, cred_viewer=None, azn_decision=None, jwks=None):  # noqa: E501
         """ServerLocalApplications - a model defined in OpenAPI"""  # noqa: E501
 
         self._cred_viewer = None
         self._azn_decision = None
+        self._jwks = None
         self.discriminator = None
 
         if cred_viewer is not None:
             self.cred_viewer = cred_viewer
         if azn_decision is not None:
             self.azn_decision = azn_decision
+        if jwks is not None:
+            self.jwks = jwks
 
     @property
     def cred_viewer(self):
@@ -92,6 +97,27 @@ class ServerLocalApplications(object):
         """
 
         self._azn_decision = azn_decision
+
+    @property
+    def jwks(self):
+        """Gets the jwks of this ServerLocalApplications.  # noqa: E501
+
+
+        :return: The jwks of this ServerLocalApplications.  # noqa: E501
+        :rtype: ServerLocalApplicationsJwks
+        """
+        return self._jwks
+
+    @jwks.setter
+    def jwks(self, jwks):
+        """Sets the jwks of this ServerLocalApplications.
+
+
+        :param jwks: The jwks of this ServerLocalApplications.  # noqa: E501
+        :type: ServerLocalApplicationsJwks
+        """
+
+        self._jwks = jwks
 
     def to_dict(self):
         """Returns the model properties as a dict"""

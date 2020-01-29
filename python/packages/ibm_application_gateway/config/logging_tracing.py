@@ -60,7 +60,7 @@ class LoggingTracing(object):
     def file_name(self):
         """Gets the file_name of this LoggingTracing.  # noqa: E501
 
-        The full path name of the generated log file.   # noqa: E501
+        The name of the generated log file.  If the file name  is supplied without any path information the file will be written to the '/var/iag/logs' directory.  If the file name contains path information the hosting directory must be created and available before the container is started.   # noqa: E501
 
         :return: The file_name of this LoggingTracing.  # noqa: E501
         :rtype: str
@@ -71,7 +71,7 @@ class LoggingTracing(object):
     def file_name(self, file_name):
         """Sets the file_name of this LoggingTracing.
 
-        The full path name of the generated log file.   # noqa: E501
+        The name of the generated log file.  If the file name  is supplied without any path information the file will be written to the '/var/iag/logs' directory.  If the file name contains path information the hosting directory must be created and available before the container is started.   # noqa: E501
 
         :param file_name: The file_name of this LoggingTracing.  # noqa: E501
         :type: str

@@ -114,7 +114,7 @@ class Policies(object):
     def rate_limiting(self):
         """Gets the rate_limiting of this Policies.  # noqa: E501
 
-        The gateway can apply rate limiting to incoming requests. This entry defines the rate limiting policies and where they will be applied. Refer to the documentation for information about how to author a rate-limiting policy.  This entry is an array and can be used to define multiple policies. Example: policies:              rate-limiting:                  - name: rate_policy_A                    methods:                         - GET                        - POST                    paths:                         - \"/test*\"                        - \"/release*\"                    rule: |                        ip: true                        capacity: 3                        interval: 60                        reaction: TEMPLATE   # noqa: E501
+        The gateway can apply rate limiting to incoming requests. This entry defines the rate limiting policies and where they will be applied. Refer to the documentation for information about how to author a rate-limiting policy.  This entry is an array and can be used to define multiple policies. Example: policies:              rate_limiting:                  - name: rate_policy_A                    methods:                         - GET                        - POST                    paths:                         - \"/test*\"                        - \"/release*\"                    rule: |                        ip: true                        capacity: 3                        interval: 60                        reaction: TEMPLATE   # noqa: E501
 
         :return: The rate_limiting of this Policies.  # noqa: E501
         :rtype: list[PoliciesRateLimiting]
@@ -125,7 +125,7 @@ class Policies(object):
     def rate_limiting(self, rate_limiting):
         """Sets the rate_limiting of this Policies.
 
-        The gateway can apply rate limiting to incoming requests. This entry defines the rate limiting policies and where they will be applied. Refer to the documentation for information about how to author a rate-limiting policy.  This entry is an array and can be used to define multiple policies. Example: policies:              rate-limiting:                  - name: rate_policy_A                    methods:                         - GET                        - POST                    paths:                         - \"/test*\"                        - \"/release*\"                    rule: |                        ip: true                        capacity: 3                        interval: 60                        reaction: TEMPLATE   # noqa: E501
+        The gateway can apply rate limiting to incoming requests. This entry defines the rate limiting policies and where they will be applied. Refer to the documentation for information about how to author a rate-limiting policy.  This entry is an array and can be used to define multiple policies. Example: policies:              rate_limiting:                  - name: rate_policy_A                    methods:                         - GET                        - POST                    paths:                         - \"/test*\"                        - \"/release*\"                    rule: |                        ip: true                        capacity: 3                        interval: 60                        reaction: TEMPLATE   # noqa: E501
 
         :param rate_limiting: The rate_limiting of this Policies.  # noqa: E501
         :type: list[PoliciesRateLimiting]

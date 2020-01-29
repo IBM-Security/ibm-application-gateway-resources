@@ -34,7 +34,8 @@ class ResourceServerIdentityHeaders(object):
         'basic_auth': 'str',
         'ip_address': 'bool',
         'attributes': 'list[ResourceServerIdentityHeadersAttributes]',
-        'session_cookie': 'bool'
+        'session_cookie': 'bool',
+        'jwt': 'ResourceServerIdentityHeadersJwt'
     }
 
     attribute_map = {
@@ -42,10 +43,11 @@ class ResourceServerIdentityHeaders(object):
         'basic_auth': 'basic_auth',
         'ip_address': 'ip_address',
         'attributes': 'attributes',
-        'session_cookie': 'session_cookie'
+        'session_cookie': 'session_cookie',
+        'jwt': 'jwt'
     }
 
-    def __init__(self, encoding='utf8_uri', basic_auth='ignore', ip_address=False, attributes=None, session_cookie=False):  # noqa: E501
+    def __init__(self, encoding='utf8_uri', basic_auth='filter', ip_address=False, attributes=None, session_cookie=False, jwt=None):  # noqa: E501
         """ResourceServerIdentityHeaders - a model defined in OpenAPI"""  # noqa: E501
 
         self._encoding = None
@@ -53,6 +55,7 @@ class ResourceServerIdentityHeaders(object):
         self._ip_address = None
         self._attributes = None
         self._session_cookie = None
+        self._jwt = None
         self.discriminator = None
 
         if encoding is not None:
@@ -65,6 +68,8 @@ class ResourceServerIdentityHeaders(object):
             self.attributes = attributes
         if session_cookie is not None:
             self.session_cookie = session_cookie
+        if jwt is not None:
+            self.jwt = jwt
 
     @property
     def encoding(self):
@@ -99,7 +104,7 @@ class ResourceServerIdentityHeaders(object):
     def basic_auth(self):
         """Gets the basic_auth of this ResourceServerIdentityHeaders.  # noqa: E501
 
-        Controls whether or not basic authentication headers presented by clients are forwarded to the resource server. See the Basic Auth table for a description of the available options.   # noqa: E501
+        Controls the basic authentication information, contained within the Authorization header, that is passed to the resource server. See the Basic Auth table for a description of the available  options.   # noqa: E501
 
         :return: The basic_auth of this ResourceServerIdentityHeaders.  # noqa: E501
         :rtype: str
@@ -110,7 +115,7 @@ class ResourceServerIdentityHeaders(object):
     def basic_auth(self, basic_auth):
         """Sets the basic_auth of this ResourceServerIdentityHeaders.
 
-        Controls whether or not basic authentication headers presented by clients are forwarded to the resource server. See the Basic Auth table for a description of the available options.   # noqa: E501
+        Controls the basic authentication information, contained within the Authorization header, that is passed to the resource server. See the Basic Auth table for a description of the available  options.   # noqa: E501
 
         :param basic_auth: The basic_auth of this ResourceServerIdentityHeaders.  # noqa: E501
         :type: str
@@ -128,7 +133,7 @@ class ResourceServerIdentityHeaders(object):
     def ip_address(self):
         """Gets the ip_address of this ResourceServerIdentityHeaders.  # noqa: E501
 
-        A boolean flag indicating whether or not to provide the client IP address as a HTTP header in requests forwarded to the resource server.   # noqa: E501
+        A boolean flag indicating whether or not to provide the client IP  address as a HTTP header in requests forwarded to the resource  server.  The IP address will be added in the 'iv-remote-address' HTTP header.   # noqa: E501
 
         :return: The ip_address of this ResourceServerIdentityHeaders.  # noqa: E501
         :rtype: bool
@@ -139,7 +144,7 @@ class ResourceServerIdentityHeaders(object):
     def ip_address(self, ip_address):
         """Sets the ip_address of this ResourceServerIdentityHeaders.
 
-        A boolean flag indicating whether or not to provide the client IP address as a HTTP header in requests forwarded to the resource server.   # noqa: E501
+        A boolean flag indicating whether or not to provide the client IP  address as a HTTP header in requests forwarded to the resource  server.  The IP address will be added in the 'iv-remote-address' HTTP header.   # noqa: E501
 
         :param ip_address: The ip_address of this ResourceServerIdentityHeaders.  # noqa: E501
         :type: bool
@@ -192,6 +197,27 @@ class ResourceServerIdentityHeaders(object):
         """
 
         self._session_cookie = session_cookie
+
+    @property
+    def jwt(self):
+        """Gets the jwt of this ResourceServerIdentityHeaders.  # noqa: E501
+
+
+        :return: The jwt of this ResourceServerIdentityHeaders.  # noqa: E501
+        :rtype: ResourceServerIdentityHeadersJwt
+        """
+        return self._jwt
+
+    @jwt.setter
+    def jwt(self, jwt):
+        """Sets the jwt of this ResourceServerIdentityHeaders.
+
+
+        :param jwt: The jwt of this ResourceServerIdentityHeaders.  # noqa: E501
+        :type: ResourceServerIdentityHeadersJwt
+        """
+
+        self._jwt = jwt
 
     def to_dict(self):
         """Returns the model properties as a dict"""

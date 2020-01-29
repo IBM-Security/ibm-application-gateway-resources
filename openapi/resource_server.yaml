@@ -16,7 +16,9 @@ resource_server:
         This entry is required if the virtual\_host entry has not been
         specified. It is not valid to have both path and virtual\_host
         entries specified.
-        Example: path: /static
+        Example: resource_servers:
+                     - path: /static
+                       ...
       type: string
 
     virtual_host:
@@ -27,14 +29,19 @@ resource_server:
         intended protocol. This entry is required if the path entry has not
         been specified. It is not valid to have both path and virtual\_host
         entries specified.
-        Example: virtual_host: "application.ibm.com:9443" 
+        Example: resource_servers:
+                     - virtual_host: "application.ibm.com:9443" 
+                       ...
       type: string
 
     connection_type:
       description: >
         The connection type the reverse proxy will make for this resource
         server.
-        Example: connection_type: ssl
+        Example: resource_servers:
+                     - path: "/example" 
+                       ...
+                       connection_type: ssl
       type: string
       default: tcp
       enum:
@@ -52,7 +59,10 @@ resource_server:
         value given in "path". If set to false the reverse proxy will filter
         the path from the URL and pass only the remainder of the URL to the
         resource server.
-        Example: transparent_path: true
+        Example: resource_servers:
+                     - path: "/example" 
+                       ...
+                       transparent_path: true
       type: boolean
       default: false
 
@@ -61,7 +71,10 @@ resource_server:
         A boolean flag indicating whether or not user requests, for the
         lifetime of a session, are always processed by the same resource
         server. 
-        Example: stateful: true
+        Example: resource_servers:
+                     - path: "/example" 
+                       ...
+                       stateful: true
       type: boolean
       default: false
 
@@ -69,10 +82,12 @@ resource_server:
       description: >
         Specifies the information associated with the HTTP2 configuration
         of the resource server.
-        Example: resource_server:
-                     http2:
-                         enabled: true
-                         sni: www.test.com
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       http2:
+                           enabled: true
+                           sni: www.test.com
       type: object
       properties:
 
@@ -105,21 +120,32 @@ resource_server:
         ## Basic Auth
         Type | Description
         ---- | -----------
-        filter | The reverse proxy will remove any basic authentication headers from client requests before sending them to the resource server.
-        supply | The reverse proxy will provide the username and a dummy password to the resource server. Use the entry advanced:configuration:junction:basicauth-dummy-passwd to set the dummy password.
-        ignore | The reverse proxy will pass any basic authentication headers to the resource server.
+        filter | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.
+        supply | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the 'advanced' YAML configuration entry, 'basicauth-dummy-passwd', in the 'junction' stanza, to set the static password.
+        ignore | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.
 
-        Example: resource_server:
-                     identity_headers:
-                         encoding: utf8_uri
-                         basic_auth: filter
-                         ip_address: true
-                         attributes:
-                             - attribute: emailAddress
-                               header: email_header
-                             - attribute: AUTHENTICATION_LEVEL
-                               header: auth_level
-                         session_cookie: true
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       identity_headers:
+                           encoding: utf8_uri
+                           basic_auth: filter
+                           ip_address: true
+                           attributes:
+                               - attribute: emailAddress
+                                 header: email_header
+                               - attribute: AUTHENTICATION_LEVEL
+                                 header: auth_level
+                           session_cookie: true
+                           jwt:
+                               certificate: "@jwt.cer"
+                                hdr_name: jwt
+                                claims:
+                                    - text: www.ibm.com
+                                      name: iss
+                                    - attr: AZN_CRED_PRINCIPAL_NAME
+                                      name: sub
+                                    - attr: AZN_*
 
       type: object
       properties:
@@ -138,11 +164,12 @@ resource_server:
 
         basic_auth:
           description: >
-            Controls whether or not basic authentication headers presented
-            by clients are forwarded to the resource server. See the
-            Basic Auth table for a description of the available options.
+            Controls the basic authentication information, contained within
+            the Authorization header, that is passed to the resource server.
+            See the Basic Auth table for a description of the available 
+            options.
           type: string
-          default: ignore
+          default: filter
           enum:
             - filter
             - supply
@@ -150,8 +177,10 @@ resource_server:
 
         ip_address:
           description: >
-            A boolean flag indicating whether or not to provide the client IP address
-            as a HTTP header in requests forwarded to the resource server.
+            A boolean flag indicating whether or not to provide the client IP 
+            address as a HTTP header in requests forwarded to the resource 
+            server.  The IP address will be added in the 'iv-remote-address'
+            HTTP header.
           type: boolean
           default: false
 
@@ -180,17 +209,74 @@ resource_server:
           type: boolean
           default: false
 
+        jwt:
+          description: >
+            Specifies the information associated with the generation of JSON
+            Web tokens (JWT).
+          type: object
+          properties:
+
+            certificate:
+              description: >
+                The key which is used to sign the JWT.
+              type: string
+
+            hdr_name:
+              description: >
+                The name of the HTTP header which will contain the generated 
+                JWT.
+              type: string
+              default: jwt
+
+            claims:
+              description: >
+                The claims which are to be added to the JWT.  The claim can 
+                either be obtained from a literal string, or from the value 
+                of a credential attribute.
+              type: array
+              items:
+                type: object
+                properties:
+
+                  name:
+                    description: >
+                      The name of the claim which is to be added to the JWT.  
+                      If the name is not specified, and the claim value is 
+                      obtained from an attribute name, the name of the claim 
+                      will match the name of the attribute.
+                    type: string
+
+                  text:
+                    description: >
+                      The literal text to be used as the claim value.  If both
+                      a 'text' value and an 'attr' value is specified the 
+                      'text' value will be used.
+                    type: string
+
+                  attr:
+                    description: >
+                      The name of the credential attribute from which the claim
+                      value will be obtained.  The '*' and '?' pattern matching
+                      characters can be used to match multiple attributes, 
+                      however the pattern matching characters will be ignored 
+                      if a claim 'name' is specified.  If both a 'text' value 
+                      and an 'attr' value is specified the 'text' value will 
+                      be used.
+                    type: string
+
     cookies:
       description: >
         Specifies the configuration information associated with the processing
         of cookies from the resource server.
-        Example: resource_server:
-                     cookies:
-                         junction_cookie:
-                             position: inhead
-                             version: onfocus
-                             ensure_unique: true
-                             preserve_name: true
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       cookies:
+                           junction_cookie:
+                               position: inhead
+                               version: onfocus
+                               ensure_unique: true
+                               preserve_name: true
       type: object
       properties:
 
@@ -239,13 +325,15 @@ resource_server:
       description: >
         Specifies the configuration information associated with mutual authentication
         processing for the resource server.
-        Example: resource_server:
-                     mutual_auth:
-                         basic_auth:
-                             username: admin
-                             password: passw0rd
-                         certificate_auth:
-                             certificate: "@cert.pem"
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       mutual_auth:
+                           basic_auth:
+                               username: admin
+                               password: passw0rd
+                           certificate_auth:
+                               certificate: "@cert.pem"
       type: object
       properties:
 
@@ -277,25 +365,31 @@ resource_server:
 
             certificate:
               description: >
-                The PEM encoded client certificate.
+                A PEM based personal certificate file which will be used when
+                communicating with the resource server.  This certificate file
+                should include the private key, a certificate signed with the 
+                private key, and the signer certificate or signer certificate 
+                chain (if required).
               type: string
 
     servers:
       description: >
         Specifies the location of the resource server that is being protected.
         This is an array type and multiple resource servers can be specified.
-        Example: resource_server:
-                     servers:
-                         - host: www.test.com
-                           port: 443
-                           virtual_host: testportal.test.com
-                           ssl:
-                               certificate: "@cert.crt"
-                               server_dn: cn=test
-                               sni: www.test.com
-                           url_style:
-                               case_insensitive: true
-                               windows: false
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       servers:
+                           - host: www.test.com
+                             port: 443
+                             virtual_host: testportal.test.com
+                             ssl:
+                                 certificate: "@cert.crt"
+                                 server_dn: cn=test
+                                 sni: www.test.com
+                             url_style:
+                                 case_insensitive: true
+                                 windows: false
       type: array
       items:
         type: object
@@ -370,24 +464,26 @@ resource_server:
       description: >
         Specifies the configuration which is used to establish
         the health of the resource server.
-        Example: resource_server:
-                     health:
-                         ping:
-                             method: HEAD
-                             url: /
-                             policy:
-                                 frequency: 600
-                                 threshold: 1
-                                 recovery: 
-                                     frequency: 300
-                                     threshold: 1
-                                 timeout: 10
-                                 rule:
-                                     - -50?
-                                     - +*
-                             rule:
-                                 - -50?
-                                 - +*
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       health:
+                           ping:
+                               method: HEAD
+                               url: /
+                               policy:
+                                   frequency: 600
+                                   threshold: 1
+                                   recovery: 
+                                       frequency: 300
+                                       threshold: 1
+                                   timeout: 10
+                                   rule:
+                                       - -50?
+                                       - +*
+                               rule:
+                                   - -50?
+                                   - +*
       type: object
       properties:
 
@@ -499,10 +595,12 @@ resource_server:
       description: >
         Specifies the limits that can be set on the percentage of worker
         threads that may be consumed by this resource server.
-        Example: resource_server:
-                     worker_threads:
-                         soft_limit: 60
-                         hard_limit: 80
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       worker_threads:
+                           soft_limit: 60
+                           hard_limit: 80
       type: object
       properties:
 
@@ -525,10 +623,12 @@ resource_server:
         for the resource server.  A persistent connection will allow an
         established connection to the resource server to be used for multiple
         requests.  
-        Example: resource_server:
-                   persistent_connections:
-                     max_cache_size: 100
-                     connection_timeout: 5
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       persistent_connections:
+                         max_cache_size: 100
+                         connection_timeout: 5
       type: object
       properties:
 

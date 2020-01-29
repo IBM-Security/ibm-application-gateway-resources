@@ -89,21 +89,14 @@ class Configurator(object):
 
         self.custom_data = custom_data
 
-    def write(self, filename = None):
+    def toYaml(self):
         """
-        Write the current configuration as a yaml file which can be used by
-        the contasiner.
+        Produce a dictionary representing this configuration which is
+        appropriate for writing as YAML data.
 
-        @param filename : The name of the file to write.  If no file is 
-                          specified a temporary file will be created.
-
-        @retval The name of the file which has been written.
+        :return: The data for this object as a pruned dictionary.
         """
-
-        # Construct the data.
-        data    = {}
-        version = "0"
-
+        data = {}
         for name, value in vars(self).items():
             if value is not None:
                 if isinstance(value, list):
@@ -119,6 +112,21 @@ class Configurator(object):
 
         # Remove empty nodes from the dictionary.
         data = self.__stripEmpty(data)
+
+        return data
+
+    def write(self, filename = None):
+        """
+        Write the current configuration as a yaml file which can be used by
+        the container.
+
+        @param filename : The name of the file to write.  If no file is 
+                          specified a temporary file will be created.
+
+        @retval The name of the file which has been written.
+        """
+
+        data = self.toYaml()
 
         # If we have not been provided with a file name we create a file name
         # now.
@@ -141,6 +149,12 @@ class Configurator(object):
                 format(filename))
 
         return filename
+
+    def dump(self):
+        """
+        Print the YAML to stdout. This should only be used for debugging purposes.
+        """
+        print(yaml.dump(self.toYaml()))
 
     @classmethod
     def __stripEmpty(self, data):

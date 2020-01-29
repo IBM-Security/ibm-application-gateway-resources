@@ -35,7 +35,7 @@ class Logging(object):
         'request_log': 'LoggingRequestLog',
         'tracing': 'list[LoggingTracing]',
         'transaction': 'LoggingTransaction',
-        'statistics': 'list[LoggingStatistics]'
+        'statistics': 'LoggingStatistics'
     }
 
     attribute_map = {
@@ -75,7 +75,7 @@ class Logging(object):
     def json_logging(self):
         """Gets the json_logging of this Logging.  # noqa: E501
 
-        A boolean which indicates whether the logging will be in JSON format or not. If not specified logging will not be in JSON format. Example: json_logging: true   # noqa: E501
+        A boolean which indicates whether the logging will be in JSON format or not. If not specified logging will not be in JSON format. Example: logging:              json_logging: true   # noqa: E501
 
         :return: The json_logging of this Logging.  # noqa: E501
         :rtype: bool
@@ -86,7 +86,7 @@ class Logging(object):
     def json_logging(self, json_logging):
         """Sets the json_logging of this Logging.
 
-        A boolean which indicates whether the logging will be in JSON format or not. If not specified logging will not be in JSON format. Example: json_logging: true   # noqa: E501
+        A boolean which indicates whether the logging will be in JSON format or not. If not specified logging will not be in JSON format. Example: logging:              json_logging: true   # noqa: E501
 
         :param json_logging: The json_logging of this Logging.  # noqa: E501
         :type: bool
@@ -98,7 +98,7 @@ class Logging(object):
     def components(self):
         """Gets the components of this Logging.  # noqa: E501
 
-        Specifies an array of auditing components to be enabled. Example: components: [\"audit.authn\", \"audit.azn\"]   # noqa: E501
+        Specifies an array of auditing components to be enabled. Example: logging:              components:                   - audit.authn                  - audit.azn   # noqa: E501
 
         :return: The components of this Logging.  # noqa: E501
         :rtype: list[str]
@@ -109,7 +109,7 @@ class Logging(object):
     def components(self, components):
         """Sets the components of this Logging.
 
-        Specifies an array of auditing components to be enabled. Example: components: [\"audit.authn\", \"audit.azn\"]   # noqa: E501
+        Specifies an array of auditing components to be enabled. Example: logging:              components:                   - audit.authn                  - audit.azn   # noqa: E501
 
         :param components: The components of this Logging.  # noqa: E501
         :type: list[str]
@@ -149,7 +149,7 @@ class Logging(object):
     def tracing(self):
         """Gets the tracing of this Logging.  # noqa: E501
 
-        Specifies an array of trace components to be enabled. Tracing can be used to assist with problem determination in the environment. Example: logging:              tracing:                  - file_name: /var/iag/logs/http_trans.log                    component: pdweb.http.transformation                    level: 9                  - file_name: /var/iag/logs/http.log                    component: pdweb.http                    level: 5   # noqa: E501
+        Specifies an array of trace components to be enabled. Tracing can be used to assist with problem determination in the environment. Example: logging:              tracing:                  - file_name: http_trans.log                    component: pdweb.http.transformation                    level: 9                  - file_name: http.log                    component: pdweb.http                    level: 5   # noqa: E501
 
         :return: The tracing of this Logging.  # noqa: E501
         :rtype: list[LoggingTracing]
@@ -160,7 +160,7 @@ class Logging(object):
     def tracing(self, tracing):
         """Sets the tracing of this Logging.
 
-        Specifies an array of trace components to be enabled. Tracing can be used to assist with problem determination in the environment. Example: logging:              tracing:                  - file_name: /var/iag/logs/http_trans.log                    component: pdweb.http.transformation                    level: 9                  - file_name: /var/iag/logs/http.log                    component: pdweb.http                    level: 5   # noqa: E501
+        Specifies an array of trace components to be enabled. Tracing can be used to assist with problem determination in the environment. Example: logging:              tracing:                  - file_name: http_trans.log                    component: pdweb.http.transformation                    level: 9                  - file_name: http.log                    component: pdweb.http                    level: 5   # noqa: E501
 
         :param tracing: The tracing of this Logging.  # noqa: E501
         :type: list[LoggingTracing]
@@ -193,10 +193,9 @@ class Logging(object):
     def statistics(self):
         """Gets the statistics of this Logging.  # noqa: E501
 
-        Specifies an array of statistic gathering components to be enabled. Statistics can be used to assist with problem determination in the environment. Example: logging:              statistics:                  - file_name: /var/iag/logs/authn_stats.log                    component: pdweb.authn                    count: 20                    interval: 20                 - file_name: /var/iag/logs/http_stats.log                    component: pdweb.http                    count: 20                    interval: 20   # noqa: E501
 
         :return: The statistics of this Logging.  # noqa: E501
-        :rtype: list[LoggingStatistics]
+        :rtype: LoggingStatistics
         """
         return self._statistics
 
@@ -204,10 +203,9 @@ class Logging(object):
     def statistics(self, statistics):
         """Sets the statistics of this Logging.
 
-        Specifies an array of statistic gathering components to be enabled. Statistics can be used to assist with problem determination in the environment. Example: logging:              statistics:                  - file_name: /var/iag/logs/authn_stats.log                    component: pdweb.authn                    count: 20                    interval: 20                 - file_name: /var/iag/logs/http_stats.log                    component: pdweb.http                    count: 20                    interval: 20   # noqa: E501
 
         :param statistics: The statistics of this Logging.  # noqa: E501
-        :type: list[LoggingStatistics]
+        :type: LoggingStatistics
         """
 
         self._statistics = statistics

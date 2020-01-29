@@ -4,9 +4,12 @@
 
 Specifies the configuration the gateway server will use when securely
 communicating with clients. This configuration includes:
-  * A PEM based personal certificate. If a certificate is
-    not provided, the gateway will generate a self-signed certificate
-    during bootstrapping.
+  * A PEM based personal certificate file.   This certificate file
+    should include the private key, a certificate signed with the
+    private key, and the signer certificate or signer certificate
+    chain (if required).  If a certificate is not provided, the 
+    gateway will generate a self-signed certificate during 
+    bootstrapping.
   * The TLS protocols that are enabled for client communication.
   * Any additional server certificates which should be used for
     specific hosts using the 'server name indication' (SNI) TLS

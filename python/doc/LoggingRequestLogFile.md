@@ -9,7 +9,7 @@ By default the request log events will be written to the console of the containe
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file\_name** | **str** | The full path name of the generated log file.   | [optional] 
+**file\_name** | **str** | The name of the generated log file.  If the file name  is supplied without any path information the file will be written to the &#39;/var/iag/logs&#39; directory.  If the file name contains path information the hosting directory must be created and available before the container is started.  | [optional] 
 **max\_file\_size** | **float** | The maximum size (in MB) that the file can reach before it is rolled over.  | [optional] 
 **max\_rollover\_files** | **float** | The maximum number of rollover files to be kept on disk.  When the number of rollover log files reaches the specified  threshold, the oldest log file is deleted.  | [optional] 
 **compress** | **bool** | A boolean which indicates whether rolled over log files should be automatically compressed to conserve disk space.  | [optional] [default to True]

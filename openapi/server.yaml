@@ -19,9 +19,12 @@ server:
           description: |
             Specifies the configuration the gateway server will use when securely
             communicating with clients. This configuration includes:
-              * A PEM based personal certificate. If a certificate is
-                not provided, the gateway will generate a self-signed certificate
-                during bootstrapping.
+              * A PEM based personal certificate file.   This certificate file
+                should include the private key, a certificate signed with the
+                private key, and the signer certificate or signer certificate
+                chain (if required).  If a certificate is not provided, the 
+                gateway will generate a self-signed certificate during 
+                bootstrapping.
               * The TLS protocols that are enabled for client communication.
               * Any additional server certificates which should be used for
                 specific hosts using the 'server name indication' (SNI) TLS
@@ -297,7 +300,8 @@ server:
         instance. Choosing the optimal number depends on the quantity and
         type of traffic on your network. Modifying this value should be done
         carefully to ensure optimal performance.
-        Example: worker_threads: 300
+        Example: server:
+                     worker_threads: 300
       type: number
       minimum: 1
       maximum: unlimited
@@ -312,7 +316,8 @@ server:
         limiting counters for this client(s). This number needs to be higher
         than the number of requests being rate limited across a refresh
         interval.
-        Example: max_ratelimiting_buckets: 16384
+        Example: server:
+                     max_ratelimiting_buckets: 16384
       type: number
       minimum: 1
       maximum: unlimited
@@ -324,7 +329,8 @@ server:
         HTTP/2 supports a reduced set of cipher suites. The minimum cipher is
         TLS\_ECDHE\_RSA\_WITH\_AES\_128\_GCM\_SHA256 which should be added to the
         server:ssl:ciphers entry.
-        Example: http2: true
+        Example: server:
+                     http2: true
       type: boolean
       default: false
 
@@ -791,4 +797,25 @@ server:
               minimum: 1
               maximum: unlimited
               default: 300
+
+        jwks:
+          description: >
+            Specifies the configuration information related to the embedded
+            jwks application. The jwks application returns the public keys
+            contained in the key database used for junction communication.
+            The response data will conform to RFC 7517.
+            Example: server:
+                         local_applications:
+                             jwks: 
+                                 path_segment: jwks
+
+          type: object
+          properties:
+
+            path_segment:
+              description: >
+                The path at which the application will be available. The
+                path should be a simple path segment (i.e. should not contain
+                a '/' character).
+              type: string
 

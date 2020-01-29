@@ -54,11 +54,11 @@ try:
                                     file      = LoggingRequestLogFile (
                                         file_name = "/var/tmp/request.log")
                                     ),
-                    statistics =  [ LoggingStatistics(
-                                    component = "pdweb.https",
-                                    file_name = "/var/tmp/statistics.log",
-                                    count     = 5,
-                                    interval  = 30)],
+                    statistics =  LoggingStatistics(
+                                    server     = "127.0.0.1",
+                                    port       = 8125,
+                                    frequency  = 20,
+                                    components = [ "iag.authn" ]),
                     tracing    =  [ LoggingTracing(
                                     component = "pdweb.snoop", 
                                     file_name = "/var/tmp/tracing.log",
@@ -146,7 +146,9 @@ try:
                                                 path_segment="azn-decision-app",
                                                 max_cache_lifetime=300,
                                                 max_cache_size=3600
-                       )
+                       ),
+                       jwks=ServerLocalApplicationsJwks(
+                                                path_segment="jwks")
     )
 
     localPages = ServerLocalPages(
@@ -203,6 +205,23 @@ try:
                         attribute = "attribute_name_2"
                   )
                 ],
+                jwt               = ResourceServerIdentityHeadersJwt(
+                    certificate = "certificate",
+                    hdr_name    = "jwt",
+                    claims      = [
+                        ResourceServerIdentityHeadersJwtClaims(
+                            name = "iss",
+                            text = "www.ibm.com"
+                        ),
+                        ResourceServerIdentityHeadersJwtClaims(
+                            name = "sub",
+                            attr = "AZN_CRED_PRINCIPAL_NAME"
+                        ),
+                        ResourceServerIdentityHeadersJwtClaims(
+                            attr = "AZN_*"
+                        )
+                    ]
+                )
             ),
             cookies              = ResourceServerCookies(
                 #junction_cookies    = ResourceServerCookiesJunctionCookie(
@@ -292,6 +311,7 @@ try:
                         name             = "RequestHeaderInjector1",
                         method           = "*",
                         paths            = ["*"],
+                        attributes       = ["AZN_CRED_PRINCIPAL_NAME"],
                         rule             = http_xform_file.content()
                     )
                 ]

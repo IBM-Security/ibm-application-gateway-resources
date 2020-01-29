@@ -16,14 +16,18 @@ logging:
         A boolean which indicates whether the logging will be
         in JSON format or not. If not specified logging will not be
         in JSON format.
-        Example: json_logging: true
+        Example: logging:
+                     json_logging: true
       type: boolean
       default: false
 
     components:
       description: >
         Specifies an array of auditing components to be enabled.
-        Example: components: ["audit.authn", "audit.azn"]
+        Example: logging:
+                     components: 
+                         - audit.authn
+                         - audit.azn
       type: array 
       items:
         type: string
@@ -77,7 +81,7 @@ logging:
         Example: logging:
                      request_log:
                          file:
-                             file_name: /var/iag/logs/request.log
+                             file_name: request.log
                          format: "%t %a %R"
       type: object
       properties:
@@ -90,7 +94,11 @@ logging:
           properties:
             file_name:
               description: >
-                The full path name of the generated log file. 
+                The name of the generated log file.  If the file name 
+                is supplied without any path information the file will be
+                written to the '/var/iag/logs' directory.  If the file name
+                contains path information the hosting directory must be created
+                and available before the container is started.
               type: string
             max_file_size:
               description: >
@@ -130,10 +138,10 @@ logging:
         the environment.
         Example: logging:
                      tracing:
-                         - file_name: /var/iag/logs/http_trans.log
+                         - file_name: http_trans.log
                            component: pdweb.http.transformation
                            level: 9
-                         - file_name: /var/iag/logs/http.log
+                         - file_name: http.log
                            component: pdweb.http
                            level: 5
       items:
@@ -141,7 +149,11 @@ logging:
         properties:
           file_name:
             description: >
-              The full path name of the generated log file.
+              The name of the generated log file.  If the file name 
+              is supplied without any path information the file will be
+              written to the '/var/iag/logs' directory.  If the file name
+              contains path information the hosting directory must be created
+              and available before the container is started.
             type: string
           component:
             description: >
@@ -164,7 +176,7 @@ logging:
         environment.
         Example: logging:
                      transaction:
-                         file_name: /var/iag/logs/trans.log
+                         file_name: trans.log
                          max_file_size: 1024
                          max_files: 5
                          compress: true
@@ -172,7 +184,11 @@ logging:
       properties:
         file_name:
           description: >
-            The full path name of the generated log file.
+            The name of the generated log file.  If the file name is supplied 
+            without any path information the file will be written to the 
+            '/var/iag/logs' directory.  If the file name contains path 
+            information the hosting directory must be created and available 
+            before the container is started.
           type: string
         max_file_size:
           description: >
@@ -200,50 +216,50 @@ logging:
 
     statistics:
       description: >
-        Specifies an array of statistic gathering components to be enabled.
-        Statistics can be used to assist with problem determination in
-        the environment.
+        Configures the statistic collection and publishing capability for the
+        gateway.  The statistics for the configured components will be 
+        published to the specified statsd server over UDP.  Statistics can be 
+        used to monitor the environment, or assist with problem determination 
+        in the environment.
         Example: logging:
                      statistics:
-                         - file_name: /var/iag/logs/authn_stats.log
-                           component: pdweb.authn
-                           count: 20
-                           interval: 20
-                        - file_name: /var/iag/logs/http_stats.log
-                           component: pdweb.http
-                           count: 20
-                           interval: 20
-      type: array
-      items:
-        type: object
-        properties:
-          file_name:
-            description: >
-              The full path name of the generated log file.
+                        server: 127.0.0.1
+                        port: 8125
+                        frequency: 20
+                        components:
+                          - iag.authn
+      type: object
+      properties:
+        server:
+          description: >
+            The server on which the statsd server is listening for requests.
+          type: string
+        port:
+          description: >
+            The port on which the statsd server is listening for requests.
+          type: number
+          default: 8125
+        frequency:
+          description: >
+            The frequency (in seconds) that statistics are sent from the
+            memory buffer to the statsd server. 
+          type: number
+          minimum: 1
+          maximum: unlimited
+        components:
+          type: array
+          description: >
+            Specifies an array of statistic components to be enabled.  Refer to
+            the troubleshooting documentation for a full description of the
+            available component names.
+          items:
             type: string
-          component:
-            description: >
-              The name of the statistical component to be enabled. Refer to
-              the troubleshooting documentation for the full list of component names.
-            type: string
-          count:
-            description: >
-              The number of reports sent to the log file. After the count value is reached,
-              reporting to a log file stops. However, the statistic component is still enabled.
-              If the interval value is not set or is set to 0 the count will have no effect.
-              If the interval value is set and count is not set, statistics information will
-              be sent to the log file at the interval indefinitely.
-            type: number
-            minimum: 1
-            maximum: unlimited
-          interval:
-            description: >
-              The time interval (in seconds) when statistics are sent from the
-              memory buffer to the log file. If the interval is not set or is set to 0,
-              no statistics are sent to the log file. However, the statistic component is still enabled.
-              If interval is set and count value is not set, statistics information will
-              be sent to the log file at the interval indefinitely.
-            type: number
-            minimum: 0
-            maximum: unlimited
+          enum:
+            - iag.authn
+            - iag.http2
+            - iag.https
+            - iag.resource_server
+            - iag.sescache
+            - iag.threads
+            - iag.websocket
 
