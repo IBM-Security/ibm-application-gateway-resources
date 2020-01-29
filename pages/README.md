@@ -10,7 +10,7 @@ For further information, refer to the following page in the IAG documentation:
 
 |File Name|Description
 |---------|-----------
-| management.zip | This zip file contains a directory structure including the default management pages.
-| errors.zip | This zip file contains a directory structure including the default error message pages.
+| management_pages.zip | This zip file contains a directory structure including the default management pages.
+| error_pages.zip | This zip file contains a directory structure including the default error message pages.
 | local_pages.zip | This zip file contains a directory structure including the default local pages content.
 | retrieve\_default\_pages.sh | This script can be used to retrieve the current pages and create the zip files published in this directory.
