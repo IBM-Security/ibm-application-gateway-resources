@@ -163,7 +163,7 @@ class Server(object):
     def worker_threads(self):
         """Gets the worker_threads of this Server.  # noqa: E501
 
-        The number of configured worker threads specifies the number of concurrent incoming requests that can be serviced by this gateway instance. Choosing the optimal number depends on the quantity and type of traffic on your network. Modifying this value should be done carefully to ensure optimal performance. Example: worker_threads: 300   # noqa: E501
+        The number of configured worker threads specifies the number of concurrent incoming requests that can be serviced by this gateway instance. Choosing the optimal number depends on the quantity and type of traffic on your network. Modifying this value should be done carefully to ensure optimal performance. Example: server:              worker_threads: 300   # noqa: E501
 
         :return: The worker_threads of this Server.  # noqa: E501
         :rtype: float
@@ -174,7 +174,7 @@ class Server(object):
     def worker_threads(self, worker_threads):
         """Sets the worker_threads of this Server.
 
-        The number of configured worker threads specifies the number of concurrent incoming requests that can be serviced by this gateway instance. Choosing the optimal number depends on the quantity and type of traffic on your network. Modifying this value should be done carefully to ensure optimal performance. Example: worker_threads: 300   # noqa: E501
+        The number of configured worker threads specifies the number of concurrent incoming requests that can be serviced by this gateway instance. Choosing the optimal number depends on the quantity and type of traffic on your network. Modifying this value should be done carefully to ensure optimal performance. Example: server:              worker_threads: 300   # noqa: E501
 
         :param worker_threads: The worker_threads of this Server.  # noqa: E501
         :type: float
@@ -188,7 +188,7 @@ class Server(object):
     def max_ratelimiting_buckets(self):
         """Gets the max_ratelimiting_buckets of this Server.  # noqa: E501
 
-        The number of unique request buckets to hold on to for the rate limiting capability. When a request is tokenized, it gets a bucket assigned. If this limit is reached, rate limiting information about the oldest requests will be ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be higher than the number of requests being rate limited across a refresh interval. Example: max_ratelimiting_buckets: 16384   # noqa: E501
+        The number of unique request buckets to hold on to for the rate limiting capability. When a request is tokenized, it gets a bucket assigned. If this limit is reached, rate limiting information about the oldest requests will be ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be higher than the number of requests being rate limited across a refresh interval. Example: server:              max_ratelimiting_buckets: 16384   # noqa: E501
 
         :return: The max_ratelimiting_buckets of this Server.  # noqa: E501
         :rtype: float
@@ -199,7 +199,7 @@ class Server(object):
     def max_ratelimiting_buckets(self, max_ratelimiting_buckets):
         """Sets the max_ratelimiting_buckets of this Server.
 
-        The number of unique request buckets to hold on to for the rate limiting capability. When a request is tokenized, it gets a bucket assigned. If this limit is reached, rate limiting information about the oldest requests will be ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be higher than the number of requests being rate limited across a refresh interval. Example: max_ratelimiting_buckets: 16384   # noqa: E501
+        The number of unique request buckets to hold on to for the rate limiting capability. When a request is tokenized, it gets a bucket assigned. If this limit is reached, rate limiting information about the oldest requests will be ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be higher than the number of requests being rate limited across a refresh interval. Example: server:              max_ratelimiting_buckets: 16384   # noqa: E501
 
         :param max_ratelimiting_buckets: The max_ratelimiting_buckets of this Server.  # noqa: E501
         :type: float
@@ -213,7 +213,7 @@ class Server(object):
     def http2(self):
         """Gets the http2 of this Server.  # noqa: E501
 
-        A boolean which indicates whether or not to enable support for HTTP/2 clients. HTTP/2 supports a reduced set of cipher suites. The minimum cipher is TLS\\_ECDHE\\_RSA\\_WITH\\_AES\\_128\\_GCM\\_SHA256 which should be added to the server:ssl:ciphers entry. Example: http2: true   # noqa: E501
+        A boolean which indicates whether or not to enable support for HTTP/2 clients. HTTP/2 supports a reduced set of cipher suites. The minimum cipher is TLS\\_ECDHE\\_RSA\\_WITH\\_AES\\_128\\_GCM\\_SHA256 which should be added to the server:ssl:ciphers entry. Example: server:              http2: true   # noqa: E501
 
         :return: The http2 of this Server.  # noqa: E501
         :rtype: bool
@@ -224,7 +224,7 @@ class Server(object):
     def http2(self, http2):
         """Sets the http2 of this Server.
 
-        A boolean which indicates whether or not to enable support for HTTP/2 clients. HTTP/2 supports a reduced set of cipher suites. The minimum cipher is TLS\\_ECDHE\\_RSA\\_WITH\\_AES\\_128\\_GCM\\_SHA256 which should be added to the server:ssl:ciphers entry. Example: http2: true   # noqa: E501
+        A boolean which indicates whether or not to enable support for HTTP/2 clients. HTTP/2 supports a reduced set of cipher suites. The minimum cipher is TLS\\_ECDHE\\_RSA\\_WITH\\_AES\\_128\\_GCM\\_SHA256 which should be added to the server:ssl:ciphers entry. Example: server:              http2: true   # noqa: E501
 
         :param http2: The http2 of this Server.  # noqa: E501
         :type: bool

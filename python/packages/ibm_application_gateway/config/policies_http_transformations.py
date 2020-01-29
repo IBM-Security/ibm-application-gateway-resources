@@ -78,7 +78,7 @@ class PoliciesHttpTransformations(object):
     def response(self):
         """Gets the response of this PoliciesHttpTransformations.  # noqa: E501
 
-        This node defines the transformations which will take place on responses. This entry is an array and can be used to specify multiple transformations. Example: policies:              http_transformations:                  response:                      - name: resource_1_rule                        host: www.test.com                        paths:                           - \"/resource_1\"                          - \"/alt/resource_1\"                        method: GET                        rule: \"@http_trans_rule.xsl\"   # noqa: E501
+        This node defines the transformations which will take place on responses. This entry is an array and can be used to specify multiple transformations. Example: policies:              http_transformations:                  response:                      - name: resource_1_rule                        host: www.test.com                        paths:                           - \"/resource_1\"                          - \"/alt/resource_1\"                        method: GET                        rule: \"@http_trans_rule.xsl\"                        attributes:                          - AZN_CRED_PRINCIPAL_NAME   # noqa: E501
 
         :return: The response of this PoliciesHttpTransformations.  # noqa: E501
         :rtype: list[PoliciesHttpTransformationRule]
@@ -89,7 +89,7 @@ class PoliciesHttpTransformations(object):
     def response(self, response):
         """Sets the response of this PoliciesHttpTransformations.
 
-        This node defines the transformations which will take place on responses. This entry is an array and can be used to specify multiple transformations. Example: policies:              http_transformations:                  response:                      - name: resource_1_rule                        host: www.test.com                        paths:                           - \"/resource_1\"                          - \"/alt/resource_1\"                        method: GET                        rule: \"@http_trans_rule.xsl\"   # noqa: E501
+        This node defines the transformations which will take place on responses. This entry is an array and can be used to specify multiple transformations. Example: policies:              http_transformations:                  response:                      - name: resource_1_rule                        host: www.test.com                        paths:                           - \"/resource_1\"                          - \"/alt/resource_1\"                        method: GET                        rule: \"@http_trans_rule.xsl\"                        attributes:                          - AZN_CRED_PRINCIPAL_NAME   # noqa: E501
 
         :param response: The response of this PoliciesHttpTransformations.  # noqa: E501
         :type: list[PoliciesHttpTransformationRule]

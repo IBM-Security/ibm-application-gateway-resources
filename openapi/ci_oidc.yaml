@@ -62,24 +62,25 @@ ci_oidc:
     match a configured rule it will by default be added to the
     credential.
 
-    Example: ci_oidc:
-                 hostname: www.test.com
-                 client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-                 client_secret: 1a2b3c4d5e
-                 mapped_identity: "{sub}"
-                 redirect_uri_host: www.test2.com
-                 response_type: code
-                 response_mode: query
-                 proxy: https://www.testproxy.com:443
-                 scopes: 
-                     - profile
-                     - email
-                 allowed_query_args: 
-                     - "oidc_test=value"
-                 bearer_token_attrs: 
-                     - "-access_token"
-                 id_token_attrs: 
-                     - "-email"
+    Example: identity:
+                 ci_oidc:
+                     hostname: www.test.com
+                     client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+                     client_secret: 1a2b3c4d5e
+                     mapped_identity: "{sub}"
+                     redirect_uri_host: www.test2.com
+                     response_type: code
+                     response_mode: query
+                     proxy: https://www.testproxy.com:443
+                     scopes: 
+                         - profile
+                         - email
+                     allowed_query_args: 
+                         - "oidc_test=value"
+                     bearer_token_attrs: 
+                         - "-access_token"
+                     id_token_attrs: 
+                         - "-email"
 
   type: object
   properties:

@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **request\_log** | [**LoggingRequestLog**](LoggingRequestLog.md) |  | [optional] 
 **tracing** | [**list[LoggingTracing]**](LoggingTracing.md) | Specifies an array of trace components to be enabled.| [optional] 
 **transaction** | [**LoggingTransaction**](LoggingTransaction.md) |  | [optional] 
-**statistics** | [**list[LoggingStatistics]**](LoggingStatistics.md) | Specifies an array of statistic gathering components to be enabled.| [optional] 
+**statistics** | [**LoggingStatistics**](LoggingStatistics.md) |  | [optional] 
 
 [[Back to README]](../README.md)
 

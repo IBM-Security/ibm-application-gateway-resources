@@ -34,7 +34,8 @@ class PoliciesHttpTransformationRule(object):
         'host': 'str',
         'paths': 'list[str]',
         'method': 'str',
-        'rule': 'str'
+        'rule': 'str',
+        'attributes': 'list[str]'
     }
 
     attribute_map = {
@@ -42,10 +43,11 @@ class PoliciesHttpTransformationRule(object):
         'host': 'host',
         'paths': 'paths',
         'method': 'method',
-        'rule': 'rule'
+        'rule': 'rule',
+        'attributes': 'attributes'
     }
 
-    def __init__(self, name=None, host=None, paths=None, method=None, rule=None):  # noqa: E501
+    def __init__(self, name=None, host=None, paths=None, method=None, rule=None, attributes=None):  # noqa: E501
         """PoliciesHttpTransformationRule - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
@@ -53,6 +55,7 @@ class PoliciesHttpTransformationRule(object):
         self._paths = None
         self._method = None
         self._rule = None
+        self._attributes = None
         self.discriminator = None
 
         if name is not None:
@@ -65,6 +68,8 @@ class PoliciesHttpTransformationRule(object):
             self.method = method
         if rule is not None:
             self.rule = rule
+        if attributes is not None:
+            self.attributes = attributes
 
     @property
     def name(self):
@@ -180,6 +185,29 @@ class PoliciesHttpTransformationRule(object):
         """
 
         self._rule = rule
+
+    @property
+    def attributes(self):
+        """Gets the attributes of this PoliciesHttpTransformationRule.  # noqa: E501
+
+        The credential attributes which will be included in the XML input document, used when evaluating the HTTP transformation rule.  The attributes will be stored in the  HTTPResponse/credential/attributes/attribute path of the  XML document.   # noqa: E501
+
+        :return: The attributes of this PoliciesHttpTransformationRule.  # noqa: E501
+        :rtype: list[str]
+        """
+        return self._attributes
+
+    @attributes.setter
+    def attributes(self, attributes):
+        """Sets the attributes of this PoliciesHttpTransformationRule.
+
+        The credential attributes which will be included in the XML input document, used when evaluating the HTTP transformation rule.  The attributes will be stored in the  HTTPResponse/credential/attributes/attribute path of the  XML document.   # noqa: E501
+
+        :param attributes: The attributes of this PoliciesHttpTransformationRule.  # noqa: E501
+        :type: list[str]
+        """
+
+        self._attributes = attributes
 
     def to_dict(self):
         """Returns the model properties as a dict"""

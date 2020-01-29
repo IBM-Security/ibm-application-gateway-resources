@@ -110,7 +110,7 @@ class ResourceServer(object):
     def path(self):
         """Gets the path of this ResourceServer.  # noqa: E501
 
-        The path at which the resource server will be made available. This entry is required if the virtual\\_host entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: path: /static   # noqa: E501
+        The path at which the resource server will be made available. This entry is required if the virtual\\_host entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: resource_servers:              - path: /static                ...   # noqa: E501
 
         :return: The path of this ResourceServer.  # noqa: E501
         :rtype: str
@@ -121,7 +121,7 @@ class ResourceServer(object):
     def path(self, path):
         """Sets the path of this ResourceServer.
 
-        The path at which the resource server will be made available. This entry is required if the virtual\\_host entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: path: /static   # noqa: E501
+        The path at which the resource server will be made available. This entry is required if the virtual\\_host entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: resource_servers:              - path: /static                ...   # noqa: E501
 
         :param path: The path of this ResourceServer.  # noqa: E501
         :type: str
@@ -133,7 +133,7 @@ class ResourceServer(object):
     def virtual_host(self):
         """Gets the virtual_host of this ResourceServer.  # noqa: E501
 
-        The virtual host, as defined by the host header in the request, at which the resource server will be made available. Port information may also be specified if the virtual host is on a non-default port for the intended protocol. This entry is required if the path entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: virtual_host: \"application.ibm.com:9443\"    # noqa: E501
+        The virtual host, as defined by the host header in the request, at which the resource server will be made available. Port information may also be specified if the virtual host is on a non-default port for the intended protocol. This entry is required if the path entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: resource_servers:              - virtual_host: \"application.ibm.com:9443\"                 ...   # noqa: E501
 
         :return: The virtual_host of this ResourceServer.  # noqa: E501
         :rtype: str
@@ -144,7 +144,7 @@ class ResourceServer(object):
     def virtual_host(self, virtual_host):
         """Sets the virtual_host of this ResourceServer.
 
-        The virtual host, as defined by the host header in the request, at which the resource server will be made available. Port information may also be specified if the virtual host is on a non-default port for the intended protocol. This entry is required if the path entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: virtual_host: \"application.ibm.com:9443\"    # noqa: E501
+        The virtual host, as defined by the host header in the request, at which the resource server will be made available. Port information may also be specified if the virtual host is on a non-default port for the intended protocol. This entry is required if the path entry has not been specified. It is not valid to have both path and virtual\\_host entries specified. Example: resource_servers:              - virtual_host: \"application.ibm.com:9443\"                 ...   # noqa: E501
 
         :param virtual_host: The virtual_host of this ResourceServer.  # noqa: E501
         :type: str
@@ -156,7 +156,7 @@ class ResourceServer(object):
     def connection_type(self):
         """Gets the connection_type of this ResourceServer.  # noqa: E501
 
-        The connection type the reverse proxy will make for this resource server. Example: connection_type: ssl   # noqa: E501
+        The connection type the reverse proxy will make for this resource server. Example: resource_servers:              - path: \"/example\"                 ...                connection_type: ssl   # noqa: E501
 
         :return: The connection_type of this ResourceServer.  # noqa: E501
         :rtype: str
@@ -167,7 +167,7 @@ class ResourceServer(object):
     def connection_type(self, connection_type):
         """Sets the connection_type of this ResourceServer.
 
-        The connection type the reverse proxy will make for this resource server. Example: connection_type: ssl   # noqa: E501
+        The connection type the reverse proxy will make for this resource server. Example: resource_servers:              - path: \"/example\"                 ...                connection_type: ssl   # noqa: E501
 
         :param connection_type: The connection_type of this ResourceServer.  # noqa: E501
         :type: str
@@ -185,7 +185,7 @@ class ResourceServer(object):
     def transparent_path(self):
         """Gets the transparent_path of this ResourceServer.  # noqa: E501
 
-        A boolean flag indicating whether or not this resource server uses a transparent path. For path type resource servers, setting this entry to true will result in the passing of the entire URL as observed by the reverse proxy to the resource server, including the value given in \"path\". If set to false the reverse proxy will filter the path from the URL and pass only the remainder of the URL to the resource server. Example: transparent_path: true   # noqa: E501
+        A boolean flag indicating whether or not this resource server uses a transparent path. For path type resource servers, setting this entry to true will result in the passing of the entire URL as observed by the reverse proxy to the resource server, including the value given in \"path\". If set to false the reverse proxy will filter the path from the URL and pass only the remainder of the URL to the resource server. Example: resource_servers:              - path: \"/example\"                 ...                transparent_path: true   # noqa: E501
 
         :return: The transparent_path of this ResourceServer.  # noqa: E501
         :rtype: bool
@@ -196,7 +196,7 @@ class ResourceServer(object):
     def transparent_path(self, transparent_path):
         """Sets the transparent_path of this ResourceServer.
 
-        A boolean flag indicating whether or not this resource server uses a transparent path. For path type resource servers, setting this entry to true will result in the passing of the entire URL as observed by the reverse proxy to the resource server, including the value given in \"path\". If set to false the reverse proxy will filter the path from the URL and pass only the remainder of the URL to the resource server. Example: transparent_path: true   # noqa: E501
+        A boolean flag indicating whether or not this resource server uses a transparent path. For path type resource servers, setting this entry to true will result in the passing of the entire URL as observed by the reverse proxy to the resource server, including the value given in \"path\". If set to false the reverse proxy will filter the path from the URL and pass only the remainder of the URL to the resource server. Example: resource_servers:              - path: \"/example\"                 ...                transparent_path: true   # noqa: E501
 
         :param transparent_path: The transparent_path of this ResourceServer.  # noqa: E501
         :type: bool
@@ -208,7 +208,7 @@ class ResourceServer(object):
     def stateful(self):
         """Gets the stateful of this ResourceServer.  # noqa: E501
 
-        A boolean flag indicating whether or not user requests, for the lifetime of a session, are always processed by the same resource server.  Example: stateful: true   # noqa: E501
+        A boolean flag indicating whether or not user requests, for the lifetime of a session, are always processed by the same resource server.  Example: resource_servers:              - path: \"/example\"                 ...                stateful: true   # noqa: E501
 
         :return: The stateful of this ResourceServer.  # noqa: E501
         :rtype: bool
@@ -219,7 +219,7 @@ class ResourceServer(object):
     def stateful(self, stateful):
         """Sets the stateful of this ResourceServer.
 
-        A boolean flag indicating whether or not user requests, for the lifetime of a session, are always processed by the same resource server.  Example: stateful: true   # noqa: E501
+        A boolean flag indicating whether or not user requests, for the lifetime of a session, are always processed by the same resource server.  Example: resource_servers:              - path: \"/example\"                 ...                stateful: true   # noqa: E501
 
         :param stateful: The stateful of this ResourceServer.  # noqa: E501
         :type: bool
@@ -315,7 +315,7 @@ class ResourceServer(object):
     def servers(self):
         """Gets the servers of this ResourceServer.  # noqa: E501
 
-        Specifies the location of the resource server that is being protected. This is an array type and multiple resource servers can be specified. Example: resource_server:              servers:                  - host: www.test.com                    port: 443                    virtual_host: testportal.test.com                    ssl:                        certificate: \"@cert.crt\"                        server_dn: cn=test                        sni: www.test.com                    url_style:                        case_insensitive: true                        windows: false   # noqa: E501
+        Specifies the location of the resource server that is being protected. This is an array type and multiple resource servers can be specified. Example: resource_servers:              - path: \"/example\"                ...                servers:                    - host: www.test.com                      port: 443                      virtual_host: testportal.test.com                      ssl:                          certificate: \"@cert.crt\"                          server_dn: cn=test                          sni: www.test.com                      url_style:                          case_insensitive: true                          windows: false   # noqa: E501
 
         :return: The servers of this ResourceServer.  # noqa: E501
         :rtype: list[ResourceServerServers]
@@ -326,7 +326,7 @@ class ResourceServer(object):
     def servers(self, servers):
         """Sets the servers of this ResourceServer.
 
-        Specifies the location of the resource server that is being protected. This is an array type and multiple resource servers can be specified. Example: resource_server:              servers:                  - host: www.test.com                    port: 443                    virtual_host: testportal.test.com                    ssl:                        certificate: \"@cert.crt\"                        server_dn: cn=test                        sni: www.test.com                    url_style:                        case_insensitive: true                        windows: false   # noqa: E501
+        Specifies the location of the resource server that is being protected. This is an array type and multiple resource servers can be specified. Example: resource_servers:              - path: \"/example\"                ...                servers:                    - host: www.test.com                      port: 443                      virtual_host: testportal.test.com                      ssl:                          certificate: \"@cert.crt\"                          server_dn: cn=test                          sni: www.test.com                      url_style:                          case_insensitive: true                          windows: false   # noqa: E501
 
         :param servers: The servers of this ResourceServer.  # noqa: E501
         :type: list[ResourceServerServers]

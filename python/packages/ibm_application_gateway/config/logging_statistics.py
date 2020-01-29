@@ -30,132 +30,137 @@ class LoggingStatistics(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'file_name': 'str',
-        'component': 'str',
-        'count': 'float',
-        'interval': 'float'
+        'server': 'str',
+        'port': 'float',
+        'frequency': 'float',
+        'components': 'list[str]'
     }
 
     attribute_map = {
-        'file_name': 'file_name',
-        'component': 'component',
-        'count': 'count',
-        'interval': 'interval'
+        'server': 'server',
+        'port': 'port',
+        'frequency': 'frequency',
+        'components': 'components'
     }
 
-    def __init__(self, file_name=None, component=None, count=None, interval=None):  # noqa: E501
+    def __init__(self, server=None, port=8125, frequency=None, components=None):  # noqa: E501
         """LoggingStatistics - a model defined in OpenAPI"""  # noqa: E501
 
-        self._file_name = None
-        self._component = None
-        self._count = None
-        self._interval = None
+        self._server = None
+        self._port = None
+        self._frequency = None
+        self._components = None
         self.discriminator = None
 
-        if file_name is not None:
-            self.file_name = file_name
-        if component is not None:
-            self.component = component
-        if count is not None:
-            self.count = count
-        if interval is not None:
-            self.interval = interval
+        if server is not None:
+            self.server = server
+        if port is not None:
+            self.port = port
+        if frequency is not None:
+            self.frequency = frequency
+        if components is not None:
+            self.components = components
 
     @property
-    def file_name(self):
-        """Gets the file_name of this LoggingStatistics.  # noqa: E501
+    def server(self):
+        """Gets the server of this LoggingStatistics.  # noqa: E501
 
-        The full path name of the generated log file.   # noqa: E501
+        The server on which the statsd server is listening for requests.   # noqa: E501
 
-        :return: The file_name of this LoggingStatistics.  # noqa: E501
+        :return: The server of this LoggingStatistics.  # noqa: E501
         :rtype: str
         """
-        return self._file_name
+        return self._server
 
-    @file_name.setter
-    def file_name(self, file_name):
-        """Sets the file_name of this LoggingStatistics.
+    @server.setter
+    def server(self, server):
+        """Sets the server of this LoggingStatistics.
 
-        The full path name of the generated log file.   # noqa: E501
+        The server on which the statsd server is listening for requests.   # noqa: E501
 
-        :param file_name: The file_name of this LoggingStatistics.  # noqa: E501
+        :param server: The server of this LoggingStatistics.  # noqa: E501
         :type: str
         """
 
-        self._file_name = file_name
+        self._server = server
 
     @property
-    def component(self):
-        """Gets the component of this LoggingStatistics.  # noqa: E501
+    def port(self):
+        """Gets the port of this LoggingStatistics.  # noqa: E501
 
-        The name of the statistical component to be enabled. Refer to the troubleshooting documentation for the full list of component names.   # noqa: E501
+        The port on which the statsd server is listening for requests.   # noqa: E501
 
-        :return: The component of this LoggingStatistics.  # noqa: E501
-        :rtype: str
-        """
-        return self._component
-
-    @component.setter
-    def component(self, component):
-        """Sets the component of this LoggingStatistics.
-
-        The name of the statistical component to be enabled. Refer to the troubleshooting documentation for the full list of component names.   # noqa: E501
-
-        :param component: The component of this LoggingStatistics.  # noqa: E501
-        :type: str
-        """
-
-        self._component = component
-
-    @property
-    def count(self):
-        """Gets the count of this LoggingStatistics.  # noqa: E501
-
-        The number of reports sent to the log file. After the count value is reached, reporting to a log file stops. However, the statistic component is still enabled. If the interval value is not set or is set to 0 the count will have no effect. If the interval value is set and count is not set, statistics information will be sent to the log file at the interval indefinitely.   # noqa: E501
-
-        :return: The count of this LoggingStatistics.  # noqa: E501
+        :return: The port of this LoggingStatistics.  # noqa: E501
         :rtype: float
         """
-        return self._count
+        return self._port
 
-    @count.setter
-    def count(self, count):
-        """Sets the count of this LoggingStatistics.
+    @port.setter
+    def port(self, port):
+        """Sets the port of this LoggingStatistics.
 
-        The number of reports sent to the log file. After the count value is reached, reporting to a log file stops. However, the statistic component is still enabled. If the interval value is not set or is set to 0 the count will have no effect. If the interval value is set and count is not set, statistics information will be sent to the log file at the interval indefinitely.   # noqa: E501
+        The port on which the statsd server is listening for requests.   # noqa: E501
 
-        :param count: The count of this LoggingStatistics.  # noqa: E501
+        :param port: The port of this LoggingStatistics.  # noqa: E501
         :type: float
         """
-        if (count is not None and count < 1):  # noqa: E501
-            raise ValueError("Invalid value for `count`, must be a value greater than or equal to `1`")  # noqa: E501
 
-        self._count = count
+        self._port = port
 
     @property
-    def interval(self):
-        """Gets the interval of this LoggingStatistics.  # noqa: E501
+    def frequency(self):
+        """Gets the frequency of this LoggingStatistics.  # noqa: E501
 
-        The time interval (in seconds) when statistics are sent from the memory buffer to the log file. If the interval is not set or is set to 0, no statistics are sent to the log file. However, the statistic component is still enabled. If interval is set and count value is not set, statistics information will be sent to the log file at the interval indefinitely.   # noqa: E501
+        The frequency (in seconds) that statistics are sent from the memory buffer to the statsd server.    # noqa: E501
 
-        :return: The interval of this LoggingStatistics.  # noqa: E501
+        :return: The frequency of this LoggingStatistics.  # noqa: E501
         :rtype: float
         """
-        return self._interval
+        return self._frequency
 
-    @interval.setter
-    def interval(self, interval):
-        """Sets the interval of this LoggingStatistics.
+    @frequency.setter
+    def frequency(self, frequency):
+        """Sets the frequency of this LoggingStatistics.
 
-        The time interval (in seconds) when statistics are sent from the memory buffer to the log file. If the interval is not set or is set to 0, no statistics are sent to the log file. However, the statistic component is still enabled. If interval is set and count value is not set, statistics information will be sent to the log file at the interval indefinitely.   # noqa: E501
+        The frequency (in seconds) that statistics are sent from the memory buffer to the statsd server.    # noqa: E501
 
-        :param interval: The interval of this LoggingStatistics.  # noqa: E501
+        :param frequency: The frequency of this LoggingStatistics.  # noqa: E501
         :type: float
         """
-        if (interval is not None and interval < 0):  # noqa: E501
-            raise ValueError("Invalid value for `interval`, must be a value greater than or equal to `0`")  # noqa: E501
+        if (frequency is not None and frequency < 1):  # noqa: E501
+            raise ValueError("Invalid value for `frequency`, must be a value greater than or equal to `1`")  # noqa: E501
 
-        self._interval = interval
+        self._frequency = frequency
+
+    @property
+    def components(self):
+        """Gets the components of this LoggingStatistics.  # noqa: E501
+
+        Specifies an array of statistic components to be enabled.  Refer to the troubleshooting documentation for a full description of the available component names.   # noqa: E501
+
+        :return: The components of this LoggingStatistics.  # noqa: E501
+        :rtype: list[str]
+        """
+        return self._components
+
+    @components.setter
+    def components(self, components):
+        """Sets the components of this LoggingStatistics.
+
+        Specifies an array of statistic components to be enabled.  Refer to the troubleshooting documentation for a full description of the available component names.   # noqa: E501
+
+        :param components: The components of this LoggingStatistics.  # noqa: E501
+        :type: list[str]
+        """
+        allowed_values = ["iag.authn", "iag.http2", "iag.https", "iag.resource_server", "iag.sescache", "iag.threads", "iag.websocket"]  # noqa: E501
+        if (not set(components).issubset(set(allowed_values))):  # noqa: E501
+            raise ValueError(
+                "Invalid values for `components` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(components) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
+
+        self._components = components
 
     def to_dict(self):
         """Returns the model properties as a dict"""
