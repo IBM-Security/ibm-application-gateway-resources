@@ -91,6 +91,8 @@ objects:
           ports:
           - containerPort: 8443
             protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
 
           resources: {}
 
@@ -101,13 +103,15 @@ objects:
           # to obtain the health of the container.  Our health is 
           # governed by the ability to connect to the IAG server.
           livenessProbe:
-            tcpSocket:
-              port: 8443
+            exec:
+              command:
+              - /sbin/health_check.sh
             initialDelaySeconds: 120
             periodSeconds: 10
           readinessProbe:
-            tcpSocket:
-              port: 8443
+            exec:
+              command:
+              - /sbin/health_check.sh
             initialDelaySeconds: 5
             periodSeconds: 10
 
@@ -188,7 +192,7 @@ parameters:
     value: iag
   - description: The IBM Application Gateway version/tag which is to be deployed.
     name: IAG_VERSION
-    value: "19.12"
+    value: "20.04"
   - description: The fully qualified DNS name which will be used for routing.
     name: DNS_NAME
     value: application.ibm.com

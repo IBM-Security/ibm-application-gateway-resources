@@ -184,6 +184,15 @@ resource_server:
           type: boolean
           default: false
 
+        iv_creds:
+          description: >
+            A boolean flag indicating whether or not to provide an ASN.1
+            encoded version of the credential as a HTTP header in requests
+            forwarded to the resource server.  The credential will be added 
+            in the 'iv-creds' HTTP header.
+          type: boolean
+          default: false
+
         attributes:
           description: >
              Specifies a list of attributes from the authenticated credential which will
@@ -243,15 +252,41 @@ resource_server:
                       The name of the claim which is to be added to the JWT.  
                       If the name is not specified, and the claim value is 
                       obtained from an attribute name, the name of the claim 
-                      will match the name of the attribute.
+                      will match the name of the attribute.   Nested objects
+                      can be specified, separating the name of each object 
+                      field with a . (dot).  If the name of a field itself 
+                      embeds a dot it should be escaped with a backslach 
+                      character.
                     type: string
 
                   text:
                     description: >
                       The literal text to be used as the claim value.  If both
                       a 'text' value and an 'attr' value is specified the 
-                      'text' value will be used.
+                      'text' value will be used.  If an array is supplied in 
+                      the configuration the claim will be added to the JWT as
+                      a JSON array.
+                    oneOf:
+                      - type: string
+                      - type: array
+                        items:
+                          type: string
+
                     type: string
+
+                  type:
+                    description: >
+                      The type of textual data which is being provided.  This
+                      will control the JSON type which is used in the JWT.
+                      Please note that this field is only valid if a 'text' 
+                      value has been specified and will be ignored if an
+                      'attr' value is specified.
+                    type: string
+                    default: string
+                    enum:
+                      - string
+                      - bool
+                      - int
 
                   attr:
                     description: >

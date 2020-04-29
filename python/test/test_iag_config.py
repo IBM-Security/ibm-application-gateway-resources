@@ -31,7 +31,7 @@ logger = sys_logging.getLogger(__file__)
 
 try:
 
-    # 
+    #
     # Load some of our files.
     #
 
@@ -60,7 +60,7 @@ try:
                                     frequency  = 20,
                                     components = [ "iag.authn" ]),
                     tracing    =  [ LoggingTracing(
-                                    component = "pdweb.snoop", 
+                                    component = "pdweb.snoop",
                                     file_name = "/var/tmp/tracing.log",
                                     level     = 9) ],
                     transaction = LoggingTransaction(
@@ -90,17 +90,38 @@ try:
                         id_token_attrs     = [ "-id_attr_1", "+*" ]
                     ))
 
+    # identity = Identity(isva_oidc = IsvaOidc(
+    #                     hostname           = "test.isam.ibm.com",
+    #                     client_id          = "dummy_client_id",
+    #                     client_secret      = "dummy_client_secret",
+    #                     ssl                = IsvaOidcSsl(
+    #                                            certificate = "PEMFormatCertificateString"
+    #                                          ),
+    #                     provider_details   = IsvaOidcProviderDetails(
+    #                                            junction = "/mga",
+    #                                            definition_name = "dummy_definition_name"
+    #                                          ),
+    #                     mapped_identity    = "identity",
+    #                     redirect_uri_host  = "a.ibm.com",
+    #                     response_type      = "id_token token",
+    #                     response_mode      = "form_post",
+    #                     proxy              = "https://proxy:3128",
+    #                     scopes             = [ "profile", "email" ],
+    #                     allowed_query_args = [ "arg1", "arg2" ],
+    #                     bearer_token_attrs = [ "-attr_1", "+*" ],
+    #                     id_token_attrs     = [ "-id_attr_1", "+*" ]
+    #     ))
     #
     # Set up the list of authorization rules.
     #
 
     authorization = Authorization(rules=[
         AuthorizationRules(
-            name = "administrators", 
+            name = "administrators",
             rule = "(any groupIds = \"administrator\")"
         ),
         AuthorizationRules(
-            name = "users", 
+            name = "users",
             rule = "(all authenticationLevels > \"0\")"
         )
     ])
@@ -109,17 +130,17 @@ try:
     # Advanced configuration.
     #
 
-    advanced = Advanced(configuration = [ 
+    advanced = Advanced(configuration = [
                     AdvancedConfiguration(
-                            stanza    = "test_stanza", 
+                            stanza    = "test_stanza",
                             entry     = "test_entry",
                             operation = "set",
                             value     = [ "value_1", "value_2" ]),
                      AdvancedConfiguration(
-                            stanza    = "test_delete_stanza", 
+                            stanza    = "test_delete_stanza",
                             entry     = "test_delete_entry",
                             operation = "delete"
-                    ) 
+                    )
             ])
 
     #
@@ -132,8 +153,8 @@ try:
         front_end = ServerSslFrontEnd(
             certificate = "certificate",
             sni         = [ ServerSslFrontEndSni(
-                                certificate = "certificate", 
-                                hostname    = "testhost.ibm.com") 
+                                certificate = "certificate",
+                                hostname    = "testhost.ibm.com")
                             ]
         ),
         applications = ServerSslApplications()
@@ -168,12 +189,12 @@ try:
                 )
 
     server = Server(
-                        ssl                = ssl, 
+                        ssl                = ssl,
                         failover           = ServerFailover(key = "simple key"),
-                        session            = session, 
-                        worker_threads     = 200, 
+                        session            = session,
+                        worker_threads     = 200,
                         http2              = False,
-                        websocket          = web_socket, 
+                        websocket          = web_socket,
                         local_pages        = localPages,
                         management_pages   = [ mgmtPages ],
                         error_pages        = [ errorPages ],
@@ -379,7 +400,7 @@ try:
         os.remove(outFile)
 
     config = Configurator(
-                    version          = "19.12",
+                    version          = "20.04",
                     logging          = logging,
                     identity         = identity,
                     advanced         = advanced,

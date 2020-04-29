@@ -33,6 +33,7 @@ from ibm_application_gateway.config.resource_server_ssl import *
 from ibm_application_gateway.config.resource_server_url_style import *
 from ibm_application_gateway.config.authorization_rules import *
 from ibm_application_gateway.config.server_error_pages import *
+from ibm_application_gateway.config.isva_oidc_provider_details import *
 from ibm_application_gateway.config.policies_cors import *
 from ibm_application_gateway.config.resource_server_identity_headers_attributes import *
 from ibm_application_gateway.config.logging_tracing import *
@@ -55,11 +56,13 @@ from ibm_application_gateway.config.server_failover import *
 from ibm_application_gateway.config.resource_server_cookies_junction_cookie import *
 from ibm_application_gateway.config.server_ssl_front_end import *
 from ibm_application_gateway.config.policies_http_transformation_rule import *
+from ibm_application_gateway.config.isva_oidc import *
 from ibm_application_gateway.config.logging_request_log_file import *
 from ibm_application_gateway.config.policies_rate_limiting import *
 from ibm_application_gateway.config.resource_server_identity_headers_jwt_claims import *
 from ibm_application_gateway.config.server_ssl import *
 from ibm_application_gateway.config.resource_server_identity_headers_jwt import *
+from ibm_application_gateway.config.isva_oidc_ssl import *
 from ibm_application_gateway.config.resource_server_persistent_connections import *
 from ibm_application_gateway.config.identity import *
 from ibm_application_gateway.config.server_websocket_timeouts_applications import *

@@ -5,7 +5,7 @@
 
 openapi: '3.0'
 info:
-  version: 19.12
+  version: 20.04
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:
@@ -36,6 +36,8 @@ components:
       properties:
         ci_oidc:
           $ref: "ci_oidc.yaml#/ci_oidc"
+        isva_oidc:
+          $ref: "isva_oidc.yaml#/isva_oidc"
 
     logging:
       $ref: "logging.yaml#/logging"
@@ -50,7 +52,7 @@ paths:
   /:
     get:
       description: >
-        We ignore the path as we are documenting a yaml 
+        We ignore the path as we are documenting a yaml
         configuration format and not a Web Service API.
       responses:
         default:

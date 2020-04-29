@@ -36,7 +36,7 @@ else:
 
 class VersionException(Exception):
     """
-    This exception will be raised if the configuration version is greater 
+    This exception will be raised if the configuration version is greater
     than the version of the IBM Application Gateway container.
     """
     pass
@@ -95,9 +95,9 @@ class Container(object):
 
         self.client_.addSecretToEnv(name)
 
-    def startContainer(self, removeAtExit = True):
+    def startContainer(self, removeAtExit = True, protocol = "https"):
         """
-        The following command is used to start the IBM Application Gateway 
+        The following command is used to start the IBM Application Gateway
         container using the supplied configuration.
 
         removeAtExit: should the container be automatically removed when the
@@ -110,6 +110,8 @@ class Container(object):
 
         logger.info("Starting the container from {0}".format(image))
 
+        logger.info("Protocol to start {0}".format(protocol))
+
         self.client_.startContainer(image)
 
         if removeAtExit:
@@ -117,7 +119,7 @@ class Container(object):
 
         # Wait for the container to become healthy.  We should really be using
         # the health of the container, but this takes a while to kick in.  So,
-        # we instead poll the https port of the server until we make a 
+        # we instead poll the https port of the server until we make a
         # successful SSL connection.
 
         running = False
@@ -127,8 +129,10 @@ class Container(object):
             time.sleep(1)
 
             try:
-                requests.get("https://{0}:{1}".format(
-                        self.ipaddr(), self.port()), 
+                logger.info("Protocol in loop {0}".format(protocol))
+                logger.info("Port in loop {0}".format(self.port(protocol)))
+                requests.get("{0}://{1}:{2}".format(
+                        protocol, self.ipaddr(), self.port(protocol)),
                         verify=False, allow_redirects=False, timeout=2)
 
                 running = True
@@ -146,19 +150,19 @@ class Container(object):
 
         logger.info("The container has started")
 
-    def port(self):
+    def port(self, protocol = "https"):
         """
         Retrieve the port for the current running container.
         """
 
-        return self.client_.port()
+        return self.client_.port(protocol)
 
-    def ipaddr(self):
+    def ipaddr(self, protocol = "https"):
         """
         Retrieve the IP address which can be used to access the container.
         """
 
-        return self.client_.ipaddr()
+        return self.client_.ipaddr(protocol)
 
     def stopContainer(self):
         """
@@ -174,8 +178,8 @@ class Container(object):
 
 class DockerContainer(object):
     """
-    This class is used to manage the IBM Application Gateway docker container.  
-    It will essentially allow you to start and stop the IAG docker containers 
+    This class is used to manage the IBM Application Gateway docker container.
+    It will essentially allow you to start and stop the IAG docker containers
     with the specified configuration information.
     """
 
@@ -204,7 +208,7 @@ class DockerContainer(object):
 
     def startContainer(self, image):
         """
-        The following command is used to start the IBM Application Gateway 
+        The following command is used to start the IBM Application Gateway
         container using the supplied configuration.
         """
 
@@ -246,9 +250,9 @@ class DockerContainer(object):
 
         self.container_.reload()
 
-    def port(self):
+    def port(self, protocol = "https"):
         """
-        Retrieve the port for the current running container.
+        Retrieve the HTTPS port for the current running container.
         """
 
         if self.container_ is None:
@@ -256,10 +260,19 @@ class DockerContainer(object):
 
             raise Exception("The container is not currently running!")
 
-        return self.container_.attrs['NetworkSettings']['Ports']['8443/tcp']\
+        if protocol == "https":
+            port = "8443/tcp"
+        elif protocol == "http":
+            port = "8080/tcp"
+        else:
+            logger.critical("Error> an invalid protocol was specified!")
+
+            raise Exception("An invalid protocol was specified!")
+
+        return self.container_.attrs['NetworkSettings']['Ports'][port]\
                 [0]['HostPort']
 
-    def ipaddr(self):
+    def ipaddr(self, protocol = "https"):
         """
         Retrieve the IP address which can be used to access the container.
         """
@@ -269,7 +282,16 @@ class DockerContainer(object):
 
             raise Exception("The container is not currently running!")
 
-        ipaddr = self.container_.attrs['NetworkSettings']['Ports']['8443/tcp']\
+        if protocol == "https":
+            port = "8443/tcp"
+        elif protocol == "http":
+            port = "8080/tcp"
+        else:
+            logger.critical("Error> an invalid protocol was specified!")
+
+            raise Exception("An invalid protocol was specified!")
+
+        ipaddr = self.container_.attrs['NetworkSettings']['Ports'][port]\
                 [0]['HostIp']
 
         if ipaddr == "0.0.0.0":
@@ -295,8 +317,8 @@ class DockerContainer(object):
 
 class KubernetesContainer(object):
     """
-    This class is used to manage the IBM Application Gateway Kubernetes 
-    container.  It will essentially allow you to start and stop IAG Kubernetes 
+    This class is used to manage the IBM Application Gateway Kubernetes
+    container.  It will essentially allow you to start and stop IAG Kubernetes
     containers with the specified configuration information.
     """
 
@@ -365,7 +387,7 @@ class KubernetesContainer(object):
         """
         Should we use a Custom Object to host the configuration information
         or a ConfigMap?  We determine this by checking to see if the
-        ibm-application-gateway.security.ibm.com CRD is available in the 
+        ibm-application-gateway.security.ibm.com CRD is available in the
         environment or not.
         """
 
@@ -385,7 +407,7 @@ class KubernetesContainer(object):
 
     def startContainer(self, image):
         """
-        The following command is used to start the IBM Application Gateway 
+        The following command is used to start the IBM Application Gateway
         container using the supplied configuration.
         """
 
@@ -444,9 +466,10 @@ class KubernetesContainer(object):
                     spec        = kubernetes.client.V1ServiceSpec(
                         type     = service_type,
                         selector = { "app" : self.deploymentName_ },
-                        ports    = [ kubernetes.client.V1ServicePort(
-                                port = 8443
-                        )]
+                        ports    = [
+                            kubernetes.client.V1ServicePort(port = 8443),
+                            kubernetes.client.V1ServicePort(port = 8080)
+                        ]
                     )
                 )
 
@@ -504,16 +527,16 @@ class KubernetesContainer(object):
             logger.info("Stopping the deployment: {0}".format(
                                             self.deploymentName_))
 
-            try: 
-                # Grab the log file of the pod.  The first thing to do is 
-                # determine the pod name, and then we can retrieve the log for 
+            try:
+                # Grab the log file of the pod.  The first thing to do is
+                # determine the pod name, and then we can retrieve the log for
                 # the pod.
                 api_response = self.core_api_.list_namespaced_pod(
                     self.namespace_,
                     label_selector = "app = {0}".format(self.deploymentName_))
 
                 api_response = self.core_api_.read_namespaced_pod_log(
-                                api_response.items[0].metadata.name, 
+                                api_response.items[0].metadata.name,
                                 self.namespace_)
 
                 logger.info("Container log: {0}".format(api_response))
@@ -536,7 +559,7 @@ class KubernetesContainer(object):
                                                 api_response.status))
             except Exception as exc:
                 logger.error(exc)
-                
+
 
             try:
                 api_response = self.core_api_.delete_namespaced_service(
@@ -622,7 +645,9 @@ class KubernetesContainer(object):
             name          = self.deploymentName_,
             image         = image,
             ports         = [
-                    kubernetes.client.V1ContainerPort(container_port=8443)],
+                    kubernetes.client.V1ContainerPort(container_port=8443),
+                    kubernetes.client.V1ContainerPort(container_port=8080)
+                ],
             env           = self.env_,
             volume_mounts = volume_mounts,
             env_from      = self.secrets_
@@ -635,7 +660,7 @@ class KubernetesContainer(object):
 
         # Create and configurate a spec section
         template = kubernetes.client.V1PodTemplateSpec(
-            metadata = kubernetes.client.V1ObjectMeta( 
+            metadata = kubernetes.client.V1ObjectMeta(
                             labels = {"app": self.deploymentName_}),
             spec     = kubernetes.client.V1PodSpec(
                             containers         = [ container ],
@@ -708,4 +733,3 @@ class KubernetesContainer(object):
             },
             "spec":       data
         }
-

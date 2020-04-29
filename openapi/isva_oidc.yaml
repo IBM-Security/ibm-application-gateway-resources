@@ -1,0 +1,219 @@
+# (c) Copyright International Business Machines Corp. 2020
+# The source code for this program is not published or otherwise divested
+# of its trade secrets, irrespective of what has been deposited with the
+# U.S. Copyright Office.
+
+isva_oidc:
+  description: |
+    The configuration entries in this section allow the reverse proxy to
+    act as an OIDC relying party to IBM Security Access Manager.
+
+    ## Response Type Values
+    Name | Description
+    ---- | -----------
+    code | The authorization code flow will be used to retrieve both an access token and identity token.
+    id_token | The implicit flow will be used to retrieve the identity token.
+    id_token token | The implicit flow will be used to retrieve both an access token and identity token.
+
+    ## Bearer Token Attrs Format
+    A JSON data element from the bearer token response which should be
+    included or excluded in the credential as an extended attribute. The format
+    of the configuration entry is:
+
+           [+|-]<json-data>
+
+    where:
+
+    Element | Description
+    ------- | -----------
+    + | Indicates that this JSON data should be added to the credential.
+    - | Indicates that this JSON data should not be added to the credential.
+    \<json-data\> | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?).
+
+    For example the value "-access\_token" indicates that the access_token should not be added to the credential.
+
+    When a bearer token is received each JSON data element will be
+    evaluated against each rule in sequence until a match is found.
+    The corresponding code (+|-) will then be used to determine whether
+    the JSON data will be added to the credential or not. If the JSON
+    data name does not match a configured rule it will by default be
+    added to the credential.
+
+    ## ID Token Attrs Format
+    A claim from the ID token response which should be included or excluded in the
+    credential as an extended attribute. The format of the configuration entry is:
+
+           [+|-]<claim>
+
+    where:
+
+    Element | Description
+    ------- | -----------
+    + | Indicates that this claim should be added to the credential.
+    - | Indicates that this claim should not be added to the credential.
+    \<claim\> | The corresponding claim name, which can also contain pattern matching characters (i.e. * ?).
+
+    For example the value "-email" indicates that the email claim should not be added to the credential.
+
+    When an ID token is received each claim will be evaluated against
+    each rule in sequence until a match is found. The corresponding
+    code (+|-) will then be used to determine whether the claim will
+    be added to the credential or not. If the claim name does not
+    match a configured rule it will by default be added to the
+    credential.
+
+    Example: identity:
+                 isva_oidc:
+                     hostname: www.test.com
+                     client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+                     client_secret: 1a2b3c4d5e
+                     provider_details:
+                         junction: /mga
+                         definition_name: OIDCDefinition
+                     ssl:
+                         certificate: "@ISVA CA.cer"
+                     mapped_identity: "{sub}"
+                     redirect_uri_host: www.test2.com
+                     response_type: code
+                     response_mode: query
+                     proxy: https://www.testproxy.com:443
+                     scopes:
+                         - profile
+                         - email
+                     allowed_query_args:
+                         - "oidc_test=value"
+                     bearer_token_attrs:
+                         - "-access_token"
+                     id_token_attrs:
+                         - "-email"
+
+  type: object
+  properties:
+
+    hostname:
+      description: >
+        The fully qualified host name of the IBM Security Access Manager tenant.
+      type: string
+
+    client_id:
+      description: >
+        The client identity registered with IBM Security Access Manager.
+      type: string
+
+    client_secret:
+      description: >
+        The client secret registered with IBM Security Access Manager.
+      type: string
+
+    provider_details:
+      description: >
+        The configuration details which correspond to the IBM Security Access Manager instance.
+      type: object
+      properties:
+        junction:
+          description: >
+            The IBM Security Access Manager junction where the connection to the runtime which hosts the OIDC provider APIs can be
+            established.
+          type: string
+        definition_name:
+          description: >
+            The name of the OIDC definition from the IBM Security Access Manager instance.
+          type: string
+    ssl:
+      description: >
+        SSL settings for the OIDC connection.
+      type: object
+      properties:
+        certificate:
+          description: >
+            If required, a signer certificate required for the reverse proxy to trust the IBM Security Access Manager
+            runtime can be specified here in PEM format.
+          type: string
+    mapped_identity:
+      description: >
+        A formatted string which is used to construct the credential principal
+        name from elements of the ID token. Claims can be added to the
+        identity string, surrounded by '{}', for example:
+          {iss}/{sub} - would construct a principal name like the following:
+          https://server.example.com/248289761001
+      type: string
+      default: "{sub}"
+
+    redirect_uri_host:
+      description: >
+        This is the host which is used in the redirect URI registered with
+        the OIDC OP. If no redirect URI host is configured the host header
+        from the request will be used. The format of the redirect URI will
+        be: http[s]://\<host\>/pkmsoidc.
+      type: string
+
+    response_type:
+      description: >
+        The required response type for authentication responses. See the
+        Response Type Values table for a description of the available values.
+      type: string
+      enum:
+        - code
+        - id_token
+        - id_token token
+
+    response_mode:
+      description: >
+        The required response mode for authentication responses. If no
+        response mode is configured the response mode parameter will not be
+        included in the authentication request.
+      type: string
+      enum:
+        - query
+        - fragment
+        - form_post
+
+    proxy:
+      description: >
+        Specifies the proxy, if any, which is used to reach IBM Security Access Manager. The
+        proxy configuration entry should be in URL format. Eg:
+        http[s]://\<address\>:\<port\>
+      type: string
+
+    scopes:
+      description: >
+        Any scopes to be sent in the authentication request in addition to
+        the 'openid' scope.
+      type: array
+      items:
+        type: string
+        enum:
+          - profile
+          - email
+          - address
+          - phone
+
+    allowed_query_args:
+      description: >
+        Additional query string arguments can be provided to the
+        authentication kick-off URL which will in turn be appended to the
+        corresponding authentication request. This entry is used to define
+        a list of allowed query string arguments. Any other arguments passed
+        to the kick-off URL will be ignored.
+      type: array
+      items:
+        type: string
+
+    bearer_token_attrs:
+      description: >
+        A list of JSON data elements from the bearer token response which should be
+        included or excluded in the credential as an extended attribute. See the
+        Bearer Token Attrs Format table for a description of the expected format.
+      type: array
+      items:
+        type: string
+
+    id_token_attrs:
+      description: >
+        A list of claims from the ID token response which should be included or excluded
+        in the credential as an extended attribute. See the ID Token Attrs Format
+        table for a description of the expected format.
+      type: array
+      items:
+        type: string
+
