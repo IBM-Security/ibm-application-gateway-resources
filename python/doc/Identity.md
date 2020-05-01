@@ -10,6 +10,7 @@ This node defines how users will authenticate to the reverse proxy. Only one ide
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ci\_oidc** | [**CiOidc**](CiOidc.md) |  | [optional] 
+**oidc** | [**Oidc**](Oidc.md) |  | [optional] 
 
 [[Back to README]](../README.md)
 

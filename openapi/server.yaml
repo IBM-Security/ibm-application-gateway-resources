@@ -9,6 +9,19 @@ server:
   type: object
   properties:
 
+    protocols:
+      description: >
+        Specifies the protocols which will be supported by the server.  The
+        server will listen on a different port for each protocol: 
+        http/8080 and https/8443.  If no protocol is specified the server
+        will listen for https requests only.
+      type: array
+      items:
+        type: string
+        enum:
+          - http
+          - https
+
     ssl:
       description: >
         Specifies the secure configuration for the gateway server.

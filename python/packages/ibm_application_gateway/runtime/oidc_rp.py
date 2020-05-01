@@ -144,17 +144,29 @@ class CIOidcRp(OidcRp):
         # simple and so it is easier to just do a regular expression match.
         auth_url = rsp.text
 
-        m = re.search('<body action="(.+?)"', rsp.text)
+        auth_uri = None
 
-        if not m:
-            message = "The CI login form does not look right: {0}"\
-                        .format(rsp.text)
+        auth_uri_patterns = [
+            'const action = "(.+?)"',
+            '<body action="(.+?)"'
+        ]
 
-            logger.critical(message)
+        for uri_patterns in auth_uri_patterns:
+            m = re.search(uri_patterns, rsp.text)
 
-            raise Exception(message)
+            if not m:
+                continue
 
-        auth_uri = m.group(1)
+            auth_uri = m.group(1)
+            break
+
+        if auth_uri is None:
+                message = "Failed to parse the auth URI from the CI login page: {0}"\
+                            .format(rsp.text)
+
+                logger.critical(message)
+
+                raise Exception(message)
 
         rsp = session.post("{0}://{1}{2}".format(
                             parts.scheme, parts.netloc, auth_uri), 

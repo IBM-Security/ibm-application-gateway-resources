@@ -11,6 +11,7 @@ from __future__ import absolute_import
 
 from ibm_application_gateway.config.resource_server_cookies import *
 from ibm_application_gateway.config.logging_statistics import *
+from ibm_application_gateway.config.oidc import *
 from ibm_application_gateway.config.policies_http_transformations import *
 from ibm_application_gateway.config.advanced import *
 from ibm_application_gateway.config.logging import *
@@ -66,5 +67,6 @@ from ibm_application_gateway.config.server_websocket_timeouts_applications impor
 from ibm_application_gateway.config.policies import *
 from ibm_application_gateway.config.server_management_pages import *
 from ibm_application_gateway.config.server_local_applications_azn_decision import *
+from ibm_application_gateway.config.oidc_ssl import *
 from ibm_application_gateway.config.logging_transaction import *
 from ibm_application_gateway.config.resource_server_health_ping_policy import *

@@ -3,41 +3,11 @@
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
 
-ci_oidc:
+oidc:
   description: |
     The configuration entries in this section allow the reverse proxy to
-    act as an OIDC relying party to IBM Cloud Identity.
-
-    ## Notice of Deprecation
-
-    This identity module is no longer preferred and will be removed in a future 
-    version. Use the [OIDC](./oidc) identity module.
-
-    When using the OIDC identity module, 'discovery\_endpoint' is given rather
-    than 'hostname'. The format for an IBM Cloud Identity 'discovery\_endpoint'
-    is:
-
-    `https://<hostname>/oidc/endpoint/default/.well-known/openid-configuration`
-
-    For example, refer to the CI OIDC configuration below:
-
-    ```yaml
-      identity:
-        ci_oidc:
-          hostname: www.test.com
-          client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-          ...
-    ```
-
-    The equivalent OIDC configuration is:
-
-    ```yaml
-      identity:
-        oidc:
-          hostname: https://www.test.com/oidc/endpoint/default/.well-known/openid-configuration
-          client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-          ...
-    ```
+    act as an OIDC relying party. IBM Cloud Identity and IBM Security Access
+    Manager are supported as OIDC identity providers.
 
     ## Response Type Values
     Name | Description
@@ -75,7 +45,7 @@ ci_oidc:
     credential as an extended attribute. The format of the configuration entry is:
 
            [+|-]<claim>
-    
+
     where:
 
     Element | Description
@@ -94,42 +64,62 @@ ci_oidc:
     credential.
 
     Example: identity:
-                 ci_oidc:
-                     hostname: www.test.com
+                 oidc:
+                     discovery_endpoint: https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def
                      client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
                      client_secret: 1a2b3c4d5e
+                     ssl:
+                         certificate: "@CA.cer"
                      mapped_identity: "{sub}"
                      redirect_uri_host: www.test2.com
                      response_type: code
                      response_mode: query
                      proxy: https://www.testproxy.com:443
-                     scopes: 
+                     scopes:
                          - profile
                          - email
-                     allowed_query_args: 
+                     allowed_query_args:
                          - "oidc_test=value"
-                     bearer_token_attrs: 
+                     bearer_token_attrs:
                          - "-access_token"
-                     id_token_attrs: 
+                     id_token_attrs:
                          - "-email"
 
   type: object
   properties:
 
-    hostname:
+    discovery_endpoint:
       description: >
-        The fully qualified host name of the IBM Cloud Identity tenant. 
+        The fully qualified discovery endpoint for the OIDC OP.<br/>
+
+        For IBM Cloud Identity, this URL is usually in the format:<br/>
+        https://<ci-hostname\>/oidc/endpoint/default/.well-known/openid-configuration <br/>
+
+        For IBM Security Access Manager, this URL is usually in the format:<br/>
+        https://<isam-hostname\>/\<junction\>/sps/oauth/oauth20/metadata/\<definition_name\>
+
       type: string
 
     client_id:
       description: >
-        The client identity registered with IBM Cloud Identity.
+        The client identity registered with the identity provider.
       type: string
 
     client_secret:
       description: >
-        The client secret registered with IBM Cloud Identity.
+        The client secret registered with the identity provider.
       type: string
+
+    ssl:
+      description: >
+        SSL settings for the OIDC connection.
+      type: object
+      properties:
+        certificate:
+          description: >
+            If required, a signer certificate required for the reverse proxy to 
+            trust the identity provider can be specified here in PEM format.
+          type: string
 
     mapped_identity:
       description: >
@@ -163,7 +153,7 @@ ci_oidc:
       description: >
         The required response mode for authentication responses. If no
         response mode is configured the response mode parameter will not be
-        included in the authentication request.  
+        included in the authentication request.
       type: string
       enum:
         - query
@@ -172,15 +162,15 @@ ci_oidc:
 
     proxy:
       description: >
-        Specifies the proxy, if any, which is used to reach IBM Cloud Identity. The
-        proxy configuration entry should be in URL format. Eg:
+        Specifies the proxy, if any, which is used to reach the identity 
+        provider. The proxy configuration entry should be in URL format. Eg:
         http[s]://\<address\>:\<port\>
       type: string
 
     scopes:
       description: >
         Any scopes to be sent in the authentication request in addition to
-        the 'openid' scope.  
+        the 'openid' scope.
       type: array
       items:
         type: string
@@ -203,18 +193,19 @@ ci_oidc:
 
     bearer_token_attrs:
       description: >
-        A list of JSON data elements from the bearer token response which should be
-        included or excluded in the credential as an extended attribute. See the
-        Bearer Token Attrs Format table for a description of the expected format.
+        A list of JSON data elements from the bearer token response which 
+        should be included or excluded in the credential as an extended 
+        attribute. See the Bearer Token Attrs Format table for a description 
+        of the expected format.
       type: array
       items:
         type: string
 
     id_token_attrs:
       description: >
-        A list of claims from the ID token response which should be included or excluded
-        in the credential as an extended attribute. See the ID Token Attrs Format
-        table for a description of the expected format. 
+        A list of claims from the ID token response which should be included 
+        or excluded in the credential as an extended attribute. See the ID 
+        Token Attrs Format table for a description of the expected format.
       type: array
       items:
         type: string
