@@ -9,6 +9,7 @@ The 'server' node defines configuration for the gateway daemon front-end.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**protocols** | **list[str]** | Specifies the protocols which will be supported by the server.  The server will listen on a different port for each protocol:  http/8080 and https/8443.  If no protocol is specified the server will listen for https requests only.  | [optional] 
 **ssl** | [**ServerSsl**](ServerSsl.md) |  | [optional] 
 **failover** | [**ServerFailover**](ServerFailover.md) |  | [optional] 
 **session** | [**ServerSession**](ServerSession.md) |  | [optional] 

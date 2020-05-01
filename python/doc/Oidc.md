@@ -1,40 +1,10 @@
-# CiOidc
+# Oidc
 
 ## Description
 
 The configuration entries in this section allow the reverse proxy to
-act as an OIDC relying party to IBM Cloud Identity.
-
-## Notice of Deprecation
-
-This identity module is no longer preferred and will be removed in a future 
-version. Use the [OIDC](./oidc) identity module.
-
-When using the OIDC identity module, 'discovery\_endpoint' is given rather
-than 'hostname'. The format for an IBM Cloud Identity 'discovery\_endpoint'
-is:
-
-`https://<hostname>/oidc/endpoint/default/.well-known/openid-configuration`
-
-For example, refer to the CI OIDC configuration below:
-
-```yaml
-  identity:
-    ci_oidc:
-      hostname: www.test.com
-      client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-      ...
-```
-
-The equivalent OIDC configuration is:
-
-```yaml
-  identity:
-    oidc:
-      hostname: https://www.test.com/oidc/endpoint/default/.well-known/openid-configuration
-      client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-      ...
-```
+act as an OIDC relying party. IBM Cloud Identity and IBM Security Access
+Manager are supported as OIDC identity providers.
 
 ## Response Type Values
 Name | Description
@@ -96,18 +66,19 @@ credential.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**hostname** | **str** | The fully qualified host name of the IBM Cloud Identity tenant.   | [optional] 
-**client\_id** | **str** | The client identity registered with IBM Cloud Identity.  | [optional] 
-**client\_secret** | **str** | The client secret registered with IBM Cloud Identity.  | [optional] 
+**discovery\_endpoint** | **str** | The fully qualified discovery endpoint for the OIDC OP.&lt;br/&gt; For IBM Cloud Identity, this URL is usually in the format:&lt;br/&gt; https://&lt;ci-hostname&gt;/oidc/endpoint/default/.well-known/openid-configuration &lt;br/&gt; For IBM Security Access Manager, this URL is usually in the format:&lt;br/&gt; https://&lt;isam-hostname&gt;/&lt;junction&gt;/sps/oauth/oauth20/metadata/&lt;definition\_name&gt;  | [optional] 
+**client\_id** | **str** | The client identity registered with the identity provider.  | [optional] 
+**client\_secret** | **str** | The client secret registered with the identity provider.  | [optional] 
+**ssl** | [**OidcSsl**](OidcSsl.md) |  | [optional] 
 **mapped\_identity** | **str** | A formatted string which is used to construct the credential principal name from elements of the ID token. Claims can be added to the identity string, surrounded by &#39;{}&#39;, for example:   {iss}/{sub} - would construct a principal name like the following:   https://server.example.com/248289761001  | [optional] [default to '{sub}']
 **redirect\_uri\_host** | **str** | This is the host which is used in the redirect URI registered with the OIDC OP. If no redirect URI host is configured the host header from the request will be used. The format of the redirect URI will be: http[s]://&lt;host&gt;/pkmsoidc.  | [optional] 
 **response\_type** | **str** | The required response type for authentication responses. See the Response Type Values table for a description of the available values.  | [optional] 
-**response\_mode** | **str** | The required response mode for authentication responses. If no response mode is configured the response mode parameter will not be included in the authentication request.    | [optional] 
-**proxy** | **str** | Specifies the proxy, if any, which is used to reach IBM Cloud Identity. The proxy configuration entry should be in URL format. Eg: http[s]://&lt;address&gt;:&lt;port&gt;  | [optional] 
-**scopes** | **list[str]** | Any scopes to be sent in the authentication request in addition to the &#39;openid&#39; scope.    | [optional] 
+**response\_mode** | **str** | The required response mode for authentication responses. If no response mode is configured the response mode parameter will not be included in the authentication request.  | [optional] 
+**proxy** | **str** | Specifies the proxy, if any, which is used to reach the identity  provider. The proxy configuration entry should be in URL format. Eg: http[s]://&lt;address&gt;:&lt;port&gt;  | [optional] 
+**scopes** | **list[str]** | Any scopes to be sent in the authentication request in addition to the &#39;openid&#39; scope.  | [optional] 
 **allowed\_query\_args** | **list[str]** | Additional query string arguments can be provided to the authentication kick-off URL which will in turn be appended to the corresponding authentication request. This entry is used to define a list of allowed query string arguments. Any other arguments passed to the kick-off URL will be ignored.  | [optional] 
-**bearer\_token\_attrs** | **list[str]** | A list of JSON data elements from the bearer token response which should be included or excluded in the credential as an extended attribute. See the Bearer Token Attrs Format table for a description of the expected format.  | [optional] 
-**id\_token\_attrs** | **list[str]** | A list of claims from the ID token response which should be included or excluded in the credential as an extended attribute. See the ID Token Attrs Format table for a description of the expected format.   | [optional] 
+**bearer\_token\_attrs** | **list[str]** | A list of JSON data elements from the bearer token response which  should be included or excluded in the credential as an extended  attribute. See the Bearer Token Attrs Format table for a description  of the expected format.  | [optional] 
+**id\_token\_attrs** | **list[str]** | A list of claims from the ID token response which should be included  or excluded in the credential as an extended attribute. See the ID  Token Attrs Format table for a description of the expected format.  | [optional] 
 
 [[Back to README]](../README.md)
 
