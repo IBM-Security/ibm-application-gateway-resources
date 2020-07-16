@@ -9,7 +9,7 @@ SSL settings for the OIDC connection.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**certificate** | **str** | If required, a signer certificate required for the reverse proxy to  trust the identity provider can be specified here in PEM format.  | [optional] 
+**certificate** | **list[str]** | If required, any signer certificates required for the reverse proxy to trust the identity provider can be specified here in PEM format.  | [optional] 
 
 [[Back to README]](../README.md)
 

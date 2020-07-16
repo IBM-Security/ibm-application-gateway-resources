@@ -95,8 +95,11 @@ try:
                         client_id          = "dummy_client_id",
                         client_secret      = "dummy_client_secret",
                         ssl                = OidcSsl(
-                                               certificate = "PEMFormatCertificateString"
-                                             ),
+                                                certificate=[
+                                                    "PEMFormatCertificateString1",
+                                                    "PEMFormatCertificateString2"
+                                                ]
+                        ),
                         mapped_identity    = "identity",
                         redirect_uri_host  = "a.ibm.com",
                         response_type      = "id_token token",
@@ -144,13 +147,36 @@ try:
     # Server configuration.
     #
 
-    web_socket = ServerWebsocket()
-    session    = ServerSession()
+    web_socket = ServerWebsocket(
+        worker_threads=ServerWebsocketWorkerThreads(
+            max=300,
+            idle=150
+        ),
+        timeouts=ServerWebsocketTimeouts(
+            front_end=ServerWebsocketTimeoutsFrontEnd(
+                read=10,
+                write=10
+            ),
+            applications=ServerWebsocketTimeoutsApplications(
+                read=10,
+                write=10
+            )
+        )
+    )
+    session    = ServerSession(
+        permit_user_switching=True
+    )
     ssl        = ServerSsl(
         front_end = ServerSslFrontEnd(
-            certificate = "certificate",
+            certificate = [
+                "certificate",
+                "key"
+            ],
             sni         = [ ServerSslFrontEndSni(
-                                certificate = "certificate",
+                                certificate = [
+                                    "certificate",
+                                    "key"
+                                ],
                                 hostname    = "testhost.ibm.com")
                             ]
         ),
@@ -224,7 +250,10 @@ try:
                   )
                 ],
                 jwt               = ResourceServerIdentityHeadersJwt(
-                    certificate = "certificate",
+                    certificate = [
+                        "certificate",
+                        "key"
+                    ],
                     hdr_name    = "jwt",
                     claims      = [
                         ResourceServerIdentityHeadersJwtClaims(
@@ -253,7 +282,11 @@ try:
                 basic_auth           = ResourceServerMutualAuthBasicAuth(
                     username             = "test",
                     password             = "passsword"
-                )
+                ),
+                certificate_auth=[
+                    "certificate",
+                    "key"
+                ]
             ),
             servers                = [
                 ResourceServerServers(
@@ -261,7 +294,11 @@ try:
                     port             = 1337,
                     ssl              = ResourceServerSsl(
                                          server_dn = "cn=ibm,dc=com",
-                                         sni       = "test.ibm.com"
+                                         sni       = "test.ibm.com",
+                                         certificate=[
+                                            "certificate",
+                                            "key"
+                                         ]
                     ),
                     url_style        = ResourceServerUrlStyle(
                                          case_insensitive = False,
@@ -385,9 +422,32 @@ try:
                     paths            = ["*"],
                     methods          = ["GET", "PUT"],
                     action           = "permit"
+                ),
+                PoliciesAuthorization(
+                    name="policy1",
+                    rule="acr = \"urn:ibm:security:policy:id:1\"",
+                    paths=["/policy1"],
+                    action="permit"
+                ),
+                PoliciesAuthorization(
+                    name="policy1_obligate",
+                    rule="acr != \"urn:ibm:security:policy:id:1\"",
+                    paths=["/policy1"],
+                    action="obligate",
+                    obligation=PoliciesObligation(
+                        oidc=PoliciesObligationOidc(
+                            acr_values="urn:ibm:security:policy:id:1 urn:ibm:security:policy:id:2",
+                            prompt="login"
+                        )
+                    )
                 )
             ]
         )
+
+    secrets = Secrets(
+        obf_key="myObfuscationKey",
+        enc_key="-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+    )
 
     #
     # Write the configuration file.
@@ -404,7 +464,8 @@ try:
                     server           = server,
                     authorization    = authorization,
                     resource_servers = resource_servers,
-                    policies      = policies)
+                    policies         = policies,
+                    secrets          = secrets)
 
     config.write(outFile)
 

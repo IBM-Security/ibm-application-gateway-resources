@@ -32,12 +32,9 @@ server:
           description: |
             Specifies the configuration the gateway server will use when securely
             communicating with clients. This configuration includes:
-              * A PEM based personal certificate file.   This certificate file
-                should include the private key, a certificate signed with the
-                private key, and the signer certificate or signer certificate
-                chain (if required).  If a certificate is not provided, the 
-                gateway will generate a self-signed certificate during 
-                bootstrapping.
+              * The certificate to be used for secure communication with 
+                clients.  If a certificate is not provided, the gateway will 
+                generate a self-signed certificate during bootstrapping.
               * The TLS protocols that are enabled for client communication.
               * Any additional server certificates which should be used for
                 specific hosts using the 'server name indication' (SNI) TLS
@@ -45,12 +42,19 @@ server:
             Example: server:
                          ssl:
                              front_end:
-                                 certificate: "@cert.pem"
+                                 certificate: 
+                                     - "@host.crt"
+                                     - "@host.key"
+                                     - "@ca.crt"
                                  tlsv12: true
                                  sni:
-                                     - certificate: "@test.pem"
+                                     - certificate: 
+                                           - "@test.crt"
+                                           - "@test.key"
                                        hostname: www.test.com
-                                     - certificate: "@example.pem"
+                                     - certificate: 
+                                           - "@example.crt"
+                                           - "@example.key"
                                        hostname: www.example.com
 
           type: object
@@ -58,8 +62,17 @@ server:
 
             certificate:
               description: >
-                The certificate to be used for secure communication with clients.
-              type: string
+                PEM based personal certificate files which will be used when
+                communicating with the client.  These certificate files
+                should include the private key, a certificate signed with the 
+                private key, and the signer certificate or signer certificate 
+                chain (if required).
+
+                If a certificate is not provided, the gateway will generate 
+                a self-signed certificate during bootstrapping.
+              type: array
+              items:
+                type: string
 
             tlsv10:
               description: >
@@ -95,8 +108,15 @@ server:
 
                   certificate:
                     description: >
-                      The PEM encoded certificate for this SNI entry.
-                    type: string
+                      PEM based personal certificate files which will be used 
+                      when communicating with clients which indicate this host.
+                      These certificate files should include the private key, 
+                      a certificate signed with the private key, and the 
+                      signer certificate or signer certificate chain 
+                      (if required).
+                    type: array
+                    items:
+                      type: string
 
                   hostname:
                     description: >
@@ -306,6 +326,22 @@ server:
           maximum: unlimited
           default: 600
 
+        permit_user_switching: 
+          description: >
+            During an obligated re-authentication, depending on the policy and
+            identity provider a different user credential may be returned to
+            the application gateway.
+
+            By default, the application gateway will not accept a credential
+            if the user name does not match the user which the session was 
+            originally established for. 
+
+            Use this entry to change the behaviour and allow the application 
+            gateway to accept a credential containing a different user name 
+            during re-authentication.
+          type: boolean
+          default: false
+
     worker_threads:
       description: >
         The number of configured worker threads specifies the number of
@@ -352,9 +388,9 @@ server:
         Specifies the configuration for Web socket support.
         Example: server:
                      websocket:
-                         worker_threads: 300
-                         max: 100
-                         idle: 0
+                         worker_threads:
+                             max: 100
+                             idle: 0
                          timeouts:
                              applications:
                                  read: 30
@@ -368,38 +404,37 @@ server:
         worker_threads:
           description: >
             The number of available Web socket worker threads.
-          type: number
-          minimum: 1
-          maximum: unlimited
+          type: object
+          properties:
 
-        max:
-          description: >
-            The maximum number of threads which will be used used to proxy web
-            socket connections through the gateway. A value of zero will cause
-            web sockets to be blocked. Each web socket connection will require
-            two worker threads. If more than the max value are in use,
-            the daemon will immediately close the web socket even if the web
-            socket upgrade request to the application succeeded. The web
-            socket threads operate independently from the server:worker_threads
-            entry.
-          type: number
-          minimum: 0
-          maximum: unlimited
-          default: 0
+            max:
+              description: >
+                The maximum number of threads which will be used used to proxy web
+                socket connections through the gateway. A value of zero will cause
+                web sockets to be blocked. Each web socket connection will require
+                two worker threads. If more than the max value are in use,
+                the daemon will immediately close the web socket even if the web
+                socket upgrade request to the application succeeded. The web
+                socket threads operate independently from the server:worker_threads
+                entry.
+              type: number
+              minimum: 0
+              maximum: unlimited
+              default: 0
 
-        idle:
-          description: >
-            To avoid the overhead of starting and stopping web socket worker
-            threads a number of threads can be left running idle. This will
-            consume memory resources to keep them alive and idle when not in
-            use, but will save CPU and thread start-up time when a new web
-            socket requires threads. This option specifies the maximum count
-            of cached idle worker threads. A value of zero will disable the
-            caching of idle threads.
-          type: number
-          minimum: 0
-          maximum: unlimited
-          default: 0
+            idle:
+              description: >
+                To avoid the overhead of starting and stopping web socket worker
+                threads a number of threads can be left running idle. This will
+                consume memory resources to keep them alive and idle when not in
+                use, but will save CPU and thread start-up time when a new web
+                socket requires threads. This option specifies the maximum count
+                of cached idle worker threads. A value of zero will disable the
+                caching of idle threads.
+              type: number
+              minimum: 0
+              maximum: unlimited
+              default: 0
 
         timeouts:
           description: >

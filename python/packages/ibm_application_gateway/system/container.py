@@ -131,6 +131,7 @@ class Container(object):
             try:
                 logger.info("Protocol in loop {0}".format(protocol))
                 logger.info("Port in loop {0}".format(self.port(protocol)))
+                logger.info("IP in loop {0}".format(self.ipaddr()))
                 requests.get("{0}://{1}:{2}".format(
                         protocol, self.ipaddr(), self.port(protocol)),
                         verify=False, allow_redirects=False, timeout=2)
@@ -467,8 +468,8 @@ class KubernetesContainer(object):
                         type     = service_type,
                         selector = { "app" : self.deploymentName_ },
                         ports    = [
-                            kubernetes.client.V1ServicePort(port = 8443),
-                            kubernetes.client.V1ServicePort(port = 8080)
+                            kubernetes.client.V1ServicePort(port = 8443, name = "https"),
+                            kubernetes.client.V1ServicePort(port = 8080, name = "http")
                         ]
                     )
                 )
@@ -490,7 +491,7 @@ class KubernetesContainer(object):
 
         # Nothing to do here.
 
-    def port(self):
+    def port(self, protocol = "https"):
         """
         Retrieve the port for the current running container.
         """
@@ -502,7 +503,7 @@ class KubernetesContainer(object):
 
         return self.port_
 
-    def ipaddr(self):
+    def ipaddr(self, protocol="https"):
         """
         Retrieve the IP address which can be used to access the container.
         """
@@ -606,6 +607,59 @@ class KubernetesContainer(object):
 
             self.port_ = None
 
+    def createKubernetesSecret(self, secret_name, secret_data, secret_type=None):
+        """
+        The following command is used to create a Kubernetes secret, which
+        can hold confidential data such as Client Certificates and private keys.
+        Returns True if successful. Returns False if there was an error.
+        """
+        from kubernetes import client, config
+        v1 = client.CoreV1Api()
+        try:
+            api_response = v1.read_namespaced_secret(secret_name, self.namespace_)
+            if api_response.kind == 'Secret':
+                logger.debug("Secret already exists")
+                return False
+
+        except kubernetes.client.rest.ApiException as e:
+            logger.debug("No secret with name: {0} exists. Creating new secret.".format(secret_name))
+
+            import base64
+            b64_data = {}
+            for key in secret_data:
+                secret_value = secret_data[key].encode('ascii')
+                b64_data[key] = base64.b64encode(secret_value).decode("utf-8")
+
+            metadata = {'name': secret_name, 'namespace': self.namespace_}
+            data = b64_data
+            api_version = 'v1'
+            kind = 'Secret'
+            body = kubernetes.client.V1Secret(api_version, data, kind, metadata, type=secret_type)
+
+            api_response = v1.create_namespaced_secret(self.namespace_, body)
+            # Check to make sure response is success
+            return api_response.kind == 'Secret'
+
+    def deleteKubernetesSecret(self, secret_name):
+        """
+        The following command is used to remove a Kubernetes secret from the current
+        Kubernetes namespace.
+        Returns True if successful or there was nothing to be deleted. Returns False if there was an error.
+        """
+        from kubernetes import client, config
+
+        v1 = client.CoreV1Api()
+
+        try:
+            api_response = v1.read_namespaced_secret(secret_name, self.namespace_)
+        except kubernetes.client.rest.ApiException as e:
+            if e.status == 404:
+                return True
+
+        # Check to make sure response is secret exists and only then delete it
+        api_response = v1.delete_namespaced_secret(secret_name, self.namespace_)
+        return api_response.status == "Success"
+
     def __createDeploymentObject(self, image):
         """
         Create the deployment object for the IBM Application Gateway.
@@ -645,8 +699,8 @@ class KubernetesContainer(object):
             name          = self.deploymentName_,
             image         = image,
             ports         = [
-                    kubernetes.client.V1ContainerPort(container_port=8443),
-                    kubernetes.client.V1ContainerPort(container_port=8080)
+                    kubernetes.client.V1ContainerPort(container_port=8443, name="https"),
+                    kubernetes.client.V1ContainerPort(container_port=8080, name="http")
                 ],
             env           = self.env_,
             volume_mounts = volume_mounts,

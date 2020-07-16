@@ -3,8 +3,8 @@
 ## Description
 
 The configuration entries in this section allow the reverse proxy to
-act as an OIDC relying party. IBM Cloud Identity and IBM Security Access
-Manager are supported as OIDC identity providers.
+act as an OIDC relying party. IBM Security Verify, IBM Security Verify Access
+and IBM Security Access Manager 9.0.7.0+ are supported as OIDC identity providers.
 
 ## Response Type Values
 Name | Description
@@ -66,7 +66,7 @@ credential.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**discovery\_endpoint** | **str** | The fully qualified discovery endpoint for the OIDC OP.&lt;br/&gt; For IBM Cloud Identity, this URL is usually in the format:&lt;br/&gt; https://&lt;ci-hostname&gt;/oidc/endpoint/default/.well-known/openid-configuration &lt;br/&gt; For IBM Security Access Manager, this URL is usually in the format:&lt;br/&gt; https://&lt;isam-hostname&gt;/&lt;junction&gt;/sps/oauth/oauth20/metadata/&lt;definition\_name&gt;  | [optional] 
+**discovery\_endpoint** | **str** | The fully qualified discovery endpoint for the OIDC OP.&lt;br/&gt; For IBM Security Verify, this URL is usually in the format:&lt;br/&gt; https://&lt;verify-hostname&gt;/oidc/endpoint/default/.well-known/openid-configuration &lt;br/&gt; For IBM Security Verify Access, this URL is usually in the format:&lt;br/&gt; https://&lt;verify-access-hostname&gt;/&lt;junction&gt;/sps/oauth/oauth20/metadata/&lt;definition\_name&gt;  | [optional] 
 **client\_id** | **str** | The client identity registered with the identity provider.  | [optional] 
 **client\_secret** | **str** | The client secret registered with the identity provider.  | [optional] 
 **ssl** | [**OidcSsl**](OidcSsl.md) |  | [optional] 
