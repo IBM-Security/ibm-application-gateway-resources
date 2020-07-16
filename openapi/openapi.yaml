@@ -5,7 +5,7 @@
 
 openapi: '3.0'
 info:
-  version: 20.04
+  version: 20.07
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:
@@ -47,6 +47,9 @@ components:
 
     policies:
       $ref: "policies.yaml#/policies"
+
+    secrets:
+      $ref: "secrets.yaml#/secrets"
 
 paths:
   /:

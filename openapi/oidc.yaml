@@ -6,8 +6,8 @@
 oidc:
   description: |
     The configuration entries in this section allow the reverse proxy to
-    act as an OIDC relying party. IBM Cloud Identity and IBM Security Access
-    Manager are supported as OIDC identity providers.
+    act as an OIDC relying party. IBM Security Verify, IBM Security Verify Access
+    and IBM Security Access Manager 9.0.7.0+ are supported as OIDC identity providers.
 
     ## Response Type Values
     Name | Description
@@ -69,7 +69,8 @@ oidc:
                      client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
                      client_secret: 1a2b3c4d5e
                      ssl:
-                         certificate: "@CA.cer"
+                         certificate: 
+                             - "@www-test-com-ca.cer"
                      mapped_identity: "{sub}"
                      redirect_uri_host: www.test2.com
                      response_type: code
@@ -92,11 +93,11 @@ oidc:
       description: >
         The fully qualified discovery endpoint for the OIDC OP.<br/>
 
-        For IBM Cloud Identity, this URL is usually in the format:<br/>
-        https://<ci-hostname\>/oidc/endpoint/default/.well-known/openid-configuration <br/>
+        For IBM Security Verify, this URL is usually in the format:<br/>
+        https://<verify-hostname\>/oidc/endpoint/default/.well-known/openid-configuration <br/>
 
-        For IBM Security Access Manager, this URL is usually in the format:<br/>
-        https://<isam-hostname\>/\<junction\>/sps/oauth/oauth20/metadata/\<definition_name\>
+        For IBM Security Verify Access, this URL is usually in the format:<br/>
+        https://<verify-access-hostname\>/\<junction\>/sps/oauth/oauth20/metadata/\<definition_name\>
 
       type: string
 
@@ -117,9 +118,11 @@ oidc:
       properties:
         certificate:
           description: >
-            If required, a signer certificate required for the reverse proxy to 
-            trust the identity provider can be specified here in PEM format.
-          type: string
+            If required, any signer certificates required for the reverse proxy
+            to trust the identity provider can be specified here in PEM format.
+          type: array
+          items:
+            type: string
 
     mapped_identity:
       description: >

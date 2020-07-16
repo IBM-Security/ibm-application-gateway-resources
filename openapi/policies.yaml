@@ -421,7 +421,11 @@ policies:
                            methods:
                                - DELETE
                            rule: anyuser
-                           action: deny 
+                           action: deny
+                           obligation:
+                             oidc:
+                               acr_values: "administrator mfa"
+                               prompt: login
 
       type: array
       items:
@@ -470,9 +474,71 @@ policies:
 
           action:
             description: >
-              Defines the action to perform if the rule matches. 
+              Defines the action to perform if the rule matches. If the action
+              is obligate, the obligation property must also be set for this
+              authorization rule.
             type: string
             enum:
               - permit
               - deny
+              - obligate
+
+          obligation:
+            description: >
+              If the action for this rule is obligate, this obligation must
+              be defined to indicate that authentication should take place 
+              again with specific parameters.
+            type: object
+            properties:
+
+              oidc:
+                description: >
+                  Authentication parameters which can be used when using an
+                  OIDC identity scenario. These parameters are passed as query
+                  string parameters when the authorization endpoint is 
+                  requested.
+
+                  Example:  policies:
+                              authorization:
+                              - name: mfa_required
+                                rule: 'acr = "urn:ibm:security:policy:id:2"'
+                                paths: 
+                                  - "/sensitive"
+                                action: "permit"
+
+                              - name: mfa_required_obligate
+                                rule: 'acr != "urn:ibm:security:policy:id:2"'
+                                paths: 
+                                  - "/sensitive"
+                                action: "obligate"
+                                obligation:
+                                  oidc:
+                                    acr_values: "urn:ibm:security:policy:id:2"
+                                    prompt: "login"
+                type: object
+                properties:
+
+                  acr_values:
+                    description: >
+                      A string of ACR (Authentication Context Class References)
+                      to pass to the identity provider. Refer to "acr_values" 
+                      in section 3.1.2 of the OpenID Connect Core specification
+                      for further information. 
+
+                      Valid ACRs are defined by the identity provider. Refer
+                      to your identity provider for further information about
+                      the ACRs which it supports.
+                    type: string
+
+                  prompt:
+                    description: >
+                      A string of prompt options to pass to the identity 
+                      provider. Refer to "prompt" in section 3.1.2 of the 
+                      OpenID Connect Core specification for further 
+                      information. 
+
+                      Prompt options are optional and may not be supported by 
+                      all identity providers. Refer to your identity provider
+                      for further information about support prompt values.
+                    type: string
 

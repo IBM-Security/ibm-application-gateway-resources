@@ -4,6 +4,7 @@ This python API has been automatically generated from the IBM Application Gatewa
 
 # Documentation For Root Models
 
+- [Secrets](Secrets.md)
 - [Authorization](Authorization.md)
 - [Policies](Policies.md)
 - [Identity](Identity.md)

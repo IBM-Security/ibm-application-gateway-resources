@@ -21,13 +21,13 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 class OidcRp(object):
     """
     This class is used to test the OIDC RP authentication capability of
-    the IBM Application Gateway.  The class should never be used directly - an 
+    the IBM Application Gateway.  The class should never be used directly - an
     OP specific implementation should be used instead.
     """
 
     def __init__(self, url):
         """
-        Initialise this object.  
+        Initialise this object.
 
         \param url  [in] : The URL to the IBM Application Gateway.
         """
@@ -59,7 +59,7 @@ class OidcRp(object):
         self.check_rsp_code(rsp, 302, "Failed to start the OIDC RP flow")
 
         # The third request should be to the OIDC OP.
-        rsp = self.authenticate_at_op(rsp.headers['location'], user, password)
+        rsp = self.authenticate_at_op(rsp.headers['location'], user, password, session)
 
         self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
 
@@ -82,12 +82,12 @@ class OidcRp(object):
 
         self.check_rsp_code(rsp, 200, "Failed to use the authenticated session")
 
-        return session 
+        return session
 
     @classmethod
-    def authenticate_at_op(self, location, user, password):
+    def authenticate_at_op(self, location, user, password, session=None):
         """
-        Perform an authentication at the OP.  This function should be 
+        Perform an authentication at the OP.  This function should be
         implemented for each type of OP which we support.
         """
 
@@ -115,13 +115,14 @@ class OidcRp(object):
 class CIOidcRp(OidcRp):
 
     @classmethod
-    def authenticate_at_op(self, location, user, password):
+    def authenticate_at_op(self, location, user, password, session=None):
         """
         Perform an authentication at the CI OP.
         """
 
         # Create a new session against CI.
-        session = requests.session()
+        if session is None:
+            session = requests.session()
 
         logger.info("Authenticating to CI....")
 
@@ -136,49 +137,25 @@ class CIOidcRp(OidcRp):
 
         rsp = session.get(form_url, verify=False)
 
-        self.check_rsp_code(rsp, 200, 
+        self.check_rsp_code(rsp, 200,
                                 "CI did not return the expected login form")
 
         # Pull out the action from the body.  We could use a module such as
         # Beautiful Soup to parse the response body, but what we want is pretty
         # simple and so it is easier to just do a regular expression match.
-        auth_url = rsp.text
-
-        auth_uri = None
-
-        auth_uri_patterns = [
-            'const action = "(.+?)"',
-            '<body action="(.+?)"'
-        ]
-
-        for uri_patterns in auth_uri_patterns:
-            m = re.search(uri_patterns, rsp.text)
-
-            if not m:
-                continue
-
-            auth_uri = m.group(1)
-            break
-
-        if auth_uri is None:
-                message = "Failed to parse the auth URI from the CI login page: {0}"\
-                            .format(rsp.text)
-
-                logger.critical(message)
-
-                raise Exception(message)
+        auth_uri = self.extract_form_action(rsp.text)
 
         rsp = session.post("{0}://{1}{2}".format(
-                            parts.scheme, parts.netloc, auth_uri), 
+                            parts.scheme, parts.netloc, auth_uri),
                         data = {
-                            "operation" : "verify", 
+                            "operation" : "verify",
                             "username"  : user,
                             "password"  : password
                         })
 
         self.check_rsp_code(rsp, 200, "Failed to authenticate to CI")
 
-        # Now that we have an authenticated session we want to perform the 
+        # Now that we have an authenticated session we want to perform the
         # OIDC flow.
         rsp = session.get(location, verify=False, allow_redirects=False)
 
@@ -188,3 +165,26 @@ class CIOidcRp(OidcRp):
 
         return rsp
 
+    @classmethod
+    def extract_form_action(self, body):
+        auth_uri = None
+
+        auth_uri_patterns = [
+            'const action = "(.+?)"',
+            '<body action="(.+?)"'
+        ]
+
+        for uri_patterns in auth_uri_patterns:
+            m = re.search(uri_patterns, body)
+            if not m:
+                continue
+            auth_uri = m.group(1)
+            break
+
+        if auth_uri is None:
+            message = "Failed to parse the auth URI from the CI login page: {0}" \
+                .format(body)
+            logger.critical(message)
+            raise Exception(message)
+
+        return auth_uri

@@ -30,14 +30,15 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "20.04",
+                    version          = "20.07",
                     server           = None,
                     identity         = None,
                     authorization    = None,
                     policies         = None,
                     resource_servers = None,
                     logging          = None,
-                    advanced         = None):
+                    advanced         = None,
+                    secrets          = None):
         """
         Initialise this class instance.  The parameters are as follows:
 
@@ -46,27 +47,30 @@ class Configurator(object):
         @param server        : An ibm_application_gateway.server
                                object which is used to define the configuration
                                of the front-end part of IAG.
-        @param identity      : An ibm_application_gateway.identity object which 
-                               is used to identify the identity source for the 
+        @param identity      : An ibm_application_gateway.identity object which
+                               is used to identify the identity source for the
                                container.
         @param authorization : An ibm_application_gateway.authorization
                                object which contains an array of authorization
                                rules which may be referenced by applications.
         @param policies      : An ibm_application_gateway.policies
-                               object which define the path based policies that 
+                               object which define the path based policies that
                                will be applied by the container.
-        @param resource_servers : An array of 
+        @param resource_servers : An array of
                                ibm_application_gateway.resource_servers
-                               objects which define the resource servers that 
+                               objects which define the resource servers that
                                will provide content for the gateway.
         @param logging       : An ibm_application_gateway.logging object
-                               which defines the logging to be used by the 
+                               which defines the logging to be used by the
                                container.
         @param advanced      : An ibm_application_gateway.advanced object
                                which defines any advanced configuration for the
                                container.
+        @param secrets       : An ibm_application_gateway.secrets object
+                               which defines the encryption secrets for the
+                               configuration data.
         """
-          
+
         super(Configurator, self).__init__()
 
         self.version       = self.__validate(str, version)
@@ -76,6 +80,7 @@ class Configurator(object):
         self.policies      = self.__validate(Policies, policies)
         self.logging       = self.__validate(Logging, logging)
         self.advanced      = self.__validate(Advanced, advanced)
+        self.secrets       = self.__validate(Secrets, secrets)
         self.custom_data   = None
 
         self.resource_servers = \
@@ -120,7 +125,7 @@ class Configurator(object):
         Write the current configuration as a yaml file which can be used by
         the container.
 
-        @param filename : The name of the file to write.  If no file is 
+        @param filename : The name of the file to write.  If no file is
                           specified a temporary file will be created.
 
         @retval The name of the file which has been written.
@@ -143,7 +148,7 @@ class Configurator(object):
 
         # Write the data.
         with open(filename, 'w') as outfile:
-            yaml.dump(data, outfile)
+            yaml.dump(data, outfile, width=float("inf"))
 
         logger.info("Wrote the IBM Application Gateway configuration to {0}".\
                 format(filename))
@@ -154,7 +159,7 @@ class Configurator(object):
         """
         Print the YAML to stdout. This should only be used for debugging purposes.
         """
-        print(yaml.dump(self.toYaml()))
+        print(yaml.dump(self.toYaml(), width=float("inf")))
 
     @classmethod
     def __stripEmpty(self, data):
@@ -185,7 +190,7 @@ class Configurator(object):
     @classmethod
     def __validate(self, data_type, data):
         """
-        This private method is used to check to ensure that the specified data 
+        This private method is used to check to ensure that the specified data
         is of the correct data type.  An exception will be thrown if the data
         type is incorrect.
 
@@ -203,7 +208,7 @@ class Configurator(object):
     @classmethod
     def __validateList(self, data_type, data):
         """
-        This private method is used to check to ensure that the specified data 
+        This private method is used to check to ensure that the specified data
         is of the correct data type.  An exception will be thrown if the data
         type is incorrect.
 
@@ -226,7 +231,7 @@ class Configurator(object):
 
 class ConfiguratorFile(object):
     """
-    This class is used to represent a file which will be base-64 encoded, 
+    This class is used to represent a file which will be base-64 encoded,
     ready for inclusion in the container configuration.
     """
 

@@ -138,7 +138,9 @@ resource_server:
                                  header: auth_level
                            session_cookie: true
                            jwt:
-                               certificate: "@jwt.cer"
+                               certificate: 
+                                   - "@jwt.cer"
+                                   - "@jwt.key"
                                 hdr_name: jwt
                                 claims:
                                     - text: www.ibm.com
@@ -227,8 +229,13 @@ resource_server:
 
             certificate:
               description: >
-                The key which is used to sign the JWT.
-              type: string
+                PEM based personal certificate files which will be used to sign
+                the JWT.  These certificate files should include the private 
+                key, a certificate signed with the private key, and the signer
+                certificate or signer certificate chain (if required).
+              type: array
+              items: 
+                type: string
 
             hdr_name:
               description: >
@@ -255,7 +262,7 @@ resource_server:
                       will match the name of the attribute.   Nested objects
                       can be specified, separating the name of each object 
                       field with a . (dot).  If the name of a field itself 
-                      embeds a dot it should be escaped with a backslach 
+                      embeds a dot it should be escaped with a backslash 
                       character.
                     type: string
 
@@ -368,7 +375,9 @@ resource_server:
                                username: admin
                                password: passw0rd
                            certificate_auth:
-                               certificate: "@cert.pem"
+                               certificate: 
+                                   - "@cert.crt"
+                                   - "@cert.key"
       type: object
       properties:
 
@@ -387,7 +396,7 @@ resource_server:
 
             password:
               description: >
-                The password of the user to be inclued in the basic
+                The password of the user to be included in the basic
                 authentication header.
               type: string
 
@@ -400,12 +409,14 @@ resource_server:
 
             certificate:
               description: >
-                A PEM based personal certificate file which will be used when
-                communicating with the resource server.  This certificate file
+                PEM based personal certificate files which will be used when
+                communicating with the resource server.  These certificate files
                 should include the private key, a certificate signed with the 
                 private key, and the signer certificate or signer certificate 
                 chain (if required).
-              type: string
+              type: array
+              items:
+                type: string
 
     servers:
       description: >
@@ -419,7 +430,8 @@ resource_server:
                              port: 443
                              virtual_host: testportal.test.com
                              ssl:
-                                 certificate: "@cert.crt"
+                                 certificate: 
+                                     - "@www-test-com.crt"
                                  server_dn: cn=test
                                  sni: www.test.com
                              url_style:
@@ -461,7 +473,9 @@ resource_server:
                   If required, a signer certificate required for the reverse
                   proxy to trust the resource server can be specified
                   here in PEM format.
-                type: string
+                type: array
+                items:
+                  type: string
 
               server_dn:
                 description: >
@@ -585,7 +599,7 @@ resource_server:
                     threshold:
                       description: >
                         Specifies how many consecutive times the ping
-                        must fail before the resrouce server is
+                        must fail before the resource server is
                         considered unhealthy.
                       type: number
                       minimum: 1

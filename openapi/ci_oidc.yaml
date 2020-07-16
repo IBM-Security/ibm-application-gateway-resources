@@ -6,7 +6,7 @@
 ci_oidc:
   description: |
     The configuration entries in this section allow the reverse proxy to
-    act as an OIDC relying party to IBM Cloud Identity.
+    act as an OIDC relying party to IBM Security Verify.
 
     ## Notice of Deprecation
 
@@ -14,12 +14,12 @@ ci_oidc:
     version. Use the [OIDC](./oidc) identity module.
 
     When using the OIDC identity module, 'discovery\_endpoint' is given rather
-    than 'hostname'. The format for an IBM Cloud Identity 'discovery\_endpoint'
+    than 'hostname'. The format for an IBM Security Verify 'discovery\_endpoint'
     is:
 
     `https://<hostname>/oidc/endpoint/default/.well-known/openid-configuration`
 
-    For example, refer to the CI OIDC configuration below:
+    For example, refer to the IBM Security Verify OIDC configuration below:
 
     ```yaml
       identity:
@@ -34,7 +34,7 @@ ci_oidc:
     ```yaml
       identity:
         oidc:
-          hostname: https://www.test.com/oidc/endpoint/default/.well-known/openid-configuration
+          discovery_endpoint: https://www.test.com/oidc/endpoint/default/.well-known/openid-configuration
           client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
           ...
     ```
@@ -118,17 +118,17 @@ ci_oidc:
 
     hostname:
       description: >
-        The fully qualified host name of the IBM Cloud Identity tenant. 
+        The fully qualified host name of the IBM Security Verify tenant. 
       type: string
 
     client_id:
       description: >
-        The client identity registered with IBM Cloud Identity.
+        The client identity registered with IBM Security Verify.
       type: string
 
     client_secret:
       description: >
-        The client secret registered with IBM Cloud Identity.
+        The client secret registered with IBM Security Verify.
       type: string
 
     mapped_identity:
@@ -172,7 +172,7 @@ ci_oidc:
 
     proxy:
       description: >
-        Specifies the proxy, if any, which is used to reach IBM Cloud Identity. The
+        Specifies the proxy, if any, which is used to reach IBM Security Verify. The
         proxy configuration entry should be in URL format. Eg:
         http[s]://\<address\>:\<port\>
       type: string
