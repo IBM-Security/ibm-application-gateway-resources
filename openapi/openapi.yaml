@@ -5,7 +5,7 @@
 
 openapi: '3.0'
 info:
-  version: 20.07
+  version: 20.09
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:
@@ -38,6 +38,14 @@ components:
           $ref: "ci_oidc.yaml#/ci_oidc"
         oidc:
           $ref: "oidc.yaml#/oidc"
+        oauth:
+          description:
+            This node is used to specify OAuth introspection endpoints which
+            can be used by the reverse proxy to authenticate OAuth bearer
+            tokens.
+          type: array
+          items:
+            $ref: "oauth.yaml#/oauth"
 
     logging:
       $ref: "logging.yaml#/logging"
@@ -50,6 +58,9 @@ components:
 
     secrets:
       $ref: "secrets.yaml#/secrets"
+
+    services:
+      $ref: "services.yaml#/services"
 
 paths:
   /:

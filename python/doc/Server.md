@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **local\_pages** | [**ServerLocalPages**](ServerLocalPages.md) |  | [optional] 
 **management\_pages** | [**ServerManagementPages**](ServerManagementPages.md) |  | [optional] 
 **error\_pages** | [**ServerErrorPages**](ServerErrorPages.md) |  | [optional] 
+**credential\_service\_cache** | [**ServerCredentialServiceCache**](ServerCredentialServiceCache.md) |  | [optional] 
 **local\_applications** | [**ServerLocalApplications**](ServerLocalApplications.md) |  | [optional] 
 
 [[Back to README]](../README.md)

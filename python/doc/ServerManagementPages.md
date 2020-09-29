@@ -93,7 +93,7 @@ Create the following file in the zip file of management response pages:
 
 If no value is specified here, the default set of pages will be used.
 The default set of pages, 'management_pages.zip', can be downloaded from 
-GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) 
 and used as a starting point for creating custom management pages.
 
 
