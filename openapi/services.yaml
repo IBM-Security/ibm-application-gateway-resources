@@ -37,6 +37,7 @@ services:
                          server_dn: cn=vault
                          sni: vault.verify.ibm.com
                        user_attribute: "AZN_PRINCIPAL_ID"
+                       user_attribute_encoding: url
                        authentication:
                          sso:
                            client_id: 36bxxxx-xxxx-xxxx-xxxx-xxxxxxxxxae5
@@ -83,6 +84,19 @@ services:
               credential service.
             type: string
             default: AZN_PRINCIPAL_ID
+          user_attribute_encoding:
+            description: >
+              The type of encoding to perform on the user_attribute for 
+              inclusion in the URL to communicate with the credential service.
+                - If this value is 'url', the user attribute value will
+                  be URL Encoded.
+                - If this value is 'base64url', the user attribute value will
+                  be Base64 Encoded for URL.
+            type: string
+            default: url
+            enum:
+              - url
+              - base64url
           enc_key:
             description: >
               The key which will be used to encrypt and decrypt credential

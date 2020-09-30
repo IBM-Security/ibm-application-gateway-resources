@@ -36,6 +36,7 @@ class ServicesCredential(object):
         'proxy': 'str',
         'url_pattern': 'str',
         'user_attribute': 'str',
+        'user_attribute_encoding': 'str',
         'enc_key': 'str',
         'ssl': 'ServicesSsl',
         'authentication': 'ServicesAuthentication'
@@ -48,12 +49,13 @@ class ServicesCredential(object):
         'proxy': 'proxy',
         'url_pattern': 'url_pattern',
         'user_attribute': 'user_attribute',
+        'user_attribute_encoding': 'user_attribute_encoding',
         'enc_key': 'enc_key',
         'ssl': 'ssl',
         'authentication': 'authentication'
     }
 
-    def __init__(self, name=None, host=None, port=None, proxy=None, url_pattern=None, user_attribute='AZN_PRINCIPAL_ID', enc_key=None, ssl=None, authentication=None):  # noqa: E501
+    def __init__(self, name=None, host=None, port=None, proxy=None, url_pattern=None, user_attribute='AZN_PRINCIPAL_ID', user_attribute_encoding='url', enc_key=None, ssl=None, authentication=None):  # noqa: E501
         """ServicesCredential - a model defined in OpenAPI"""  # noqa: E501
 
         self._name = None
@@ -62,6 +64,7 @@ class ServicesCredential(object):
         self._proxy = None
         self._url_pattern = None
         self._user_attribute = None
+        self._user_attribute_encoding = None
         self._enc_key = None
         self._ssl = None
         self._authentication = None
@@ -79,6 +82,8 @@ class ServicesCredential(object):
             self.url_pattern = url_pattern
         if user_attribute is not None:
             self.user_attribute = user_attribute
+        if user_attribute_encoding is not None:
+            self.user_attribute_encoding = user_attribute_encoding
         if enc_key is not None:
             self.enc_key = enc_key
         if ssl is not None:
@@ -223,6 +228,29 @@ class ServicesCredential(object):
         """
 
         self._user_attribute = user_attribute
+
+    @property
+    def user_attribute_encoding(self):
+        """Gets the user_attribute_encoding of this ServicesCredential.  # noqa: E501
+
+        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
+
+        :return: The user_attribute_encoding of this ServicesCredential.  # noqa: E501
+        :rtype: str
+        """
+        return self._user_attribute_encoding
+
+    @user_attribute_encoding.setter
+    def user_attribute_encoding(self, user_attribute_encoding):
+        """Sets the user_attribute_encoding of this ServicesCredential.
+
+        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
+
+        :param user_attribute_encoding: The user_attribute_encoding of this ServicesCredential.  # noqa: E501
+        :type: str
+        """
+
+        self._user_attribute_encoding = user_attribute_encoding
 
     @property
     def enc_key(self):
