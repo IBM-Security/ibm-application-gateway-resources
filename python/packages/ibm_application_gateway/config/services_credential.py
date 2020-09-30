@@ -233,7 +233,7 @@ class ServicesCredential(object):
     def user_attribute_encoding(self):
         """Gets the user_attribute_encoding of this ServicesCredential.  # noqa: E501
 
-        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
+        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64url', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
 
         :return: The user_attribute_encoding of this ServicesCredential.  # noqa: E501
         :rtype: str
@@ -244,11 +244,17 @@ class ServicesCredential(object):
     def user_attribute_encoding(self, user_attribute_encoding):
         """Sets the user_attribute_encoding of this ServicesCredential.
 
-        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
+        The type of encoding to perform on the user_attribute for  inclusion in the URL to communicate with the credential service.   - If this value is 'url', the user attribute value will     be URL Encoded.   - If this value is 'base64url', the user attribute value will     be Base64 Encoded for URL.   # noqa: E501
 
         :param user_attribute_encoding: The user_attribute_encoding of this ServicesCredential.  # noqa: E501
         :type: str
         """
+        allowed_values = ["url", "base64url"]  # noqa: E501
+        if user_attribute_encoding not in allowed_values:  # noqa: E501
+            raise ValueError(
+                "Invalid value for `user_attribute_encoding` ({0}), must be one of {1}"  # noqa: E501
+                .format(user_attribute_encoding, allowed_values)
+            )
 
         self._user_attribute_encoding = user_attribute_encoding
 

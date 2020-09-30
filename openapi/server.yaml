@@ -771,7 +771,7 @@ server:
     credential_service_cache:
       description: >
         Specifies the configuration for the credential service cache. When the
-        cache is enabled, IAG will cache the encrypted credentials recevied 
+        cache is enabled, IAG will cache the encrypted credentials received 
         from the external credential service. If the cache is not enabled, IAG
         will request credentials from the credential service for every request
         requiring single sign-on.
@@ -798,7 +798,7 @@ server:
           type: number
         login_clear_user:
           description: >
-            If set to true, on sucessful authentication any existing cached 
+            If set to true, on successful authentication any existing cached 
             credentials for the authenticating user will be cleared.
           type: boolean
 

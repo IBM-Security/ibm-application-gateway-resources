@@ -162,7 +162,7 @@ class ServerCredentialServiceCache(object):
     def login_clear_user(self):
         """Gets the login_clear_user of this ServerCredentialServiceCache.  # noqa: E501
 
-        If set to true, on sucessful authentication any existing cached  credentials for the authenticating user will be cleared.   # noqa: E501
+        If set to true, on successful authentication any existing cached  credentials for the authenticating user will be cleared.   # noqa: E501
 
         :return: The login_clear_user of this ServerCredentialServiceCache.  # noqa: E501
         :rtype: bool
@@ -173,7 +173,7 @@ class ServerCredentialServiceCache(object):
     def login_clear_user(self, login_clear_user):
         """Sets the login_clear_user of this ServerCredentialServiceCache.
 
-        If set to true, on sucessful authentication any existing cached  credentials for the authenticating user will be cleared.   # noqa: E501
+        If set to true, on successful authentication any existing cached  credentials for the authenticating user will be cleared.   # noqa: E501
 
         :param login_clear_user: The login_clear_user of this ServerCredentialServiceCache.  # noqa: E501
         :type: bool
