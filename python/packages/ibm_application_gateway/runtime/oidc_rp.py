@@ -4,7 +4,7 @@ The source code for this program is not published or otherwise divested
 of its trade secrets, irrespective of what has been deposited with the
 U.S. Copyright Office.
 """
-
+import json
 import logging
 import requests
 import time
@@ -174,24 +174,34 @@ class CIOidcRp(OidcRp):
 
     @classmethod
     def extract_form_action(self, body):
-        auth_uri = None
+
+        # Legacy form actions
 
         auth_uri_patterns = [
             'const action = "(.+?)"',
             '<body action="(.+?)"'
         ]
 
-        for uri_patterns in auth_uri_patterns:
-            m = re.search(uri_patterns, body)
+        for uri_pattern in auth_uri_patterns:
+            m = re.search(uri_pattern, body)
             if not m:
                 continue
-            auth_uri = m.group(1)
-            break
+            return m.group(1)
 
-        if auth_uri is None:
-            message = "Failed to parse the auth URI from the CI login page: {0}" \
-                .format(body)
-            logger.critical(message)
-            raise Exception(message)
+        # JavaScript idSources (September 2020)
 
-        return auth_uri
+        idSources_pattern = 'const idSources = (.+?);'
+
+        m = re.search(idSources_pattern, body)
+        if m:
+            auth_json = json.loads(m.group(1))
+
+            for id_source in auth_json:
+                if id_source["type"] == "CLOUDDIRECTORY":
+                    url = urlparse(id_source["loginUrl"])
+                    return "{url.path}?{url.query}".format(url=url)
+
+        message = "Failed to parse the auth URI from the CI login page: {0}" \
+            .format(body)
+        logger.critical(message)
+        raise Exception(message)
