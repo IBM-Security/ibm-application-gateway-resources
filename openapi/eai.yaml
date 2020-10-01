@@ -22,7 +22,7 @@ identity:
         type: string
       triggers:
         description: >
-          The list of URL's for which the response could potentially
+          The list of URLs for which the response could potentially
           contain authentication information.
           Please note that an access policy which allows unauthenticated
           access to this resource must be created.

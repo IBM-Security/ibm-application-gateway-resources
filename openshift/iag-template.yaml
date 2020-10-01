@@ -192,7 +192,7 @@ parameters:
     value: iag
   - description: The IBM Application Gateway version/tag which is to be deployed.
     name: IAG_VERSION
-    value: "20.04"
+    value: "20.09"
   - description: The fully qualified DNS name which will be used for routing.
     name: DNS_NAME
     value: application.ibm.com

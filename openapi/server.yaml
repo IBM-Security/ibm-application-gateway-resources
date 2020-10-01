@@ -506,7 +506,7 @@ server:
 
         If no value is specified here, the default set of pages will be used.
         The default set of pages, 'local_pages.zip', can be downloaded from GitHub
-        (https://github.com/IBM-Security/ibm-application-gateway-resources/pages)
+        (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages)
         and used as a starting point for creating custom pages.
 
         Example: server:
@@ -624,7 +624,7 @@ server:
 
         If no value is specified here, the default set of pages will be used.
         The default set of pages, 'management_pages.zip', can be downloaded from 
-        GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+        GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) 
         and used as a starting point for creating custom management pages.
 
         Example: server:
@@ -744,7 +744,7 @@ server:
 
         If no value is specified here, the default set of pages will be used.
         The default set of pages, 'error_pages.zip', can be downloaded from GitHub 
-        (https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+        (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) 
         and used as a starting point for creating custom error pages.
 
         Example: server:
@@ -768,6 +768,40 @@ server:
             - zip
             - path
 
+    credential_service_cache:
+      description: >
+        Specifies the configuration for the credential service cache. When the
+        cache is enabled, IAG will cache the encrypted credentials received 
+        from the external credential service. If the cache is not enabled, IAG
+        will request credentials from the credential service for every request
+        requiring single sign-on.
+      type: object
+      properties:
+        cache_enabled:
+          description: >
+            A boolean to indicate whether the credential service cache is 
+            enabled or not.
+          type: boolean
+        cache_size:
+          description: >
+            The cache size, the number of entries which will be cached.
+          type: number
+        entry_lifetime:
+          description: >
+            The entry lifetime, the maximum number of seconds entries will be 
+            cached for, regardless of whether they are being used or not.
+          type: number
+        entry_idle_timeout:
+          description: >
+            The entry idle timeout, the number of seconds a cache entry which
+            is not being used will remain cached for.
+          type: number
+        login_clear_user:
+          description: >
+            If set to true, on successful authentication any existing cached 
+            credentials for the authenticating user will be cleared.
+          type: boolean
+
     local_applications:
       description: >
         Specifies the configuration for any embedded applications.
@@ -781,11 +815,57 @@ server:
             credential viewer application. The credential viewer application
             can be used to display information about the credential associated
             with the current user session. 
+
+            ## Attributes Format
+
+            The rules which define the credential attributes which will be 
+            included in the response data.  The format of the configuration 
+            entry is:
+
+                   [+|-]<attribute-name>
+
+            where:
+
+
+            Element | Description
+
+            ------- | -----------
+
+            + | Indicates that this attribute should be added to the response.
+
+            - | Indicates that this attribute should not be added to the response.
+
+            \<attribute-name\> | The name of the credential attribute, which 
+            can also contain pattern matching characters (i.e. * ?).  
+
+
+            For example the value "-AUTHENTICATION_LEVEL" indicates that the 
+            authentication level attribute should not be added to the response.
+
+
+            When constructing a response each credential attribute will
+            be evaluated against each rule in sequence until a match is found.
+            The corresponding code (+|-) will then be used to determine whether
+            the credential attribute will be added to the response or not. If 
+            the attribute name does not match a configured rule it will, by
+            default, be added to the response.
+
+
+            The rule could alternatively contain the name of a single 
+            credential attribute whose value is used to define the attribute 
+            rules.  In this scenario each individual rule in the attribute 
+            should be separated by a space character.  If only a single 
+            attribute-rule configuration entry is defined, and the entry does 
+            not start with a '+' or '-' character, it will be used as the name 
+            of the credential attribute which contains the attribute rules.
+
             Example: server:
                          local_applications:
                              cred_viewer: 
                                  path_segment: credview
                                  enable_html: true
+                                 attributes:
+                                   - "-AUTHENTICATION_LEVEL"
 
           type: object
           properties:
@@ -803,6 +883,15 @@ server:
                 which can render the JSON data is enabled.
               type: boolean
               default: true
+
+            attributes:
+              description: >
+                The rules which define the credential attributes which will be
+                included in the response data.  See the Attributes Format 
+                table for a description of the expected format.
+              type: array
+              items:
+                type: string
 
         azn_decision:
           description: >

@@ -96,7 +96,7 @@ Create the following file in the zip file of error response pages:
 
 If no value is specified here, the default set of pages will be used.
 The default set of pages, 'error_pages.zip', can be downloaded from GitHub 
-(https://github.com/IBM-Security/ibm-application-gateway-resources/pages) 
+(https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) 
 and used as a starting point for creating custom error pages.
 
 

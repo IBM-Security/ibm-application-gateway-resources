@@ -108,8 +108,28 @@ try:
                         scopes             = [ "profile", "email" ],
                         allowed_query_args = [ "arg1", "arg2" ],
                         bearer_token_attrs = [ "-attr_1", "+*" ],
-                        id_token_attrs     = [ "-id_attr_1", "+*" ]
-    ))
+                        id_token_attrs     = [ "-id_attr_1", "+*" ]),
+                    oauth = [ Oauth(
+                        name               = "Verify",
+                        restricted         = False,
+                        introspection_endpoint = "https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def",
+                        client_id          = "dummy_client_id",
+                        client_secret      = "dummy_client_secret",
+                        client_id_hdr      = "dummy_client_id_header",
+                        auth_method        = "client_secret_basic",
+                        token_type_hint    = "access_token",
+                        ssl                = OauthSsl(
+                                                certificate=[
+                                                    "PEMFormatCertificateString1",
+                                                    "PEMFormatCertificateString2"
+                                                ]
+                        ),
+                        mapped_identity    = "identity",
+                        proxy              = "https://proxy:3128",
+                        attributes         = [ "-attr_1", "+*" ],
+                        multi_valued_scope = True
+                    )]
+    )
 
     #
     # Set up the list of authorization rules.
@@ -185,7 +205,8 @@ try:
 
     apps       = ServerLocalApplications(
                        cred_viewer=ServerLocalApplicationsCredViewer(
-                                                path_segment="cred-viewer-app"),
+                                                path_segment="cred-viewer-app",
+                                                attributes= [ "-a1", "-a2"]),
                        azn_decision=ServerLocalApplicationsAznDecision(
                                                 path_segment="azn-decision-app",
                                                 max_cache_lifetime=300,
@@ -268,6 +289,11 @@ try:
                             attr = "AZN_*"
                         )
                     ]
+                ),
+                ltpa                 = ResourceServerIdentityHeadersLtpa (
+                    key          = "key",
+                    key_password = "passw0rd",
+                    version      = 2
                 )
             ),
             cookies              = ResourceServerCookies(
@@ -308,7 +334,10 @@ try:
                 ),
             ],
             health               = None,
-            worker_threads       = None
+            worker_threads       = None,
+            identity             = ResourceServerIdentity(
+                oauth = "Verify"
+            )
         ),
         ResourceServer(
             virtual_host           = "iag-test:443",
@@ -457,7 +486,7 @@ try:
         os.remove(outFile)
 
     config = Configurator(
-                    version          = "20.04",
+                    version          = "20.09",
                     logging          = logging,
                     identity         = identity,
                     advanced         = advanced,

@@ -118,24 +118,30 @@ resource_server:
         lcp_uri | URI encoded local code page data. Any UTF-8 characters that cannot be converted to a local code page are converted to question marks (?).
 
         ## Basic Auth
-        Type | Description
-        ---- | -----------
-        filter | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.
-        supply | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the 'advanced' YAML configuration entry, 'basicauth-dummy-passwd', in the 'junction' stanza, to set the static password.
-        ignore | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.
+        Type    | Description
+        ---- ---| -----------
+        filter  | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.
+        supply  | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the 'password' YAML configuration entry to set the static password.
+        ignore  | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.
+        service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.
 
         Example: resource_servers:
                      - path: "/example"
                        ...
                        identity_headers:
                            encoding: utf8_uri
-                           basic_auth: filter
+                           basic_auth:
+                               mode: filter
                            ip_address: true
                            attributes:
                                - attribute: emailAddress
                                  header: email_header
                                - attribute: AUTHENTICATION_LEVEL
                                  header: auth_level
+                           ltpa:
+                               key: "@ltpa_keyfile"
+                               key_password: passw0rd
+                               version: 2
                            session_cookie: true
                            jwt:
                                certificate: 
@@ -168,14 +174,46 @@ resource_server:
           description: >
             Controls the basic authentication information, contained within
             the Authorization header, that is passed to the resource server.
+
             See the Basic Auth table for a description of the available 
-            options.
-          type: string
-          default: filter
-          enum:
-            - filter
-            - supply
-            - ignore
+            modes. 
+
+            Note that some modes require additional parameters:
+
+            - If the mode is "service", the following entries must also be
+              provided: 
+              - service 
+              - resource_name
+
+            - If the mode is "supply", the following entry must also be 
+              provided:
+              - password
+          type: object
+          properties:
+            mode:
+              description: >
+                The mode of handling the basic authentication headers.
+              type: string
+              default: filter
+              enum:
+                - filter
+                - ignore
+                - supply
+                - service
+            password:
+              description: >
+                If the mode entry is set to 'supply' then the password must be provided here.
+              type: string
+            service:
+              description: >
+                If the mode entry is set to 'service' then the credential service name must be provided here.
+              type: string
+            resource_name:
+              description: >
+                Used only when mode is "service".
+                The name of the resource which will be passed to the 
+                credential service when retrieving the username/password.
+              type: string
 
         ip_address:
           description: >
@@ -305,6 +343,33 @@ resource_server:
                       and an 'attr' value is specified the 'text' value will 
                       be used.
                     type: string
+
+        ltpa:
+          description: >
+            Specifies the information associated with the generation of an
+            LTPA token.
+          type: object
+          properties:
+
+            key:
+              description: >
+                The key which is used to protect the LTPA token.  This key
+                must be in the correct proprietary format for an LTPA key.
+              type: string
+
+            key_password:
+              description: >
+                The password which is used to access the LTPA key.
+              type: string
+
+            version:
+              description: >
+                The version of the LTPA token to create.  Valid versions
+                are 1 or 2, with a default of 1.
+              type: number
+              minimum: 1
+              maximum: 2
+              default: 1
 
     cookies:
       description: >
@@ -484,7 +549,7 @@ resource_server:
                 type: string
 
               sni:
-                description: > 
+                description: >
                   Specifies the expected SNI of the resource server.
                 type: string
 
@@ -508,6 +573,215 @@ resource_server:
                   insensitive.
                 type: boolean
                 default: false
+
+    forms_login:
+      description: |
+        Specifies the configuration information used for performing form-based
+        single sign-on to the protected application.
+
+        ### Login Form Field Types
+
+        Login form fields can be populated with data from three possible 
+        sources, indicated by the 'source' field:
+
+        Source | Usage
+        -------|------
+        service | Data from the credential service will be used to populate this field.
+        attribute | A credential attribute value will be used to populate the field.
+        static | A static string will be used to populate this field.
+
+        ### Login Form Field Values
+
+        Depending on the type of 'source' used, the usage of the 'value' can 
+        differ.
+
+        Source | Usage
+        -------|-------
+        service | The field from the credential service data to use. This can be either 'username' or 'password'
+        attribute | The name of a credential attribute for which the value of will be used to populate this field.
+        static | A static string literal which will be used to populate this field.
+
+        In the below example:
+        - Forms login will be attempted automatically on requests to the URL 
+          'authenticate/login'
+        - On the page, the HTML form with 'action="login.jsp"' will be detected
+          as the login form
+        - Credentials will be retrieved from the service named 
+          'testCredentialService' service provided in the 'services/credential' 
+          YAML. When requests are made to this service, the '{resource}' token 
+          will be substituted with 'jspApp'.
+        - To complete the login, IAG will send a forms POST to the URL indicated
+          by the HTML form, containing the fields:
+          - 'username', which is populated by the 'username' retrieved from the
+            credential service.
+          - 'password', which is populated by the decrypted version 'password'
+            of the 'password' retrieved from the credential service.
+          - 'SSO\_SOURCE' which is a static field always containing the 
+            string 'IAG-SSO'
+          - 'LOGIN\_ORIGIN' which is populated using the value of the credential
+            attribute 'AZN\_CRED\_MECH\_ID' for the current user session.
+        - When IAG submits the forms-based login, it will consider a response
+          from the application with a HTTP status code 302 and a location 
+          header matching "*/loginSuccess" to be a successful login.
+        - If the response does not look like a successful login, IAG will 
+          present the login form to the client.
+        - As credential learning is enabled, when IAG observes the client POST 
+          to '/login.jsp', it will extract the 'username' and 'password' fields
+          and store them with the credential service for future use.
+
+        Example: resource_servers:
+                     - path: "/jspApp"
+                       ...
+                       forms_login:
+                           credential_learning: true
+                           login_resources:
+                               - resource:      authenticate/login
+                                 form_action:   /login.jsp
+                                 service:       testCredentialService
+                                 resource_name: jspApp
+                                 fields:
+                                     - name:   username
+                                       source: service
+                                       value:  username
+                                     - name:   password
+                                       source: service
+                                       value:  password
+                                     - name:   SSO_SOURCE
+                                       source: static
+                                       value:  "IAG-SSO"
+                                     - name:   LOGIN_ORIGIN
+                                       source: credential
+                                       value:  AZN_CRED_MECH_ID
+                                 response_rules:
+                                     - success: true
+                                       response_code: 302
+                                       headers:
+                                           - name: Location
+                                             value: "*/loginSuccessful"
+      type: array
+      items:
+        type: object
+        properties:
+          credential_learning:
+            description: >
+              A boolean flag indicating whether or not credential learning is 
+              enabled for this resource server. If credential learning is 
+              enabled, when IAG is unable to automatically complete the forms
+              login but observes a successful manual login, the credentials 
+              used will be encrypted and stored in the credential service for
+              future use.
+            type: boolean
+            default: false
+          login_resources:
+            description: >
+              This entry is a list of login resources which each contain 
+              configuration for each forms-based login page.
+            type: array
+            items:
+              type: object
+              properties:
+                resource:
+                  description: >
+                    This entry specifies a pattern that uniquely identifies 
+                    requests for an application's login page.
+
+                    The page will then be intercepted to begin the forms-login 
+                    sign-on process. The pattern provided is compared to the
+                    request URI.
+                  type: string
+                form_action:
+                  description: >
+                    This entry specifies a pattern that identifies which form 
+                    contained in the intercepted page is the login form. The
+                    matching is performed based on the 'action' attribute of 
+                    the HTML '<form>' node.
+                  type: string
+                service:
+                  description: >
+                    The name of the credential service which is used to store
+                    and retrieve credentials for this resource.
+                  type: string
+                resource_name:
+                  description: >
+                    The resource name which will be used when making requests
+                    to the configured credential service.
+                  type: string
+                fields:
+                  description: >
+                    This entry is a list of the form fields which are need to
+                    complete the form-based login.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        description: >
+                          The name of the form field that will be populated.
+                        type: string
+                      source:
+                        description: >
+                          The data source which will be used to populate this
+                          form field.
+
+                          See the 'Login Form Field Types' table for an 
+                          explanation of the values.
+                        type: string
+                        enum:
+                          - static
+                          - attribute
+                          - service
+                      value:
+                        description: >
+                          This entry defines what information for the given
+                          source will be used to populate this form field.
+
+                          See the 'Login Form Field Values' table for an 
+                          explanation of the values.
+
+                        type: string
+                response_rules:
+                  description: >
+                    A list of rules which are used to determine if the 
+                    forms-based was successful or not. These rules are 
+                    evaluated in the order they are provided here.
+                  type: array
+                  items:
+                    type: object
+
+                    properties:
+                      success:
+                        description: >
+                          A boolean to indicate whether this rule is used to 
+                          detect a successful login or not.
+
+                          'true' indicates a successful login, 'false' indicates
+                          a failed login attempt.
+                        type: boolean
+                      response_code:
+                        description: >
+                          The HTTP status code expected in the response for 
+                          this rule.
+                        type: string
+                      headers:
+                        description: >
+                          The HTTP headers expected in the response.
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              description: >
+                                The name of the HTTP header to examine in the 
+                                response. 
+
+                                HTTP header names are not case sensitive.
+                              type: string
+                            value:
+                              description: >
+                                The expected value of the HTTP header. 
+
+                                Header values are case sensitive.
+                              type: string
 
     health:
       description: >
@@ -708,4 +982,22 @@ resource_server:
           default: 5
           minimum: 0
           maximum: unlimited
+
+    identity:
+      description: >
+        Defines any special identity provider information for this resource
+        server.
+        Example: resource_servers:
+                     - path: "/example"
+                       ...
+                       identity:
+                         oauth: "verify_introspection"
+      type: object
+      properties:
+
+        oauth:
+          description: >
+            The name of the OAuth introspection endpoint to use when
+            accessing this resource server.
+          type: string
 

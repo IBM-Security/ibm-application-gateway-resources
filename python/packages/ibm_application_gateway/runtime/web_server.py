@@ -6,7 +6,7 @@ U.S. Copyright Office.
 """
 
 import logging
-import multiprocessing
+import threading
 import atexit
 import requests
 import time
@@ -39,7 +39,7 @@ class WebServer:
 
     app = Flask(__name__)
 
-    def __init__(self, ssl = False):
+    def __init__(self, ssl = False, port=0):
         """
         Initialise this object.
 
@@ -52,7 +52,7 @@ class WebServer:
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-            s.bind(("0.0.0.0", 0))
+            s.bind(("0.0.0.0", port))
 
             self.port_ = s.getsockname()[1]
         except:
@@ -74,24 +74,25 @@ class WebServer:
         finally:
             s.close()
 
-        self.process_ = None
-        self.ssl_     = ssl
-        self.caCert_  = None
+        self.thread_     = None
+        self.ssl_        = ssl
+        self.caCert_     = None
+        self.clientCert_ = None
 
 
     def start(self):
         """
         Start the Web server.  The Web server will be started in a separate
-        process and this function will wait until the Web server is
+        thread and this function will wait until the Web server is
         reachable before returning.
         """
 
         logger.info("Starting the Web server: 0.0.0.0:{0}".format(self.port_))
 
-        self.process = multiprocessing.Process(
-                        target=self.__runServer, args=[self.ssl_])
+        self.thread = threading.Thread(
+                    target=self.__runServer, args=(self.ssl_,), daemon=True)
 
-        self.process.start()
+        self.thread.start()
 
         atexit.register(self.stop)
 
@@ -109,14 +110,15 @@ class WebServer:
 
             try:
                 resp = requests.get("{0}://{1}:{2}".format(protocol, self.host_,
-                                    self.port_), verify=False, timeout=2)
+                                self.port_), verify=False, timeout=2)
 
                 running = True
 
-                # If we are using SSL we also need to grab the CA certificate from
-                # the server.
+                # If we are using SSL we also need to grab the CA certificate 
+                # from the server.
                 if self.ssl_:
-                    self.caCert_ = ssl.get_server_certificate((self.host_, self.port_))
+                    self.caCert_ = ssl.get_server_certificate((
+                                                self.host_, self.port_))
 
             except:
                 attempt += 1
@@ -135,7 +137,7 @@ class WebServer:
         """
         Start the Web server with an SSL context that requires clients to
         present client certificates.  The Web server will be started in a
-        separate process and this function will wait until the Web server is
+        separate thread and this function will wait until the Web server is
         reachable before returning.
 
         \param ca_cert         [in] : CA certificate for the webserver to trust
@@ -151,11 +153,14 @@ class WebServer:
 
         logger.info("Starting the Web server: 0.0.0.0:{0}".format(self.port_))
 
-        self.process = multiprocessing.Process(
-                        target=self.__runServerVerifyCert,
-                                    args=[ca_cert, web_server_cert, web_server_key])
+        self.clientCert_ = client_cert
 
-        self.process.start()
+        self.thread = threading.Thread(
+                    target=self._runServerVerifyCert, 
+                    args=(ca_cert, web_server_cert, web_server_key,), 
+                    daemon=True)
+
+        self.thread.start()
 
         atexit.register(self.stop)
 
@@ -190,11 +195,23 @@ class WebServer:
         Stop the Web server.
         """
 
-        if self.process is not None:
+        if self.thread is not None:
             logger.info("Stopping the Web server.")
 
-            self.process.terminate()
-            self.process = None
+            if self.ssl_:
+                protocol="https"
+            else:
+                protocol="http"
+
+            response = requests.get("{0}://{1}:{2}/shutdown".format(
+                    protocol, self.host_, self.port_),
+                    cert=(self.clientCert_), verify=False, timeout=10)
+
+            if (response.status_code == 200):
+                self.thread.join(timeout=2)
+            else:
+                logger.info("Failed to stop the Web server, it will be "
+                    "terminated when the test case exits.")
 
     def port(self):
         """
@@ -239,7 +256,7 @@ class WebServer:
                         port=self.port_, use_reloader=False)
 
 
-    def __runServerVerifyCert(self, ca_cert, web_server_cert, web_server_key):
+    def _runServerVerifyCert(self, ca_cert, web_server_cert, web_server_key):
         """
         This private function is used to actually start the server
         with SSL verification.
@@ -251,3 +268,20 @@ class WebServer:
         context.load_cert_chain(web_server_cert, web_server_key)
         self.app.run(ssl_context=context, host="0.0.0.0",
                        port=self.port_, use_reloader=False)
+
+    @app.route('/shutdown', methods=['GET','POST'])
+    def shutdown():
+        """
+        The following route is used to handle a request to shutdown the
+        Web server.
+        """
+
+        func = request.environ.get('werkzeug.server.shutdown')
+
+        if func is None:
+            raise RuntimeError('Not running with the Werkzeug Server')
+
+        func()
+
+        return 'Server shutting down...'
+

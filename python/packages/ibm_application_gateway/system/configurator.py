@@ -30,7 +30,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "20.07",
+                    version          = "20.09",
                     server           = None,
                     identity         = None,
                     authorization    = None,
@@ -38,6 +38,7 @@ class Configurator(object):
                     resource_servers = None,
                     logging          = None,
                     advanced         = None,
+                    services         = None,
                     secrets          = None):
         """
         Initialise this class instance.  The parameters are as follows:
@@ -66,6 +67,9 @@ class Configurator(object):
         @param advanced      : An ibm_application_gateway.advanced object
                                which defines any advanced configuration for the
                                container.
+        @param services      : An ibm_application_gateway services object
+                               which defines any services configuration for the
+                               container.
         @param secrets       : An ibm_application_gateway.secrets object
                                which defines the encryption secrets for the
                                configuration data.
@@ -80,6 +84,7 @@ class Configurator(object):
         self.policies      = self.__validate(Policies, policies)
         self.logging       = self.__validate(Logging, logging)
         self.advanced      = self.__validate(Advanced, advanced)
+        self.services      = self.__validate(Services, services)
         self.secrets       = self.__validate(Secrets, secrets)
         self.custom_data   = None
 

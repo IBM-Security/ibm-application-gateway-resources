@@ -4,7 +4,7 @@ The source code for this program is not published or otherwise divested
 of its trade secrets, irrespective of what has been deposited with the
 U.S. Copyright Office.
 """
-
+import json
 import logging
 import requests
 import time
@@ -36,7 +36,7 @@ class OidcRp(object):
 
         self.url_ = url
 
-    def authenticate(self, user, password):
+    def authenticate(self, user, password, virtual_host=None):
         """
         Perform an OIDC authentication against the configured OP using the
         specified user name and password.  The created session will be
@@ -46,15 +46,22 @@ class OidcRp(object):
 
         session = requests.session()
 
+        headers = None
+
+        if virtual_host is not None:
+            headers = {
+                "host": virtual_host
+            }
+
         # The first request used to start the flow.
-        rsp = session.get(self.url_, verify=False, allow_redirects=False)
+        rsp = session.get(self.url_, headers=headers, verify=False, allow_redirects=False)
 
         self.check_rsp_code(rsp, 302, "Failed to request the initial WRP page")
 
         # The second request, for the pkmsoidc page to kick start the OIDC
         # authentication.  The response to this request should be a 302.
         rsp = session.get("{0}/pkmsoidc?iss=default&TAM_OP=login".format(
-                self.url_), verify=False, allow_redirects=False)
+                self.url_), headers=headers, verify=False, allow_redirects=False)
 
         self.check_rsp_code(rsp, 302, "Failed to start the OIDC RP flow")
 
@@ -72,13 +79,13 @@ class OidcRp(object):
            rsp.headers['location']
         )
 
-        rsp = session.get(url, verify=False, allow_redirects=False)
+        rsp = session.get(url, headers=headers, verify=False, allow_redirects=False)
 
         self.check_rsp_code(rsp, 302, "Failed to complete the OIDC RP flow")
 
         # We can finally make a request for a protected resource to verify
         # that we are correctly authenticated.
-        rsp = session.get(self.url_, verify=False, allow_redirects=False)
+        rsp = session.get(self.url_, headers=headers, verify=False, allow_redirects=False)
 
         self.check_rsp_code(rsp, 200, "Failed to use the authenticated session")
 
@@ -167,24 +174,34 @@ class CIOidcRp(OidcRp):
 
     @classmethod
     def extract_form_action(self, body):
-        auth_uri = None
+
+        # Legacy form actions
 
         auth_uri_patterns = [
             'const action = "(.+?)"',
             '<body action="(.+?)"'
         ]
 
-        for uri_patterns in auth_uri_patterns:
-            m = re.search(uri_patterns, body)
+        for uri_pattern in auth_uri_patterns:
+            m = re.search(uri_pattern, body)
             if not m:
                 continue
-            auth_uri = m.group(1)
-            break
+            return m.group(1)
 
-        if auth_uri is None:
-            message = "Failed to parse the auth URI from the CI login page: {0}" \
-                .format(body)
-            logger.critical(message)
-            raise Exception(message)
+        # JavaScript idSources (September 2020)
 
-        return auth_uri
+        idSources_pattern = 'const idSources = (.+?);'
+
+        m = re.search(idSources_pattern, body)
+        if m:
+            auth_json = json.loads(m.group(1))
+
+            for id_source in auth_json:
+                if id_source["type"] == "CLOUDDIRECTORY":
+                    url = urlparse(id_source["loginUrl"])
+                    return "{url.path}?{url.query}".format(url=url)
+
+        message = "Failed to parse the auth URI from the CI login page: {0}" \
+            .format(body)
+        logger.critical(message)
+        raise Exception(message)
