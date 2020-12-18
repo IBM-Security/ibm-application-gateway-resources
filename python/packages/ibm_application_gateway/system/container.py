@@ -144,8 +144,7 @@ class Container(object):
         if not running:
             message = "The container failed to start within the allocated time."
             logger.critical(message)
-
-            logger.critical(self.client_.container_.logs())
+            logger.critical(self.client_.logs())
 
             raise Exception(message)
 
@@ -176,6 +175,13 @@ class Container(object):
         atexit.unregister(self.stopContainer)
 
         logger.info("The container has stopped")
+
+    def runCommand(self, command):
+        """
+        Executes a command inside of the container.
+        """
+
+        return self.client_.runCommand(command)
 
 class DockerContainer(object):
     """
@@ -315,6 +321,27 @@ class DockerContainer(object):
             self.container_.stop()
 
             self.container_ = None
+
+    def logs(self):
+        """
+        Return the logs from the local container.
+        """
+
+        if self.container_ is None:
+            raise Exception("The container has not been started.")
+
+        return self.container_.logs()
+
+    def runCommand(self, command):
+        """
+        Executes a command inside of the container.
+        """
+
+        rc, output = self.container_.exec_run(command)
+
+        outputDecoded = output.decode().strip()
+
+        return rc, outputDecoded
 
 class KubernetesContainer(object):
     """
@@ -787,3 +814,69 @@ class KubernetesContainer(object):
             },
             "spec":       data
         }
+
+    def logs(self):
+        """
+        Return the logs from the local container.
+        """
+
+        import kubernetes
+        
+        log = None
+
+        if self.port_ is not None:
+            try:
+                # Grab the log file of the pod.  The first thing to do is
+                # determine the pod name, and then we can retrieve the log for
+                # the pod.
+                api_response = self.core_api_.list_namespaced_pod(
+                    self.namespace_,
+                    label_selector = "app = {0}".format(self.deploymentName_))
+
+                log = self.core_api_.read_namespaced_pod_log(
+                                api_response.items[0].metadata.name,
+                                self.namespace_)
+
+            except kubernetes.client.rest.ApiException as e:
+                logger.error(
+                    "Failed to retrieve the log file from the pod: {0}".\
+                    format(e))
+
+        return log
+
+    def runCommand(self, command):
+        """
+        Executes a command inside of the container.
+        """
+
+        import kubernetes
+        from kubernetes.stream import stream
+
+        rc = 0
+        output = None
+
+        if self.port_ is not None:
+            try:
+                # Attempt to execute a command in the pod.  The first thing to
+                # do is determine the pod name, and then we can perform an
+                # exec.
+                api_response = self.core_api_.list_namespaced_pod(
+                    self.namespace_,
+                    label_selector = "app = {0}".format(self.deploymentName_))
+
+                outputStream = stream(self.core_api_.connect_get_namespaced_pod_exec,
+                              api_response.items[0].metadata.name,
+                              self.namespace_,
+                              command=command,
+                              stderr=False, stdin=False,
+                              stdout=True, tty=False)
+
+                output = outputStream
+
+            except kubernetes.client.rest.ApiException as e:
+                rc = 1
+                logger.error(
+                    "Failed to execute a command in the pod: {0}".\
+                    format(e))
+
+        return rc, output

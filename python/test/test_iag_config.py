@@ -183,8 +183,53 @@ try:
             )
         )
     )
+
+    redis = ServerSessionRedis(
+                    key_prefix                 = "key-",
+                    default_collection         = "test_collection",
+                    client_list_cache_lifetime = 20,
+                    concurrent_sessions = ServerSessionRedisConcurrentSessions(
+                        enabled                      = True,
+                        prompt_for_displacement      = True,
+                        max_user_sessions            = 10,
+                        user_identity_attribute_name = "user-id"
+                    ),
+                    collections = [
+                        ServerSessionRedisCollections(
+                            name                   = "test-collection",
+                            matching_host          = "www.webseal.ibm.com",
+                            max_pooled_connections = 20,
+                            idle_timeout           = 10,
+                            health_check_interval  = 20,
+                            cross_domain_support   = ServerSessionRedisCrossDomainSupport(
+                                master_authn_server_url = "https://mas.ibm.com",
+                                master_session_code_lifetime = 15
+                            ),
+                            servers                = [
+                                ServerSessionRedisServers(
+                                    name     = "redis-a",
+                                    host     = "redis-a.ibm.com",
+                                    port     = 6380,
+                                    username = "testuser",
+                                    password = "passw0rd",
+                                    ssl      = ServerSessionRedisSsl(
+                                        trust_certificates = [
+                                            "@redis-ca.crt"
+                                        ],
+                                        client_certificate = [
+                                            "@cert.crt", "@cert.key"
+                                        ],
+                                        sni = "redis-a.ibm.com"
+                                    )
+                                )
+                            ]
+                        )
+                    ]
+                )
+
     session    = ServerSession(
-        permit_user_switching=True
+        permit_user_switching = True,
+        redis                 = redis,
     )
     ssl        = ServerSsl(
         front_end = ServerSslFrontEnd(

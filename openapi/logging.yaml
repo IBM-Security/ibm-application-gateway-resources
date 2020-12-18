@@ -258,6 +258,7 @@ logging:
             - iag.authn
             - iag.http2
             - iag.https
+            - iag.redis
             - iag.resource_server
             - iag.sescache
             - iag.threads
