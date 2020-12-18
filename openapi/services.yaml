@@ -91,7 +91,7 @@ services:
                 - If this value is 'url', the user attribute value will
                   be URL Encoded.
                 - If this value is 'base64url', the user attribute value will
-                  be Base64 Encoded for URL.
+                  be converted to lower case and Base64 Encoded for URL.
             type: string
             default: url
             enum:
@@ -205,7 +205,139 @@ services:
                           secret.
                     type: string
                     default: basic
+    kerberos:
+      description: |
+        This configuration is used to describe a Kerberos configuration file 
+        which IAG can use to perform Kerberos Constrained Delegation as a means of
+        authentication to a protected application.
 
+        The Kerberos service must contain:
+          * keytab
+          * keytab_spn
+          * realms
+          * libdefaults
+        
+        'keytab_spn' and 'keytab' must correspond to the service principal name
+        and generated key table for a user which IAG will authenticate itself
+        as. This user must have permission to perform delegated authentication.
+
+        This entry is an object and can be used to specify a single kerberos 
+        service.
+
+        Example: services:
+                   kerberos:
+                       keytab: "@ibm-app-gateway.keytab"
+                       keytab_spn: HTTP/ibm-app-gateway@IBM.COM
+
+                       realms: 
+                         - name: IBM.COM
+                           kdc: ibm.com
+
+                       libdefaults:
+                         properties:
+                           - name: default_tgs_enctypes
+                             value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+                           - name: default_tkt_enctypes
+                             value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+      type: object
+      properties:
+        keytab:
+          description: >
+            The Kerberos key table file which IAG will use to authenticate with the server.
+          type: string
+        keytab_spn:
+          description: >
+            The service principal name of the impersonating user when creating a Kerberos token. 
+            The service principal name can be determined by executing the Microsoft utility
+            'setspn' (that is, setspn -L user, where user is the identity of the IAG
+            account).
+          type: string
+        realms:
+          description: >
+            Realm-specific contact information and settings associated with the Microsoft Windows Server to use
+            for performing Kerberos impersonation.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: >
+                  The name of the Kerberos Realm being configured.
+                type: string
+              kdc:
+                description: >
+                  The name or address of a host running a KDC for that realm. An optional port number, separated 
+                  from the hostname by a colon, may be included.
+                type: string
+              properties:
+                description: >
+                  Advanced additional properties to be added to the Realm configuration.
+                  These properties correspond to the properties in the [realms] <realm name> section of krb5.conf.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      description: >
+                        Name of the entry to be written into the realms section of the Kerberos configuration.
+                      type: string
+                    value:
+                      description: >
+                        Value of the entry to be written into the realms section of the Kerberos configuration.
+                      type: string
+              hostname:
+                description: >
+                  The hostname for this realm.
+                type: string
+        libdefaults:
+          description: >
+            Advanced additional properties to be added to the Kerberos library configuration.
+            These properties correspond to the properties in the [libdefaults] section of krb5.conf.
+          type: object
+          properties:
+            properties:
+              description: >
+                The properties to be added to the Kerberos libdefaults configuration. Each entry consists of a name
+                and a value.
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    description: >
+                      Name of the entry to be written into the libdefaults section of the Kerberos configuration.
+                    type: string
+                  value:
+                    description: >
+                      Value of the entry to be written into the libdefaults section of the Kerberos configuration.
+                    type: string
+
+        capaths:
+          description: >
+            Authentication paths for non-hierarchical cross-realm.
+          type: array
+          items:
+            type: object
+            properties:
+              client_realm:
+                description: >
+                  The client realm for this authentication path.
+                type: string
+              realms:
+                description: >
+                  The realms associated with this capath.
+                type: array
+                items:
+                  type: object
+                  properties:
+                    server_realm:
+                      description: >
+                        The server realm for this capath.
+                      type: string
+                    inter_realm:
+                      description: >
+                        The inter realm for this capath.
+                      type: string
 
 
 

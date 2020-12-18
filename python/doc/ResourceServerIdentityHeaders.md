@@ -27,6 +27,7 @@ service | A new Authorization header will be constructed using a username and pa
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**kerberos** | [**ResourceServerIdentityHeadersKerberos**](ResourceServerIdentityHeadersKerberos.md) |  | [optional] 
 **encoding** | **str** | The encoding type to use for any identity headers passed to the resource server. See the Encoding table for a description of the available options.  | [optional] [default to 'utf8_uri']
 **basic\_auth** | [**ResourceServerIdentityHeadersBasicAuth**](ResourceServerIdentityHeadersBasicAuth.md) |  | [optional] 
 **ip\_address** | **bool** | A boolean flag indicating whether or not to provide the client IP  address as a HTTP header in requests forwarded to the resource  server.  The IP address will be added in the &#39;iv-remote-address&#39; HTTP header.  | [optional] [default to False]

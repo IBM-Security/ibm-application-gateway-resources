@@ -154,9 +154,61 @@ resource_server:
                                     - attr: AZN_CRED_PRINCIPAL_NAME
                                       name: sub
                                     - attr: AZN_*
+                     - path: /ibmiis
+                       connection_type: "tcp"
+                       servers:
+                           - host: test.ibm.com
+                             port: 80
+                       identity_headers:
+                           kerberos:
+                               resource_spn: HTTP/web.test.ibm.com@IBM.COM
+                               always_send_tokens: true
+                               user_identity: 
+                                   username: "{preferred_username}"
 
       type: object
       properties:
+
+        kerberos:
+          description: |
+            Specifies the information associated with Kerberos tokens. Note that the instance
+            level 'services/kerberos' entry must be configured before enabling Kerberos tokens
+            for any resource server.
+
+          type: object
+          properties:
+            resource_spn:
+              description: >
+                The the service principal name of the target when requesting a Kerberos token. 
+                The service principal name can be determined by executing the Microsoft utility 
+                'setspn' (that is, 'setspn -L user', where 'user' is the identity of the back-end 
+                web servers account).
+              type: string
+            always_send_tokens:
+              description: >
+                Indicates whether IAG sends a security token for every HTTP request or whether 
+                IAG waits for a 401 response before it adds the security token.
+              type: boolean
+              default: false
+            user_identity:
+              description: >
+                User Identity description.
+              type: object
+              properties:
+                username:
+                  description: >
+                    An administrator can overwrite the UPN or sections of the UPN for Kerberos constrained delegation users with this entry. 
+                    The replacement information can be either plain text or names of credential attributes that store the required 
+                    information. If you specify plain text, the text is directly copied into the UPN sections. If you specify names of 
+                    credential attributes by surrounding the text with braces eg. {preferred_username}, the replacement text is fetched from 
+                    the value of the corresponding credential attribute.
+                  type: string
+                realm:
+                  description: >
+                    The realm to append to the client credential for Kerberos constrained delegation.
+                    The realm value must be uppercase. Any input data that is not uppercase is automatically 
+                    converted to uppercase. The realm must also be added as a realm to the Kerberos configuration in the Services module.
+                  type: string
 
         encoding:
           description: >

@@ -30,7 +30,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "20.09",
+                    version          = "20.12",
                     server           = None,
                     identity         = None,
                     authorization    = None,

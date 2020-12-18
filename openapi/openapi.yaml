@@ -5,7 +5,7 @@
 
 openapi: '3.0'
 info:
-  version: 20.09
+  version: 20.12
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:

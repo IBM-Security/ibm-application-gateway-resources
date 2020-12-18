@@ -4,7 +4,7 @@
 # U.S. Copyright Office.
 
 # The container is based on the IAG container.
-FROM ibmcom/ibm-application-gateway:20.09
+FROM ibmcom/ibm-application-gateway:20.12
 
 # Copy the configuration files from the config directory
 # to the docker image.
