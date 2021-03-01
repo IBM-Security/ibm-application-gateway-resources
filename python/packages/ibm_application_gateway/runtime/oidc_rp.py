@@ -91,6 +91,61 @@ class OidcRp(object):
 
         return session
 
+    def authenticate_redirect(self, user, password, virtual_host=None):
+        """
+        Redirect Obligation.
+        Perform an OIDC authentication against the configured OP using the
+        specified user name and password with redirect on success.  The created
+        session will be returned upon a successful authentication.
+        """
+
+        session = requests.session()
+
+        headers = None
+
+        if virtual_host is not None:
+            headers = {
+                "host": virtual_host
+            }
+
+        # The first request used to start the flow.
+        rsp = session.get(self.url_, headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to request the initial WRP page")
+
+        # The second request, for the pkmsoidc page to kick start the OIDC
+        # authentication.  The response to this request should be a 302.
+        rsp = session.get("{0}/pkmsoidc?iss=default&TAM_OP=login".format(
+                self.url_), headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to start the OIDC RP flow")
+
+        # The third request should be to the OIDC OP.
+        rsp = self.authenticate_at_op(rsp.headers['location'], user, password, session)
+
+        self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
+
+        # Now we can complete the OIDC flow.  We have to massage the location
+        # which is returned by the OP, substituting the fake host with the
+        # real address information.
+        url = re.sub(
+           r"http(s?)://.*/",
+           "{0}/".format(self.url_),
+           rsp.headers['location']
+        )
+
+        rsp = session.get(url, headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to complete the OIDC RP flow")
+
+        # We can finally make a request for a protected resource to verify
+        # that we are correctly authenticated.
+        rsp = session.get(self.url_, headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to use the authenticated session")
+
+        return session
+
     @classmethod
     def authenticate_at_op(self, location, user, password, session=None):
         """

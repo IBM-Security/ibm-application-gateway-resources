@@ -9,9 +9,9 @@ Controls how IAG will authenticate itself when communicating with the credential
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ba** | [**ServicesAuthenticationBa**](ServicesAuthenticationBa.md) |  | [optional] 
-**access\_token** | [**ServicesAuthenticationAccessToken**](ServicesAuthenticationAccessToken.md) |  | [optional] 
 **sso** | [**ServicesAuthenticationSso**](ServicesAuthenticationSso.md) |  | [optional] 
+**access\_token** | [**ServicesAuthenticationAccessToken**](ServicesAuthenticationAccessToken.md) |  | [optional] 
+**ba** | [**ServicesAuthenticationBa**](ServicesAuthenticationBa.md) |  | [optional] 
 
 [[Back to README]](../README.md)
 

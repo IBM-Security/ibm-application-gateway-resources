@@ -101,7 +101,7 @@ Name | Type | Description | Notes
 **client\_secret** | **str** | The client secret registered with IBM Security Verify.  | [optional] 
 **mapped\_identity** | **str** | A formatted string which is used to construct the credential principal name from elements of the ID token. Claims can be added to the identity string, surrounded by &#39;{}&#39;, for example:   {iss}/{sub} - would construct a principal name like the following:   https://server.example.com/248289761001  | [optional] [default to '{sub}']
 **redirect\_uri\_host** | **str** | This is the host which is used in the redirect URI registered with the OIDC OP. If no redirect URI host is configured the host header from the request will be used. The format of the redirect URI will be: http[s]://&lt;host&gt;/pkmsoidc.  | [optional] 
-**response\_type** | **str** | The required response type for authentication responses. See the Response Type Values table for a description of the available values.  | [optional] 
+**response\_type** | **str** | The required response type for authentication responses. See the Response Type Values table for a description of the available values.  | [optional] [default to 'code']
 **response\_mode** | **str** | The required response mode for authentication responses. If no response mode is configured the response mode parameter will not be included in the authentication request.    | [optional] 
 **proxy** | **str** | Specifies the proxy, if any, which is used to reach IBM Security Verify. The proxy configuration entry should be in URL format. Eg: http[s]://&lt;address&gt;:&lt;port&gt;  | [optional] 
 **scopes** | **list[str]** | Any scopes to be sent in the authentication request in addition to the &#39;openid&#39; scope.    | [optional] 

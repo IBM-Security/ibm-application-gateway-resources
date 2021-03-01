@@ -2,7 +2,7 @@
 
 ## Description
 
-Specifies the configuration for Web socket support. 
+Specifies the configuration for WebSocket support. 
 
 ## Properties
 

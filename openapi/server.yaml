@@ -1,4 +1,4 @@
-# (c) Copyright International Business Machines Corp. 2020
+# (c) Copyright International Business Machines Corp. 2020, 2021
 # The source code for this program is not published or otherwise divested
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
@@ -21,11 +21,15 @@ server:
         enum:
           - http
           - https
+        x-uuid: true
+        x-required: true
+        x-name: Protocol
 
     ssl:
       description: >
         Specifies the secure configuration for the gateway server.
       type: object
+      x-name: SSL
       properties:
 
         front_end:
@@ -73,37 +77,46 @@ server:
               type: array
               items:
                 type: string
+                x-uuid: true
+                x-required: true
+                x-name: Certificate
 
             tlsv10:
               description: >
                 A boolean which indicates whether or not TLS v1.0 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.0
 
             tlsv11:
               description: >
                 A boolean which indicates whether or not TLS v1.1 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.1
 
             tlsv12:
               description: >
                 A boolean which indicates whether or not TLS v1.2 is enabled.
               type: boolean
               default: true
+              x-name: TLS 1.2
 
             tlsv13:
               description: >
                 A boolean which indicates whether or not TLS v1.3 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.3
 
             sni:
               description: >
                 Specifies a list of SNI certificate to hostname mappings for the front end.
               type: array
+              x-name: SNI
               items:
                 type: object
+                x-name: SNI
                 properties:
 
                   certificate:
@@ -117,11 +130,16 @@ server:
                     type: array
                     items:
                       type: string
+                      x-uuid: true
+                      x-required: true
+                      x-name: Certificate
 
                   hostname:
                     description: >
                       The name of the host for this SNI entry.
                     type: string
+                    x-uuid: true
+                    x-required: true
 
         applications:
           description: >
@@ -139,24 +157,28 @@ server:
                 A boolean which indicates whether or not TLS v1.0 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.0
 
             tlsv11:
               description: >
                 A boolean which indicates whether or not TLS v1.1 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.1
 
             tlsv12:
               description: >
                 A boolean which indicates whether or not TLS v1.2 is enabled.
               type: boolean
               default: true
+              x-name: TLS 1.2
 
             tlsv13:
               description: >
                 A boolean which indicates whether or not TLS v1.3 is enabled.
               type: boolean
               default: false
+              x-name: TLS 1.3
 
         ciphers:
           description: |
@@ -242,6 +264,9 @@ server:
           type: array
           items:
             type: string
+            x-uuid: true
+            x-required: true
+            x-name: Cipher
 
     failover:
       description: >
@@ -331,6 +356,7 @@ server:
           description: >
             The name of the session cookie presented to clients.
           type: string
+          default: PD-S-SESSION-ID
 
         max_sessions:
           description: >
@@ -501,6 +527,8 @@ server:
                     description: >
                       The name of the redis collection.
                     type: string
+                    x-uuid: true
+                    x-required: true
                   matching_host:
                     description: >
                       Any specific hosts (obtained from the Host header of the 
@@ -538,6 +566,7 @@ server:
                     minimum: 0
                     maximum: unlimited
                     default: 30
+                    x-name: IO Timeout
                   health_check_interval:
                     description: >
                       The interval (in seconds) between health check requests 
@@ -562,6 +591,7 @@ server:
                           for this collection.  The entry 
                           should be of the format: http{s}://server{:port}.
                         type: string
+                        x-name: Master Authentication Server URL
                       master_session_code_lifetime:
                         description: >
                           The maximum number of seconds that a session code, 
@@ -586,6 +616,8 @@ server:
                             A label, or name, which is used to identify this 
                             server.
                           type: string
+                          x-uuid: true
+                          x-required: true
                         host:
                           description: >
                             The server name or IP address of the Redis server.
@@ -613,6 +645,7 @@ server:
                             The SSL information associated with the Redis 
                             server.
                           type: object
+                          x-name: SSL
                           properties:
 
                             trust_certificates:
@@ -631,6 +664,9 @@ server:
                               type: array
                               items:
                                 type: string
+                                x-uuid: true
+                                x-required: true
+                                x-name: Trust Certificate
 
                             client_certificate:
                               description: >
@@ -645,6 +681,8 @@ server:
                               type: array
                               items:
                                 type: string
+                                x-uuid: true
+                                x-required: true
 
                             sni:
                               description: >
@@ -652,6 +690,7 @@ server:
                                 is provided when establishing the SSL connection
                                 with the Redis server.
                               type: string
+                              x-name: SNI
 
     worker_threads:
       description: >
@@ -693,10 +732,11 @@ server:
                      http2: true
       type: boolean
       default: false
+      x-name: HTTP/2
 
     websocket:
       description: >
-        Specifies the configuration for Web socket support.
+        Specifies the configuration for WebSocket support.
         Example: server:
                      websocket:
                          worker_threads:
@@ -710,23 +750,24 @@ server:
                                  read: 30
                                  write: 30
       type: object
+      x-name: WebSocket
       properties:
 
         worker_threads:
           description: >
-            The number of available Web socket worker threads.
+            The number of available WebSocket worker threads.
           type: object
           properties:
 
             max:
               description: >
-                The maximum number of threads which will be used used to proxy web
-                socket connections through the gateway. A value of zero will cause
-                web sockets to be blocked. Each web socket connection will require
+                The maximum number of threads which will be used used to proxy 
+                WebSocket connections through the gateway. A value of zero will cause
+                WebSockets to be blocked. Each WebSocket connection will require
                 two worker threads. If more than the max value are in use,
-                the daemon will immediately close the web socket even if the web
-                socket upgrade request to the application succeeded. The web
-                socket threads operate independently from the server:worker_threads
+                the daemon will immediately close the WebSocket even if the 
+                WebSocket upgrade request to the application succeeded. The 
+                WebSocket threads operate independently from the server:worker_threads
                 entry.
               type: number
               minimum: 0
@@ -777,7 +818,7 @@ server:
                   type: number
                   minimum: 1
                   maximum: unlimited
-                  default: 120
+                  default: 20
 
             front_end:
               description: >
@@ -803,7 +844,7 @@ server:
                   type: number
                   minimum: 1
                   maximum: unlimited
-                  default: 120
+                  default: 20
 
     local_pages:
       description: >
@@ -1093,25 +1134,36 @@ server:
             A boolean to indicate whether the credential service cache is 
             enabled or not.
           type: boolean
+          default: false
         cache_size:
           description: >
             The cache size, the number of entries which will be cached.
           type: number
+          minimum: 0
+          maximum: unlimited
+          default: 1024
         entry_lifetime:
           description: >
             The entry lifetime, the maximum number of seconds entries will be 
             cached for, regardless of whether they are being used or not.
           type: number
+          minimum: 0
+          maximum: unlimited
+          default: 900
         entry_idle_timeout:
           description: >
             The entry idle timeout, the number of seconds a cache entry which
             is not being used will remain cached for.
           type: number
+          minimum: 0
+          maximum: unlimited
+          default: 900
         login_clear_user:
           description: >
             If set to true, on successful authentication any existing cached 
             credentials for the authenticating user will be cleared.
           type: boolean
+          default: false
 
     local_applications:
       description: >
@@ -1179,6 +1231,7 @@ server:
                                    - "-AUTHENTICATION_LEVEL"
 
           type: object
+          x-name: Credential Viewer
           properties:
 
             path_segment:
@@ -1194,6 +1247,7 @@ server:
                 which can render the JSON data is enabled.
               type: boolean
               default: true
+              x-name: Enable HTML
 
             attributes:
               description: >
@@ -1203,6 +1257,9 @@ server:
               type: array
               items:
                 type: string
+                x-uuid: true
+                x-required: true
+                x-name: Attribute
 
         azn_decision:
           description: >
@@ -1218,6 +1275,7 @@ server:
                                  max_cache_lifetime: 60
 
           type: object
+          x-name: Authorization Decision
           properties:
 
             path_segment:
@@ -1258,6 +1316,7 @@ server:
                                  path_segment: jwks
 
           type: object
+          x-name: JWKS
           properties:
 
             path_segment:

@@ -18,6 +18,7 @@ policies:
         documentation for information about how to author HTTP transformation
         rules XSL documents.
       type: object
+      x-name: HTTP Transformations
       properties:
 
         request:
@@ -43,6 +44,8 @@ policies:
                 description: >
                   The name which is associated with this transformation.
                 type: string
+                x-uuid: true
+                x-required: true
               host:
                 description: >
                   The host (obtained from the host header in the request) for
@@ -57,6 +60,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Path
               method:
                 description: >
                   The HTTP method for which this transformation will take
@@ -93,6 +99,8 @@ policies:
                 description: >
                   The name which is associated with this transformation.
                 type: string
+                x-uuid: true
+                x-required: true
               host:
                 description: >
                   The host (obtained from the host header in the request) for
@@ -107,6 +115,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Path
               method:
                 description: >
                   The HTTP method for which this transformation will take
@@ -126,6 +137,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Attribute
 
     cors:
       description: |
@@ -164,6 +178,7 @@ policies:
                                    - test_header2
 
       type: array
+      x-name: CORS
       items:
         type: object
         properties:
@@ -172,6 +187,8 @@ policies:
             description: >
               The name which is associated with this CORS policy.
             type: string
+            x-uuid: true
+            x-required: true
 
           host:
             description: >
@@ -187,6 +204,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Path
 
           method:
             description: >
@@ -207,6 +227,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Origin
 
               handle_pre_flight:
                 description: >
@@ -215,6 +238,8 @@ policies:
                   pre-flight requests will be forwarded to the protected
                   application.
                 type: boolean
+                default: false
+                x-name: Handle Preflight
 
               allow_headers:
                 description: >
@@ -226,6 +251,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Header
 
               max_age:
                 description: >
@@ -237,7 +265,8 @@ policies:
                 type: number
                 minimum: -1
                 maximum: unlimited
-
+                default: -1
+                
               allow_methods:
                 description: >
                    Methods that are indicated as allowed in responses to
@@ -249,13 +278,17 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Method
 
               allow_credentials:
                 description: >
                   Indicates to clients that authentication is required when
                   accessing this resource.
                 type: boolean
-
+                default: false
+                
               expose_headers:
                 description: >
                   Indicates to clients which headers they expose from the
@@ -263,6 +296,9 @@ policies:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Header
 
     rate_limiting:
       description: |
@@ -294,6 +330,8 @@ policies:
             description: >
               The name to be associated with this rate limiting rule.
             type: string
+            x-uuid: true
+            x-required: true
 
           methods:
             description: >
@@ -302,6 +340,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Method
 
           paths:
             description: >
@@ -314,6 +355,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Path
 
           rule:
             description: >
@@ -347,6 +391,8 @@ policies:
             description: >
               A name to be associated with this content injection rule.
             type: string
+            x-uuid: true
+            x-required: true
 
           paths:
             description: >
@@ -355,6 +401,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Path
 
           full_line_match:
             description: >
@@ -426,7 +475,13 @@ policies:
                              oidc:
                                acr_values: "administrator mfa"
                                prompt: login
-
+                         - name: eula_not_accepted
+                           rule: 'eula != "true"'
+                           paths: 
+                             - "/application/*"
+                           action: "obligate"
+                           obligation:
+                             redirect_url: "/eula/landing?origin=%URL%&user=%CREDATTR{preferred_username}%&proxy=%HTTPHDR{x-ibm-proxy}%"
       type: array
       items:
         type: object
@@ -437,7 +492,8 @@ policies:
               A name for this policy, which is used to refer to this
               policy in audit events.
             type: string
-
+            x-uuid: true
+            x-required: true
           host:
             description: >
               The host (obtained from the host header in the request) for
@@ -453,6 +509,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Path
 
           methods:
             description: >
@@ -461,6 +520,9 @@ policies:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
+              x-name: Method
 
           rule:
             description: >
@@ -484,10 +546,27 @@ policies:
               - obligate
 
           obligation:
-            description: >
+            description: |
               If the action for this rule is obligate, this obligation must
               be defined to indicate that authentication should take place 
               again with specific parameters.
+
+              Note that a policy can only contain one obligated action, that is,
+              this entry must contain **oidc** or **redirect_url**.
+
+              ## Redirect URL Macros
+              The following macros are available:
+
+              Macro | Value
+              ------|------
+              %USERNAME% | The current logged in user, or **unauthenticated** for unauthenticated users.
+              %METHOD% | The HTTP method of the request which matched this policy.
+              %URL% | The URL the client was attempting to access when this policy was matched.
+              %HOSTNAME% | The hostname (HTTP Host header) of the client request which matched this policy.
+              %PROTOCOL% | The protocol (**http** or **https**) which was used 
+              %CREDATTR{<attribute_name>}% | The value of the credential attribute named by **<attribute_name>**.
+              %HTTPHDR{<header_name>}% | The value of the HTTP header from the client request named by **<header_name>**.
+
             type: object
             properties:
 
@@ -516,6 +595,7 @@ policies:
                                     acr_values: "urn:ibm:security:policy:id:2"
                                     prompt: "login"
                 type: object
+                x-name: OIDC
                 properties:
 
                   acr_values:
@@ -529,6 +609,7 @@ policies:
                       to your identity provider for further information about
                       the ACRs which it supports.
                     type: string
+                    x-name: acr Values
 
                   prompt:
                     description: >
@@ -542,3 +623,14 @@ policies:
                       for further information about support prompt values.
                     type: string
 
+              redirect_url:
+                description: >
+                  Allows clients to be redirected to a URL as a result of this
+                  policy evaluating successfully.
+
+                  This URL can contain embedded macros to include contextual
+                  information about the request and client which was obligated
+                  to be redirected to this URL. See the Redirect URL Macros
+                  table above for the available macros.
+                type: string
+                x-name: Redirect URL

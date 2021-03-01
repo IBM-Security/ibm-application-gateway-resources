@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **cookies** | [**ResourceServerCookies**](ResourceServerCookies.md) |  | [optional] 
 **mutual\_auth** | [**ResourceServerMutualAuth**](ResourceServerMutualAuth.md) |  | [optional] 
 **servers** | [**list[ResourceServerServers]**](ResourceServerServers.md) | Specifies the location of the resource server that is being protected.| [optional] 
-**forms\_login** | [**list[ResourceServerFormsLogin]**](ResourceServerFormsLogin.md) | Specifies the configuration information used for performing form-based single sign-on to the protected application.| [optional] 
+**forms\_login** | [**ResourceServerFormsLogin**](ResourceServerFormsLogin.md) |  | [optional] 
 **health** | [**ResourceServerHealth**](ResourceServerHealth.md) |  | [optional] 
 **worker\_threads** | [**ResourceServerWorkerThreads**](ResourceServerWorkerThreads.md) |  | [optional] 
 **persistent\_connections** | [**ResourceServerPersistentConnections**](ResourceServerPersistentConnections.md) |  | [optional] 

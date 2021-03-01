@@ -62,12 +62,15 @@ oauth:
                    multi_valued_scope: true
 
   type: object
+  x-name: OAuth
   properties:
 
       name:
         description: >
           The name which is used to identify and describe this endpoint.
         type: string
+        x-uuid: true
+        x-required: true
 
       restricted:
         description: >
@@ -96,6 +99,7 @@ oauth:
           The client identity which is used to authenticate to the introspection
           endpoint.
         type: string
+        x-name: Client ID
 
       client_secret:
         description: >
@@ -113,6 +117,7 @@ oauth:
           configuration entry.  If the client_id configuration entry is 
           provided this configuration entry will be ignored.
         type: string
+        x-name: Client ID Header
 
       auth_method:
         description: >
@@ -126,6 +131,7 @@ oauth:
         enum:
           - client_secret_post
           - client_secret_basic
+        x-name: Authentication Method
 
       token_type_hint:
         description: >
@@ -137,6 +143,7 @@ oauth:
         description: >
           SSL settings for the OAuth introspection connection.
         type: object
+        x-name: SSL
         properties:
           certificate:
             description: >
@@ -146,6 +153,8 @@ oauth:
             type: array
             items:
               type: string
+              x-uuid: true
+              x-required: true
 
       mapped_identity:
         description: >
@@ -173,6 +182,9 @@ oauth:
         type: array
         items:
           type: string
+          x-uuid: true
+          x-required: true
+          x-name: Attribute
 
       multi_valued_scope:
         description: >

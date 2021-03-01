@@ -56,8 +56,12 @@ authorization:
             description: >
               The name which will be given to this authorization rule.
             type: string
+            x-uuid: true
+            x-required: true
           rule:
             description: >
               The authorization rule. See the Rule Format table for a description of the expected format. 
             type: string
+            x-required: true
+            x-uuid: true
 

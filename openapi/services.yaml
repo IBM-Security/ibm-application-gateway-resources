@@ -52,6 +52,8 @@ services:
             description: >
               The name which is associated with this credential service.
             type: string
+            x-uuid: true
+            x-required: true
           host:
             description: >
               The hostname of the endpoint where the credentials will be 
@@ -77,6 +79,7 @@ services:
               substitute '{resource}' for the resource name provided in the
               configuration which refers to this credential service.
             type: string
+            x-name: URL Pattern
           user_attribute:
             description: >
               The name of the credential attribute which is used to populate 
@@ -103,10 +106,12 @@ services:
               data. This key should be an RSA or ECDSA key for which the 
               private and public parts are available.
             type: string
+            x-name: Encryption Key
           ssl:
             description: >
               SSL settings for the credential service connection.
             type: object
+            x-name: SSL
             properties:
               certificate:
                 description: >
@@ -118,18 +123,22 @@ services:
                 type: array
                 items:
                   type: string
+                  x-uuid: true
+                  x-required: true
               server_dn:
                 description: >
                   Specifies the accepted DN of the certificate presented by the 
                   credential service. If this entry is empty, any DN will be 
                   accepted.
                 type: string
+                x-name: Server DN
               sni:
                 description: >
                   The server name (SNI) which will be indicated when 
                   establishing a connection to the credential service. If this 
                   entry is empty, no name will be indicated.
                 type: string
+                x-name: SNI
           authentication:
             description: >
               Controls how IAG will authenticate itself when communicating with
@@ -137,44 +146,13 @@ services:
               any time.
             type: object
             properties:
-              ba:
-                description: >
-                  Uses basic authentication when communicating with the 
-                  credential service.
-                type: object
-                properties:
-                  username:
-                    description: >
-                      The username to be used to perform basic authentication 
-                      to the credential service.
-                    type: string
-                  password:
-                    description: >
-                      The password to be used to perform basic authentication 
-                      to the credential service.
-                    type: string
-              access_token:
-                description: >
-                  Uses an access token presented in the authorization header
-                  as a bearer token when communicating with the credential
-                  service.
-                type: object
-                properties:
-                  token:
-                    description: >
-                      The literal access token that will be passed as a bearer 
-                      token.
-
-                      Alternatively, if surrounded by {}, this field can name
-                      a credential attribute for which the value of will be
-                      used as a bearer token.
-                    type: string
               sso:
                 description: >
                   Uses the OAuth client credential flow to retrieve an access
                   token to use when communicating with to the credential 
                   service.
                 type: object
+                x-name: SSO
                 properties:
                   endpoint:
                     description: >
@@ -189,6 +167,7 @@ services:
                       The client identifier to use during the OAuth client 
                       credential flow.
                     type: string
+                    x-name: Client ID
                   client_secret:
                     description: >
                       The client identifier to use during the OAuth client 
@@ -205,6 +184,42 @@ services:
                           secret.
                     type: string
                     default: basic
+                    enum:
+                      - basic
+                      - form
+              access_token:
+                description: >
+                  Uses an access token presented in the authorization header
+                  as a bearer token when communicating with the credential
+                  service.
+                type: object
+                properties:
+                  token:
+                    description: >
+                      The literal access token that will be passed as a bearer 
+                      token.
+
+                      Alternatively, if surrounded by {}, this field can name
+                      a credential attribute for which the value of will be
+                      used as a bearer token.
+                    type: string
+              ba:
+                description: >
+                  Uses basic authentication when communicating with the 
+                  credential service.
+                type: object
+                x-name: Basic Authentication
+                properties:
+                  username:
+                    description: >
+                      The username to be used to perform basic authentication 
+                      to the credential service.
+                    type: string
+                  password:
+                    description: >
+                      The password to be used to perform basic authentication 
+                      to the credential service.
+                    type: string
     kerberos:
       description: |
         This configuration is used to describe a Kerberos configuration file 
@@ -252,6 +267,7 @@ services:
             'setspn' (that is, setspn -L user, where user is the identity of the IAG
             account).
           type: string
+          x-name: Keytab SPN
         realms:
           description: >
             Realm-specific contact information and settings associated with the Microsoft Windows Server to use
@@ -264,11 +280,14 @@ services:
                 description: >
                   The name of the Kerberos Realm being configured.
                 type: string
+                x-uuid: true
+                x-required: true
               kdc:
                 description: >
                   The name or address of a host running a KDC for that realm. An optional port number, separated 
                   from the hostname by a colon, may be included.
                 type: string
+                x-name: KDC
               properties:
                 description: >
                   Advanced additional properties to be added to the Realm configuration.
@@ -281,6 +300,8 @@ services:
                       description: >
                         Name of the entry to be written into the realms section of the Kerberos configuration.
                       type: string
+                      x-uuid: true
+                      x-required: true
                     value:
                       description: >
                         Value of the entry to be written into the realms section of the Kerberos configuration.
@@ -294,6 +315,7 @@ services:
             Advanced additional properties to be added to the Kerberos library configuration.
             These properties correspond to the properties in the [libdefaults] section of krb5.conf.
           type: object
+          x-name: libdefaults
           properties:
             properties:
               description: >
@@ -307,6 +329,8 @@ services:
                     description: >
                       Name of the entry to be written into the libdefaults section of the Kerberos configuration.
                     type: string
+                    x-uuid: true
+                    x-required: true
                   value:
                     description: >
                       Value of the entry to be written into the libdefaults section of the Kerberos configuration.
@@ -316,6 +340,7 @@ services:
           description: >
             Authentication paths for non-hierarchical cross-realm.
           type: array
+          x-name: capaths
           items:
             type: object
             properties:
@@ -323,6 +348,8 @@ services:
                 description: >
                   The client realm for this authentication path.
                 type: string
+                x-uuid: true
+                x-required: true
               realms:
                 description: >
                   The realms associated with this capath.
@@ -334,6 +361,8 @@ services:
                       description: >
                         The server realm for this capath.
                       type: string
+                      x-uuid: true
+                      x-required: true
                     inter_realm:
                       description: >
                         The inter realm for this capath.

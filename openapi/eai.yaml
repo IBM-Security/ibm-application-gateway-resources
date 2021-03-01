@@ -1,25 +1,16 @@
-# (c) Copyright International Business Machines Corp. 2020
+# (c) Copyright International Business Machines Corp. 2020, 2021
 # The source code for this program is not published or otherwise divested
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
 
-identity:
-  eai:
-    description: >
-      External Authentication Interface, which allows an application
-      to assert client identity information to the IBM Application Gateway
-      container.
-      NB: Please note that this won't be an initially supported identity
-      source. It is for internal IBM testing only.
-    type: object
-    properties:
-      auth_challenge_redirect:
-        description: >
-          The URI to which a client will be redirected in order to start
-          the authentication process. Please note that if this resource
-          is hosted by the IBM Application Gateway an access policy which allows
-          unauthenticated access to the resource must be created.
-        type: string
+eai:
+  description: >
+    External Authentication Interface, which allows an application
+    to assert client identity information to the IBM Application Gateway
+    container.
+  type: object
+  x-name: EAI
+  properties:
       triggers:
         description: >
           The list of URLs for which the response could potentially
@@ -40,4 +31,6 @@ identity:
         type: array
         items:
           type: string
-
+          x-uuid: true
+          x-required: true
+          x-name: Trigger
