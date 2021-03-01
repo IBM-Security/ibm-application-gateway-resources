@@ -1,20 +1,34 @@
-# (c) Copyright International Business Machines Corp. 2020
+# (c) Copyright International Business Machines Corp. 2020, 2021.
 # The source code for this program is not published or otherwise divested
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
 
 openapi: '3.0'
 info:
-  version: 20.12
+  version: 21.02
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:
   schemas:
     version:
       type: string
+      enum:
+        - 19.12
+        - 20.01
+        - 20.04
+        - 20.07
+        - 20.09
+        - 20.12
+        - 21.02
 
-    advanced:
-      $ref: "advanced.yaml#/advanced"
+    secrets:
+      $ref: "secrets.yaml#/secrets"
+
+    server:
+      $ref: "server.yaml#/server"
+
+    identity:
+      $ref: "identity.yaml#/identity"
 
     resource_servers:
       description:
@@ -24,43 +38,20 @@ components:
       items:
         $ref: "resource_server.yaml#/resource_server"
 
+    policies:
+      $ref: "policies.yaml#/policies"
+
     authorization:
       $ref: "authorization.yaml#/authorization"
 
-    identity:
-      description: >
-        This node defines how users will authenticate to the reverse proxy.
-        Only one identity method can be used at a time and this parameter should
-        contain only a single child.
-      type: object
-      properties:
-        ci_oidc:
-          $ref: "ci_oidc.yaml#/ci_oidc"
-        oidc:
-          $ref: "oidc.yaml#/oidc"
-        oauth:
-          description:
-            This node is used to specify OAuth introspection endpoints which
-            can be used by the reverse proxy to authenticate OAuth bearer
-            tokens.
-          type: array
-          items:
-            $ref: "oauth.yaml#/oauth"
+    services:
+      $ref: "services.yaml#/services"
 
     logging:
       $ref: "logging.yaml#/logging"
 
-    server:
-      $ref: "server.yaml#/server"
-
-    policies:
-      $ref: "policies.yaml#/policies"
-
-    secrets:
-      $ref: "secrets.yaml#/secrets"
-
-    services:
-      $ref: "services.yaml#/services"
+    advanced:
+      $ref: "advanced.yaml#/advanced"
 
 paths:
   /:

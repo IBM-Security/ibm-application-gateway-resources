@@ -35,10 +35,14 @@ advanced:
               The name of the configuration stanza which contains the
               configuration entry.
             type: string
+            x-uuid: true
+            x-required: true
           entry:
             description: >
               The name of the configuration entry.
             type: string
+            x-uuid: true
+            x-required: true
           operation:
             description: >
               The operation to be perform on the configuration entry.
@@ -47,6 +51,8 @@ advanced:
               - delete
               - add
               - set
+            x-uuid: true
+            x-required: true
           value:
             description:
               The value(s) for the new configuration entry. The value is
@@ -54,4 +60,5 @@ advanced:
             type: array
             items:
               type: string
-
+              x-uuid: true
+              x-required: true

@@ -5,6 +5,7 @@ This repository contains the SDK for the IBM Application Gateway (IAG) container
 
 |Directory Name|Description
 |--------------|-----------
+| config-ui | This directory contains source code for the configuration YAML UI [live version](https://ibm.biz/ibm-app-gateway-yaml) (see [README.md](config-ui/generator/README.md)).
 | kubernetes | This directory contains some files which are useful when executing the IAG container in a Kubernetes environment (see [README.md](kubernetes/README.md)).
 | openapi | This directory contains the OpenAPI schema files which are used to define the YAML format of the IAG configuration (see [README.md](openapi/README.md)).
 | openshift | This directory contains some files which are useful when executing the IAG container in a RedHat OpenShift environment (see [README.md](openshift/README.md)).

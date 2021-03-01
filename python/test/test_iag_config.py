@@ -128,7 +128,31 @@ try:
                         proxy              = "https://proxy:3128",
                         attributes         = [ "-attr_1", "+*" ],
                         multi_valued_scope = True
-                    )]
+                    )],
+                    eai = Eai(triggers = [
+                        "/foo/bar",
+                        "/foo/baz"
+                    ]),
+                    auth_challenge_redirect = IdentityAuthChallengeRedirect(
+                        url="/foo/login",
+                        parameters=[
+                            IdentityAuthChallengeRedirectParameters(
+                                source="macro",
+                                value="METHOD",
+                                name="methodName"
+                            ),
+                            IdentityAuthChallengeRedirectParameters(
+                                source="header",
+                                value="X-IBM-Proxy",
+                                name="proxyName"
+                            ),
+                            IdentityAuthChallengeRedirectParameters(
+                                source="credential",
+                                value="AZN_CRED_NETWORK_ADDRESS_STR",
+                                name="sourceIp"
+                            ),
+                        ]
+                    )
     )
 
     #

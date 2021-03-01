@@ -1,4 +1,4 @@
-# (c) Copyright International Business Machines Corp. 2020
+# (c) Copyright International Business Machines Corp. 2020, 2021
 # The source code for this program is not published or otherwise divested
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
@@ -20,6 +20,7 @@ logging:
                      json_logging: true
       type: boolean
       default: false
+      x-name: JSON Logging
 
     components:
       description: >
@@ -34,6 +35,9 @@ logging:
         enum:
           - audit.authn
           - audit.azn
+        x-uuid: true
+        x-required: true
+        x-name: Component
 
     request_log:
       description: |
@@ -107,13 +111,14 @@ logging:
               type: number
               minimum: 1
               maximum: unlimited
+              default: 1
             max_rollover_files:
               description: >
                 The maximum number of rollover files to be kept on disk.  When
                 the number of rollover log files reaches the specified 
                 threshold, the oldest log file is deleted.
               type: number
-              default: unlimited
+              default: 1
               minimum: 1
               maximum: unlimited
             compress:
@@ -147,6 +152,13 @@ logging:
       items:
         type: object
         properties:
+          component:
+            description: >
+              The name of the tracing component to be enabled. Refer to
+              the troubleshooting documentation for the full list of component names.
+            type: string
+            x-uuid: true
+            x-required: true
           file_name:
             description: >
               The name of the generated log file.  If the file name 
@@ -155,11 +167,8 @@ logging:
               contains path information the hosting directory must be created
               and available before the container is started.
             type: string
-          component:
-            description: >
-              The name of the tracing component to be enabled. Refer to
-              the troubleshooting documentation for the full list of component names.
-            type: string
+            x-required: true
+            x-uuid: true
           level:
             description: >
               The level of detail to be gathered by the tracing component in the range 0 to 9.
@@ -168,6 +177,7 @@ logging:
             type: number
             minimum: 0
             maximum: 9
+            default: 0
 
     transaction:
       description: >
@@ -190,14 +200,15 @@ logging:
             information the hosting directory must be created and available 
             before the container is started.
           type: string
+          x-required: true
         max_file_size:
           description: >
-            The maximum size of the log file (in bytes) before it is rolled over.
-            If not specified the file size is unlimited.
+            The maximum size of the log file (in kilobytes) before it is rolled over.
+            If not specified the file size is 262144 KB (256MB).
           type: number
           minimum: 1
           maximum: unlimited
-          default: unlimited
+          default: 262144
         max_files:
           description: > 
             The maximum number of files to be created, including rollover files.
@@ -205,7 +216,7 @@ logging:
           type: number
           minimum: 1
           maximum: unlimited
-          default: unlimited
+          default: 1
         compress:
           description: >
             A boolean which indicates whether the generated
@@ -234,11 +245,14 @@ logging:
           description: >
             The server on which the statsd server is listening for requests.
           type: string
+          x-required: true
         port:
           description: >
             The port on which the statsd server is listening for requests.
           type: number
           default: 8125
+          minimum: 0
+          maximum: 65535
         frequency:
           description: >
             The frequency (in seconds) that statistics are sent from the
@@ -246,6 +260,8 @@ logging:
           type: number
           minimum: 1
           maximum: unlimited
+          default: 1
+          x-required: true
         components:
           type: array
           description: >
@@ -254,6 +270,9 @@ logging:
             available component names.
           items:
             type: string
+            x-uuid: true
+            x-required: true
+            x-name: Component
           enum:
             - iag.authn
             - iag.http2

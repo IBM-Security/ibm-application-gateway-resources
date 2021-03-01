@@ -1,0 +1,165 @@
+$feature-flags: (
+  ui-shell: true,
+  grid-columns-16: true,
+);
+
+// Feature flags
+$css--font-face: true;
+$css--plex: true;
+
+// Global styles
+@import 'carbon-components/scss/globals/scss/css--font-face';
+@import 'carbon-components/scss/globals/grid/grid';
+
+// Carbon components
+@import 'carbon-components/scss/components/breadcrumb/breadcrumb';
+@import 'carbon-components/scss/components/button/button';
+@import 'carbon-components/scss/components/copy-button/copy-button';
+@import 'carbon-components/scss/components/text-input/text-input';
+@import 'carbon-components/scss/components/number-input/number-input';
+@import 'carbon-components/scss/components/data-table/data-table';
+@import 'carbon-components/scss/components/link/link';
+@import 'carbon-components/scss/components/pagination/pagination';
+@import 'carbon-components/scss/components/tabs/tabs';
+@import 'carbon-components/scss/components/ui-shell/ui-shell';
+@import 'carbon-components/scss/components/accordion/accordion';
+@import 'carbon-components/scss/components/data-table/data-table';
+@import 'carbon-components/scss/components/modal/modal';
+
+// Add underline to populated component links
+span .populatedLink {
+  text-decoration: underline;
+}
+
+// Style the collapsible descriptions
+.Collapsible {
+  background-color: white; 
+}
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid #EBEBEB;
+  border-top: 0; 
+}
+.Collapsible__contentInner p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px; 
+}
+.Collapsible__contentInner p:last-child {
+    margin-bottom: 0; 
+}
+.Collapsible__trigger {
+  display: block;
+  font-weight: 400;
+  text-decoration: none;
+  color: #333333;
+  position: relative;
+  border: 1px solid white;
+  padding: 10px; 
+  padding-right: 20px;
+}
+.Collapsible__trigger:after {
+    font-family: 'FontAwesome';
+    content: '\02795';
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    display: block;
+    transition: transform 300ms; 
+}
+.Collapsible__trigger.is-open:after {
+    content: '\2796'; 
+}
+.Collapsible__trigger.is-disabled {
+    opacity: 0.5;
+    background-color: grey; 
+}
+.CustomTriggerCSS {
+  background-color: lightcoral;
+  transition: background-color 200ms ease; 
+}
+.CustomTriggerCSS--open {
+  background-color: darkslateblue; 
+}
+.Collapsible__custom-sibling {
+  padding: 5px;
+  font-size: 12px;
+  background-color: #CBB700;
+  color: black; 
+}
+
+// Remove overrides once Carbon bugs are fixed upstream.
+
+/// The React <Content /> component uses the `main` element which IE11 doesn't recognize
+/// @link https://github.com/carbon-design-system/carbon/issues/2789
+main {
+  display: block;
+}
+
+/// Need grid option to not add page gutters at large viewports, to also use when nesting grids
+/// @link https://github.com/carbon-design-system/carbon/issues/2792
+@media (min-width: 42rem) {
+  .bx--grid--no-gutter {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/// Padding was introduced in 10.3.0, needs an option to let grid set the viewport gutter
+/// @link https://github.com/carbon-design-system/carbon/issues/3010
+.bx--content {
+  padding: 0;
+}
+
+.iag_form_elem {
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+.iag_tab_heading{
+  padding-top:20px;
+  padding-bottom:20px;
+  background-color: #F6F4F4;
+  margin-top: 0px;
+  margin-left: -10px;
+}
+
+.iag_sublevel_tabs .iag_tab_heading {
+  margin-left: 0px;
+}
+
+.landing_page__r2 .bx--col-lg-16{
+  background-color: #fff;
+  padding-bottom: 20px;
+  margin-bottom: 50px;
+}
+.rwt__tabpanel{
+  background-color: #fff;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+.rwt__tab{
+  text-align: left;
+}
+.rwt__tabs{
+  margin-bottom: 50px;
+}
+.rwt__tablist{
+  margin-right: 0px;
+}
+
+.iag--simple-div{
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid;
+  border-color: #e0e0e0;
+}
+
+.iag-wdgt-container{
+  border-left: 1px solid;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-right: 0px;
+  border-color: #e0e0e0 #e0e0e0 #e0e0e0 #e0e0e0;
+  padding-left: 10px; 
+}

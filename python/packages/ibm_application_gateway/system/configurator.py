@@ -30,7 +30,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "20.12",
+                    version          = "21.02",
                     server           = None,
                     identity         = None,
                     authorization    = None,
@@ -276,4 +276,3 @@ class ConfiguratorFile(object):
         return self.value
 
 #############################################################################
-

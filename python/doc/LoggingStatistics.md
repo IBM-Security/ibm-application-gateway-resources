@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **server** | **str** | The server on which the statsd server is listening for requests.  | [optional] 
 **port** | **float** | The port on which the statsd server is listening for requests.  | [optional] [default to 8125]
-**frequency** | **float** | The frequency (in seconds) that statistics are sent from the memory buffer to the statsd server.   | [optional] 
+**frequency** | **float** | The frequency (in seconds) that statistics are sent from the memory buffer to the statsd server.   | [optional] [default to 1]
 **components** | **list[str]** | Specifies an array of statistic components to be enabled.  Refer to the troubleshooting documentation for a full description of the available component names.  | [optional] 
 
 [[Back to README]](../README.md)

@@ -1,4 +1,4 @@
-# (c) Copyright International Business Machines Corp. 2020
+# (c) Copyright International Business Machines Corp. 2020, 2021
 # The source code for this program is not published or otherwise divested
 # of its trade secrets, irrespective of what has been deposited with the
 # U.S. Copyright Office.
@@ -114,6 +114,7 @@ ci_oidc:
                          - "-email"
 
   type: object
+  x-name: CI OIDC (deprecated)
   properties:
 
     hostname:
@@ -125,6 +126,7 @@ ci_oidc:
       description: >
         The client identity registered with IBM Security Verify.
       type: string
+      x-name: Client ID
 
     client_secret:
       description: >
@@ -148,6 +150,7 @@ ci_oidc:
         from the request will be used. The format of the redirect URI will
         be: http[s]://\<host\>/pkmsoidc.
       type: string
+      x-name: Redirect URI Host
 
     response_type:
       description: >
@@ -158,6 +161,7 @@ ci_oidc:
         - code
         - id_token
         - id_token token
+      default: code
 
     response_mode:
       description: >
@@ -184,11 +188,14 @@ ci_oidc:
       type: array
       items:
         type: string
+        x-uuid: true
+        x-required: true
         enum:
           - profile
           - email
           - address
           - phone
+        x-name: Scope
 
     allowed_query_args:
       description: >
@@ -198,8 +205,12 @@ ci_oidc:
         a list of allowed query string arguments. Any other arguments passed
         to the kick-off URL will be ignored.
       type: array
+      x-name: Allowed Query Arguments
       items:
         type: string
+        x-uuid: true
+        x-required: true
+        x-name: Allowed Query Argument
 
     bearer_token_attrs:
       description: >
@@ -207,8 +218,12 @@ ci_oidc:
         included or excluded in the credential as an extended attribute. See the
         Bearer Token Attrs Format table for a description of the expected format.
       type: array
+      x-name: Bearer Token Attributes
       items:
         type: string
+        x-uuid: true
+        x-required: true
+        x-name: Bearer Token Attribute
 
     id_token_attrs:
       description: >
@@ -216,6 +231,9 @@ ci_oidc:
         in the credential as an extended attribute. See the ID Token Attrs Format
         table for a description of the expected format. 
       type: array
+      x-name: ID Token Attributes
       items:
         type: string
-
+        x-uuid: true
+        x-required: true
+        x-name: ID Token Attribute

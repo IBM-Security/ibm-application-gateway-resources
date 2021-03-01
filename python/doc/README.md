@@ -9,6 +9,8 @@ This python API has been automatically generated from the IBM Application Gatewa
 - [Policies](Policies.md)
 - [Identity](Identity.md)
 - [Oauth](Oauth.md)
+- [Version](Version.md)
+- [Eai](Eai.md)
 - [Advanced](Advanced.md)
 - [Logging](Logging.md)
 - [Oidc](Oidc.md)
