@@ -1447,6 +1447,9 @@ const schema = {
       protocols: [
         "string",
       ],
+      client_ip_rules: [
+        "string",
+      ],
       ssl: {
         front_end: {
           certificate: [
@@ -1646,6 +1649,13 @@ const schema = {
             "string",
           ],
           multi_valued_scope: true,
+          headers: [
+            {
+              source: "string",
+              value: "string",
+              name: "string",
+            },
+          ],
         },
       ],
       eai: {
@@ -1767,6 +1777,8 @@ const schema = {
               case_insensitive: true,
               windows: true,
             },
+            priority: 0,
+            uuid: "string",
           },
         ],
         forms_login: {
@@ -2150,10 +2162,11 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02"], 0, false, 0, false, annots);
+                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04"], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https"], 0, false, 0, false, annots);
+          validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
+          validateEntry(op, "server.client_ip_rules[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.certificate[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
@@ -2255,6 +2268,9 @@ const schema = {
           validateEntry(op, "identity.oauth[i].proxy", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.oauth[i].attributes[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.oauth[i].multi_valued_scope", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].source", "string", editorText, ["text","header","credential"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.eai.triggers[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.ci_oidc.hostname", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.ci_oidc.client_id", "string", editorText, [], 0, false, 0, false, annots);
@@ -2313,6 +2329,8 @@ const schema = {
           validateEntry(op, "resource_servers[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].url_style.case_insensitive", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].url_style.windows", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].priority", "number", editorText, [], 1, true, 9, true, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].uuid", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.credential_learning", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_action", "string", editorText, [], 0, false, 0, false, annots);
