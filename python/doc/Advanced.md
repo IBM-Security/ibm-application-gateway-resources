@@ -2,7 +2,7 @@
 
 ## Description
 
-The 'advanced' node defines advanced daemon tuning parameters.
+The `advanced` node defines advanced daemon tuning parameters.
 
 
 ## Properties

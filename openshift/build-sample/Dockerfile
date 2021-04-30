@@ -1,10 +1,7 @@
-# (c) Copyright International Business Machines Corp. 2019
-# The source code for this program is not published or otherwise divested
-# of its trade secrets, irrespective of what has been deposited with the
-# U.S. Copyright Office.
+# Copyright contributors to the Application Gateway project
 
 # The container is based on the IAG container.
-FROM ibmcom/ibm-application-gateway:20.12
+FROM ibmcom/ibm-application-gateway:21.04
 
 # Copy the configuration files from the config directory
 # to the docker image.

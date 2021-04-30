@@ -1,8 +1,5 @@
 """
-(c) Copyright International Business Machines Corp. 2020
-The source code for this program is not published or otherwise divested
-of its trade secrets, irrespective of what has been deposited with the
-U.S. Copyright Office.
+Copyright contributors to the Application Gateway project
 """
 
 import atexit
@@ -102,6 +99,11 @@ class Container(object):
 
         removeAtExit: should the container be automatically removed when the
                       script exits?
+        protocol: the protocol we expect the container to be able to listen
+                  on and will use to wait for the container to start (https
+                  or http). If None is given, we will wait for the container
+                  to report a healthy status - this is slower than checking
+                  the http/https interfaces.
         """
 
         image  = "{0}:{1}".format(
@@ -129,14 +131,18 @@ class Container(object):
             time.sleep(1)
 
             try:
-                logger.info("Protocol in loop {0}".format(protocol))
-                logger.info("Port in loop {0}".format(self.port(protocol)))
-                logger.info("IP in loop {0}".format(self.ipaddr()))
-                requests.get("{0}://{1}:{2}".format(
-                        protocol, self.ipaddr(), self.port(protocol)),
-                        verify=False, allow_redirects=False, timeout=2)
+                if protocol is None:
+                    logger.info("Waiting for container to report ready state")
+                    running = self.client_.status()
+                else:
+                    logger.info("Protocol in loop {0}".format(protocol))
+                    logger.info("Port in loop {0}".format(self.port(protocol)))
+                    logger.info("IP in loop {0}".format(self.ipaddr()))
+                    requests.get("{0}://{1}:{2}".format(
+                            protocol, self.ipaddr(), self.port(protocol)),
+                            verify=False, allow_redirects=False, timeout=2)
 
-                running = True
+                    running = True
             except:
                 self.client_.reload()
                 attempt += 1
@@ -343,6 +349,13 @@ class DockerContainer(object):
 
         return rc, outputDecoded
 
+    def status(self):
+        """
+        Checks that the container status is healthy.
+        """
+        self.container_.reload()
+        return self.container_.attrs["State"]["Health"]["Status"] == "healthy"
+
 class KubernetesContainer(object):
     """
     This class is used to manage the IBM Application Gateway Kubernetes
@@ -376,7 +389,8 @@ class KubernetesContainer(object):
         self.ext_api_        = kubernetes.client.ApiextensionsV1beta1Api()
         self.obj_api_        = kubernetes.client.CustomObjectsApi()
         self.namespace_      = Environment.get("kubernetes.namespace")
-        self.port_           = None
+        self.port_https_     = None
+        self.port_http_      = None
         self.deploymentName_ = "ibm-app-gw-{0}".format(uuid.uuid1())
         self.configmapName_  = "ibm-app-gw.config.{0}".format(uuid.uuid1())
         self.useCRD_         = self.useCRD()
@@ -441,7 +455,7 @@ class KubernetesContainer(object):
 
         import kubernetes
 
-        if self.port_ is not None:
+        if self.port_https_ is not None or self.port_http_ is not None:
             logger.critical(
                 "A container has already been started in this object.")
 
@@ -505,8 +519,11 @@ class KubernetesContainer(object):
                             body      = service,
                             namespace = self.namespace_)
 
-        self.port_ = 8443 if "KUBERNETES_SERVICE_PORT" in os.environ \
+        self.port_https_ = 8443 if "KUBERNETES_SERVICE_PORT" in os.environ \
                         else api_response.spec.ports[0].node_port
+
+        self.port_http_ = 8080 if "KUBERNETES_SERVICE_PORT" in os.environ \
+                        else api_response.spec.ports[1].node_port
 
         logger.debug("Service created: status='{0}'".format(
                         api_response.status))
@@ -523,19 +540,30 @@ class KubernetesContainer(object):
         Retrieve the port for the current running container.
         """
 
-        if self.port_ is None:
-            logger.critical("Error> the container is not currently running!")
+        if protocol == "https":
+            if self.port_https_ is None:
+                logger.critical("Error> the container is not currently running!")
 
-            raise Exception("The container is not currently running!")
+                raise Exception("The container is not currently running!")
+            return self.port_https_
+        elif protocol == "http":
+            if self.port_http_ is None:
+                logger.critical("Error> the container is not currently running!")
 
-        return self.port_
+                raise Exception("The container is not currently running!")
+            return self.port_http_
+        else:
+            logger.critical("Error> invalid protocol!")
+
+            raise Exception("An attempt was made to return the port for an invalid protocol")
+
 
     def ipaddr(self, protocol="https"):
         """
         Retrieve the IP address which can be used to access the container.
         """
 
-        if self.port_ is None:
+        if self.port(protocol) is None:
             logger.critical("Error> the container is not currently running!")
 
             raise Exception("The container is not currently running!")
@@ -551,7 +579,7 @@ class KubernetesContainer(object):
 
         import kubernetes
 
-        if self.port_ is not None:
+        if self.port_https_ is not None or self.port_http_ is not None:
             logger.info("Stopping the deployment: {0}".format(
                                             self.deploymentName_))
 
@@ -632,7 +660,8 @@ class KubernetesContainer(object):
                 except Exception as exc:
                     logger.error(exc)
 
-            self.port_ = None
+            self.port_https_ = None
+            self.port_http_ = None
 
     def createKubernetesSecret(self, secret_name, secret_data, secret_type=None):
         """
@@ -687,6 +716,54 @@ class KubernetesContainer(object):
         api_response = v1.delete_namespaced_secret(secret_name, self.namespace_)
         return api_response.status == "Success"
 
+    def createKubernetesConfigMap(self, config_map_name, config_map_data):
+        """
+        The following command is used to create a Kubernetes ConfigMap.
+        Returns True if successful. 
+        Returns False if there was an error.
+        """
+        from kubernetes import client, config
+        v1 = client.CoreV1Api()
+        try:
+            api_response = v1.read_namespaced_config_map(config_map_name, self.namespace_)
+            if api_response.kind == 'ConfigMap':
+                logger.debug("ConfigMap already exists")
+                return False
+
+        except kubernetes.client.rest.ApiException as e:
+            logger.debug("No ConfigMap with name: {0} exists. Creating new ConfigMap.".format(config_map_name))
+
+            metadata = {'name': config_map_name, 'namespace': self.namespace_}
+            data = config_map_data
+            api_version = 'v1'
+            kind = 'ConfigMap'
+            body = kubernetes.client.V1ConfigMap(api_version, None, data, kind, metadata)
+
+            api_response = v1.create_namespaced_config_map(self.namespace_, body)
+            # Check to make sure response is success
+            return api_response.kind == 'ConfigMap'
+
+    def deleteKubernetesConfigMap(self, config_map_name):
+        """
+        The following command is used to remove a Kubernetes ConfigMap from the
+        current Kubernetes namespace.
+        Returns True if successful or there was nothing to be deleted. 
+        Returns False if there was an error.
+        """
+        from kubernetes import client, config
+
+        v1 = client.CoreV1Api()
+
+        try:
+            api_response = v1.read_namespaced_config_map(config_map_name, self.namespace_)
+        except kubernetes.client.rest.ApiException as e:
+            if e.status == 404:
+                return True
+
+        # Check to make sure response is ConfigMap exists and only then delete it
+        api_response = v1.delete_namespaced_config_map(config_map_name, self.namespace_)
+        return api_response.status == "Success"
+
     def __createDeploymentObject(self, image):
         """
         Create the deployment object for the IBM Application Gateway.
@@ -731,7 +808,25 @@ class KubernetesContainer(object):
                 ],
             env           = self.env_,
             volume_mounts = volume_mounts,
-            env_from      = self.secrets_
+            env_from      = self.secrets_,
+            readiness_probe=kubernetes.client.V1Probe(
+                _exec=kubernetes.client.V1ExecAction(
+                    command=[
+                        "/sbin/health_check.sh"
+                    ]
+                ),
+                initial_delay_seconds=5,
+                period_seconds=10
+            ),
+            liveness_probe=kubernetes.client.V1Probe(
+                _exec=kubernetes.client.V1ExecAction(
+                    command=[
+                        "/sbin/health_check.sh"
+                    ]
+                ),
+                initial_delay_seconds=5,
+                period_seconds=10
+            )
         )
 
         # Create the secret which is used when pulling the IAG image.
@@ -824,7 +919,7 @@ class KubernetesContainer(object):
         
         log = None
 
-        if self.port_ is not None:
+        if self.port_https_ is not None or self.port_http_ is not None:
             try:
                 # Grab the log file of the pod.  The first thing to do is
                 # determine the pod name, and then we can retrieve the log for
@@ -855,7 +950,7 @@ class KubernetesContainer(object):
         rc = 0
         output = None
 
-        if self.port_ is not None:
+        if self.port_https_ is not None or self.port_http_ is not None:
             try:
                 # Attempt to execute a command in the pod.  The first thing to
                 # do is determine the pod name, and then we can perform an
@@ -880,3 +975,19 @@ class KubernetesContainer(object):
                     format(e))
 
         return rc, output
+
+    def status(self):
+        """
+        Checks that the first container in the pod is healthy.
+        """
+
+        try:
+            api_response = self.core_api_.list_namespaced_pod(
+                self.namespace_,
+                label_selector="app = {0}".format(self.deploymentName_))
+
+            return api_response.items[0].status.container_statuses[0].ready
+
+        except kubernetes.client.rest.ApiException as e:
+            logger.error("Failed to retrieve pods: {0}".format(e))
+            return False

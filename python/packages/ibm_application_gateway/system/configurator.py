@@ -1,10 +1,7 @@
 #!/usr/local/bin/python3
 
 """
-(c) Copyright International Business Machines Corp. 2020
-The source code for this program is not published or otherwise divested
-of its trade secrets, irrespective of what has been deposited with the
-U.S. Copyright Office.
+Copyright contributors to the Application Gateway project
 """
 
 import logging as sys_logging
@@ -30,7 +27,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "21.02",
+                    version          = "21.04",
                     server           = None,
                     identity         = None,
                     authorization    = None,

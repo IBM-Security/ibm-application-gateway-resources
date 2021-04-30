@@ -2,7 +2,16 @@
 
 ## Description
 
-Specifies the limits that can be set on the percentage of worker threads that may be consumed by this resource server. 
+Specifies the limits that can be set on the percentage of worker threads that may be consumed by this resource server.
+
+Example:
+resource_servers:
+  - path: "/example"
+    # ...
+    worker_threads:
+      soft_limit: 60
+      hard_limit: 80
+
 
 ## Properties
 

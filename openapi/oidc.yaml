@@ -1,27 +1,22 @@
-# (c) Copyright International Business Machines Corp. 2020, 2021
-# The source code for this program is not published or otherwise divested
-# of its trade secrets, irrespective of what has been deposited with the
-# U.S. Copyright Office.
+# Copyright contributors to the Application Gateway project
 
 oidc:
   description: |
-    The configuration entries in this section allow the reverse proxy to
-    act as an OIDC relying party. IBM Security Verify, IBM Security Verify Access
-    and IBM Security Access Manager 9.0.7.0+ are supported as OIDC identity providers.
+    The configuration entries in this section allow the reverse proxy to act as an OIDC relying party.
+    IBM Security Verify, IBM Security Verify Access and IBM Security Access Manager 9.0.7.0+ are supported as OIDC identity providers.
 
-    ## Response Type Values
+    ### Response Type Values
     Name | Description
     ---- | -----------
     code | The authorization code flow will be used to retrieve both an access token and identity token.
     id_token | The implicit flow will be used to retrieve the identity token.
     id_token token | The implicit flow will be used to retrieve both an access token and identity token.
 
-    ## Bearer Token Attrs Format
-    A JSON data element from the bearer token response which should be
-    included or excluded in the credential as an extended attribute. The format
-    of the configuration entry is:
+    ### Bearer Token Attrs Format
+    A JSON data element from the bearer token response which should be included or excluded in the credential as an extended attribute.
+    The format of the configuration entry is:
 
-           [+|-]<json-data>
+    `[+|-]<json-data>`
 
     where:
 
@@ -29,22 +24,19 @@ oidc:
     ------- | -----------
     + | Indicates that this JSON data should be added to the credential.
     - | Indicates that this JSON data should not be added to the credential.
-    \<json-data\> | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?).
+    &lt;json-data&gt; | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?).
 
-    For example the value "-access\_token" indicates that the access_token should not be added to the credential.
+    For example the value "-access_token" indicates that the access_token should not be added to the credential.
 
-    When a bearer token is received each JSON data element will be
-    evaluated against each rule in sequence until a match is found.
-    The corresponding code (+|-) will then be used to determine whether
-    the JSON data will be added to the credential or not. If the JSON
-    data name does not match a configured rule it will by default be
-    added to the credential.
+    When a bearer token is received each JSON data element will be evaluated against each rule in sequence until a match is found.
+    The corresponding code (+|-) will then be used to determine whether the JSON data will be added to the credential or not.
+    If the JSON data name does not match a configured rule it will by default be added to the credential.
 
-    ## ID Token Attrs Format
-    A claim from the ID token response which should be included or excluded in the
-    credential as an extended attribute. The format of the configuration entry is:
+    ### ID Token Attrs Format
+    A claim from the ID token response which should be included or excluded in the credential as an extended attribute.
+    The format of the configuration entry is:
 
-           [+|-]<claim>
+    `[+|-]<claim>`
 
     where:
 
@@ -52,39 +44,38 @@ oidc:
     ------- | -----------
     + | Indicates that this claim should be added to the credential.
     - | Indicates that this claim should not be added to the credential.
-    \<claim\> | The corresponding claim name, which can also contain pattern matching characters (i.e. * ?).
+    &lt;claim&gt; | The corresponding claim name, which can also contain pattern matching characters (i.e. * ?).
 
     For example the value "-email" indicates that the email claim should not be added to the credential.
 
-    When an ID token is received each claim will be evaluated against
-    each rule in sequence until a match is found. The corresponding
-    code (+|-) will then be used to determine whether the claim will
-    be added to the credential or not. If the claim name does not
-    match a configured rule it will by default be added to the
-    credential.
+    When an ID token is received each claim will be evaluated against each rule in sequence until a match is found.
+    The corresponding code (+|-) will then be used to determine whether the claim will be added to the credential or not.
+    If the claim name does not match a configured rule it will by default be added to the credential.
 
-    Example: identity:
-                 oidc:
-                     discovery_endpoint: https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def
-                     client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-                     client_secret: 1a2b3c4d5e
-                     ssl:
-                         certificate: 
-                             - "@www-test-com-ca.cer"
-                     mapped_identity: "{sub}"
-                     redirect_uri_host: www.test2.com
-                     response_type: code
-                     response_mode: query
-                     proxy: https://www.testproxy.com:443
-                     scopes:
-                         - profile
-                         - email
-                     allowed_query_args:
-                         - "oidc_test=value"
-                     bearer_token_attrs:
-                         - "-access_token"
-                     id_token_attrs:
-                         - "-email"
+    Example:
+
+    identity:
+      oidc:
+        discovery_endpoint: https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def
+        client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+        client_secret: 1a2b3c4d5e
+        ssl:
+          certificate:
+            - "@www-test-com-ca.cer"
+        mapped_identity: "{sub}"
+        redirect_uri_host: www.test2.com
+        response_type: code
+        response_mode: query
+        proxy: https://www.testproxy.com:443
+        scopes:
+          - profile
+          - email
+        allowed_query_args:
+          - "oidc_test=value"
+        bearer_token_attrs:
+          - "-access_token"
+        id_token_attrs:
+          - "-email"
 
   type: object
   x-name: OIDC
@@ -92,14 +83,13 @@ oidc:
 
     discovery_endpoint:
       description: >
-        The fully qualified discovery endpoint for the OIDC OP.<br/>
+        The fully qualified discovery endpoint for the OIDC OP.
 
-        For IBM Security Verify, this URL is usually in the format:<br/>
-        https://<verify-hostname\>/oidc/endpoint/default/.well-known/openid-configuration <br/>
+        For IBM Security Verify, this URL is usually in the format:
+        `https://<verify-hostname>/oidc/endpoint/default/.well-known/openid-configuration`
 
-        For IBM Security Verify Access, this URL is usually in the format:<br/>
-        https://<verify-access-hostname\>/\<junction\>/sps/oauth/oauth20/metadata/\<definition_name\>
-
+        For IBM Security Verify Access, this URL is usually in the format:
+        `https://<verify-access-hostname>/<junction>/sps/oauth/oauth20/metadata/<definition_name>`
       type: string
 
     client_id:
@@ -133,7 +123,7 @@ oidc:
       description: >
         A formatted string which is used to construct the credential principal
         name from elements of the ID token. Claims can be added to the
-        identity string, surrounded by '{}', for example:
+        identity string, surrounded by `{}`, for example:
           {iss}/{sub} - would construct a principal name like the following:
           https://server.example.com/248289761001
       type: string
@@ -144,14 +134,15 @@ oidc:
         This is the host which is used in the redirect URI registered with
         the OIDC OP. If no redirect URI host is configured the host header
         from the request will be used. The format of the redirect URI will
-        be: http[s]://\<host\>/pkmsoidc.
+        be: `http[s]://<host>/pkmsoidc`.
       type: string
       x-name: Redirect URI Host
 
     response_type:
       description: >
         The required response type for authentication responses. See the
-        Response Type Values table for a description of the available values.
+        [Response Type Values](#response-type-values) table for a description 
+        of the available values.
       type: string
       enum:
         - code
@@ -172,15 +163,15 @@ oidc:
 
     proxy:
       description: >
-        Specifies the proxy, if any, which is used to reach the identity 
+        Specifies the proxy, if any, which is used to reach the identity
         provider. The proxy configuration entry should be in URL format. Eg:
-        http[s]://\<address\>:\<port\>
+        `http[s]://<address>:<port>`
       type: string
 
     scopes:
       description: >
         Any scopes to be sent in the authentication request in addition to
-        the 'openid' scope.
+        the `openid` scope.
       type: array
       items:
         type: string
@@ -210,9 +201,11 @@ oidc:
 
     bearer_token_attrs:
       description: >
-        A list of JSON data elements from the bearer token response which 
-        should be included or excluded in the credential as an extended 
-        attribute. See the Bearer Token Attrs Format table for a description 
+        A list of JSON data elements from the bearer token response which
+        should be included or excluded in the credential as an extended
+        attribute. See the 
+        [Bearer Token Attrs Format](#bearer-token-attrs-format) table for a 
+        description
         of the expected format.
       type: array
       x-name: Bearer Token Attributes
@@ -224,9 +217,10 @@ oidc:
 
     id_token_attrs:
       description: >
-        A list of claims from the ID token response which should be included 
-        or excluded in the credential as an extended attribute. See the ID 
-        Token Attrs Format table for a description of the expected format.
+        A list of claims from the ID token response which should be included
+        or excluded in the credential as an extended attribute. See the 
+        [ID Token Attrs Format](#id-token-attrs-format) table for a description 
+        of the expected format.
       type: array
       x-name: ID Token Attributes
       items:

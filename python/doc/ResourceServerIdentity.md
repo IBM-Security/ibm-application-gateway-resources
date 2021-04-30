@@ -2,7 +2,15 @@
 
 ## Description
 
-Defines any special identity provider information for this resource server. 
+Defines any special identity provider information for this resource server.
+
+Example:
+resource_servers:
+  - path: "/example"
+    # ...
+    identity:
+      oauth: "verify_introspection"
+
 
 ## Properties
 

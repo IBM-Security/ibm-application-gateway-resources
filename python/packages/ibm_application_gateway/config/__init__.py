@@ -1,10 +1,6 @@
 
 """
-Licensed Materials - Property of IBM
-5725-C90 (C) Copyright IBM Corp. 2020. All Rights Reserved.
-US Government Users Restricted Rights - Use, duplication or
-disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-
+Copyright contributors to the Application Gateway project
 """
 
 from __future__ import absolute_import
@@ -65,6 +61,7 @@ from ibm_application_gateway.config.resource_server_health import *
 from ibm_application_gateway.config.server_session_redis import *
 from ibm_application_gateway.config.server_local_pages import *
 from ibm_application_gateway.config.server_ssl_front_end_sni import *
+from ibm_application_gateway.config.oauth_headers import *
 from ibm_application_gateway.config.authorization import *
 from ibm_application_gateway.config.secrets import *
 from ibm_application_gateway.config.server_session_redis_collections import *
