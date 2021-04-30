@@ -1,3 +1,5 @@
+# Copyright contributors to the Application Gateway project
+
 # Very simple rule which will only allow three requests per hour from an IP
 
 ip: true

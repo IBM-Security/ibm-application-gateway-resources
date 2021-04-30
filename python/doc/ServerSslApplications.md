@@ -2,7 +2,14 @@
 
 ## Description
 
-Enables or disables the TLS protocols that are used for communication between the gateway daemon and the protected application. 
+Enables or disables the TLS protocols that are used for communication between the gateway daemon and the protected application.
+
+Example:
+server:
+  ssl:
+    applications:
+      tlsv13: true
+
 
 ## Properties
 

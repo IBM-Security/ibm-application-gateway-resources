@@ -1,3 +1,5 @@
+# Copyright contributors to the Application Gateway project
+
 apiVersion: v1
 kind: Template
 

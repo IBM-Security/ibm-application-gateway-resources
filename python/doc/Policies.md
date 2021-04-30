@@ -2,7 +2,7 @@
 
 ## Description
 
-The 'policies' node defines the configuration of path based policies for the IBM Application Gateway.
+The `policies` node defines the configuration of path based policies for the IBM Application Gateway.
 
 
 ## Properties

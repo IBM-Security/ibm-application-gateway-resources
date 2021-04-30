@@ -2,7 +2,19 @@
 
 ## Description
 
-Specifies the configuration information associated with the processing of cookies from the resource server. 
+Specifies the configuration information associated with the processing of cookies from the resource server.
+
+Example:
+resource_servers:
+  - path: "/example"
+    # ...
+    cookies:
+      junction_cookie:
+        position: inhead
+        version: onfocus
+        ensure_unique: true
+        preserve_name: true
+
 
 ## Properties
 

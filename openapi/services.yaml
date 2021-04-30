@@ -1,17 +1,14 @@
-# (c) Copyright International Business Machines Corp. 2020
-# The source code for this program is not published or otherwise divested
-# of its trade secrets, irrespective of what has been deposited with the
-# U.S. Copyright Office.
+# Copyright contributors to the Application Gateway project
 
 services:
   description: >
-    The 'services' node defines services within WebSEAL configuration.
+    The `services` node defines services within the Application Gateway configuration.
   type: object
   properties:
     credential:
-      description: |
-        This configuration is used to describe an external credential service 
-        which IAG can use to retrieve credentials for use in single sign-on to 
+      description: >
+        This configuration is used to describe an external credential service
+        which IAG can use to retrieve credentials for use in single sign-on to
         protected applications.
 
         Each credential service must contain:
@@ -19,31 +16,34 @@ services:
           * enc_key
           * host
           * url_pattern
-          * user_attribute 
-        
-        This entry is an array and can be used to specify multiple credential 
+          * user_attribute
+
+        This entry is an array and can be used to specify multiple credential
         services.
 
-        Example: services:
-                   credential:
-                     - name: myCredService
-                       enc_key: "@vault-rsa.pem"
-                       host: ibm_app_gw.ice.ibmcloud.com
-                       proxy: "proxy.ibm.com:3128"
-                       url_pattern: "/v1.0/pwdvault/{user}/resources/{resource}"
-                       ssl:
-                         certificate: 
-                           - "@vault-ibm-com.crt"
-                         server_dn: cn=vault
-                         sni: vault.verify.ibm.com
-                       user_attribute: "AZN_PRINCIPAL_ID"
-                       user_attribute_encoding: url
-                       authentication:
-                         sso:
-                           client_id: 36bxxxx-xxxx-xxxx-xxxx-xxxxxxxxxae5
-                           client_secret: ctZxxxxqQs
-                           endpoint: https://ibm_app_gw.ice.ibmcloud.com/v1.0/endpoint/default/token
-                           payload: form
+
+        Example:
+
+        services:
+          credential:
+            - name: myCredService
+              enc_key: "@vault-rsa.pem"
+              host: ibm_app_gw.ice.ibmcloud.com
+              proxy: "proxy.ibm.com:3128"
+              url_pattern: "/v1.0/pwdvault/{user}/resources/{resource}"
+              ssl:
+                certificate:
+                  - "@vault-ibm-com.crt"
+                server_dn: cn=vault
+                sni: vault.verify.ibm.com
+              user_attribute: "AZN_PRINCIPAL_ID"
+              user_attribute_encoding: url
+              authentication:
+                sso:
+                  client_id: 36bxxxx-xxxx-xxxx-xxxx-xxxxxxxxxae5
+                  client_secret: ctZxxxxqQs
+                  endpoint: https://ibm_app_gw.ice.ibmcloud.com/v1.0/endpoint/default/token
+                  payload: form
       type: array
       items:
         type: object
@@ -56,45 +56,42 @@ services:
             x-required: true
           host:
             description: >
-              The hostname of the endpoint where the credentials will be 
+              The hostname of the endpoint where the credentials will be
               retrieved from.
             type: string
           port:
             description: >
-              The port of the endpoint where the credentials will be retrieved 
+              The port of the endpoint where the credentials will be retrieved
               from.
             type: string
           proxy:
             description: >
-              The proxy server which will be used when connecting to the 
-              credential service. The configuration entry should be of the 
-              form: '&lt;server&gt;:&lt;port&gt;'
+              The proxy server which will be used when connecting to the
+              credential service. The configuration entry should be of the
+              form: `<server>:<port>`
             type: string
           url_pattern:
             description: >
-              The path of the endpoint where the credentials will be retrieved 
+              The path of the endpoint where the credentials will be retrieved
               from. This must contain the {user} and {resource} macros.
-
-              When communicating with the credential service, IAG will 
-              substitute '{resource}' for the resource name provided in the
+              When communicating with the credential service, IAG will
+              substitute `{resource}` for the resource name provided in the
               configuration which refers to this credential service.
             type: string
             x-name: URL Pattern
           user_attribute:
             description: >
-              The name of the credential attribute which is used to populate 
+              The name of the credential attribute which is used to populate
               the {user} macro in the URL used when communicating with the
               credential service.
             type: string
             default: AZN_PRINCIPAL_ID
           user_attribute_encoding:
             description: >
-              The type of encoding to perform on the user_attribute for 
+              The type of encoding to perform on the user_attribute for
               inclusion in the URL to communicate with the credential service.
-                - If this value is 'url', the user attribute value will
-                  be URL Encoded.
-                - If this value is 'base64url', the user attribute value will
-                  be converted to lower case and Base64 Encoded for URL.
+                - If this value is `url`, the user attribute value will be URL Encoded.
+                - If this value is `base64url`, the user attribute value will be converted to lower case and Base64 Encoded for URL.
             type: string
             default: url
             enum:
@@ -103,7 +100,7 @@ services:
           enc_key:
             description: >
               The key which will be used to encrypt and decrypt credential
-              data. This key should be an RSA or ECDSA key for which the 
+              data. This key should be an RSA or ECDSA key for which the
               private and public parts are available.
             type: string
             x-name: Encryption Key
@@ -116,9 +113,9 @@ services:
               certificate:
                 description: >
                   PEM based personal certificate files which will be used when
-                  communicating with the resource server.  These certificate 
-                  files should include the private key, a certificate signed 
-                  with the private key, and the signer certificate or signer 
+                  communicating with the resource server.  These certificate
+                  files should include the private key, a certificate signed
+                  with the private key, and the signer certificate or signer
                   certificate chain (if required).
                 type: array
                 items:
@@ -127,15 +124,15 @@ services:
                   x-required: true
               server_dn:
                 description: >
-                  Specifies the accepted DN of the certificate presented by the 
-                  credential service. If this entry is empty, any DN will be 
+                  Specifies the accepted DN of the certificate presented by the
+                  credential service. If this entry is empty, any DN will be
                   accepted.
                 type: string
                 x-name: Server DN
               sni:
                 description: >
-                  The server name (SNI) which will be indicated when 
-                  establishing a connection to the credential service. If this 
+                  The server name (SNI) which will be indicated when
+                  establishing a connection to the credential service. If this
                   entry is empty, no name will be indicated.
                 type: string
                 x-name: SNI
@@ -149,39 +146,36 @@ services:
               sso:
                 description: >
                   Uses the OAuth client credential flow to retrieve an access
-                  token to use when communicating with to the credential 
+                  token to use when communicating with to the credential
                   service.
                 type: object
                 x-name: SSO
                 properties:
                   endpoint:
                     description: >
-                      The endpoint which will be called to obtain an access 
-                      token which is used in requests to the credential service. 
+                      The endpoint which will be called to obtain an access
+                      token which is used in requests to the credential service.
 
-                      The endpoint should conform to the OAuth client 
+                      The endpoint should conform to the OAuth client
                       credential flow (OAuth 2.0 RFC 6749, section 4.4).
                     type: string
                   client_id:
                     description: >
-                      The client identifier to use during the OAuth client 
+                      The client identifier to use during the OAuth client
                       credential flow.
                     type: string
                     x-name: Client ID
                   client_secret:
                     description: >
-                      The client identifier to use during the OAuth client 
+                      The client identifier to use during the OAuth client
                       credential flow.
                     type: string
                   payload:
                     description: >
-                      Specifies how the client id and secret will be posted 
+                      Specifies how the client id and secret will be posted
                       to the authentication endpoint.
-                        - If this value is 'form', the client id and secret 
-                          will be included in forms POST data.
-                        - If this value is 'basic', a basic authentication 
-                          header will be constructed using the client id and 
-                          secret.
+                        - If this value is `form`, the client id and secret will be included in forms POST data.
+                        - If this value is `basic`, a basic authentication header will be constructed using the client id and secret.
                     type: string
                     default: basic
                     enum:
@@ -196,7 +190,7 @@ services:
                 properties:
                   token:
                     description: >
-                      The literal access token that will be passed as a bearer 
+                      The literal access token that will be passed as a bearer
                       token.
 
                       Alternatively, if surrounded by {}, this field can name
@@ -205,24 +199,24 @@ services:
                     type: string
               ba:
                 description: >
-                  Uses basic authentication when communicating with the 
+                  Uses basic authentication when communicating with the
                   credential service.
                 type: object
                 x-name: Basic Authentication
                 properties:
                   username:
                     description: >
-                      The username to be used to perform basic authentication 
+                      The username to be used to perform basic authentication
                       to the credential service.
                     type: string
                   password:
                     description: >
-                      The password to be used to perform basic authentication 
+                      The password to be used to perform basic authentication
                       to the credential service.
                     type: string
     kerberos:
-      description: |
-        This configuration is used to describe a Kerberos configuration file 
+      description: >
+        This configuration is used to describe a Kerberos configuration file
         which IAG can use to perform Kerberos Constrained Delegation as a means of
         authentication to a protected application.
 
@@ -231,29 +225,30 @@ services:
           * keytab_spn
           * realms
           * libdefaults
-        
-        'keytab_spn' and 'keytab' must correspond to the service principal name
+
+        `keytab_spn` and `keytab` must correspond to the service principal name
         and generated key table for a user which IAG will authenticate itself
         as. This user must have permission to perform delegated authentication.
 
-        This entry is an object and can be used to specify a single kerberos 
+        This entry is an object and can be used to specify a single kerberos
         service.
 
-        Example: services:
-                   kerberos:
-                       keytab: "@ibm-app-gateway.keytab"
-                       keytab_spn: HTTP/ibm-app-gateway@IBM.COM
 
-                       realms: 
-                         - name: IBM.COM
-                           kdc: ibm.com
+        Example:
 
-                       libdefaults:
-                         properties:
-                           - name: default_tgs_enctypes
-                             value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
-                           - name: default_tkt_enctypes
-                             value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+        services:
+          kerberos:
+            keytab: "@ibm-app-gateway.keytab"
+            keytab_spn: HTTP/ibm-app-gateway@IBM.COM
+            realms:
+              - name: IBM.COM
+                kdc: ibm.com
+            libdefaults:
+              properties:
+                - name: default_tgs_enctypes
+                  value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+                - name: default_tkt_enctypes
+                  value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
       type: object
       properties:
         keytab:
@@ -262,9 +257,9 @@ services:
           type: string
         keytab_spn:
           description: >
-            The service principal name of the impersonating user when creating a Kerberos token. 
+            The service principal name of the impersonating user when creating a Kerberos token.
             The service principal name can be determined by executing the Microsoft utility
-            'setspn' (that is, setspn -L user, where user is the identity of the IAG
+            `setspn` (that is, setspn -L user, where user is the identity of the IAG
             account).
           type: string
           x-name: Keytab SPN
@@ -284,14 +279,14 @@ services:
                 x-required: true
               kdc:
                 description: >
-                  The name or address of a host running a KDC for that realm. An optional port number, separated 
+                  The name or address of a host running a KDC for that realm. An optional port number, separated
                   from the hostname by a colon, may be included.
                 type: string
                 x-name: KDC
               properties:
                 description: >
                   Advanced additional properties to be added to the Realm configuration.
-                  These properties correspond to the properties in the [realms] <realm name> section of krb5.conf.
+                  These properties correspond to the properties in the [realms] &lt;realm name&gt; section of krb5.conf.
                 type: array
                 items:
                   type: object
@@ -367,6 +362,4 @@ services:
                       description: >
                         The inter realm for this capath.
                       type: string
-
-
 

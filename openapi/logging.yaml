@@ -1,11 +1,8 @@
-# (c) Copyright International Business Machines Corp. 2020, 2021
-# The source code for this program is not published or otherwise divested
-# of its trade secrets, irrespective of what has been deposited with the
-# U.S. Copyright Office.
+# Copyright contributors to the Application Gateway project
 
 logging:
   description: >
-    The 'logging' node defines the configuration entries which are
+    The `logging` node defines the configuration entries which are
     used to manage the various logging capabilities of the IBM Application
     Gateway.
   type: object
@@ -16,8 +13,12 @@ logging:
         A boolean which indicates whether the logging will be
         in JSON format or not. If not specified logging will not be
         in JSON format.
-        Example: logging:
-                     json_logging: true
+
+
+        Example:
+
+        logging:
+          json_logging: true
       type: boolean
       default: false
       x-name: JSON Logging
@@ -25,12 +26,18 @@ logging:
     components:
       description: >
         Specifies an array of auditing components to be enabled.
-        Example: logging:
-                     components: 
-                         - audit.authn
-                         - audit.azn
-      type: array 
+
+
+        Example:
+
+        logging:
+          components:
+            - audit.authn
+            - audit.azn
+      type: array
       items:
+        description: >
+          The name of the auditing component(s).
         type: string
         enum:
           - audit.authn
@@ -43,32 +50,32 @@ logging:
       description: |
         Defines and enables request logging.
 
-        ## Log Format
+        ### Log Format
         The following directives can be added to the format property to customize the log format:
-        
+
         Directive | Description
         --------- | -----------
         %a | Client IP Address.
         %A | Local IP Address.
-        %b | Bytes in the response excluding HTTP headers in CLF format: '-' instead of 0 when no bytes are returned.
+        %b | Bytes in the response excluding HTTP headers in CLF format: `-` instead of 0 when no bytes are returned.
         %B | Bytes in the response excluding HTTP headers.
-        %{attribute}C | Attribute from the credential named 'attribute'.
-        %{cookie}e | Contents of the Cookie 'cookie' in the request.
-        %{cookie}E | Contents of the Cookie 'cookie' in the response.
+        %{attribute}C | Attribute from the credential named `attribute`.
+        %{cookie}e | Contents of the Cookie `cookie` in the request.
+        %{cookie}E | Contents of the Cookie `cookie` in the response.
         %d | Transaction identifier, or session sequence number.
         %F | Time taken to serve the request in microseconds.
         %h | Client host.
         %H | Request protocol.
-        %{header}i | Contents of the Header 'header' in the request.
+        %{header}i | Contents of the Header `header` in the request.
         %j | The name of the resource server servicing the request.
-        %J | The length of time, in microseconds, that the resource server server spent processing the request.<br>This will include the time that it took to send the request to the server,<br>the length of time that it took the server to process the request,<br>and the length of time that it took to read and process the response header.
+        %J | The length of time, in microseconds, that the resource server server spent processing the request. This will include the time that it took to send the request to the server, the length of time that it took the server to process the request, and the length of time that it took to read and process the response header.
         %l | Client logname (RFC 1314) (default -).
         %m | Request method (i.e. GET, POST, HEAD).
-        %{header}o | Contents of the Header 'header' in the response.
+        %{header}o | Contents of the Header `header` in the response.
         %M | The time, in Common Log Format, at which the request was received with millisecond precision.
         %p | Port over which the request was received.
-        %q | The decoded query string (prepended with '?' or empty).
-        %Q | The raw query string (prepended with '?' or empty).
+        %q | The decoded query string (prepended with `?` or empty).
+        %Q | The raw query string (prepended with `?` or empty).
         %r | First line of the request with decoded URL.
         %R | First line of the request with decoded URL including HTTP://HOSTNAME.
         %s | Response status.
@@ -82,25 +89,28 @@ logging:
         %z | The decoded path string.
         %Z | The raw path string.
 
-        Example: logging:
-                     request_log:
-                         file:
-                             file_name: request.log
-                         format: "%t %a %R"
+
+        Example:
+
+        logging:
+          request_log:
+            file:
+              file_name: request.log
+            format: "%t %a %R"
       type: object
       properties:
         file:
           description: >
             By default the request log events will be written to the console
-            of the container.  By setting the 'file' configuration the
+            of the container.  By setting the `file` configuration the
             request log events can instead be written to a local file.
           type: object
           properties:
             file_name:
               description: >
-                The name of the generated log file.  If the file name 
+                The name of the generated log file.  If the file name
                 is supplied without any path information the file will be
-                written to the '/var/iag/logs' directory.  If the file name
+                written to the `/var/iag/logs` directory.  If the file name
                 contains path information the hosting directory must be created
                 and available before the container is started.
               type: string
@@ -115,7 +125,7 @@ logging:
             max_rollover_files:
               description: >
                 The maximum number of rollover files to be kept on disk.  When
-                the number of rollover log files reaches the specified 
+                the number of rollover log files reaches the specified
                 threshold, the oldest log file is deleted.
               type: number
               default: 1
@@ -131,7 +141,7 @@ logging:
         format:
           description: >
             The format of the events written to the request log.
-            See the Log Format table above for the available directives.
+            See the [Log Format](#log-format) table above for the available directives.
           type: string
           default: '"%h %u %t %r %s %b"'
 
@@ -141,14 +151,18 @@ logging:
         Specifies an array of trace components to be enabled.
         Tracing can be used to assist with problem determination in
         the environment.
-        Example: logging:
-                     tracing:
-                         - file_name: http_trans.log
-                           component: pdweb.http.transformation
-                           level: 9
-                         - file_name: http.log
-                           component: pdweb.http
-                           level: 5
+
+
+        Example:
+
+        logging:
+          tracing:
+            - file_name: http_trans.log
+              component: pdweb.http.transformation
+              level: 9
+            - file_name: http.log
+              component: pdweb.http
+              level: 5
       items:
         type: object
         properties:
@@ -161,9 +175,9 @@ logging:
             x-required: true
           file_name:
             description: >
-              The name of the generated log file.  If the file name 
+              The name of the generated log file.  If the file name
               is supplied without any path information the file will be
-              written to the '/var/iag/logs' directory.  If the file name
+              written to the `/var/iag/logs` directory.  If the file name
               contains path information the hosting directory must be created
               and available before the container is started.
             type: string
@@ -184,20 +198,24 @@ logging:
         Defines and enables transaction logging. This
         logging can be used to pinpoint performance issues in the
         environment.
-        Example: logging:
-                     transaction:
-                         file_name: trans.log
-                         max_file_size: 1024
-                         max_files: 5
-                         compress: true
+
+
+        Example:
+
+        logging:
+          transaction:
+            file_name: trans.log
+            max_file_size: 1024
+            max_files: 5
+            compress: true
       type: object
       properties:
         file_name:
           description: >
-            The name of the generated log file.  If the file name is supplied 
-            without any path information the file will be written to the 
-            '/var/iag/logs' directory.  If the file name contains path 
-            information the hosting directory must be created and available 
+            The name of the generated log file.  If the file name is supplied
+            without any path information the file will be written to the
+            `/var/iag/logs` directory.  If the file name contains path
+            information the hosting directory must be created and available
             before the container is started.
           type: string
           x-required: true
@@ -210,7 +228,7 @@ logging:
           maximum: unlimited
           default: 262144
         max_files:
-          description: > 
+          description: >
             The maximum number of files to be created, including rollover files.
             If not specified the max number of files is unlimited.
           type: number
@@ -228,17 +246,21 @@ logging:
     statistics:
       description: >
         Configures the statistic collection and publishing capability for the
-        gateway.  The statistics for the configured components will be 
-        published to the specified statsd server over UDP.  Statistics can be 
-        used to monitor the environment, or assist with problem determination 
+        gateway.  The statistics for the configured components will be
+        published to the specified statsd server over UDP.  Statistics can be
+        used to monitor the environment, or assist with problem determination
         in the environment.
-        Example: logging:
-                     statistics:
-                        server: 127.0.0.1
-                        port: 8125
-                        frequency: 20
-                        components:
-                          - iag.authn
+
+
+        Example:
+
+        logging:
+          statistics:
+            server: 127.0.0.1
+            port: 8125
+            frequency: 20
+            components:
+              - iag.authn
       type: object
       properties:
         server:
@@ -256,7 +278,7 @@ logging:
         frequency:
           description: >
             The frequency (in seconds) that statistics are sent from the
-            memory buffer to the statsd server. 
+            memory buffer to the statsd server.
           type: number
           minimum: 1
           maximum: unlimited

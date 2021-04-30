@@ -2,7 +2,7 @@
 
 ## Description
 
-The 'authorization' node defines the authorization rules.
+The `authorization` node defines the authorization rules.
 
 
 ## Properties

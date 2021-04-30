@@ -1,11 +1,8 @@
-# (c) Copyright International Business Machines Corp. 2020, 2021.
-# The source code for this program is not published or otherwise divested
-# of its trade secrets, irrespective of what has been deposited with the
-# U.S. Copyright Office.
+# Copyright contributors to the Application Gateway project
 
 openapi: '3.0'
 info:
-  version: 21.02
+  version: 21.04
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 
 components:
@@ -20,6 +17,7 @@ components:
         - 20.09
         - 20.12
         - 21.02
+        - 21.04
 
     secrets:
       $ref: "secrets.yaml#/secrets"
@@ -32,7 +30,7 @@ components:
 
     resource_servers:
       description:
-        The 'resource_servers' node defines the resource servers which provide
+        The `resource_servers` node defines the resource servers which provide
         content for the gateway.
       type: array
       items:
