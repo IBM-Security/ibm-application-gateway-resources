@@ -53,6 +53,7 @@ from ibm_application_gateway.config.logging_request_log import *
 from ibm_application_gateway.config.resource_server_identity_headers_kerberos_user_identity import *
 from ibm_application_gateway.config.__init__ import *
 from ibm_application_gateway.config.server_websocket import *
+from ibm_application_gateway.config.identity_auth_complete_redirect import *
 from ibm_application_gateway.config.services_ssl import *
 from ibm_application_gateway.config.server_local_applications_jwks import *
 from ibm_application_gateway.config.resource_server_servers import *
@@ -95,6 +96,7 @@ from ibm_application_gateway.config.resource_server_persistent_connections impor
 from ibm_application_gateway.config.resource_server_identity_headers_basic_auth import *
 from ibm_application_gateway.config.identity_auth_challenge_redirect import *
 from ibm_application_gateway.config.identity import *
+from ibm_application_gateway.config.identity_auth_complete_redirect_parameters import *
 from ibm_application_gateway.config.server_websocket_timeouts_applications import *
 from ibm_application_gateway.config.policies import *
 from ibm_application_gateway.config.services_authentication import *

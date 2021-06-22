@@ -61,7 +61,7 @@ identity:
     client_secret: 1a2b3c4d5e
     ssl:
       certificate:
-        - "@www-test-com-ca.cer"
+        - "@www-test-com-ca.pem"
     mapped_identity: "{sub}"
     redirect_uri_host: www.test2.com
     response_type: code

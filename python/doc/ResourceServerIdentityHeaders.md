@@ -43,7 +43,7 @@ resource_servers:
       session_cookie: true
       jwt:
         certificate:
-          - "@jwt.cer"
+          - "@jwt.crt"
           - "@jwt.key"
         hdr_name: jwt
         claims:

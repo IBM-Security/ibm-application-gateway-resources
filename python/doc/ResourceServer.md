@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **transparent\_path** | **bool** | A boolean flag indicating whether or not this resource server uses a transparent path. For path type resource servers, setting this entry to true will result in the passing of the entire URL as observed by the reverse proxy to the resource server, including the value given in \"path\". If set to false the reverse proxy will filter the path from the URL and pass only the remainder of the URL to the resource server.  | [optional] [default to False]
 **stateful** | **bool** | A boolean flag indicating whether or not user requests, for the lifetime of a session, are always processed by the same resource server.  | [optional] [default to False]
 **http2** | [**ResourceServerHttp2**](ResourceServerHttp2.md) |  | [optional] 
+**sni** | **str** | The Server Name Indicator the reverse proxy will indicate to the resource server during TLS negotiation.  | [optional] 
 **identity\_headers** | [**ResourceServerIdentityHeaders**](ResourceServerIdentityHeaders.md) |  | [optional] 
 **cookies** | [**ResourceServerCookies**](ResourceServerCookies.md) |  | [optional] 
 **mutual\_auth** | [**ResourceServerMutualAuth**](ResourceServerMutualAuth.md) |  | [optional] 

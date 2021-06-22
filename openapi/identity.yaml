@@ -35,7 +35,7 @@ identity:
         url:
           description: >
             The URI which a client will be redirected to in order to start the
-            authentication process.
+            authentication process. This URI can be absolute or server relative.
           type: string
           x-name: URL
         parameters:
@@ -83,6 +83,80 @@ identity:
                     - For `header` sources, the name will be of the format `HTTPHDR_<name>`
                     - For `credential` sources, the name will be of the format `CREDATTR_<name>`
                 type: string
+
+    auth_complete_redirect:
+      description: >
+        These entries can be used to override the default post authentication
+        URL which clients will be redirected to once they have successfully
+        authenticated.
+
+
+        Example:
+
+        identity:
+          auth_complete_redirect:
+            url: /landing
+            parameters:
+              - source: macro
+                value:  HOSTNAME
+                name:   host
+              - source: credential
+                value:  AZN_CRED_NETWORK_ADDRESS_STR
+                name:   origin
+              - source: header
+                value:  X-IBM-Proxy
+                name:   proxy
+      type: object
+      properties:
+        url:
+          description: >
+            The URI which a client will be redirected to upon successful
+            authentication. This URI can be absolute or server relative.
+          type: string
+          x-name: URL
+        parameters:
+          description: >
+            Additional parameters which can be included in the redirect URI as
+            query string arguments.
+          type: array
+          items:
+            type: object
+            properties:
+              source:
+                description: >
+                  The source the value should be taken from.
+                type: string
+                enum:
+                  - macro
+                  - header
+                  - credential
+                x-required: true
+                x-uuid: true
+              value:
+                description: >
+                  The name of the macro, HTTP header or credential attribute
+                  the value will be taken from.
+
+                  When using the `macro` type source, valid values are:
+
+                    - `USERNAME`
+                    - `URL`
+                    - `HOSTNAME`
+                    - `PROTOCOL`
+                type: string
+                x-required: true
+                x-uuid: true
+              name:
+                description: >
+                  The name which should be used to name the parameter inserted
+                  into the redirect URL. If this value is not specified, the
+                  parameter will be named accordingly:
+
+                    - For `macro` sources, the name will be used verbatim.
+                    - For `header` sources, the name will be of the format `HTTPHDR_<name>`
+                    - For `credential` sources, the name will be of the format `CREDATTR_<name>`
+                type: string
+
     oidc:
       $ref: "oidc.yaml#/oidc"
     oauth:
@@ -126,7 +200,7 @@ identity:
               token_type_hint: "access_token"
               ssl:
                 certificate:
-                  - "@www-test-com-ca.cer"
+                  - "@www-test-com-ca.pem"
               mapped_identity: "{sub}"
               attributes:
                 - "+scope"
