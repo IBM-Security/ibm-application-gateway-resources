@@ -1601,6 +1601,16 @@ const schema = {
           },
         ],
       },
+      auth_complete_redirect: {
+        url: "string",
+        parameters: [
+          {
+            source: "string",
+            value: "string",
+            name: "string",
+          },
+        ],
+      },
       oidc: {
         discovery_endpoint: "string",
         client_id: "string",
@@ -1695,8 +1705,8 @@ const schema = {
         stateful: true,
         http2: {
           enabled: true,
-          sni: "string",
         },
+        sni: "string",
         identity_headers: {
           kerberos: {
             resource_spn: "string",
@@ -1771,7 +1781,6 @@ const schema = {
                 "string",
               ],
               server_dn: "string",
-              sni: "string",
             },
             url_style: {
               case_insensitive: true,
@@ -2162,7 +2171,7 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04"], 0, false, 0, false, annots);
+                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06"], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
@@ -2242,6 +2251,10 @@ const schema = {
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.oidc.discovery_endpoint", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.oidc.client_id", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.oidc.client_secret", "string", editorText, [], 0, false, 0, false, annots);
@@ -2290,7 +2303,7 @@ const schema = {
           validateEntry(op, "resource_servers[i].transparent_path", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].stateful", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].http2.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].http2.sni", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].sni", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.kerberos.resource_spn", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.kerberos.always_send_tokens", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.kerberos.user_identity.username", "string", editorText, [], 0, false, 0, false, annots);
@@ -2326,7 +2339,6 @@ const schema = {
           validateEntry(op, "resource_servers[i].servers[i2].virtual_host", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].ssl.certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].ssl.server_dn", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].url_style.case_insensitive", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].url_style.windows", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].priority", "number", editorText, [], 1, true, 9, true, annots);
