@@ -25,7 +25,7 @@ identity:
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**url** | **str** | The URI which a client will be redirected to in order to start the authentication process.  | [optional] 
+**url** | **str** | The URI which a client will be redirected to in order to start the authentication process. This URI can be absolute or server relative.  | [optional] 
 **parameters** | [**list[IdentityAuthChallengeRedirectParameters]**](IdentityAuthChallengeRedirectParameters.md) | Additional parameters which can be included in the redirect URI as query string arguments.  | [optional] 
 
 [[Back to README]](../README.md)

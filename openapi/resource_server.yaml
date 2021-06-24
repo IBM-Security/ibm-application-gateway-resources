@@ -111,8 +111,7 @@ resource_server:
           - path: "/example"
             # ...
             http2:
-            enabled: true
-            sni: www.test.com
+              enabled: true
       type: object
       x-name: HTTP/2
       properties:
@@ -124,12 +123,21 @@ resource_server:
           type: boolean
           default: false
 
-        sni:
-          description: >
-            The Server Name Indicator the reverse proxy will indicate to the
-            resource server when communicating using HTTP/2.
-          type: string
-          x-name: SNI
+    sni:
+      description: >
+        The Server Name Indicator the reverse proxy will indicate to the
+        resource server during TLS negotiation.
+
+
+        Example:
+
+        resource_servers:
+          - path: "/example"
+            connection_type: ssl
+            # ...
+            sni: www.test.com
+      type: string
+      x-name: SNI
 
     identity_headers:
       description: |
@@ -174,7 +182,7 @@ resource_server:
               session_cookie: true
               jwt:
                 certificate:
-                  - "@jwt.cer"
+                  - "@jwt.crt"
                   - "@jwt.key"
                 hdr_name: jwt
                 claims:
@@ -650,7 +658,6 @@ resource_server:
                   certificate:
                     - "@www-test-com.crt"
                   server_dn: cn=test
-                  sni: www.test.com
                 url_style:
                   case_insensitive: true
                   windows: false
@@ -710,12 +717,6 @@ resource_server:
                   server presents a specific certificate.
                 type: string
                 x-name: Server DN
-
-              sni:
-                description: >
-                  Specifies the expected SNI of the resource server.
-                type: string
-                x-name: SNI
 
           url_style:
             description: >

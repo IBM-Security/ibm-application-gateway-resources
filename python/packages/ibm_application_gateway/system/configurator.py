@@ -27,7 +27,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "21.04",
+                    version          = "21.06",
                     server           = None,
                     identity         = None,
                     authorization    = None,
