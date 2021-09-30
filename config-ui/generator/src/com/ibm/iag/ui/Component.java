@@ -2001,8 +2001,19 @@ public class Component {
         if(description != null && !description.trim().isEmpty())
         {
             String realDesc = escapeDescString(description);
-            
-            tooltipText = Constants.TOOLTIP.replaceAll(Constants.ADD_NAME, name).replaceAll(Constants.ADD_TT_TEXT, realDesc);
+            // Descriptions longer than 500 chars break the tooltip usage
+            // To fix this set the width to 50% of available screen
+            String ttWidth = "300";
+            String ttDelay = "";
+            if(realDesc.length() > 500)
+            {
+                ttWidth = Constants.TT_LARGE_WIDTH;
+                ttDelay = Constants.TT_LARGE_DELAY;
+            }
+            tooltipText = Constants.TOOLTIP.replaceAll(Constants.ADD_NAME, name)
+                    .replaceAll(Constants.ADD_TT_TEXT, realDesc)
+                    .replaceAll(Constants.ADD_TT_WIDTH, ttWidth)
+                    .replaceAll(Constants.ADD_TT_DELAY, ttDelay);
             ttFields = Constants.TOOLTIP_FIELDS.replaceAll(Constants.ADD_NAME, name);
         }
         

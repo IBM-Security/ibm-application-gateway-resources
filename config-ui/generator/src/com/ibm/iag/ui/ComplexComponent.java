@@ -713,6 +713,16 @@ public class ComplexComponent
        
        String escapedDescription = _comp.escapeDescString(currComp.getDescription());
        
+       // Descriptions longer than 500 chars break the tooltip usage
+       // To fix this set the width to 50% of available screen
+       String ttWidth = "300";
+       String ttDelay = "";
+       if(escapedDescription.length() > 500)
+       {
+           ttWidth = Constants.TT_LARGE_WIDTH;
+           ttDelay = Constants.TT_LARGE_DELAY;
+       }
+       
        String title = currComp.getTitle(compName, currComp.getXName());
        
        // Create tab content for the new grid
@@ -723,7 +733,9 @@ public class ComplexComponent
                .replaceAll(Constants.ADD_EDIT_STATE_ARGS, stateArgs.toString())
                .replaceAll(Constants.ADD_DATA_ROW, longCompName + "rowData." + longCompName)
                .replaceAll(Constants.ADD_CLEAR_STATE, clearFields)
-               .replaceAll(Constants.ADD_TT_TEXT, escapedDescription);
+               .replaceAll(Constants.ADD_TT_TEXT, escapedDescription)
+               .replaceAll(Constants.ADD_TT_WIDTH, ttWidth)
+               .replaceAll(Constants.ADD_TT_DELAY, ttDelay);
        
        // Need to create a new tab for simple types not at top level
        if(!_comp._tabContent.containsKey(tabTitle))

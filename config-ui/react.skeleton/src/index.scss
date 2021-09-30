@@ -163,3 +163,11 @@ main {
   border-color: #e0e0e0 #e0e0e0 #e0e0e0 #e0e0e0;
   padding-left: 10px; 
 }
+
+.tooltipScroll {
+ pointer-events: auto !important;
+ &:hover {
+   visibility: visible !important;
+   opacity: 1 !important;
+ }
+}
