@@ -1,10 +1,8 @@
 # Copyright contributors to the Application Gateway project
-
 openapi: '3.0'
 info:
-  version: 21.06
+  version: 21.09
   title: IBM Application Gateway Configuration Specification (OpenAPI)
-
 components:
   schemas:
     version:
@@ -19,46 +17,34 @@ components:
         - 21.02
         - 21.04
         - 21.06
-
+        - 21.09
     secrets:
       $ref: "secrets.yaml#/secrets"
-
     server:
       $ref: "server.yaml#/server"
-
     identity:
       $ref: "identity.yaml#/identity"
-
     resource_servers:
-      description:
-        The `resource_servers` node defines the resource servers which provide
-        content for the gateway.
+      description: The `resource_servers` node defines the resource servers which provide content for the gateway.
       type: array
       items:
         $ref: "resource_server.yaml#/resource_server"
-
     policies:
       $ref: "policies.yaml#/policies"
-
     authorization:
       $ref: "authorization.yaml#/authorization"
-
     services:
       $ref: "services.yaml#/services"
-
     logging:
       $ref: "logging.yaml#/logging"
-
     advanced:
       $ref: "advanced.yaml#/advanced"
-
 paths:
   /:
     get:
       description: >
-        We ignore the path as we are documenting a yaml
-        configuration format and not a Web Service API.
+        We ignore the path as we are documenting a yaml configuration format and not a Web Service API.
+
       responses:
         default:
           description: No response.
-

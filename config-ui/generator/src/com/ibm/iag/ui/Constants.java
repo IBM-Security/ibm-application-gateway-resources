@@ -224,6 +224,10 @@ public class Constants
     public static String ADD_TOOLBAR_NAME = "<ADD_TOOLBAR_NAME>";
     
     public static String ADD_TT_TEXT = "<ADD_TT_TEXT>";
+    public static String ADD_TT_WIDTH = "<ADD_TT_WIDTH>";
+    public static String ADD_TT_DELAY = "<ADD_TT_DELAY>";
+    public static String TT_LARGE_WIDTH = "'50vw', maxHeight: 300, overflowY: 'scroll'";
+    public static String TT_LARGE_DELAY = "class=\"tooltipScroll\" delayHide={500}";
     
     public static String ADD_WIDGET_CLEAR = "<ADD_WIDGET_CLEAR>";
     public static String ADD_PARENT_DIV = "<ADD_PARENT_DIV>";
@@ -581,7 +585,7 @@ public class Constants
     
     // Templates for tooltip widgets
     public static String TOOLTIP_FIELDS = " onFocus={(e) => ReactTooltip.show(e.target)} onBlur={(e) => ReactTooltip.hide(e.target)} data-tip data-for={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} ";
-    public static String TOOLTIP = "          <ReactTooltip id={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} place=\"top\" effect=\"solid\"><div style={{ maxWidth: 300 }}>" + ADD_TT_TEXT + "</div></ReactTooltip>\n";
+    public static String TOOLTIP = "          <ReactTooltip id={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} place=\"top\" effect=\"solid\" " + ADD_TT_DELAY + "><div style={{ maxWidth: " + ADD_TT_WIDTH + " }}>" + ADD_TT_TEXT + "</div></ReactTooltip>\n";
     
     // Template for grid update html code
     public static String GRID_UPDATE_HTML = "                  <Suspense fallback={<div></div>}>\n" +
