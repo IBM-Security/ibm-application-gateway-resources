@@ -1490,8 +1490,7 @@ const schema = {
         inactive_timeout: 0,
         permit_user_switching: true,
         redis: {
-          key_prefix: "string",
-          default_collection: "string",
+          enabled: true,
           client_list_cache_lifetime: 0,
           concurrent_sessions: {
             enabled: true,
@@ -1499,43 +1498,12 @@ const schema = {
             max_user_sessions: 0,
             user_identity_attribute_name: "string",
           },
-          collections: [
-            {
-              name: "string",
-              matching_host: "string",
-              max_pooled_connections: 0,
-              idle_timeout: 0,
-              connect_timeout: 0,
-              io_timeout: 0,
-              health_check_interval: 0,
-              cross_domain_support: {
-                master_authn_server_url: "string",
-                master_session_code_lifetime: 0,
-              },
-              servers: [
-                {
-                  name: "string",
-                  host: "string",
-                  port: 0,
-                  username: "string",
-                  password: "string",
-                  ssl: {
-                    trust_certificates: [
-                      "string",
-                    ],
-                    client_certificate: [
-                      "string",
-                    ],
-                    sni: "string",
-                  },
-                },
-              ],
-            },
-          ],
+        },
+        reauth: {
+          login_time_window: 0,
         },
       },
       worker_threads: 0,
-      max_ratelimiting_buckets: 0,
       http2: true,
       websocket: {
         worker_threads: {
@@ -1587,6 +1555,13 @@ const schema = {
         },
         jwks: {
           path_segment: "string",
+        },
+      },
+      rate_limiting: {
+        cache_size: 0,
+        redis: {
+          collection_name: "string",
+          sync_window: 0,
         },
       },
     },
@@ -1949,6 +1924,7 @@ const schema = {
             oidc: {
               acr_values: "string",
               prompt: "string",
+              max_age: 0,
             },
             redirect_url: "string",
           },
@@ -2029,6 +2005,43 @@ const schema = {
               {
                 server_realm: "string",
                 inter_realm: "string",
+              },
+            ],
+          },
+        ],
+      },
+      redis: {
+        key_prefix: "string",
+        default_collection: "string",
+        collections: [
+          {
+            name: "string",
+            matching_host: "string",
+            max_pooled_connections: 0,
+            idle_timeout: 0,
+            connect_timeout: 0,
+            io_timeout: 0,
+            health_check_interval: 0,
+            cross_domain_support: {
+              master_authn_server_url: "string",
+              master_session_code_lifetime: 0,
+            },
+            servers: [
+              {
+                name: "string",
+                host: "string",
+                port: 0,
+                username: "string",
+                password: "string",
+                ssl: {
+                  trust_certificates: [
+                    "string",
+                  ],
+                  client_certificate: [
+                    "string",
+                  ],
+                  sni: "string",
+                },
               },
             ],
           },
@@ -2171,7 +2184,7 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09"], 0, false, 0, false, annots);
+                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12"], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
@@ -2196,32 +2209,14 @@ const schema = {
           validateEntry(op, "server.session.timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.session.inactive_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.session.permit_user_switching", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.redis.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.session.redis.client_list_cache_lifetime", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.session.redis.concurrent_sessions.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.session.redis.concurrent_sessions.prompt_for_displacement", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.session.redis.concurrent_sessions.max_user_sessions", "number", editorText, [], -1, true, -1, false, annots);
           validateEntry(op, "server.session.redis.concurrent_sessions.user_identity_attribute_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].matching_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].max_pooled_connections", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].connect_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].io_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].health_check_interval", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].cross_domain_support.master_authn_server_url", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].cross_domain_support.master_session_code_lifetime", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].port", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].password", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].ssl.trust_certificates[i3]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].ssl.client_certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.collections[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.reauth.login_time_window", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.worker_threads", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.max_ratelimiting_buckets", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.http2", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.websocket.worker_threads.max", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.websocket.worker_threads.idle", "number", editorText, [], 0, true, -1, false, annots);
@@ -2247,6 +2242,9 @@ const schema = {
           validateEntry(op, "server.local_applications.azn_decision.max_cache_size", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.local_applications.azn_decision.max_cache_lifetime", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.local_applications.jwks.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.rate_limiting.cache_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "server.rate_limiting.redis.collection_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.rate_limiting.redis.sync_window", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
@@ -2406,9 +2404,10 @@ const schema = {
           validateEntry(op, "policies.authorization[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].action", "string", editorText, ["permit","deny","obligate"], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].action", "string", editorText, ["permit","deny","obligate","reauth"], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].obligation.oidc.acr_values", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].obligation.oidc.prompt", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].obligation.oidc.max_age", "number", editorText, [], -1, false, -1, false, annots);
           validateEntry(op, "policies.authorization[i].obligation.redirect_url", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "authorization.rules[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "authorization.rules[i].rule", "string", editorText, [], 0, false, 0, false, annots);
@@ -2442,6 +2441,25 @@ const schema = {
           validateEntry(op, "services.kerberos.capaths[i].client_realm", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.capaths[i].realms[i2].server_realm", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.capaths[i].realms[i2].inter_realm", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].matching_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].max_pooled_connections", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].connect_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].io_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].health_check_interval", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].cross_domain_support.master_authn_server_url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].cross_domain_support.master_session_code_lifetime", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].port", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.trust_certificates[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.client_certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.json_logging", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.components[i]", "stringarray", editorText, ["audit.authn","audit.azn"], 0, false, 0, false, annots);
           validateEntry(op, "logging.request_log.file.file_name", "string", editorText, [], 0, false, 0, false, annots);
