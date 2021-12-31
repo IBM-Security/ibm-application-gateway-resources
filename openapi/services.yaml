@@ -363,3 +363,243 @@ services:
                         The inter realm for this capath.
                       type: string
 
+    redis:
+      description: >
+        Used to define the global configuration and server collections for 
+        Redis.
+
+
+        Example:
+
+        redis:
+          default_collection: redis-a
+          key_prefix: iag-test-
+          collections:
+            - connect_timeout: 20
+              cross_domain_support:
+                master_authn_server_url: https://mas.ibm.com
+                master_session_code_lifetime: 150
+              health_check_interval: 200
+              idle_timeout: 100
+              io_timeout: 300
+              matching_host: www.webseal.ibm.com
+              max_pooled_connections: 200
+              name: test-collection-session
+              servers:
+              - host: redis-a.ibm.com
+                name: redis-a
+                password: passw0rd
+                username: testuser
+                port: 6380
+                ssl:
+                  client_certificate: "@redis-a-client.pem"
+                  sni: redis-a.ibm.com
+                  trust_certificates: "@redis-a-ca.pem"
+            - connect_timeout: 10
+              health_check_interval: 200
+              idle_timeout: 100
+              io_timeout: 300
+              max_pooled_connections: 200
+              name: test-collection-ratelimiting
+              servers:
+              - host: redis-b.ibm.com
+                name: redis-b
+                password: passw0rd
+                username: user
+                port: 6380
+                ssl:
+                  trust_certificates: "@redis-b-ca.pem"
+
+      type: object
+      properties:
+        key_prefix:
+          description: >
+            The key prefix for all data which is stored on the Redis server.
+          type: string
+        default_collection:
+          description: >
+            The name of the default collection of Redis servers to be used.
+          type: string
+        collections:
+          description: >
+            Used to define the configuration for a collection of replicated
+            Redis servers.
+          type: array
+          items:
+            type: object
+            properties:
+
+              name:
+                description: >
+                  The name of the redis collection.
+                type: string
+                x-uuid: true
+                x-required: true
+              matching_host:
+                description: >
+                  Any specific hosts (obtained from the Host header of the
+                  HTTP request) for which this collection should be used.
+
+                  This entry is only applicable to Redis collections being used 
+                  for storing session data.
+                type: string
+              max_pooled_connections:
+                description: >
+                  The maximum number of pooled connections to a Redis
+                  server.
+                type: number
+                minimum: 0
+                maximum: unlimited
+                default: 50
+              idle_timeout:
+                description: >
+                  The maximum number of seconds a pooled connection can
+                  remain idle before the connection is closed.
+                type: number
+                minimum: 0
+                maximum: unlimited
+                default: 10
+              connect_timeout:
+                description: >
+                  The maximum number of seconds to wait for a connection
+                  to be established with a Redis server.
+                type: number
+                minimum: 0
+                maximum: unlimited
+                default: 2
+              io_timeout:
+                description: >
+                  The maximum number of seconds to wait for a valid
+                  response from a Redis server.
+                type: number
+                minimum: 0
+                maximum: unlimited
+                default: 30
+                x-name: IO Timeout
+              health_check_interval:
+                description: >
+                  The interval (in seconds) between health check requests
+                  sent to the Redis server.
+                type: number
+                minimum: 1
+                maximum: unlimited
+                default: 10
+              cross_domain_support:
+                description: >
+                  Specifies the configuration information associated with
+                  the sharing of sessions across multiple DNS domains.
+
+                  These entries are only applicable to Redis collections being used 
+                  for storing session data.
+                type: object
+                properties:
+
+                  master_authn_server_url:
+                    description: >
+                      The base URL of the master authentication server for
+                      this collection of Redis servers.  The master
+                      authentication server, if specified, will be
+                      responsible for the generation of all new sessions
+                      for this collection.  The entry
+                      should be of the format: `http{s}://server{:port}`.
+                    type: string
+                    x-name: Master Authentication Server URL
+                  master_session_code_lifetime:
+                    description: >
+                      The maximum number of seconds that a session code,
+                      used when communicating the session information from
+                      the master authentication server, will remain valid.
+                    type: number
+                    minimum: 1
+                    maximum: unlimited
+                    default: 30
+
+              servers:
+                description: >
+                  Used to define the configuration for the individual
+                  Redis servers within the collection.
+                type: array
+                items:
+                  type: object
+                  properties:
+
+                    name:
+                      description: >
+                        A label, or name, which is used to identify this
+                        server.
+                      type: string
+                      x-uuid: true
+                      x-required: true
+                    host:
+                      description: >
+                        The server name or IP address of the Redis server.
+                      type: string
+                    port:
+                      description: >
+                        The port on which the Redis server is listening
+                        for requests.
+                      type: number
+                      minimum: 1
+                      maximum: unlimited
+                      default: 6379
+                    username:
+                      description: >
+                        The name of the user which is used when
+                        authenticating to the Redis server.
+                      type: string
+                    password:
+                      description: >
+                        The password which is used to access the Redis
+                        server.
+                      type: string
+                    ssl:
+                      description: >
+                        The SSL information associated with the Redis
+                        server.
+                      type: object
+                      x-name: SSL
+                      properties:
+
+                        trust_certificates:
+                          description: >
+                            The PEM based certificates which are to be
+                            trusted when communicating with the Redis
+                            server.  The trusted certificates should
+                            include the CA certificate for the Redis server
+                            certificate, as well as any intermediate
+                            certificates used to sign the client
+                            certificate (if mutual authentication is in
+                            use).  SSL/TLS will not be used when
+                            communicating with the Redis server if no
+                            trust certificates are specified.
+
+                          type: array
+                          items:
+                            type: string
+                            x-uuid: true
+                            x-required: true
+                            x-name: Trust Certificate
+
+                        client_certificate:
+                          description: >
+                            The PEM based personal certificate files which
+                            will be used when performing mutual
+                            authentication with the resource server.  These
+                            certificate files should include the private
+                            key, a certificate signed with the private key,
+                            and the signer certificate or signer
+                            certificate chain (if required).
+
+                          type: array
+                          items:
+                            type: string
+                            x-uuid: true
+                            x-required: true
+
+                        sni:
+                          description: >
+                            The Server Name Indication (SNI) value which
+                            is provided when establishing the SSL connection
+                            with the Redis server.
+                          type: string
+                          x-name: SNI

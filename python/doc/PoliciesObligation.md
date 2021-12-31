@@ -2,7 +2,9 @@
 
 ## Description
 
-If the action for this rule is obligate, this obligation must be defined to indicate that authentication should take place again with specific parameters.
+If the action for this rule is obligate or reauth, this obligation can be used to indicate that authentication should take place again with specific parameters.
+
+This parameter is required for policies with the 'obligation' action, and is optional for policies with the 'reauth' action.
 
 Note that a policy can only contain one obligated action, that is, this entry must contain `oidc` or `redirect_url`.
 
