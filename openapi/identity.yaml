@@ -195,7 +195,7 @@ identity:
               introspection_endpoint: https://ibm-app-gw.verify.ibm.com/v1.0/endpoint/default/introspect
               client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
               client_secret: 1a2b3c4d5e
-              auth_method: post
+              auth_method: client_secret_post
               proxy: https://www.testproxy.com:443
               token_type_hint: "access_token"
               ssl:

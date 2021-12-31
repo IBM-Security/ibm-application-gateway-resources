@@ -521,6 +521,15 @@ policies:
               obligation:
                 redirect_url: "/eula/landing?origin=%URL%&user=%CREDATTR{preferred_username}%&proxy=%HTTPHDR{x-ibm-proxy}%"
 
+            - name: reauth_required
+              rule: anyauth
+              paths:
+                - "/application/download/*"
+              action: "reauth"
+              obligation:
+                oidc:
+                  max_age: 0
+
       type: array
       items:
         type: object
@@ -583,10 +592,13 @@ policies:
               - permit
               - deny
               - obligate
+              - reauth
 
           obligation:
             description: |
-              If the action for this rule is obligate, this obligation must be defined to indicate that authentication should take place again with specific parameters.
+              If the action for this rule is obligate or reauth, this obligation can be used to indicate that authentication should take place again with specific parameters.
+
+              This parameter is required for policies with the 'obligation' action, and is optional for policies with the 'reauth' action.
 
               Note that a policy can only contain one obligated action, that is, this entry must contain `oidc` or `redirect_url`.
 
@@ -640,6 +652,20 @@ policies:
                       all identity providers. Refer to your identity provider
                       for further information about support prompt values.
                     type: string
+
+                  max_age:
+                    description: >
+                      The maximum age of the authentication. Refer to 
+                      "max_age" in section 3.1.2 of the OpenID Connect Core 
+                      specification for further information.
+
+                      Setting this to '0' indicates to the provider that
+                      the user should re-authenticate immediately. This 
+                      parameter also forces the provider to include the
+                      auth_time parameter in the returned id token, which
+                      is used by IAG to determine when the user last performed
+                      a re-authentication.
+                    type: number
 
               redirect_url:
                 description: >

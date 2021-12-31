@@ -144,8 +144,74 @@ class OidcRp(object):
 
         return session
 
+    def reauthenticate(self, session, target_url, user, password, virtual_host=None):
+        """
+        Perform an OIDC re-authentication against the configured OP using the
+        specified user name and password.  The updated session and response
+        will be returned upon a successful re-authentication, otherwise an
+        exception will be raised.
+        """
+
+        headers = None
+
+        if virtual_host is not None:
+            headers = {
+                "host": virtual_host
+            }
+
+        # The first request used to start the flow.
+        rsp = session.get("{0}{1}".format(self.url_, target_url),
+                          headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to request the initial WRP page")
+
+        # The second request, for the pkmsoidc page to kick start the OIDC
+        # authentication.  The response to this request should be a 302.
+        rsp = session.get("{0}/pkmsoidc?iss=default&TAM_OP=login".format(
+                self.url_), headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to start the OIDC RP flow")
+
+        # The third request should be to the OIDC OP.
+        rsp = self.reauthenticate_at_op(rsp.headers['location'], session, user, password)
+
+        self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
+
+        # Now we can complete the OIDC flow.  We have to massage the location
+        # which is returned by the OP, substituting the fake host with the
+        # real address information.
+        url = re.sub(
+           r"http(s?)://.*/",
+           "{0}/".format(self.url_),
+           rsp.headers['location']
+        )
+
+        rsp = session.get(url, headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to complete the OIDC RP flow")
+
+        # We can finally make a request for a protected resource to verify
+        # that we are correctly re-authenticated.
+        rsp = session.get(rsp.headers['location'], headers=headers, verify=False, allow_redirects=False)
+
+        self.check_rsp_code(rsp, 200, "Failed to use the re-authenticated session")
+
+        return session, rsp
+
     @classmethod
     def authenticate_at_op(self, location, user, password, session=None):
+        """
+        Perform an authentication at the OP.  This function should be
+        implemented for each type of OP which we support.
+        """
+
+        logger.critical("A base class has been used instead of specific OP "
+                "implementation!")
+
+        sys.exit(1)
+
+    @classmethod
+    def reauthenticate_at_op(self, location, session, user, password):
         """
         Perform an authentication at the OP.  This function should be
         implemented for each type of OP which we support.
@@ -177,14 +243,14 @@ class CIOidcRp(OidcRp):
     @classmethod
     def authenticate_at_op(self, location, user, password, session=None):
         """
-        Perform an authentication at the CI OP.
+        Perform an authentication at the IBM Verify OP.
         """
 
         # Create a new session against CI.
         if session is None:
             session = requests.session()
 
-        logger.info("Authenticating to CI....")
+        logger.info("Authenticating to IBM Verify....")
 
         # We now need to authenticate against the tenant.  This will involve
         # retrieving the login form, extracting the URL from the login form
@@ -198,7 +264,7 @@ class CIOidcRp(OidcRp):
         rsp = session.get(form_url, verify=False)
 
         self.check_rsp_code(rsp, 200,
-                                "CI did not return the expected login form")
+                                "IBM Verify did not return the expected login form")
 
         # Pull out the action from the body.  We could use a module such as
         # Beautiful Soup to parse the response body, but what we want is pretty
@@ -213,15 +279,57 @@ class CIOidcRp(OidcRp):
                             "password"  : password
                         })
 
-        self.check_rsp_code(rsp, 200, "Failed to authenticate to CI")
+        self.check_rsp_code(rsp, 200, "Failed to authenticate to IBM Verify")
 
         # Now that we have an authenticated session we want to perform the
         # OIDC flow.
         rsp = session.get(location, verify=False, allow_redirects=False)
 
-        self.check_rsp_code(rsp, 302, "The OIDC flow failed in CI")
+        self.check_rsp_code(rsp, 302, "The OIDC flow failed in IBM Verify")
 
-        logger.info("Successfully authenticated to CI.")
+        logger.info("Successfully authenticated to IBM Verify.")
+
+        return rsp
+
+    @classmethod
+    def reauthenticate_at_op(self, location, session, user, password):
+        """
+        Perform a re-authentication at the IBM Verify OP.
+        """
+
+        # Get the login form
+        rsp = session.get(location, verify=False)
+
+        logger.info("Re-authenticating with IBM Verify....")
+
+        # We now need to authenticate against the tenant.  This will involve
+        # retrieving the login form, extracting the URL from the login form
+        # and then posting the username/password to perform the authentication.
+        parts = urlparse(location)
+
+        # Pull out the action from the body.  We could use a module such as
+        # Beautiful Soup to parse the response body, but what we want is pretty
+        # simple and so it is easier to just do a regular expression match.
+        auth_uri = self.extract_form_action(rsp.text)
+
+        # Complete the login form
+        rsp = session.post("{0}://{1}{2}".format(
+                            parts.scheme, parts.netloc, auth_uri),
+                        data = {
+                            "operation" : "verify",
+                            "username"  : user,
+                            "password"  : password,
+                            "error_redirect_support": "true"
+                        },
+                        allow_redirects=False)
+
+        self.check_rsp_code(rsp, 302, "Failed to authenticate to IBM Verify")
+
+        rsp = session.get(rsp.headers["location"], verify=False, allow_redirects=False)
+        
+        self.check_rsp_code(rsp, 302, "The OIDC flow failed in IBM Verify")
+
+        logger.info("Successfully authenticated to IBM Verify.")
 
         return rsp
 
@@ -231,6 +339,7 @@ class CIOidcRp(OidcRp):
         # Legacy form actions
 
         auth_uri_patterns = [
+            'var action = "(.+?)"',
             'const action = "(.+?)"',
             '<body action="(.+?)"'
         ]

@@ -206,46 +206,14 @@ try:
     )
 
     redis = ServerSessionRedis(
-                    key_prefix                 = "key-",
-                    default_collection         = "test_collection",
+                    enabled                    = True,
                     client_list_cache_lifetime = 20,
                     concurrent_sessions = ServerSessionRedisConcurrentSessions(
                         enabled                      = True,
                         prompt_for_displacement      = True,
                         max_user_sessions            = 10,
                         user_identity_attribute_name = "user-id"
-                    ),
-                    collections = [
-                        ServerSessionRedisCollections(
-                            name                   = "test-collection",
-                            matching_host          = "www.webseal.ibm.com",
-                            max_pooled_connections = 20,
-                            idle_timeout           = 10,
-                            health_check_interval  = 20,
-                            cross_domain_support   = ServerSessionRedisCrossDomainSupport(
-                                master_authn_server_url = "https://mas.ibm.com",
-                                master_session_code_lifetime = 15
-                            ),
-                            servers                = [
-                                ServerSessionRedisServers(
-                                    name     = "redis-a",
-                                    host     = "redis-a.ibm.com",
-                                    port     = 6380,
-                                    username = "testuser",
-                                    password = "passw0rd",
-                                    ssl      = ServerSessionRedisSsl(
-                                        trust_certificates = [
-                                            "@redis-ca.crt"
-                                        ],
-                                        client_certificate = [
-                                            "@cert.crt", "@cert.key"
-                                        ],
-                                        sni = "redis-a.ibm.com"
-                                    )
-                                )
-                            ]
-                        )
-                    ]
+                    )
                 )
 
     session    = ServerSession(
@@ -298,6 +266,14 @@ try:
                     type    = "zip"
                 )
 
+    rateLimiting = ServerRateLimiting(
+        cache_size=1337,
+        redis=ServerRateLimitingRedis(
+            collection_name="test-collection-2",
+            sync_window=137
+        )
+    )
+
     server = Server(
                         ssl                = ssl,
                         failover           = ServerFailover(key = "simple key"),
@@ -308,7 +284,8 @@ try:
                         local_pages        = localPages,
                         management_pages   = [ mgmtPages ],
                         error_pages        = [ errorPages ],
-                        local_applications = apps
+                        local_applications = apps,
+                        rate_limiting      = rateLimiting
                     )
 
     #
@@ -386,7 +363,6 @@ try:
                     port             = 1337,
                     ssl              = ResourceServerSsl(
                                          server_dn = "cn=ibm,dc=com",
-                                         sni       = "test.ibm.com",
                                          certificate=[
                                             "certificate",
                                             "key"
@@ -437,7 +413,6 @@ try:
                     port             = 1337,
                     ssl              = ResourceServerSsl(
                                          server_dn = "cn=ibm,dc=com",
-                                         sni       = "test.ibm.com"
                     ),
                     url_style        = ResourceServerUrlStyle(
                                          case_insensitive = False,
@@ -445,6 +420,7 @@ try:
                     )
                 )
             ],
+            sni="test.ibm.com",
             health               = None,
             worker_threads       = None
         )
@@ -544,6 +520,73 @@ try:
         enc_key="-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
     )
 
+    services = Services(
+        redis=ServicesRedis(
+            key_prefix="key-",
+            default_collection="test_collection",
+            collections = [
+                ServicesRedisCollections(
+                    name="test-collection",
+                    matching_host="www.webseal.ibm.com",
+                    max_pooled_connections=20,
+                    idle_timeout=10,
+                    health_check_interval=20,
+                    cross_domain_support=ServicesRedisCrossDomainSupport(
+                        master_authn_server_url="https://mas.ibm.com",
+                        master_session_code_lifetime=15
+                    ),
+                    servers=[
+                        ServicesRedisServers(
+                            name="redis-a",
+                            host="redis-a.ibm.com",
+                            port=6380,
+                            username="testuser",
+                            password="passw0rd",
+                            ssl=ServicesRedisSsl(
+                                trust_certificates=[
+                                    "@redis-ca.crt"
+                                ],
+                                client_certificate=[
+                                    "@cert.crt", "@cert.key"
+                                ],
+                                sni="redis-a.ibm.com"
+                            )
+                        )
+                    ]
+                ),
+                ServicesRedisCollections(
+                    name                   = "test-collection-2",
+                    matching_host          = "www.webseal.ibm.com",
+                    max_pooled_connections = 20,
+                    idle_timeout           = 10,
+                    health_check_interval  = 20,
+                    cross_domain_support   = ServicesRedisCrossDomainSupport(
+                        master_authn_server_url = "https://mas.ibm.com",
+                        master_session_code_lifetime = 15
+                    ),
+                    servers                = [
+                        ServicesRedisServers(
+                            name     = "redis-a",
+                            host     = "redis-a.ibm.com",
+                            port     = 6380,
+                            username = "testuser",
+                            password = "passw0rd",
+                            ssl      = ServicesRedisSsl(
+                                trust_certificates = [
+                                    "@redis-ca.crt"
+                                ],
+                                client_certificate = [
+                                    "@cert.crt", "@cert.key"
+                                ],
+                                sni = "redis-a.ibm.com"
+                            )
+                        )
+                    ]
+                )
+            ]
+        )
+    )
+
     #
     # Write the configuration file.
     #
@@ -552,7 +595,7 @@ try:
         os.remove(outFile)
 
     config = Configurator(
-                    version          = "20.09",
+                    version          = "21.12",
                     logging          = logging,
                     identity         = identity,
                     advanced         = advanced,
@@ -560,7 +603,8 @@ try:
                     authorization    = authorization,
                     resource_servers = resource_servers,
                     policies         = policies,
-                    secrets          = secrets)
+                    secrets          = secrets,
+                    services         = services)
 
     config.write(outFile)
 

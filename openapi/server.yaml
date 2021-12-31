@@ -393,40 +393,18 @@ server:
             timeout: 600
             inactive_timeout: 100
             redis:
+              enabled: true
               key_prefix: "iag-"
               default_collection: test-collection
               client_list_cache_lifetime: 10
-
               concurrent_sessions:
                 enabled: true
                 prompt_for_displacement: true
                 max_user_sessions: 15
                 user_identity_attribute_name: AZN_CRED_PRINCIPAL_NAME
+            reauth:
+              login_time_window: 10
 
-              collections:
-                - name: "test-collection"
-                  matching_host: "www.webseal.ibm.com"
-                  max_pooled_connections: 50
-                  idle_timeout: 10
-                  connect_timeout: 2
-                  io_timeout: 30
-                  health_check_interval: 15
-                  cross_domain_support:
-                    master_authn_server_url: "https://mas.ibm.com"
-                    master_session_code_lifetime: 30
-                  servers:
-                    - name: "redis-a"
-                      host: "redis-a.ibm.com"
-                      port: 6379
-                      username: "testuser"
-                      password: "passw0rd"
-                      ssl:
-                        trust_certificates:
-                          - "@redis-ca.crt"
-                        client_certificate:
-                          - "@cert.crt"
-                          - "@cert.key"
-                        sni: "redis-a.ibm.com"
       type: object
       properties:
 
@@ -484,17 +462,14 @@ server:
             Specifies the configuration for distributed sessions using a
             Redis environment.
 
+            Redis collections are defined using the services/redis[] entry.
+
           type: object
           properties:
-
-            key_prefix:
+            enabled:
               description: >
-                The key prefix for all data which is stored on the Redis server.
-              type: string
-            default_collection:
-              description: >
-                The name of the default collection of Redis servers to be used.
-              type: string
+                Enables the Redis session cache.
+              type: boolean
             client_list_cache_lifetime:
               description: >
                 The server needs to manually delete stale entries from the Redis
@@ -554,183 +529,28 @@ server:
                     of `unknown` will be used.
                   type: string
                   default: AZN_CRED_PRINCIPAL_NAME
-            collections:
+
+        reauth:
+          description: >
+            These entries control the behaviour of the re-authentication
+            policies.
+          type: object
+          properties:
+            login_time_window:
               description: >
-                Used to define the configuration for a collection of replicated
-                Redis servers.
-              type: array
-              items:
-                type: object
-                properties:
+                Controls the amount of time a re-authentication will be 
+                considered valid for. This is a time (in seconds) after
+                a re-authentication occurs during which a client will not be
+                prompted to perform re-authentication again.
 
-                  name:
-                    description: >
-                      The name of the redis collection.
-                    type: string
-                    x-uuid: true
-                    x-required: true
-                  matching_host:
-                    description: >
-                      Any specific hosts (obtained from the Host header of the
-                      HTTP request) for which this collection should be used.
-                    type: string
-                  max_pooled_connections:
-                    description: >
-                      The maximum number of pooled connections to a Redis
-                      server.
-                    type: number
-                    minimum: 0
-                    maximum: unlimited
-                    default: 50
-                  idle_timeout:
-                    description: >
-                      The maximum number of seconds a pooled connection can
-                      remain idle before the connection is closed.
-                    type: number
-                    minimum: 0
-                    maximum: unlimited
-                    default: 10
-                  connect_timeout:
-                    description: >
-                      The maximum number of seconds to wait for a connection
-                      to be established with a Redis server.
-                    type: number
-                    minimum: 0
-                    maximum: unlimited
-                    default: 2
-                  io_timeout:
-                    description: >
-                      The maximum number of seconds to wait for a valid
-                      response from a Redis server.
-                    type: number
-                    minimum: 0
-                    maximum: unlimited
-                    default: 30
-                    x-name: IO Timeout
-                  health_check_interval:
-                    description: >
-                      The interval (in seconds) between health check requests
-                      sent to the Redis server.
-                    type: number
-                    minimum: 1
-                    maximum: unlimited
-                    default: 10
-                  cross_domain_support:
-                    description: >
-                      Specifies the configuration information associated with
-                      the sharing of sessions across multiple DNS domains.
-                    type: object
-                    properties:
-
-                      master_authn_server_url:
-                        description: >
-                          The base URL of the master authentication server for
-                          this collection of Redis servers.  The master
-                          authentication server, if specified, will be
-                          responsible for the generation of all new sessions
-                          for this collection.  The entry
-                          should be of the format: `http{s}://server{:port}`.
-                        type: string
-                        x-name: Master Authentication Server URL
-                      master_session_code_lifetime:
-                        description: >
-                          The maximum number of seconds that a session code,
-                          used when communicating the session information from
-                          the master authentication server, will remain valid.
-                        type: number
-                        minimum: 1
-                        maximum: unlimited
-                        default: 30
-
-                  servers:
-                    description: >
-                      Used to define the configuration for the individual
-                      Redis servers within the collection.
-                    type: array
-                    items:
-                      type: object
-                      properties:
-
-                        name:
-                          description: >
-                            A label, or name, which is used to identify this
-                            server.
-                          type: string
-                          x-uuid: true
-                          x-required: true
-                        host:
-                          description: >
-                            The server name or IP address of the Redis server.
-                          type: string
-                        port:
-                          description: >
-                            The port on which the Redis server is listening
-                            for requests.
-                          type: number
-                          minimum: 1
-                          maximum: unlimited
-                          default: 6379
-                        username:
-                          description: >
-                            The name of the user which is used when
-                            authenticating to the Redis server.
-                          type: string
-                        password:
-                          description: >
-                            The password which is used to access the Redis
-                            server.
-                          type: string
-                        ssl:
-                          description: >
-                            The SSL information associated with the Redis
-                            server.
-                          type: object
-                          x-name: SSL
-                          properties:
-
-                            trust_certificates:
-                              description: >
-                                The PEM based certificates which are to be
-                                trusted when communicating with the Redis
-                                server.  The trusted certificates should
-                                include the CA certificate for the Redis server
-                                certificate, as well as any intermediate
-                                certificates used to sign the client
-                                certificate (if mutual authentication is in
-                                use).  SSL/TLS will not be used when
-                                communicating with the Redis server if no
-                                trust certificates are specified.
-
-                              type: array
-                              items:
-                                type: string
-                                x-uuid: true
-                                x-required: true
-                                x-name: Trust Certificate
-
-                            client_certificate:
-                              description: >
-                                The PEM based personal certificate files which
-                                will be used when performing mutual
-                                authentication with the resource server.  These
-                                certificate files should include the private
-                                key, a certificate signed with the private key,
-                                and the signer certificate or signer
-                                certificate chain (if required).
-
-                              type: array
-                              items:
-                                type: string
-                                x-uuid: true
-                                x-required: true
-
-                            sni:
-                              description: >
-                                The Server Name Indication (SNI) value which
-                                is provided when establishing the SSL connection
-                                with the Redis server.
-                              type: string
-                              x-name: SNI
+                By default, the login_time_window is set to zero, which means
+                that every request to a resource protected with the reauth 
+                policy directive will require the client to perform 
+                re-authentication.
+              type: number
+              minimum: 0
+              maximum: unlimited
+              default: 0
 
     worker_threads:
       description: >
@@ -749,26 +569,6 @@ server:
       minimum: 1
       maximum: unlimited
       default: 100
-
-    max_ratelimiting_buckets:
-      description: >
-        The number of unique request buckets to hold on to for the rate
-        limiting capability. When a request is tokenized, it gets a bucket
-        assigned. If this limit is reached, rate limiting information about
-        the oldest requests will be ejected. This effectively resets the rate
-        limiting counters for this client(s). This number needs to be higher
-        than the number of requests being rate limited across a refresh
-        interval.
-
-
-        Example:
-
-        server:
-          max_ratelimiting_buckets: 16384
-      type: number
-      minimum: 1
-      maximum: unlimited
-      default: 16384
 
     http2:
       description: >
@@ -1360,3 +1160,54 @@ server:
                 a `/` character).
               type: string
 
+    rate_limiting:
+      description: >
+        Specifies the global configuration related to rate limiting. Rate 
+        limiting policies are defined using the policies/rate_limiting[] entry.
+
+
+        Example:
+
+        rate_limiting:
+          cache_size: 16384
+          redis:
+            collection_name: test-collection
+            sync_window: 10
+
+      type: object
+      properties:
+        cache_size:
+          description: >
+            The number of unique records to cache locally for the rate
+            limiting capability. When this cache is exhausted, the oldest 
+            cached records are ejected. This effectively resets the rate
+            limiting counters for this client(s). This number needs to be 
+            higher than the number of requests being rate limited across a 
+            refresh interval.
+          type: number
+          minimum: 1
+          maximum: unlimited
+          default: 16384
+
+        redis:
+          description: >
+            These entries control whether or not rate limiting data will be 
+            stored in a Redis database. When stored in a Redis database, 
+            rate limiting data can be shared across multiple gateway instances.
+          type: object
+          properties:
+            collection_name:
+              description: >
+                Specify the name of a Redis collection which will be used for 
+                maintaining rate limiting data. Redis collections are defined
+                using the services/redis[] entry.
+              type: string
+            sync_window:
+              description: >
+                The length of time (in seconds) a record from Redis will be 
+                cached locally by this instance. Records will only be 
+                synchronized with Redis after this window has elapsed.
+              type: number
+              minimum: 0
+              maximum: unlimited
+              default: 5
