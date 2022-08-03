@@ -10,6 +10,7 @@ The gateway can transform inbound requests from clients before forwarding them t
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **request** | [**list[PoliciesHttpTransformationRule]**](PoliciesHttpTransformationRule.md) | This node defines the transformations which will take place on requests.| [optional] 
+**postazn** | [**list[PoliciesHttpTransformationRule]**](PoliciesHttpTransformationRule.md) | This node defines the transformations which will take place on requests after authorization has been completed.| [optional] 
 **response** | [**list[PoliciesHttpTransformationRule]**](PoliciesHttpTransformationRule.md) | This node defines the transformations which will take place on responses.| [optional] 
 
 [[Back to README]](../README.md)

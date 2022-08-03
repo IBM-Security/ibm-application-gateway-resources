@@ -29,6 +29,10 @@ server:
             - "@example.crt"
             - "@example.key"
           hostname: www.example.com
+    trust_certificates:
+      - "@www-dev.pem"
+      - "@redis-staging-1.pem"
+      - "@redis-staging-2.pem"
 
 
 ## Properties

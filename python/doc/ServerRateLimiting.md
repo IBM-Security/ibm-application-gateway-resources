@@ -5,11 +5,12 @@
 Specifies the global configuration related to rate limiting. Rate  limiting policies are defined using the policies/rate_limiting[] entry.
 
 Example:
-rate_limiting:
-  cache_size: 16384
-  redis:
-    collection_name: test-collection
-    sync_window: 10
+server:
+  rate_limiting:
+    cache_size: 16384
+    redis:
+      collection_name: test-collection
+      sync_window: 10
 
 
 ## Properties

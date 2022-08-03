@@ -14,7 +14,6 @@ from tempfile import mkstemp
 
 from ibm_application_gateway.config             import *
 from ibm_application_gateway.system.environment import Environment
-from ibm_application_gateway.system.container   import Container
 
 #############################################################################
 
@@ -27,7 +26,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "21.12",
+                    version          = "22.07",
                     server           = None,
                     identity         = None,
                     authorization    = None,
@@ -138,6 +137,7 @@ class Configurator(object):
         # If we have not been provided with a file name we create a file name
         # now.
         if filename is None:
+            from ibm_application_gateway.system.container   import Container
             dir = Container.config_volume_path \
                     if Environment.is_container_context() else None
 
