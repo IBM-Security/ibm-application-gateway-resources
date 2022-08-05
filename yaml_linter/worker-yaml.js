@@ -1477,6 +1477,9 @@ const schema = {
         ciphers: [
           "string",
         ],
+        trust_certificates: [
+          "string",
+        ],
       },
       failover: {
         key: "string",
@@ -1533,6 +1536,14 @@ const schema = {
         content: "string",
         type: "string",
       },
+      public_assets: {
+        content: "string",
+        type: "string",
+        path_segment: "string",
+      },
+      enabled_languages: [
+        "string",
+      ],
       credential_service_cache: {
         cache_enabled: true,
         cache_size: 0,
@@ -1564,6 +1575,15 @@ const schema = {
           sync_window: 0,
         },
       },
+      content_security_policy: "string",
+      response_headers: [
+        {
+          header: "string",
+          macro: "string",
+          attribute: "string",
+          text: "string",
+        },
+      ],
     },
     identity: {
       auth_challenge_redirect: {
@@ -1842,6 +1862,17 @@ const schema = {
             rule: "string",
           },
         ],
+        postazn: [
+          {
+            name: "string",
+            host: "string",
+            paths: [
+              "string",
+            ],
+            method: "string",
+            rule: "string",
+          },
+        ],
         response: [
           {
             name: "string",
@@ -2067,6 +2098,9 @@ const schema = {
           component: "string",
           file_name: "string",
           level: 0,
+          max_file_size: 0,
+          max_rollover_files: 0,
+          compress: true,
         },
       ],
       transaction: {
@@ -2184,7 +2218,7 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12"], 0, false, 0, false, annots);
+                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07"], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
@@ -2201,6 +2235,7 @@ const schema = {
           validateEntry(op, "server.ssl.applications.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv13", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.ciphers[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.trust_certificates[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.failover.key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.failover.cookie_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.failover.domain_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
@@ -2230,6 +2265,10 @@ const schema = {
           validateEntry(op, "server.management_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
           validateEntry(op, "server.error_pages.content", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.error_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.enabled_languages[i]", "stringarray", editorText, ["C","cs","de","es","fr","hu","it","ja","ko","pl","pt_BR","ru","zh_CN","zh_TW"], 0, false, 0, false, annots);
           validateEntry(op, "server.credential_service_cache.cache_enabled", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.credential_service_cache.cache_size", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.credential_service_cache.entry_lifetime", "number", editorText, [], 0, true, -1, false, annots);
@@ -2245,6 +2284,11 @@ const schema = {
           validateEntry(op, "server.rate_limiting.cache_size", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.rate_limiting.redis.collection_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.rate_limiting.redis.sync_window", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.content_security_policy", "string", editorText, ["default","disabled"], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].macro", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].text", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
@@ -2372,6 +2416,11 @@ const schema = {
           validateEntry(op, "policies.http_transformations.request[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.request[i].method", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.request[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].rule", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.response[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.response[i].host", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.response[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
@@ -2470,6 +2519,9 @@ const schema = {
           validateEntry(op, "logging.tracing[i].component", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.tracing[i].file_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.tracing[i].level", "number", editorText, [], 0, true, 9, true, annots);
+          validateEntry(op, "logging.tracing[i].max_file_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.tracing[i].max_rollover_files", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.tracing[i].compress", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.transaction.file_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.transaction.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "logging.transaction.max_files", "number", editorText, [], 1, true, -1, false, annots);
