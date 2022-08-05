@@ -1065,6 +1065,7 @@ server:
           error and management response pages.
         type: string
         x-name: Language
+        x-uuid: true
         enum:
           - C
           - cs

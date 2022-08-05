@@ -1148,7 +1148,15 @@ public class Component {
             StringBuffer disabledStr = new StringBuffer();
             handleRequiredFields(disabledStr);
             
-            retVal.append("                    <Button disabled={" + disabledStr.toString() + "} onClick={() => { handleSave(loadGrid, idPrefix, " + Constants.EXTRA_BTN_PARAMS + " doClose); }}>Save</Button>\n");
+            if(disabledStr.length() > 0)
+            {
+                retVal.append("                    <Button disabled={" + disabledStr.toString() + "} onClick={() => { handleSave(loadGrid, idPrefix, " + Constants.EXTRA_BTN_PARAMS + " doClose); }}>Save</Button>\n");
+            }
+            else
+            {
+                retVal.append("                    <Button onClick={() => { handleSave(loadGrid, idPrefix, " + Constants.EXTRA_BTN_PARAMS + " doClose); }}>Save</Button>\n");
+            }
+
             retVal.append("                  </div>\n");
         }
         
