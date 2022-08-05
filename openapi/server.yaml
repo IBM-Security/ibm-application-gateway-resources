@@ -116,7 +116,10 @@ server:
                         - "@example.crt"
                         - "@example.key"
                       hostname: www.example.com
-
+                trust_certificates:
+                  - "@www-dev.pem"
+                  - "@redis-staging-1.pem"
+                  - "@redis-staging-2.pem"
           type: object
           properties:
 
@@ -336,6 +339,31 @@ server:
             x-uuid: true
             x-required: true
             x-name: Cipher
+
+        trust_certificates:
+          description: >
+            PEM based signer certificates or signer certificate chains which 
+            should be added to IAG's trust store. These can be signer 
+            certificates which are required for secure communication with 
+            resource servers or external services.
+
+
+            Example:
+            
+            server:
+              ssl:
+                trust_certificates:
+                  - "@www-dev.pem"
+                  - "@redis-staging-1.pem"
+                  - "@redis-staging-2.pem"
+          type: array
+          items:
+            description: |
+              PEM certificate data.
+            type: string
+            x-uuid: true
+            x-required: true
+            x-name: Trusted Certificates
 
     failover:
       description: >
@@ -583,7 +611,7 @@ server:
         server:
           http2: true
       type: boolean
-      default: false
+      default: true
       x-name: HTTP/2
 
     websocket:
@@ -953,6 +981,107 @@ server:
             - zip
             - path
 
+    public_assets:
+      description: |
+        This entry overloads the default assets used in server generated error and management response pages.
+        These assets are served by the application gateway on the configured path segment (default `pkmspublic`) and are suitable for embedding in server generated responses such as error or management pages.
+
+
+        #### Defaults
+
+        If no value is specified here, the default set of assets will be used.
+        The default set of assets, used by the default error and management pages, `public_assets.zip`, can be downloaded from GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages).
+
+
+        Example:
+
+        server:
+          public_assets:
+            content: "@publicAssets.zip"
+            type: zip
+            path_segment: public
+      type: object
+      properties:
+        content:
+          description: >
+            The content which will be used for the public assets.  The
+            content can either be the name of a directory, relative to the
+            `/var/iag/config` directory of the container, or a zip file.
+          type: string
+        type:
+          description: >
+            The type of content which is being supplied.  Either a zip file
+            or a directory name.
+          type: string
+          enum:
+            - zip
+            - path
+        path_segment:
+          description: >
+            The path which the assets will be available from. By default, this is
+            `pkmspublic`.
+          type: string
+          default: pkmspublic
+
+    enabled_languages:
+      description: |
+        The language(s) which will be permitted when the application gateway generates error and management response pages. The accept-language HTTP header from the request is used to determine the language used when generating responses.
+
+        The first language in the list will be treated as the default language. The default language will be used if none of the languages contained in the accept-language HTTP header have been enabled.
+
+        If this entry is not defined, all languages will be enabled with English (C) set as the default.
+
+        #### language codes
+
+        | `language code` | Language              |
+        |-----------------|-----------------------|
+        | pt              | Brazilian Portuguese  |
+        | cs              | Czech                 |
+        | zh_CN           | Chinese (Simplified)  |
+        | zh_TW           | Chinese (Traditional) |
+        | C               | English               |
+        | fr              | French                |
+        | de              | German                |
+        | hu              | Hungarian             |
+        | it              | Italian               |
+        | ja              | Japanese              |
+        | ko              | Korean                |
+        | pl              | Polish                |
+        | es              | Spanish               |
+        | ru              | Russian               |
+
+
+        Example:
+
+        server:
+          enabled_languages:
+            - fr
+            - ja
+
+      type: array
+      items:
+        description: >
+          The language(s) which will be permitted when the application gateway generates
+          error and management response pages.
+        type: string
+        x-name: Language
+        x-uuid: true
+        enum:
+          - C
+          - cs
+          - de
+          - es
+          - fr
+          - hu
+          - it
+          - ja
+          - ko
+          - pl
+          - pt_BR
+          - ru
+          - zh_CN
+          - zh_TW
+
     credential_service_cache:
       description: >
         Specifies the configuration for the credential service cache. When the
@@ -1168,11 +1297,12 @@ server:
 
         Example:
 
-        rate_limiting:
-          cache_size: 16384
-          redis:
-            collection_name: test-collection
-            sync_window: 10
+        server:
+          rate_limiting:
+            cache_size: 16384
+            redis:
+              collection_name: test-collection
+              sync_window: 10
 
       type: object
       properties:
@@ -1211,3 +1341,79 @@ server:
               minimum: 0
               maximum: unlimited
               default: 5
+
+    content_security_policy:
+      description: |
+        Specifies whether or not the gateway will use the default content security policy.
+
+        The default policy inserts the following HTTP headers into all responses:
+
+        header | value
+        -------|-------
+        x-frame-options | DENY
+        x-xss-protection | 1
+        content-security-policy | default-src 'self'; frame-ancestors 'self'; form-action 'self';
+        x-content-type-options | nosniff
+
+
+        Example:
+
+        server:
+          content_security_policy: disabled
+
+      type: string
+      default: default
+      enum:
+        - default
+        - disabled
+
+    response_headers:
+      description: >
+        This entry can be used to set HTTP headers which are always present in all responses
+        which are returned to clients.
+
+        For each entry, only one of `macro`, `attribute` or `text` can be specified.
+
+
+        Example:
+
+        server:
+          response_headers:
+            - header:    X-Client-ID
+              macro:     USER
+            - header:    X-Client-Apparent-IP
+              attribute: AZN_CRED_NETWORK_ADDRESS_STR
+            - header:    X-IBM-Environment
+              text:      staging
+      type: array
+      items:
+          description: >
+            Each entry corresponds to a single HTTP header. 
+          type: object
+          properties:
+            header:
+              description: >
+                The name of the HTTP header to be included in the response.
+              type: string
+              x-required: true
+              x-uuid: true
+            macro:
+              description: >
+                The name of the macro which the value will be taken from.
+
+                Valid macro values are:
+
+                  - `TAM_OP`
+                  - `ERROR_CODE`
+                  - `ERROR_TEXT`
+                  - `ERROR_URL`
+                  - `USERNAME`
+              type: string
+            attribute:
+              description: >
+                The name of a credential attribute which the value will be taken from.
+              type: string
+            text:
+              description: >
+                String content which will be inserted into the header verbatim.
+              type: string

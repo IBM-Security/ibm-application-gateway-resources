@@ -35,7 +35,63 @@ policies:
                     paths:
                       - "*"
                     method: GET
-                    rule: "@http_trans_rule.xsl"
+                    rule: "@http_trans_rule.lua"
+          type: array
+          items:
+            type: object
+            properties:
+
+              name:
+                description: >
+                  The name which is associated with this transformation.
+                type: string
+                x-uuid: true
+                x-required: true
+              host:
+                description: >
+                  The host (obtained from the host header in the request) for
+                  which this transformation will take place. If no host header
+                  is specified all hosts will be matched.
+                type: string
+              paths:
+                description: >
+                  The paths for which this transformation will take place. If the wildcard
+                  "*" is specified all paths will be matched. This entry is an array and can
+                  be used to specify multiple paths.
+                type: array
+                items:
+                  type: string
+                  x-uuid: true
+                  x-required: true
+                  x-name: Path
+              method:
+                description: >
+                  The HTTP method for which this transformation will take
+                  place. If the wildcard "*" is specified all methods will be matched.
+                type: string
+              rule:
+                description: >
+                  The HTTP transformation rule.
+                type: string
+
+        postazn:
+          description: >
+            This node defines the transformations which will take place on
+            requests after authorization has been completed. This entry is 
+            an array and can be used to specify multiple transformations.
+
+
+            Example:
+
+            policies:
+              http_transformations:
+                postazn:
+                  - name: resource_1_postazn_rule
+                    host: www.test.com
+                    paths:
+                      - "*"
+                    method: GET
+                    rule: "@http_trans_rule.lua"
           type: array
           items:
             type: object
@@ -92,7 +148,13 @@ policies:
                       - "/resource_1"
                       - "/alt/resource_1"
                     method: GET
-                    rule: "@http_trans_rule.xsl"
+                    rule: "@http_trans_rule.lua"
+                  - name: legacy_xslt_rule
+                    host: www.test.com
+                    paths:
+                      - "/legacy"
+                    method: GET
+                    rule: "@legacy_rule.xsl"
                     attributes:
                       - AZN_CRED_PRINCIPAL_NAME
           type: array
@@ -134,16 +196,18 @@ policies:
                 type: string
               attributes:
                 description: >
-                  The credential attributes which will be included in the XML
-                  input document, used when evaluating the HTTP transformation
-                  rule.  The attributes will be stored in the
-                  HTTPResponse/credential/attributes/attribute path of the
-                  XML document.
+                  If the rule is a legacy XSLT based rule, this entry specifies the credential 
+                  attributes which will be included in the XML input document, used when 
+                  evaluating the HTTP transformation rule.  The attributes will be stored in the
+                  HTTPResponse/credential/attributes/attribute path of the XML document.
+
+                  This is entry is not required and has no effect when using a Lua transformation
+                  rule.
                 type: array
                 items:
                   type: string
                   x-uuid: true
-                  x-required: true
+                  x-required: false
                   x-name: Attribute
 
     cors:
