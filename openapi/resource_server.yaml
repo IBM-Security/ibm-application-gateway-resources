@@ -26,18 +26,26 @@ resource_server:
 
     virtual_host:
       description: >
-        The virtual host, as defined by the host header in the request, at
-        which the resource server will be made available. Port information may
-        also be specified if the virtual host is on a non-default port for the
-        intended protocol. This entry is required if the `path` entry has not
-        been specified. It is not valid to have both `path` and `virtual_host`
-        entries specified.
+        The virtual host, as defined by the host header in the request, at 
+        which the resource server will be made available. This will be the 
+        hostname and port number specified in the web browser when it makes 
+        the request. The port number should always be specified, whether the 
+        default port is being used (443 for SSL), or if the virtual host is 
+        using a non-default port for the intended protocol. If your docker 
+        or container host is mapping an incoming port number such as 443 to 
+        some other port inside the container (i.e. 8443), then specify here 
+        the incoming port number (i.e. 443).
+
+        This entry is required if the `path` entry has not been specified. 
+        
+        It is not valid to have both `path` and `virtual_host` entries 
+        specified.
 
 
         Example:
 
         resource_servers:
-          - virtual_host: "application.ibm.com:9443"
+          - virtual_host: "application.ibm.com:443"
             # ...
       type: string
       x-uuid: true
@@ -814,6 +822,7 @@ resource_server:
                   form_action:   /login.jsp
                   service:       testCredentialService
                   resource_name: jspApp
+                  form_response_pattern: "*login_prompt*"
                   fields:
                     - name:   username
                       source: service
@@ -870,6 +879,16 @@ resource_server:
                   contained in the intercepted page is the login form. The
                   matching is performed based on the `action` attribute of
                   the HTML `<form>` node.
+                type: string
+              form_response_pattern:
+                description: >
+                  This optional entry specifies a pattern which is used to
+                  determine if the page contains the login form or not. If
+                  the page content does not include this pattern, it will be
+                  returned to the client. By default, the gateway will only
+                  examine the first 32,768 bytes of the response for the
+                  pattern. Because the pattern is checked against the entire
+                  cached response it will usually start and end with a '*'.
                 type: string
               service:
                 description: >

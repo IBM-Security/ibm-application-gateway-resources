@@ -1290,9 +1290,16 @@ server:
               type: string
 
     rate_limiting:
-      description: >
-        Specifies the global configuration related to rate limiting. Rate 
-        limiting policies are defined using the policies/rate_limiting[] entry.
+      description: |
+        Specifies the global configuration related to rate limiting. Rate limiting policies are defined using the policies/rate_limiting[] entry.
+
+        Additional rate limiting headers can also be enabled. The rate limiting response headers include:
+
+        header | value 
+        -------|-------
+        X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit.
+        X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window.
+        X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets.
 
 
         Example:
@@ -1300,6 +1307,7 @@ server:
         server:
           rate_limiting:
             cache_size: 16384
+            response_headers: false
             redis:
               collection_name: test-collection
               sync_window: 10
@@ -1341,6 +1349,14 @@ server:
               minimum: 0
               maximum: unlimited
               default: 5
+
+        response_headers:
+          description: >
+            Specifies whether or not the gateway will insert the rate limiting headers into responses.
+            
+            By default, the rate limiting response headers are disabled.
+          type: boolean
+          default: false
 
     content_security_policy:
       description: |
