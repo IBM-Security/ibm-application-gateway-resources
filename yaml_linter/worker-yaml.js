@@ -1574,6 +1574,7 @@ const schema = {
           collection_name: "string",
           sync_window: 0,
         },
+        response_headers: true,
       },
       content_security_policy: "string",
       response_headers: [
@@ -1791,6 +1792,7 @@ const schema = {
             {
               resource: "string",
               form_action: "string",
+              form_response_pattern: "string",
               service: "string",
               resource_name: "string",
               fields: [
@@ -2218,7 +2220,7 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07"], 0, false, 0, false, annots);
+                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04"], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
@@ -2284,6 +2286,7 @@ const schema = {
           validateEntry(op, "server.rate_limiting.cache_size", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.rate_limiting.redis.collection_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.rate_limiting.redis.sync_window", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.rate_limiting.response_headers", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.content_security_policy", "string", editorText, ["default","disabled"], 0, false, 0, false, annots);
           validateEntry(op, "server.response_headers[i].header", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.response_headers[i].macro", "string", editorText, [], 0, false, 0, false, annots);
@@ -2388,6 +2391,7 @@ const schema = {
           validateEntry(op, "resource_servers[i].forms_login.credential_learning", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_action", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_response_pattern", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].service", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].name", "string", editorText, [], 0, false, 0, false, annots);
