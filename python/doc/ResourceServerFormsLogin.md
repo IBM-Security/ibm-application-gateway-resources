@@ -51,6 +51,7 @@ resource_servers:
           form_action:   /login.jsp
           service:       testCredentialService
           resource_name: jspApp
+          form_response_pattern: "*login_prompt*"
           fields:
             - name:   username
               source: service

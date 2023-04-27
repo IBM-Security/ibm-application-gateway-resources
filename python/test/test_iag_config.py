@@ -595,7 +595,7 @@ try:
         os.remove(outFile)
 
     config = Configurator(
-                    version          = "22.04",
+                    version          = "23.04",
                     logging          = logging,
                     identity         = identity,
                     advanced         = advanced,
