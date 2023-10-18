@@ -86,7 +86,7 @@ objects:
           #### End of Custom Object section.
           
           # The fully qualified name of the IAG image.
-          image: docker.io/ibmcom/ibm-application-gateway:${IAG_VERSION}
+          image: icr.io/ibmappgateway/ibm-application-gateway:${IAG_VERSION}
 
           # The ports on which the IAG container will be listening for
           # requests.

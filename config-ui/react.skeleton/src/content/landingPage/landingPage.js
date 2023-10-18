@@ -15,14 +15,14 @@ import yaml from 'js-yaml';
 
 const DOC_URL = "https://docs.verify.ibm.com/gateway/docs/";
 
-const SAMPLE_EMPTY_YAML = "version: 23.04";
+const SAMPLE_EMPTY_YAML = "version: 23.10";
 
 const SAMPLE_EMPTY = {
     "yaml": SAMPLE_EMPTY_YAML,
     "link": "#"
 }
 
-const SAML_AUTHZ_YAML = "version: \"23.04\"\n" +
+const SAML_AUTHZ_YAML = "version: \"23.10\"\n" +
                         "#\n" +
                         "# Configure an IAG container to proxy a single Web application, and define \n" +
                         "# an authorization policy for the Web application.  This configuration will \n" +
@@ -132,7 +132,7 @@ const SAMPLE_AUTHZ = {
     "link": DOC_URL + "examples-authorization-yaml"
 }
 
-const SAMPLE_BASIC_YAML = "version: \"23.04\"\n" +
+const SAMPLE_BASIC_YAML = "version: \"23.10\"\n" +
                           "\n" +
                           "#\n" +
                           "# Configure an IAG container with a very basic configuration.  This \n" +
@@ -191,7 +191,7 @@ const SAMPLE_BASIC = {
     "link": DOC_URL + "examples-oidc-verify-yaml"
 }                          
 
-const SAMPLE_ISVA_YAML =  "version: \"23.04\"\n" +
+const SAMPLE_ISVA_YAML =  "version: \"23.10\"\n" +
                           "\n" +
                           "#\n" +
                           "# Configure an IAG container with a very basic configuration.  This \n" +
@@ -257,7 +257,7 @@ const SAMPLE_ISVA = {
     "link": DOC_URL + "examples-oidc-verify-access-yaml"
 } 
 
-const SAMPLE_CREDVIEWER_YAML = "version: \"23.04\"\n" +
+const SAMPLE_CREDVIEWER_YAML = "version: \"23.10\"\n" +
                                "\n" +
                                "#\n" +
                                "# Configure an IAG container with a very basic configuration.  This \n" +
@@ -330,7 +330,7 @@ const SAMPLE_CREDVIEWER = {
     "link": DOC_URL + "examples-cred-viewer-yaml"
 }
 
-const SAMPLE_LWP_YAML = "version: \"23.04\"\n" +
+const SAMPLE_LWP_YAML = "version: \"23.10\"\n" +
                         "\n" +
                         "#\n" +
                         "# Configure an IAG container with a very basic configuration.  This \n" +
@@ -397,7 +397,7 @@ const SAMPLE_LWP = {
     "link": DOC_URL + "examples-local-webpages-yaml"
 }
 
-const SAMPLE_RL_YAML = "version: \"23.04\"\n" +
+const SAMPLE_RL_YAML = "version: \"23.10\"\n" +
                       "\n" +
                       "#\n" +
                       "# Configure an IAG container to proxy a single Web application.  This \n" +
@@ -494,7 +494,7 @@ const SAMPLE_RL = {
     "link": DOC_URL + "examples-rate-limiting-yaml" 
 };
 
-const SAMPLE_STDAPP_YAML = "version: \"23.04\"\n" +
+const SAMPLE_STDAPP_YAML = "version: \"23.10\"\n" +
                           "\n" +
                           "#\n" +
                           "# Configure an IAG container to proxy a single Web application.  This \n" +
@@ -563,7 +563,7 @@ const SAMPLE_STDAPP = {
     "link": DOC_URL + "examples-standard-application-yaml"
 };
 
-const SAMPLE_TRACING_YAML = "version: \"23.04\"\n" +
+const SAMPLE_TRACING_YAML = "version: \"23.10\"\n" +
                             "\n" +
                             "#\n" +
                             "# Configure an IAG container to proxy a single Web application, and activate\n" +
@@ -647,7 +647,7 @@ const SAMPLE_TRACING = {
     "link": DOC_URL + "examples-tracing-yaml"
 };
 
-const SAMPLE_UNAUTH_YAML = "version: \"23.04\"\n" +
+const SAMPLE_UNAUTH_YAML = "version: \"23.10\"\n" +
                            "\n" +
                           "#\n" +
                           "# Configure an IAG container to proxy a single Web application.  Due to the\n" + 
@@ -671,7 +671,7 @@ const SAMPLE_UNAUTH = {
     "link": DOC_URL + "examples-unauth-application-yaml"
 };      
 
-const SAMPLE_ISV_2FA_YAML = "version: \"23.04\"\n" +
+const SAMPLE_ISV_2FA_YAML = "version: \"23.10\"\n" +
                              "\n" +
                             "#\n" +
                             "# Configure an IAG container to proxy a single Web application, and define\n" +
@@ -756,7 +756,7 @@ const SAMPLE_ISV_2FA = {
     "link": DOC_URL + "examples-2fa-verify-yaml"
 };
 
-const SAMPLE_VH_YAML = "version: \"23.04\"\n" +
+const SAMPLE_VH_YAML = "version: \"23.10\"\n" +
                        "\n" +
                       "#\n" +
                       "# Configure an IAG container to proxy a single virtual host Web application.  \n" +
@@ -825,7 +825,7 @@ const SAMPLE_VH = {
     "link": DOC_URL + "examples-virtualhost-application-yaml"
 };
 
-const SAMPLE_HTTPTRAN_YAML = "version: \"23.04\"\n" +
+const SAMPLE_HTTPTRAN_YAML = "version: \"23.10\"\n" +
                              "\n" +
                             "#\n" +
                             "# Configure an IAG container to proxy a single Web application.  This \n" +
@@ -925,7 +925,7 @@ const SAMPLE_HTTPTRAN = {
     "link": DOC_URL + "examples-transformation-yaml"
 };
 
-const SAMPLE_OAUTH_ISVA_YAML = "version: \"23.04\"\n" +
+const SAMPLE_OAUTH_ISVA_YAML = "version: \"23.10\"\n" +
                                "\n" +
                               "#\n" +
                               "# Configure an IAG container with a very basic configuration.  This \n" +
@@ -981,7 +981,7 @@ const SAMPLE_OAUTH_ISVA = {
     "link": DOC_URL + "examples-oauth-verify-access-yaml"
 };
 
-const SAMPLE_OAUTH_ISV_YAML = "version: \"23.04\"\n" +
+const SAMPLE_OAUTH_ISV_YAML = "version: \"23.10\"\n" +
                               "\n" +
                               "#\n" +
                               "# Configure an IAG container with a very basic configuration.  This \n" +

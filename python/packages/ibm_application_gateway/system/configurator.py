@@ -26,7 +26,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "23.04",
+                    version          = "23.10",
                     server           = None,
                     identity         = None,
                     authorization    = None,
@@ -150,7 +150,7 @@ class Configurator(object):
 
         # Write the data.
         with open(filename, 'w') as outfile:
-            yaml.dump(data, outfile, width=float("inf"))
+            yaml.dump(data, outfile, width=float("inf"), encoding='utf-8')
 
         logger.info("Wrote the IBM Application Gateway configuration to {0}".\
                 format(filename))
