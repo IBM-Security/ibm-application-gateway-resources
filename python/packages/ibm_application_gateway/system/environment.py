@@ -84,7 +84,7 @@ class Environment(object):
 
             for config_file in config_files:
                 if os.path.isfile(config_file):
-                    with open(config_file, 'r') as stream:
+                    with open(config_file, 'r', encoding='utf-8') as stream:
                         try:
                             Environment.config_.update(yaml.safe_load(stream))
 
