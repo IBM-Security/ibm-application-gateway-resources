@@ -4,15 +4,6 @@
 
 Configures the statistic collection and publishing capability for the gateway.  The statistics for the configured components will be published to the specified statsd server over UDP.  Statistics can be used to monitor the environment, or assist with problem determination in the environment.
 
-Example:
-logging:
-  statistics:
-    server: 127.0.0.1
-    port: 8125
-    frequency: 20
-    components:
-      - iag.authn
-
 
 ## Properties
 

@@ -44,15 +44,6 @@ Directive | Description
 %Z | The raw path string.
 
 
-Example:
-
-logging:
-  request_log:
-    file:
-      file_name: request.log
-    format: "%t %a %R"
-
-
 ## Properties
 
 Name | Type | Description | Notes

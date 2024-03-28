@@ -24,55 +24,40 @@ policies:
             requests. This entry is an array and can be used to specify multiple
             transformations.
 
-
-            Example:
-
-            policies:
-              http_transformations:
-                request:
-                  - name: resource_1_rule
-                    host: www.test.com
-                    paths:
-                      - "*"
-                    method: GET
-                    rule: "@http_trans_rule.lua"
+          x-examples:
+            - policies:
+                http_transformations:
+                  request:
+                    - name: resource_1_rule
+                      host: www.test.com
+                      paths:
+                        - "*"
+                      method: GET
+                      rule: "@http_trans_rule.lua"
           type: array
           items:
-            type: object
-            properties:
+            $ref: "policies.yaml#/PoliciesHttpTransformationRule"
+            
 
-              name:
-                description: >
-                  The name which is associated with this transformation.
-                type: string
-                x-uuid: true
-                x-required: true
-              host:
-                description: >
-                  The host (obtained from the host header in the request) for
-                  which this transformation will take place. If no host header
-                  is specified all hosts will be matched.
-                type: string
-              paths:
-                description: >
-                  The paths for which this transformation will take place. If the wildcard
-                  "*" is specified all paths will be matched. This entry is an array and can
-                  be used to specify multiple paths.
-                type: array
-                items:
-                  type: string
-                  x-uuid: true
-                  x-required: true
-                  x-name: Path
-              method:
-                description: >
-                  The HTTP method for which this transformation will take
-                  place. If the wildcard "*" is specified all methods will be matched.
-                type: string
-              rule:
-                description: >
-                  The HTTP transformation rule.
-                type: string
+        preazn:
+          description: >
+            This node defines the transformations which will take place on
+            requests before authorization has been completed. This entry is 
+            an array and can be used to specify multiple transformations.
+
+          x-examples:
+            - policies:
+                http_transformations:
+                  preazn:
+                    - name: resource_1_preazn_rule
+                      host: www.test.com
+                      paths:
+                        - "*"
+                      method: GET
+                      rule: "@http_trans_rule.lua"
+          type: array
+          items:
+            $ref: "policies.yaml#/PoliciesHttpTransformationRule"
 
         postazn:
           description: >
@@ -80,135 +65,112 @@ policies:
             requests after authorization has been completed. This entry is 
             an array and can be used to specify multiple transformations.
 
-
-            Example:
-
-            policies:
-              http_transformations:
-                postazn:
-                  - name: resource_1_postazn_rule
-                    host: www.test.com
-                    paths:
-                      - "*"
-                    method: GET
-                    rule: "@http_trans_rule.lua"
+          x-examples:
+            - policies:
+                http_transformations:
+                  postazn:
+                    - name: resource_1_postazn_rule
+                      host: www.test.com
+                      paths:
+                        - "*"
+                      method: GET
+                      rule: "@http_trans_rule.lua"
           type: array
           items:
-            type: object
-            properties:
+            $ref: "policies.yaml#/PoliciesHttpTransformationRule"
 
-              name:
-                description: >
-                  The name which is associated with this transformation.
-                type: string
-                x-uuid: true
-                x-required: true
-              host:
-                description: >
-                  The host (obtained from the host header in the request) for
-                  which this transformation will take place. If no host header
-                  is specified all hosts will be matched.
-                type: string
-              paths:
-                description: >
-                  The paths for which this transformation will take place. If the wildcard
-                  "*" is specified all paths will be matched. This entry is an array and can
-                  be used to specify multiple paths.
-                type: array
-                items:
-                  type: string
-                  x-uuid: true
-                  x-required: true
-                  x-name: Path
-              method:
-                description: >
-                  The HTTP method for which this transformation will take
-                  place. If the wildcard "*" is specified all methods will be matched.
-                type: string
-              rule:
-                description: >
-                  The HTTP transformation rule.
-                type: string
+        postauthn:
+          description: >
+            This node defines the transformations which will take place on
+            requests after authentication has been completed. This entry is 
+            an array and can be used to specify multiple transformations.
 
+
+          x-examples:
+            - policies:
+                http_transformations:
+                  postauthn:
+                    - name: resource_1_postauthn_rule
+                      host: www.test.com
+                      authentication_mechanisms:
+                        - oidc
+                      rule: "@http_trans_rule.lua"
+          type: array
+          items:
+            $ref: "policies.yaml#/PoliciesHttpPostAuthnTransformationRule"
+        
         response:
           description: >
             This node defines the transformations which will take place on
             responses. This entry is an array and can be used to specify multiple
             transformations.
 
+          x-examples:
+            - policies:
+                http_transformations:
+                  response:
+                    - name: resource_1_rule
+                      host: www.test.com
+                      paths:
+                        - "/resource_1"
+                        - "/alt/resource_1"
+                      method: GET
+                      rule: "@http_trans_rule.lua"
+                    - name: legacy_xslt_rule
+                      host: www.test.com
+                      paths:
+                        - "/legacy"
+                      method: GET
+                      rule: "@legacy_rule.xsl"
+                      attributes:
+                        - AZN_CRED_PRINCIPAL_NAME
+          type: array
+          items:
+            $ref: "policies.yaml#/PoliciesHttpTransformationRule"
 
-            Example:
+        secrets:
+          description: >
+            This node contains secrets which can be loaded in Lua HTTP 
+            Transformation rules.
 
-            policies:
-              http_transformations:
-                response:
-                  - name: resource_1_rule
-                    host: www.test.com
-                    paths:
-                      - "/resource_1"
-                      - "/alt/resource_1"
-                    method: GET
-                    rule: "@http_trans_rule.lua"
-                  - name: legacy_xslt_rule
-                    host: www.test.com
-                    paths:
-                      - "/legacy"
-                    method: GET
-                    rule: "@legacy_rule.xsl"
-                    attributes:
-                      - AZN_CRED_PRINCIPAL_NAME
+            The secret values can be loaded using the `Control.getConfig`
+            method, passing a nil value for the first parameter and the
+            secret name for the second parameter.
+
+            For example, the following Lua snippet loads the value of a 
+            secret named "serviceApiKey":
+
+            ```
+            value = Control.getConfig(nil, "serviceApiKey")
+            ```
+
+          x-examples:
+            - policies:
+                http_transformations:
+                  secrets:
+                    - name:  serviceApiKey
+                      value: "$SERVICE_API_KEY"
+                    - name:  serviceApiEndpoint
+                      value: https://api.myservice.ibm.com/v1
+
           type: array
           items:
             type: object
             properties:
-
-              name:
-                description: >
-                  The name which is associated with this transformation.
+              name: 
                 type: string
+                description: > 
+                  Name of the secret. This is the name which can be used when 
+                  loading the secret data.
+
                 x-uuid: true
                 x-required: true
-              host:
-                description: >
-                  The host (obtained from the host header in the request) for
-                  which this transformation will take place. If no host header
-                  is specified all hosts will be matched.
-                type: string
-              paths:
-                description: >
-                  The paths for which this transformation will take place. If the wildcard
-                  "*" is specified all paths will be matched.  This entry is an array and can
-                  be used to specify multiple paths.
-                type: array
-                items:
-                  type: string
-                  x-uuid: true
-                  x-required: true
-                  x-name: Path
-              method:
-                description: >
-                  The HTTP method for which this transformation will take
-                  place. If the wildcard "*" is specified all methods will be matched.
-                type: string
-              rule:
-                description: >
-                  The HTTP transformation rule.
-                type: string
-              attributes:
-                description: >
-                  If the rule is a legacy XSLT based rule, this entry specifies the credential 
-                  attributes which will be included in the XML input document, used when 
-                  evaluating the HTTP transformation rule.  The attributes will be stored in the
-                  HTTPResponse/credential/attributes/attribute path of the XML document.
 
-                  This is entry is not required and has no effect when using a Lua transformation
-                  rule.
-                type: array
-                items:
-                  type: string
-                  x-uuid: true
-                  x-required: false
-                  x-name: Attribute
+              value:
+                type: string
+                description: The content of the secret.
+                
+                x-required: true
 
     cors:
       description: >
@@ -222,33 +184,31 @@ policies:
 
         This entry is an array and can be used to specify multiple CORS policies.
 
-
-        Example:
-
-        policies:
-          cors:
-            - name: cors_policy_A
-              host: www.test.com
-              paths:
-                - "/test"
-                - "/development"
-              method: GET
-              policy:
-                allow_origins:
-                  - www.test.com
-                  - www.example.com
-                handle_pre_flight: true
-                allow_headers:
-                  - test_header
-                  - test_header2
-                max_age: 600
-                allow_methods:
-                  - update
-                  - create
-                allow_credentials: true
-                expose_headers:
-                  - test_header
-                  - test_header2
+      x-examples:
+        - policies:
+            cors:
+              - name: cors_policy_A
+                host: www.test.com
+                paths:
+                  - "/test"
+                  - "/development"
+                method: GET
+                policy:
+                  allow_origins:
+                    - www.test.com
+                    - www.example.com
+                  handle_pre_flight: true
+                  allow_headers:
+                    - test_header
+                    - test_header2
+                  max_age: 600
+                  allow_methods:
+                    - update
+                    - create
+                  allow_credentials: true
+                  expose_headers:
+                    - test_header
+                    - test_header2
 
       type: array
       x-name: CORS
@@ -287,6 +247,7 @@ policies:
             type: string
 
           policy:
+            title: PoliciesCorsPolicy
             description: >
               The definition of the CORS policy.
             type: object
@@ -381,23 +342,21 @@ policies:
 
         This entry is an array and can be used to define multiple policies.
 
-
-        Example:
-
-        policies:
-          rate_limiting:
-            - name: rate_policy_A
-              methods:
-                - GET
-                - POST
-              paths:
-                - "/test*"
-                - "/release*"
-              rule: |
-                ip: true
-                capacity: 3
-                interval: 60
-                reaction: TEMPLATE
+      x-examples:
+        - policies:
+            rate_limiting:
+              - name: rate_policy_A
+                methods:
+                  - GET
+                  - POST
+                paths:
+                  - "/test*"
+                  - "/release*"
+                rule: |
+                  ip: true
+                  capacity: 3
+                  interval: 60
+                  reaction: TEMPLATE
       type: array
       items:
         type: object
@@ -449,20 +408,18 @@ policies:
 
         This entry is an array and can define multiple content injection points.
 
-
-        Example:
-
-        policies:
-          content_injection:
-            - name: content_injection_1
-              paths:
-                - "/test"
-                - "/test2"
-              location: "<h3>*"
-              content: |
-                <hr/>
-                <h4>Add heading4 after heading3</h4>
-                <hr/>
+      x-examples:
+        - policies:
+            content_injection:
+              - name: content_injection_1
+                paths:
+                  - "/test"
+                  - "/test2"
+                location: "<h3>*"
+                content: |
+                  <hr/>
+                  <h4>Add heading4 after heading3</h4>
+                  <hr/>
       type: array
       items:
         type: object
@@ -534,69 +491,74 @@ policies:
           * "anyauth" : Which allows access to any authenticated user.
 
 
-        Example:
+      x-examples:
+        - policies:
+            authorization:
+              - name: policyA
+                host: www.test.com
+                paths:
+                  - /test*
+                methods:
+                  - GET
+                  - POST
+                rule: (any groupIds = "administrator")
+                action: permit
 
-        policies:
-          authorization:
-            - name: policyA
-              host: www.test.com
-              paths:
-                - /test*
-              methods:
-                - GET
-                - POST
-              rule: (any groupIds = "administrator")
-              action: permit
+              - name: policyB
+                host: www.example.com
+                paths:
+                  - /example*
+                methods:
+                  - DELETE
+                rule: anyuser
+                action: obligate
+                obligation:
+                  oidc:
+                    acr_values: "administrator mfa"
+                    prompt: login
 
-            - name: policyB
-              host: www.example.com
-              paths:
-                - /example*
-              methods:
-                - DELETE
-              rule: anyuser
-              action: obligate
-              obligation:
-                oidc:
-                  acr_values: "administrator mfa"
-                  prompt: login
+              - name: mfa_required
+                rule: 'acr = "urn:ibm:security:policy:id:2"'
+                paths:
+                  - "/sensitive"
+                action: "permit"
 
-            - name: mfa_required
-              rule: 'acr = "urn:ibm:security:policy:id:2"'
-              paths:
-                - "/sensitive"
-              action: "permit"
+              - name: mfa_required_obligate
+                rule: 'acr != "urn:ibm:security:policy:id:2"'
+                paths:
+                  - "/sensitive"
+                action: "obligate"
+                obligation:
+                  oidc:
+                    acr_values: "urn:ibm:security:policy:id:2"
+                    prompt: "login"
 
-            - name: mfa_required_obligate
-              rule: 'acr != "urn:ibm:security:policy:id:2"'
-              paths:
-                - "/sensitive"
-              action: "obligate"
-              obligation:
-                oidc:
-                  acr_values: "urn:ibm:security:policy:id:2"
-                  prompt: "login"
+              - name: eula_not_accepted
+                rule: 'eula != "true"'
+                paths:
+                  - "/application/*"
+                action: "obligate"
+                obligation:
+                  redirect_url: "/eula/landing?origin=%URL%&user=%CREDATTR{preferred_username}%&proxy=%HTTPHDR{x-ibm-proxy}%"
 
-            - name: eula_not_accepted
-              rule: 'eula != "true"'
-              paths:
-                - "/application/*"
-              action: "obligate"
-              obligation:
-                redirect_url: "/eula/landing?origin=%URL%&user=%CREDATTR{preferred_username}%&proxy=%HTTPHDR{x-ibm-proxy}%"
-
-            - name: reauth_required
-              rule: anyauth
-              paths:
-                - "/application/download/*"
-              action: "reauth"
-              obligation:
-                oidc:
-                  max_age: 0
-
+              - name: reauth_required
+                rule: anyauth
+                paths:
+                  - "/application/download/*"
+                action: "reauth"
+                obligation:
+                  oidc:
+                    max_age: 0
       type: array
       items:
+        title: PoliciesAuthorization
         type: object
+        x-openapi-required:
+          - name
+          - paths
+          - methods
+          - rule
+          - action
         properties:
 
           name:
@@ -743,3 +705,75 @@ policies:
                   the available macros.
                 type: string
                 x-name: Redirect URL
+
+PoliciesHttpTransformationRule:
+  type: object
+  properties:
+
+    name:
+      description: >
+        The name which is associated with this transformation.
+      type: string
+      x-uuid: true
+      x-required: true
+    host:
+      description: >
+        The host (obtained from the host header in the request) for
+        which this transformation will take place. If no host header
+        is specified all hosts will be matched.
+      type: string
+    paths:
+      description: >
+        The paths for which this transformation will take place. If the wildcard
+        "*" is specified all paths will be matched. This entry is an array and can
+        be used to specify multiple paths.
+      type: array
+      items:
+        type: string
+        x-uuid: true
+        x-required: true
+        x-name: Path
+    method:
+      description: >
+        The HTTP method for which this transformation will take
+        place. If the wildcard "*" is specified all methods will be matched.
+      type: string
+    rule:
+      description: >
+        The HTTP transformation rule.
+      type: string
+
+PoliciesHttpPostAuthnTransformationRule:
+  type: object
+  properties:
+
+    name:
+      description: >
+        The name which is associated with this transformation.
+      type: string
+      x-uuid: true
+      x-required: true
+    host:
+      description: >
+        The host (obtained from the host header in the request) for
+        which this transformation will take place. If no host header
+        is specified all hosts will be matched.
+      type: string
+    authentication_mechanisms:
+      description: >
+        The authentication mechanisms for which this transformation should be 
+        triggered.
+
+        The name of the authentication mechanism is located within the
+        AZN_CRED_AUTH_METHOD attribute of an authenticated credential.
+
+      type: array
+      items:
+        type: string
+        x-uuid: true
+        x-required: true
+        x-name: Authentication Mechanisms
+    rule:
+      description: >
+        The HTTP transformation rule.
+      type: string

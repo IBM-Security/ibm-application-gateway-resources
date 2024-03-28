@@ -10,7 +10,7 @@ Controls how IAG will authenticate itself when communicating with the credential
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **sso** | [**ServicesAuthenticationSso**](ServicesAuthenticationSso.md) |  | [optional] 
-**access\_token** | [**ServicesAuthenticationAccessToken**](ServicesAuthenticationAccessToken.md) |  | [optional] 
+**access_token** | [**ServicesAuthenticationAccessToken**](ServicesAuthenticationAccessToken.md) |  | [optional] 
 **ba** | [**ServicesAuthenticationBa**](ServicesAuthenticationBa.md) |  | [optional] 
 
 [[Back to README]](../README.md)

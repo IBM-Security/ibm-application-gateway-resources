@@ -22,14 +22,11 @@ server:
         https       | 8443 | HTTPS
         http_proxy  | 8080 | HTTP with Proxy Protocol
         https_proxy | 8443 | HTTPS with Proxy Protocol
-
-
-        Example:
-
-        server:
-          protocols:
-            - https
-            - http_proxy
+      x-examples:
+        - server:
+            protocols:
+              - https
+              - http_proxy
 
       type: array
       items:
@@ -61,13 +58,11 @@ server:
         &lt;client-ip&gt; | The IP address of the client, which can also contain the pattern matching characters `*` and `?`.
 
         The client IP address of a request will be evaluated against each rule in sequence until a match is found.  The corresponding code (+|-) will then be used to determine whether the client connection is accepted.  If the client IP matches no configured rules the client connection will be accepted.
-
-        Example:
-
-        server:
-          client_ip_rules:
-            - +10.0.0.*
-            - -9.*.*.*
+      x-examples:
+        - server:
+            client_ip_rules:
+              - +10.0.0.*
+              - -9.*.*.*
 
       type: array
       x-name: Client IP Rules
@@ -95,31 +90,28 @@ server:
               - The TLS protocols that are enabled for client communication.
             
               - Any additional server certificates which should be used for specific hosts using the `server name indication` (SNI) TLS extension.
-            
-            
-            Example:
-            
-            server:
-              ssl:
-                front_end:
-                  certificate:
-                    - "@host.crt"
-                    - "@host.key"
-                    - "@ca.crt"
-                  tlsv12: true
-                  sni:
-                    - certificate:
-                      - "@test.crt"
-                      - "@test.key"
-                      hostname: www.test.com
-                    - certificate:
-                        - "@example.crt"
-                        - "@example.key"
-                      hostname: www.example.com
-                trust_certificates:
-                  - "@www-dev.pem"
-                  - "@redis-staging-1.pem"
-                  - "@redis-staging-2.pem"
+          x-examples:
+            - server:
+                ssl:
+                  front_end:
+                    certificate:
+                      - "@host.crt"
+                      - "@host.key"
+                      - "@ca.crt"
+                    tlsv12: true
+                    sni:
+                      - certificate:
+                          - "@test.crt"
+                          - "@test.key"
+                        hostname: www.test.com
+                      - certificate:
+                          - "@example.crt"
+                          - "@example.key"
+                        hostname: www.example.com
+                  trust_certificates:
+                    - "@www-dev.pem"
+                    - "@redis-staging-1.pem"
+                    - "@redis-staging-2.pem"
           type: object
           properties:
 
@@ -174,6 +166,7 @@ server:
               type: array
               x-name: SNI
               items:
+                title: ServerSslFrontEndSni
                 type: object
                 x-name: SNI
                 properties:
@@ -204,14 +197,11 @@ server:
           description: >
             Enables or disables the TLS protocols that are used for communication
             between the gateway daemon and the protected application.
-
-
-            Example:
-
-            server:
-              ssl:
-                applications:
-                  tlsv13: true
+          x-examples:
+            - server:
+                ssl:
+                  applications:
+                    tlsv13: true
           type: object
           properties:
 
@@ -320,13 +310,12 @@ server:
             TLS_AES_128_CCM_8_SHA256 |
 
 
-            Example:
-
-            server:
-              ssl:
-                ciphers:
-                  - TLS_PSK_WITH_AES_256_CCM
-                  - TLS_AES_128_CCM_8_SHA256
+          x-examples:
+            - server:
+                ssl:
+                  ciphers:
+                    - TLS_PSK_WITH_AES_256_CCM
+                    - TLS_AES_128_CCM_8_SHA256
           type: array
           items:
             description: >
@@ -346,16 +335,13 @@ server:
             should be added to IAG's trust store. These can be signer 
             certificates which are required for secure communication with 
             resource servers or external services.
-
-
-            Example:
-            
-            server:
-              ssl:
-                trust_certificates:
-                  - "@www-dev.pem"
-                  - "@redis-staging-1.pem"
-                  - "@redis-staging-2.pem"
+          x-examples:
+            - server:
+                ssl:
+                  trust_certificates:
+                    - "@www-dev.pem"
+                    - "@redis-staging-1.pem"
+                    - "@redis-staging-2.pem"
           type: array
           items:
             description: |
@@ -369,15 +355,12 @@ server:
       description: >
         Specifies the configuration related to failover support for the
         IBM Application Gateway.
-
-
-        Example:
-
-        server:
-          failover:
-            key: 123A....
-            cookie_name: jwe_cookie
-            domain_cookie: false
+      x-examples:
+        - server:
+            failover:
+              key: 123A....
+              cookie_name: jwe_cookie
+              domain_cookie: false
       type: object
       properties:
 
@@ -410,28 +393,25 @@ server:
     session:
       description: >
         Specifies the configuration for client sessions.
-
-
-        Example:
-
-        server:
-          session:
-            cookie_name: sess_cookie
-            max_sessions: 20
-            timeout: 600
-            inactive_timeout: 100
-            redis:
-              enabled: true
-              key_prefix: "iag-"
-              default_collection: test-collection
-              client_list_cache_lifetime: 10
-              concurrent_sessions:
+      x-examples:
+        - server:
+            session:
+              cookie_name: sess_cookie
+              max_sessions: 20
+              timeout: 600
+              inactive_timeout: 100
+              redis:
                 enabled: true
-                prompt_for_displacement: true
-                max_user_sessions: 15
-                user_identity_attribute_name: AZN_CRED_PRINCIPAL_NAME
-            reauth:
-              login_time_window: 10
+                key_prefix: "iag-"
+                default_collection: test-collection
+                client_list_cache_lifetime: 10
+                concurrent_sessions:
+                  enabled: true
+                  prompt_for_displacement: true
+                  max_user_sessions: 15
+                  user_identity_attribute_name: AZN_CRED_PRINCIPAL_NAME
+              reauth:
+                login_time_window: 10
 
       type: object
       properties:
@@ -587,12 +567,9 @@ server:
         instance. Choosing the optimal number depends on the quantity and
         type of traffic on your network. Modifying this value should be done
         carefully to ensure optimal performance.
-
-
-        Example:
-
-        server:
-          worker_threads: 300
+      x-examples:
+        - server:
+            worker_threads: 300
       type: number
       minimum: 1
       maximum: unlimited
@@ -604,12 +581,9 @@ server:
         HTTP/2 supports a reduced set of cipher suites. The minimum cipher is
         `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256` which should be added to the
         `server/ssl/ciphers[]` entry.
-
-
-        Example:
-
-        server:
-          http2: true
+      x-examples:
+        - server:
+            http2: true
       type: boolean
       default: true
       x-name: HTTP/2
@@ -617,22 +591,19 @@ server:
     websocket:
       description: >
         Specifies the configuration for WebSocket support.
-
-
-        Example:
-
-        server:
-          websocket:
-            worker_threads:
-              max: 100
-              idle: 0
-            timeouts:
-              applications:
-                read: 30
-                write: 30
-              front_end:
-                read: 30
-                write: 30
+      x-examples:
+        - server:
+            websocket:
+              worker_threads:
+                max: 100
+                idle: 0
+              timeouts:
+                applications:
+                  read: 30
+                  write: 30
+                front_end:
+                  read: 30
+                  write: 30
       type: object
       x-name: WebSocket
       properties:
@@ -744,14 +715,11 @@ server:
         The default set of pages, `local_pages.zip`, can be downloaded from GitHub
         (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages)
         and used as a starting point for creating custom pages.
-
-
-        Example:
-
-        server:
-          local_pages:
-            content: "@myPages.zip"
-            type: zip
+      x-examples:
+        - server:
+            local_pages:
+              content: "@myPages.zip"
+              type: zip
 
       type: object
       properties:
@@ -850,14 +818,11 @@ server:
 
         If no value is specified here, the default set of pages will be used.
         The default set of pages, `management_pages.zip`, can be downloaded from GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) and used as a starting point for creating custom management pages.
-
-
-        Example:
-
-        server:
-          management_pages:
-            content: "@mgmtPages.zip"
-            type: zip
+      x-examples:
+        - server:
+            management_pages:
+              content: "@mgmtPages.zip"
+              type: zip
       type: object
       properties:
         content:
@@ -956,14 +921,11 @@ server:
 
         If no value is specified here, the default set of pages will be used.
         The default set of pages, `error_pages.zip`, can be downloaded from GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) and used as a starting point for creating custom error pages.
-
-
-        Example:
-
-        server:
-          error_pages:
-            content: "@errorPages.zip"
-            type: zip
+      x-examples:
+        - server:
+            error_pages:
+              content: "@errorPages.zip"
+              type: zip
       type: object
       properties:
         content:
@@ -991,15 +953,12 @@ server:
 
         If no value is specified here, the default set of assets will be used.
         The default set of assets, used by the default error and management pages, `public_assets.zip`, can be downloaded from GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages).
-
-
-        Example:
-
-        server:
-          public_assets:
-            content: "@publicAssets.zip"
-            type: zip
-            path_segment: public
+      x-examples:
+        - server:
+            public_assets:
+              content: "@publicAssets.zip"
+              type: zip
+              path_segment: public
       type: object
       properties:
         content:
@@ -1049,14 +1008,11 @@ server:
         | pl              | Polish                |
         | es              | Spanish               |
         | ru              | Russian               |
-
-
-        Example:
-
-        server:
-          enabled_languages:
-            - fr
-            - ja
+      x-examples:
+        - server:
+            enabled_languages:
+              - fr
+              - ja
 
       type: array
       items:
@@ -1089,17 +1045,14 @@ server:
         from the external credential service. If the cache is not enabled, IAG
         will request credentials from the credential service for every request
         requiring single sign-on.
-
-
-        Example:
-
-        server:
-          credential_service_cache:
-            cache_enabled: true
-            cach_size: 2048
-            entry_lifetime: 3600
-            entry_idle_timeout: 3600
-            login_clear_user: true
+      x-examples:
+        - server:
+            credential_service_cache:
+              cache_enabled: true
+              cache_size: 2048
+              entry_lifetime: 3600
+              entry_idle_timeout: 3600
+              login_clear_user: true
       type: object
       properties:
         cache_enabled:
@@ -1172,17 +1125,14 @@ server:
             The rule could alternatively contain the name of a single credential attribute whose value is used to define the attribute rules.
             In this scenario each individual rule in the attribute should be separated by a space character.
             If only a single attribute-rule configuration entry is defined, and the entry does not start with a `+` or `-` character, it will be used as the name of the credential attribute which contains the attribute rules.
-
-
-            Example:
-
-            server:
-              local_applications:
-                cred_viewer:
-                  path_segment: credview
-                  enable_html: true
-                  attributes:
-                    - "-AUTHENTICATION_LEVEL"
+          x-examples:
+            - server:
+                local_applications:
+                  cred_viewer:
+                    path_segment: credview
+                    enable_html: true
+                    attributes:
+                      - "-AUTHENTICATION_LEVEL"
 
           type: object
           x-name: Credential Viewer
@@ -1222,16 +1172,13 @@ server:
             authorization decision application. The authorization decision
             application provides a Web service for making remote authorization
             decisions.
-
-
-            Example:
-
-            server:
-              local_applications:
-                azn_decision:
-                  path_segment: azndec
-                  max_cache_size: 100
-                  max_cache_lifetime: 60
+          x-examples:
+            - server:
+                local_applications:
+                  azn_decision:
+                    path_segment: azndec
+                    max_cache_size: 100
+                    max_cache_lifetime: 60
 
           type: object
           x-name: Authorization Decision
@@ -1269,14 +1216,11 @@ server:
             jwks application. The jwks application returns the public keys
             contained in the key database used for junction communication.
             The response data will conform to RFC 7517.
-
-
-            Example:
-
-            server:
-              local_applications:
-                jwks:
-                  path_segment: jwks
+          x-examples:
+            - server:
+                local_applications:
+                  jwks:
+                    path_segment: jwks
 
           type: object
           x-name: JWKS
@@ -1300,17 +1244,14 @@ server:
         X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit.
         X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window.
         X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets.
-
-
-        Example:
-
-        server:
-          rate_limiting:
-            cache_size: 16384
-            response_headers: false
-            redis:
-              collection_name: test-collection
-              sync_window: 10
+      x-examples:
+        - server:
+            rate_limiting:
+              cache_size: 16384
+              response_headers: false
+              redis:
+                collection_name: test-collection
+                sync_window: 10
 
       type: object
       properties:
@@ -1370,12 +1311,9 @@ server:
         x-xss-protection | 1
         content-security-policy | default-src 'self'; frame-ancestors 'self'; form-action 'self';
         x-content-type-options | nosniff
-
-
-        Example:
-
-        server:
-          content_security_policy: disabled
+      x-examples:
+        - server:
+            content_security_policy: disabled
 
       type: string
       default: default
@@ -1389,20 +1327,18 @@ server:
         which are returned to clients.
 
         For each entry, only one of `macro`, `attribute` or `text` can be specified.
-
-
-        Example:
-
-        server:
-          response_headers:
-            - header:    X-Client-ID
-              macro:     USER
-            - header:    X-Client-Apparent-IP
-              attribute: AZN_CRED_NETWORK_ADDRESS_STR
-            - header:    X-IBM-Environment
-              text:      staging
+      x-examples:
+        - server:
+            response_headers:
+              - header:    X-Client-ID
+                macro:     USER
+              - header:    X-Client-Apparent-IP
+                attribute: AZN_CRED_NETWORK_ADDRESS_STR
+              - header:    X-IBM-Environment
+                text:      staging
       type: array
       items:
+          title: ServerResponseHeaders
           description: >
             Each entry corresponds to a single HTTP header. 
           type: object

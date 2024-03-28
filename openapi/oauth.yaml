@@ -3,6 +3,9 @@
 oauth:
   type: object
   x-name: OAuth
+  x-openapi-required:
+    - name
+    - attributes
   properties:
 
       name:
@@ -83,6 +86,8 @@ oauth:
           SSL settings for the OAuth introspection connection.
         type: object
         x-name: SSL
+        x-openapi-required:
+          - certificate
         properties:
           certificate:
             description: >
@@ -139,7 +144,12 @@ oauth:
           request.
         type: array
         items:
+          title: OauthHeaders
           type: object
+          x-openapi-required:
+            - source
+            - value
+            - name
           properties:
             source:
               description: >

@@ -13,24 +13,13 @@ X-Rate-Limit-Remaining | The number of requests left for the rate limiting polic
 X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets.
 
 
-Example:
-
-server:
-  rate_limiting:
-    cache_size: 16384
-    response_headers: false
-    redis:
-      collection_name: test-collection
-      sync_window: 10
-
-
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**cache\_size** | **float** | The number of unique records to cache locally for the rate limiting capability. When this cache is exhausted, the oldest  cached records are ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be  higher than the number of requests being rate limited across a  refresh interval.  | [optional] [default to 16384]
+**cache_size** | **float** | The number of unique records to cache locally for the rate limiting capability. When this cache is exhausted, the oldest  cached records are ejected. This effectively resets the rate limiting counters for this client(s). This number needs to be  higher than the number of requests being rate limited across a  refresh interval.  | [optional] [default to 16384]
 **redis** | [**ServerRateLimitingRedis**](ServerRateLimitingRedis.md) |  | [optional] 
-**response\_headers** | **bool** | Specifies whether or not the gateway will insert the rate limiting headers into responses. By default, the rate limiting response headers are disabled.  | [optional] [default to False]
+**response_headers** | **bool** | Specifies whether or not the gateway will insert the rate limiting headers into responses. By default, the rate limiting response headers are disabled.  | [optional] [default to False]
 
 [[Back to README]](../README.md)
 

@@ -8,16 +8,6 @@ Please note that an access policy which allows unauthenticated access to this re
 The format for a regular path-based application is: `<URL pattern>`
 The format for a Virtual Host application is: `http[s]://virtual-host-name[:port]/<URL pattern>`
 For Virtual Host applications to match a trigger they must also have the same protocol (http[s] = TCP/SSL) and have the same `virtual-host-name` and `port` as the trigger.
-Example:
-identity:
-  eai:
-    triggers:
-      # Path-based application
-      - /auth_app/login_complete
-      - /auth_app/login_complete_v2
-      # Virtual Host application
-      - https://auth.ibm.com:9443/eai/login
-      - https://auth.ibm.com:9443/eai/login_v2
 
 
 ## Properties

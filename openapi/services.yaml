@@ -20,32 +20,30 @@ services:
 
         This entry is an array and can be used to specify multiple credential
         services.
-
-
-        Example:
-
-        services:
-          credential:
-            - name: myCredService
-              enc_key: "@vault-rsa.pem"
-              host: ibm_app_gw.ice.ibmcloud.com
-              proxy: "proxy.ibm.com:3128"
-              url_pattern: "/v1.0/pwdvault/{user}/resources/{resource}"
-              ssl:
-                certificate:
-                  - "@vault-ibm-com.crt"
-                server_dn: cn=vault
-                sni: vault.verify.ibm.com
-              user_attribute: "AZN_PRINCIPAL_ID"
-              user_attribute_encoding: url
-              authentication:
-                sso:
-                  client_id: 36bxxxx-xxxx-xxxx-xxxx-xxxxxxxxxae5
-                  client_secret: ctZxxxxqQs
-                  endpoint: https://ibm_app_gw.ice.ibmcloud.com/v1.0/endpoint/default/token
-                  payload: form
+      x-examples:
+        - services:
+            credential:
+              - name: myCredService
+                enc_key: "@vault-rsa.pem"
+                host: ibm_app_gw.ice.ibmcloud.com
+                proxy: "proxy.ibm.com:3128"
+                url_pattern: "/v1.0/pwdvault/{user}/resources/{resource}"
+                ssl:
+                  certificate:
+                    - "@vault-ibm-com.crt"
+                  server_dn: cn=vault
+                  sni: vault.verify.ibm.com
+                user_attribute: "AZN_PRINCIPAL_ID"
+                user_attribute_encoding: url
+                authentication:
+                  sso:
+                    client_id: 36bxxxx-xxxx-xxxx-xxxx-xxxxxxxxxae5
+                    client_secret: ctZxxxxqQs
+                    endpoint: https://ibm_app_gw.ice.ibmcloud.com/v1.0/endpoint/default/token
+                    payload: form
       type: array
       items:
+        title: ServicesCredential
         type: object
         properties:
           name:
@@ -108,6 +106,7 @@ services:
             description: >
               SSL settings for the credential service connection.
             type: object
+            title: ServicesSsl
             x-name: SSL
             properties:
               certificate:
@@ -142,6 +141,7 @@ services:
               the credential service. Only one of the following may be used at
               any time.
             type: object
+            title: ServicesAuthentication
             properties:
               sso:
                 description: >
@@ -232,23 +232,20 @@ services:
 
         This entry is an object and can be used to specify a single kerberos
         service.
-
-
-        Example:
-
-        services:
-          kerberos:
-            keytab: "@ibm-app-gateway.keytab"
-            keytab_spn: HTTP/ibm-app-gateway@IBM.COM
-            realms:
-              - name: IBM.COM
-                kdc: ibm.com
-            libdefaults:
-              properties:
-                - name: default_tgs_enctypes
-                  value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
-                - name: default_tkt_enctypes
-                  value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+      x-examples:
+        - services:
+            kerberos:
+              keytab: "@ibm-app-gateway.keytab"
+              keytab_spn: HTTP/ibm-app-gateway@IBM.COM
+              realms:
+                - name: IBM.COM
+                  kdc: ibm.com
+              libdefaults:
+                properties:
+                  - name: default_tgs_enctypes
+                    value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
+                  - name: default_tkt_enctypes
+                    value: "rc4-hmac des-cbc-md5 des-cbc-crc aes256-cts"
       type: object
       properties:
         keytab:
@@ -269,6 +266,7 @@ services:
             for performing Kerberos impersonation.
           type: array
           items:
+            title: ServicesKerberosRealms
             type: object
             properties:
               name:
@@ -289,6 +287,7 @@ services:
                   These properties correspond to the properties in the [realms] &lt;realm name&gt; section of krb5.conf.
                 type: array
                 items:
+                  title: ServicesKerberosProperties
                   type: object
                   properties:
                     name:
@@ -318,6 +317,7 @@ services:
                 and a value.
               type: array
               items:
+                title: ServicesKerberosLibdefaultsProperties
                 type: object
                 properties:
                   name:
@@ -337,6 +337,7 @@ services:
           type: array
           x-name: capaths
           items:
+            title: ServicesKerberosCapaths
             type: object
             properties:
               client_realm:
@@ -350,6 +351,7 @@ services:
                   The realms associated with this capath.
                 type: array
                 items:
+                  title: ServicesKerberosRealms1
                   type: object
                   properties:
                     server_realm:
@@ -367,49 +369,46 @@ services:
       description: >
         Used to define the global configuration and server collections for 
         Redis.
-
-
-        Example:
-
-        services:
-          redis:
-            default_collection: redis-a
-            key_prefix: iag-test-
-            collections:
-              - connect_timeout: 20
-                cross_domain_support:
-                  master_authn_server_url: https://mas.ibm.com
-                  master_session_code_lifetime: 150
-                health_check_interval: 200
-                idle_timeout: 100
-                io_timeout: 300
-                matching_host: www.webseal.ibm.com
-                max_pooled_connections: 200
-                name: test-collection-session
-                servers:
-                - host: redis-a.ibm.com
-                  name: redis-a
-                  password: passw0rd
-                  username: testuser
-                  port: 6380
-                  ssl:
-                    client_certificate: "@redis-a-client.pem"
-                    sni: redis-a.ibm.com
-                    trust_certificates: "@redis-a-ca.pem"
-              - connect_timeout: 10
-                health_check_interval: 200
-                idle_timeout: 100
-                io_timeout: 300
-                max_pooled_connections: 200
-                name: test-collection-ratelimiting
-                servers:
-                - host: redis-b.ibm.com
-                  name: redis-b
-                  password: passw0rd
-                  username: user
-                  port: 6380
-                  ssl:
-                    trust_certificates: "@redis-b-ca.pem"
+      x-examples:
+        - services:
+            redis:
+              default_collection: redis-a
+              key_prefix: iag-test-
+              collections:
+                - connect_timeout: 20
+                  cross_domain_support:
+                    master_authn_server_url: https://mas.ibm.com
+                    master_session_code_lifetime: 150
+                  health_check_interval: 200
+                  idle_timeout: 100
+                  io_timeout: 300
+                  matching_host: www.webseal.ibm.com
+                  max_pooled_connections: 200
+                  name: test-collection-session
+                  servers:
+                  - host: redis-a.ibm.com
+                    name: redis-a
+                    password: passw0rd
+                    username: testuser
+                    port: 6380
+                    ssl:
+                      client_certificate: "@redis-a-client.pem"
+                      sni: redis-a.ibm.com
+                      trust_certificates: "@redis-a-ca.pem"
+                - connect_timeout: 10
+                  health_check_interval: 200
+                  idle_timeout: 100
+                  io_timeout: 300
+                  max_pooled_connections: 200
+                  name: test-collection-ratelimiting
+                  servers:
+                  - host: redis-b.ibm.com
+                    name: redis-b
+                    password: passw0rd
+                    username: user
+                    port: 6380
+                    ssl:
+                      trust_certificates: "@redis-b-ca.pem"
 
       type: object
       properties:
@@ -427,6 +426,7 @@ services:
             Redis servers.
           type: array
           items:
+            title: ServicesRedisCollections
             type: object
             properties:
 
@@ -486,6 +486,7 @@ services:
                 maximum: unlimited
                 default: 10
               cross_domain_support:
+                title: ServicesRedisCrossDomainSupport
                 description: >
                   Specifies the configuration information associated with
                   the sharing of sessions across multiple DNS domains.
@@ -521,6 +522,7 @@ services:
                   Redis servers within the collection.
                 type: array
                 items:
+                  title: ServicesRedisServers
                   type: object
                   properties:
 
@@ -554,6 +556,7 @@ services:
                         server.
                       type: string
                     ssl:
+                      title: ServicesRedisSsl
                       description: >
                         The SSL information associated with the Redis
                         server.

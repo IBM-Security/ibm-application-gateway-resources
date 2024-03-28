@@ -13,13 +13,9 @@ resource_server:
         This entry is required if the `virtual_host` entry has not been
         specified. It is not valid to have both `path` and `virtual_host`
         entries specified.
-
-
-        Example:
-
-        resource_servers:
+      x-examples:
+        - resource_servers:
           - path: /static
-            # ...
       type: string
       x-uuid: true
       x-requiredOneOf: true
@@ -40,13 +36,9 @@ resource_server:
         
         It is not valid to have both `path` and `virtual_host` entries 
         specified.
-
-
-        Example:
-
-        resource_servers:
-          - virtual_host: "application.ibm.com:443"
-            # ...
+      x-examples:
+        - resource_servers:
+            - virtual_host: "application.ibm.com:443"
       type: string
       x-uuid: true
       x-requiredOneOf: true
@@ -55,21 +47,16 @@ resource_server:
       description: >
         The connection type the reverse proxy will make for this resource
         server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            connection_type: ssl
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              connection_type: ssl
       type: string
       default: tcp
       enum:
         - tcp
         - ssl
-        - tcp_proxy
-        - ssl_proxy
 
     transparent_path:
       description: >
@@ -80,14 +67,11 @@ resource_server:
         value given in "path". If set to false the reverse proxy will filter
         the path from the URL and pass only the remainder of the URL to the
         resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            transparent_path: true
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              transparent_path: true
       type: boolean
       default: false
 
@@ -96,14 +80,11 @@ resource_server:
         A boolean flag indicating whether or not user requests, for the
         lifetime of a session, are always processed by the same resource
         server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            stateful: true
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              stateful: true
       type: boolean
       default: false
 
@@ -111,15 +92,12 @@ resource_server:
       description: >
         Specifies the information associated with the HTTP2 configuration
         of the resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            http2:
-              enabled: true
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              http2:
+                enabled: true
+      title: ResourceServerHttp2
       type: object
       x-name: HTTP/2
       properties:
@@ -135,15 +113,12 @@ resource_server:
       description: >
         The Server Name Indicator the reverse proxy will indicate to the
         resource server during TLS negotiation.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            connection_type: ssl
-            # ...
-            sni: www.test.com
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              connection_type: ssl
+              # ...
+              sni: www.test.com
       type: string
       x-name: SNI
 
@@ -168,49 +143,48 @@ resource_server:
         service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.
 
 
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            identity_headers:
-              encoding: utf8_uri
-              basic_auth:
-                mode: filter
-              ip_address: true
-              attributes:
-                - attribute: emailAddress
-                  header: email_header
-                - attribute: AUTHENTICATION_LEVEL
-                  header: auth_level
-              ltpa:
-                key: "@ltpa_keyfile"
-                key_password: passw0rd
-                version: 2
-              session_cookie: true
-              jwt:
-                certificate:
-                  - "@jwt.crt"
-                  - "@jwt.key"
-                hdr_name: jwt
-                claims:
-                  - text: www.ibm.com
-                    name: iss
-                  - attr: AZN_CRED_PRINCIPAL_NAME
-                    name: sub
-                  - attr: AZN_*
-          - path: /ibmiis
-            connection_type: "tcp"
-            servers:
-              - host: test.ibm.com
-                port: 80
-            identity_headers:
-              kerberos:
-                resource_spn: HTTP/web.test.ibm.com@IBM.COM
-                always_send_tokens: true
-                user_identity:
-                  username: "{preferred_username}"
-
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              identity_headers:
+                encoding: utf8_uri
+                basic_auth:
+                  mode: filter
+                ip_address: true
+                attributes:
+                  - attribute: emailAddress
+                    header: email_header
+                  - attribute: AUTHENTICATION_LEVEL
+                    header: auth_level
+                ltpa:
+                  key: "@ltpa_keyfile"
+                  key_password: passw0rd
+                  version: 2
+                session_cookie: true
+                jwt:
+                  certificate:
+                    - "@jwt.crt"
+                    - "@jwt.key"
+                  hdr_name: jwt
+                  claims:
+                    - text: www.ibm.com
+                      name: iss
+                    - attr: AZN_CRED_PRINCIPAL_NAME
+                      name: sub
+                    - attr: AZN_*
+            - path: /ibmiis
+              connection_type: "tcp"
+              servers:
+                - host: test.ibm.com
+                  port: 80
+              identity_headers:
+                kerberos:
+                  resource_spn: HTTP/web.test.ibm.com@IBM.COM
+                  always_send_tokens: true
+                  user_identity:
+                    username: "{preferred_username}"
+      title: ResourceServerIdentityHeaders
       type: object
       properties:
 
@@ -285,7 +259,7 @@ resource_server:
             Controls the basic authentication information, contained within
             the Authorization header, that is passed to the resource server.
 
-            See the [Basic Authentican Modes](#basic-authentication-modes) 
+            See the [Basic Authentication Modes](#basic-authentication-modes) 
             table for a description of the available modes.
 
             Note that some modes require additional parameters:
@@ -350,12 +324,16 @@ resource_server:
 
         attributes:
           description: >
-             Specifies a list of attributes from the authenticated credential
-             which will be inserted into the HTTP requests sent to the resource
-             server.
+            Specifies a list of attributes from the authenticated credential
+            which will be inserted into the HTTP requests sent to the resource
+            server.
           type: array
           items:
+            title: ResourceServerIdentityHeadersAttributes
             type: object
+            x-openapi-required:
+              - attribute
+              - header
             properties:
               attribute:
                 description: The name of the credential attribute.
@@ -385,6 +363,8 @@ resource_server:
             Web tokens (JWT).
           type: object
           x-name: JWT
+          x-openapi-required:
+            - certificate
           properties:
 
             certificate:
@@ -414,9 +394,22 @@ resource_server:
                 of a credential attribute.
               type: array
               items:
+                title: ResourceServerIdentityHeadersJwtClaims
                 type: object
-                properties:
+                x-openapi-required:
+                  - name
 
+                x-oneOf:
+                  - title: Attribute Value
+                    x-openapi-required:
+                      - name
+                      - attr
+                  - title: Static Value
+                    x-openapi-required:
+                      - name
+                      - text
+
+                properties:
                   name:
                     description: >
                       The name of the claim which is to be added to the JWT.
@@ -438,7 +431,7 @@ resource_server:
                       `text` value will be used.  If an array is supplied in
                       the configuration the claim will be added to the JWT as
                       a JSON array.
-                    oneOf:
+                    x-oneOf:
                       - type: string
                       - type: array
                         items:
@@ -506,19 +499,16 @@ resource_server:
       description: >
         Specifies the configuration information associated with the processing
         of cookies from the resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            cookies:
-              junction_cookie:
-                position: inhead
-                version: onfocus
-                ensure_unique: true
-                preserve_name: true
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              cookies:
+                junction_cookie:
+                  position: inhead
+                  version: onfocus
+                  ensure_unique: true
+                  preserve_name: true
       type: object
       properties:
 
@@ -587,21 +577,18 @@ resource_server:
       description: >
         Specifies the configuration information associated with mutual
         authentication processing for the resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            mutual_auth:
-              basic_auth:
-                username: admin
-                password: passw0rd
-              certificate_auth:
-                certificate:
-                  - "@cert.crt"
-                  - "@cert.key"
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              mutual_auth:
+                basic_auth:
+                  username: admin
+                  password: passw0rd
+                certificate_auth:
+                  certificate:
+                    - "@cert.crt"
+                    - "@cert.key"
       type: object
       x-name: Mutual Authentication
       properties:
@@ -632,6 +619,8 @@ resource_server:
             certificate which will be sent to the resource server.
           type: object
           x-name: Certificate Authentication
+          x-openapi-required:
+            - certificate
           properties:
 
             certificate:
@@ -651,27 +640,28 @@ resource_server:
       description: >
         Specifies the location of the resource server that is being protected.
         This is an array type and multiple resource servers can be specified.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            servers:
-              - host: www.test.com
-                port: 443
-                virtual_host: testportal.test.com
-                ssl:
-                  certificate:
-                    - "@www-test-com.crt"
-                  server_dn: cn=test
-                url_style:
-                  case_insensitive: true
-                  windows: false
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              servers:
+                - host: www.test.com
+                  port: 443
+                  virtual_host: testportal.test.com
+                  ssl:
+                    certificate:
+                      - "@www-test-com.crt"
+                    server_dn: cn=test
+                  url_style:
+                    case_insensitive: true
+                    windows: false
       type: array
       items:
+        title: ResourceServerServers
         type: object
+        x-openapi-required:
+          - host
+          - port
         properties:
 
           host:
@@ -702,10 +692,13 @@ resource_server:
             type: string
 
           ssl:
+            title: ResourceServerSsl
             description: >
               SSL settings for the server.
             type: object
             x-name: SSL
+            x-openapi-required:
+              - certificate
             properties:
 
               certificate:
@@ -727,6 +720,7 @@ resource_server:
                 x-name: Server DN
 
           url_style:
+            title: ResourceServerUrlStyle
             description: >
               This entry defines how the resource server URLs are handled.
             type: object
@@ -771,6 +765,30 @@ resource_server:
               each IAG instance is using the same UUIDs for the same servers.
             type: string
 
+    aliases:
+      description: >
+        For virtual_host resource servers, the gateway selects the resource
+        server for a request based on the HTTP host header contained within
+        the request.
+
+        The 'aliases' option can be used to specify additional aliased host
+        headers which will be matched to this virtual host resource server.
+
+        Multiple aliases can be specified for a resource server.
+      x-examples:
+        - resource_servers:
+            - virtual_host: example.ibm.com
+              aliases:
+                - tcp.example.ibm.com:80
+                - tls.example.ibm.com:443
+      type: array
+      items:
+        type: string
+        description: >
+          The format of the alias should be: `<host>:<port>`. Note that the
+          port is required even if the default HTTP or HTTPS ports are used.
+        x-uuid: true
+
     forms_login:
       description: |
         Specifies the configuration information used for performing form-based single sign-on to the protected application.
@@ -808,40 +826,37 @@ resource_server:
         - When IAG submits the forms-based login, it will consider a response from the application with a HTTP status code 302 and a location header matching "*/loginSuccess" to be a successful login.
         - If the response does not look like a successful login, IAG will present the login form to the client.
         - As credential learning is enabled, when IAG observes the client POST to `/login.jsp`, it will extract the `username` and `password` fields and store them with the credential service for future use.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/jspApp"
-            # ...
-            forms_login:
-              credential_learning: true
-              login_resources:
-                - resource:      authenticate/login
-                  form_action:   /login.jsp
-                  service:       testCredentialService
-                  resource_name: jspApp
-                  form_response_pattern: "*login_prompt*"
-                  fields:
-                    - name:   username
-                      source: service
-                      value:  username
-                    - name:   password
-                      source: service
-                      value:  password
-                    - name:   SSO_SOURCE
-                      source: static
-                      value:  "IAG-SSO"
-                    - name:   LOGIN_ORIGIN
-                      source: credential
-                      value:  AZN_CRED_MECH_ID
-                  response_rules:
-                    - success: true
-                      response_code: 302
-                      headers:
-                        - name: Location
-                          value: "*/loginSuccessful"
+      x-examples:
+        - resource_servers:
+            - path: "/jspApp"
+              # ...
+              forms_login:
+                credential_learning: true
+                login_resources:
+                  - resource:      authenticate/login
+                    form_action:   /login.jsp
+                    service:       testCredentialService
+                    resource_name: jspApp
+                    form_response_pattern: "*login_prompt*"
+                    fields:
+                      - name:   username
+                        source: service
+                        value:  username
+                      - name:   password
+                        source: service
+                        value:  password
+                      - name:   SSO_SOURCE
+                        source: static
+                        value:  "IAG-SSO"
+                      - name:   LOGIN_ORIGIN
+                        source: credential
+                        value:  AZN_CRED_MECH_ID
+                    response_rules:
+                      - success: true
+                        response_code: 302
+                        headers:
+                          - name: Location
+                            value: "*/loginSuccessful"
       type: object
       properties:
         credential_learning:
@@ -860,7 +875,10 @@ resource_server:
             configuration for each forms-based login page.
           type: array
           items:
+            title: ResourceServerFormsLoginLoginResources
             type: object
+            x-openapi-required:
+              - resource
             properties:
               resource:
                 description: >
@@ -906,7 +924,10 @@ resource_server:
                   complete the form-based login.
                 type: array
                 items:
+                  title: ResourceServerFormsLoginFields
                   type: object
+                  x-openapi-required:
+                    - name
                   properties:
                     name:
                       description: >
@@ -943,8 +964,10 @@ resource_server:
                   evaluated in the order they are provided here.
                 type: array
                 items:
+                  title: ResourceServerFormsLoginResponseRules
                   type: object
-
+                  x-openapi-required:
+                    - response_code
                   properties:
                     success:
                       description: >
@@ -966,7 +989,11 @@ resource_server:
                         The HTTP headers expected in the response.
                       type: array
                       items:
+                        title: ResourceServerFormsLoginHeaders
                         type: object
+                        x-openapi-required:
+                          - name
+                          - value
                         properties:
                           name:
                             description: >
@@ -988,30 +1015,27 @@ resource_server:
       description: >
         Specifies the configuration which is used to establish
         the health of the resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            health:
-              ping:
-                method: HEAD
-                url: /
-                policy:
-                  frequency: 600
-                  threshold: 1
-                  recovery:
-                      frequency: 300
-                      threshold: 1
-                  timeout: 10
-                  rule:
-                      - -50?
-                      - +*
-              rule:
-                - -50?
-                - +*
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              health:
+                ping:
+                  method: HEAD
+                  url: /
+                  policy:
+                    frequency: 600
+                    threshold: 1
+                    recovery:
+                        frequency: 300
+                        threshold: 1
+                    timeout: 10
+                    rule:
+                        - -50?
+                        - +*
+                rule:
+                  - -50?
+                  - +*
       type: object
       properties:
 
@@ -1133,16 +1157,13 @@ resource_server:
       description: >
         Specifies the limits that can be set on the percentage of worker
         threads that may be consumed by this resource server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            worker_threads:
-              soft_limit: 60
-              hard_limit: 80
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              worker_threads:
+                soft_limit: 60
+                hard_limit: 80
       type: object
       properties:
 
@@ -1173,16 +1194,13 @@ resource_server:
         for the resource server.  A persistent connection will allow an
         established connection to the resource server to be used for multiple
         requests.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            persistent_connections:
-              max_cache_size: 100
-              connection_timeout: 5
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              persistent_connections:
+                max_cache_size: 100
+                connection_timeout: 5
       type: object
       properties:
 
@@ -1218,15 +1236,12 @@ resource_server:
       description: >
         Defines any special identity provider information for this resource
         server.
-
-
-        Example:
-
-        resource_servers:
-          - path: "/example"
-            # ...
-            identity:
-              oauth: "verify_introspection"
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              identity:
+                oauth: "verify_introspection"
       type: object
       properties:
 

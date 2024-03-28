@@ -4,15 +4,15 @@ This python API has been automatically generated from the IBM Application Gatewa
 
 # Documentation For Root Models
 
-- [Server](Server.md)
-- [Authorization](Authorization.md)
-- [Services](Services.md)
-- [Secrets](Secrets.md)
-- [Oauth](Oauth.md)
-- [Oidc](Oidc.md)
 - [Advanced](Advanced.md)
+- [Authorization](Authorization.md)
 - [Eai](Eai.md)
-- [Policies](Policies.md)
-- [Version](Version.md)
 - [Identity](Identity.md)
 - [Logging](Logging.md)
+- [Oauth](Oauth.md)
+- [Oidc](Oidc.md)
+- [Policies](Policies.md)
+- [Secrets](Secrets.md)
+- [Server](Server.md)
+- [Services](Services.md)
+- [Version](Version.md)

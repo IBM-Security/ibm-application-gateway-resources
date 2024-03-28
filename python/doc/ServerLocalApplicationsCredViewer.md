@@ -29,23 +29,12 @@ In this scenario each individual rule in the attribute should be separated by a 
 If only a single attribute-rule configuration entry is defined, and the entry does not start with a `+` or `-` character, it will be used as the name of the credential attribute which contains the attribute rules.
 
 
-Example:
-
-server:
-  local_applications:
-    cred_viewer:
-      path_segment: credview
-      enable_html: true
-      attributes:
-        - "-AUTHENTICATION_LEVEL"
-
-
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**path\_segment** | **str** | The path at which the application will be available. The path should be a simple path segment (i.e. should not contain a &#x60;/&#x60; character).  | [optional] 
-**enable\_html** | **bool** | A boolean flag indicating whether or not the embedded HTML page which can render the JSON data is enabled.  | [optional] [default to True]
+**path_segment** | **str** | The path at which the application will be available. The path should be a simple path segment (i.e. should not contain a &#x60;/&#x60; character).  | [optional] 
+**enable_html** | **bool** | A boolean flag indicating whether or not the embedded HTML page which can render the JSON data is enabled.  | [optional] [default to True]
 **attributes** | **list[str]** | The rules which define the credential attributes which will be included in the response data.  See the  [Attributes Format](#attributes-format) table for a description of the expected format.  | [optional] 
 
 [[Back to README]](../README.md)

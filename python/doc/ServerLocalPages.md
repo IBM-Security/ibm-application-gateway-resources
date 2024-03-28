@@ -6,12 +6,6 @@ Defines static assets which are served from the default `/` path of the reverse 
 #### Defaults
 If no value is specified here, the default set of pages will be used. The default set of pages, `local_pages.zip`, can be downloaded from GitHub (https://github.com/IBM-Security/ibm-application-gateway-resources/tree/master/pages) and used as a starting point for creating custom pages.
 
-Example:
-server:
-  local_pages:
-    content: "@myPages.zip"
-    type: zip
-
 
 ## Properties
 

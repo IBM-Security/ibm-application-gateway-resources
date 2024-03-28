@@ -39,46 +39,12 @@ In the below example:
 - As credential learning is enabled, when IAG observes the client POST to `/login.jsp`, it will extract the `username` and `password` fields and store them with the credential service for future use.
 
 
-Example:
-
-resource_servers:
-  - path: "/jspApp"
-    # ...
-    forms_login:
-      credential_learning: true
-      login_resources:
-        - resource:      authenticate/login
-          form_action:   /login.jsp
-          service:       testCredentialService
-          resource_name: jspApp
-          form_response_pattern: "*login_prompt*"
-          fields:
-            - name:   username
-              source: service
-              value:  username
-            - name:   password
-              source: service
-              value:  password
-            - name:   SSO_SOURCE
-              source: static
-              value:  "IAG-SSO"
-            - name:   LOGIN_ORIGIN
-              source: credential
-              value:  AZN_CRED_MECH_ID
-          response_rules:
-            - success: true
-              response_code: 302
-              headers:
-                - name: Location
-                  value: "*/loginSuccessful"
-
-
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**credential\_learning** | **bool** | A boolean flag indicating whether or not credential learning is enabled for this resource server. If credential learning is enabled, when IAG is unable to automatically complete the forms login but observes a successful manual login, the credentials used will be encrypted and stored in the credential service for future use.  | [optional] [default to False]
-**login\_resources** | [**list[ResourceServerFormsLoginLoginResources]**](ResourceServerFormsLoginLoginResources.md) | This entry is a list of login resources which each contain configuration for each forms-based login page.  | [optional] 
+**credential_learning** | **bool** | A boolean flag indicating whether or not credential learning is enabled for this resource server. If credential learning is enabled, when IAG is unable to automatically complete the forms login but observes a successful manual login, the credentials used will be encrypted and stored in the credential service for future use.  | [optional] [default to False]
+**login_resources** | [**list[ResourceServerFormsLoginLoginResources]**](ResourceServerFormsLoginLoginResources.md) | This entry is a list of login resources which each contain configuration for each forms-based login page.  | [optional] 
 
 [[Back to README]](../README.md)
 
