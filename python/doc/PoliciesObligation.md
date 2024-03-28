@@ -27,7 +27,7 @@ Macro | Value
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **oidc** | [**PoliciesObligationOidc**](PoliciesObligationOidc.md) |  | [optional] 
-**redirect\_url** | **str** | Allows clients to be redirected to a URL as a result of this policy evaluating successfully. This URL can contain embedded macros to include contextual information about the request and client which was obligated to be redirected to this URL. See the  [Redirect URL Macros](#redirect-url-macros) table above for  the available macros.  | [optional] 
+**redirect_url** | **str** | Allows clients to be redirected to a URL as a result of this policy evaluating successfully. This URL can contain embedded macros to include contextual information about the request and client which was obligated to be redirected to this URL. See the  [Redirect URL Macros](#redirect-url-macros) table above for  the available macros.  | [optional] 
 
 [[Back to README]](../README.md)
 

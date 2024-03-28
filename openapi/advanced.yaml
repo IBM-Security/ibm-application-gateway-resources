@@ -14,23 +14,26 @@ advanced:
 
         This entry is an array and can be used to specify multiple tuning
         parameters.
-
-
-        Example:
-
-        advanced:
-          configuration:
-            - stanza: server
-              entry: web-http-port
-              operation: set
-              value: ["80"]
-            - stanza: server
-              entry: web-https-port
-              operation: set
-              value: ["443"]
+      x-examples:
+        - advanced:
+            configuration:
+              - stanza: server
+                entry: web-http-port
+                operation: set
+                value: ["80"]
+              - stanza: server
+                entry: web-https-port
+                operation: set
+                value: ["443"]
       type: array
       items:
+        title: AdvancedConfiguration
         type: object
+        x-openapi-required:
+          - stanza
+          - entry
+          - operation
+          - value
         properties:
           stanza:
             description: >

@@ -34,7 +34,7 @@ class OidcRp(object):
 
         self.url_ = url
 
-    def authenticate(self, user, password, virtual_host=None):
+    def authenticate(self, user, password, oidc_name="default", virtual_host=None):
         """
         Perform an OIDC authentication against the configured OP using the
         specified user name and password.  The created session will be
@@ -58,8 +58,8 @@ class OidcRp(object):
 
         # The second request, for the pkmsoidc page to kick start the OIDC
         # authentication.  The response to this request should be a 302.
-        rsp = session.get("{0}/pkmsoidc?iss=default&TAM_OP=login".format(
-                self.url_), headers=headers, verify=False, allow_redirects=False)
+        rsp = session.get("{0}/pkmsoidc?iss={1}&TAM_OP=login".format(
+                self.url_, oidc_name), headers=headers, verify=False, allow_redirects=False)
 
         self.check_rsp_code(rsp, 302, "Failed to start the OIDC RP flow")
 

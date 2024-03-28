@@ -20,19 +20,20 @@ eai:
     also have the same protocol (http[s] = TCP/SSL) and have the
     same `virtual-host-name` and `port` as the trigger.
 
-    Example:
-
-    identity:
-      eai:
-        triggers:
-          # Path-based application
-          - /auth_app/login_complete
-          - /auth_app/login_complete_v2
-          # Virtual Host application
-          - https://auth.ibm.com:9443/eai/login
-          - https://auth.ibm.com:9443/eai/login_v2
+  x-examples:
+    - identity:
+        eai:
+          triggers:
+            # Path-based application
+            - /auth_app/login_complete
+            - /auth_app/login_complete_v2
+            # Virtual Host application
+            - https://auth.ibm.com:9443/eai/login
+            - https://auth.ibm.com:9443/eai/login_v2
   type: object
   x-name: EAI
+  x-openapi-required:
+    - triggers
   properties:
       triggers:
         description: >

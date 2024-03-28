@@ -10,7 +10,7 @@ Web socket timeout settings.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **applications** | [**ServerWebsocketTimeoutsApplications**](ServerWebsocketTimeoutsApplications.md) |  | [optional] 
-**front\_end** | [**ServerWebsocketTimeoutsFrontEnd**](ServerWebsocketTimeoutsFrontEnd.md) |  | [optional] 
+**front_end** | [**ServerWebsocketTimeoutsFrontEnd**](ServerWebsocketTimeoutsFrontEnd.md) |  | [optional] 
 
 [[Back to README]](../README.md)
 

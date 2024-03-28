@@ -11,30 +11,6 @@ Specifies the configuration the gateway server will use when securely communicat
   - Any additional server certificates which should be used for specific hosts using the `server name indication` (SNI) TLS extension.
 
 
-Example:
-server:
-  ssl:
-    front_end:
-      certificate:
-        - "@host.crt"
-        - "@host.key"
-        - "@ca.crt"
-      tlsv12: true
-      sni:
-        - certificate:
-          - "@test.crt"
-          - "@test.key"
-          hostname: www.test.com
-        - certificate:
-            - "@example.crt"
-            - "@example.key"
-          hostname: www.example.com
-    trust_certificates:
-      - "@www-dev.pem"
-      - "@redis-staging-1.pem"
-      - "@redis-staging-2.pem"
-
-
 ## Properties
 
 Name | Type | Description | Notes

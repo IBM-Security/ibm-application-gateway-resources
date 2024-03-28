@@ -4,21 +4,6 @@
 
 These entries can be used to override the default post authentication URL which clients will be redirected to once they have successfully authenticated.
 
-Example:
-identity:
-  auth_complete_redirect:
-    url: /landing
-    parameters:
-      - source: macro
-        value:  HOSTNAME
-        name:   host
-      - source: credential
-        value:  AZN_CRED_NETWORK_ADDRESS_STR
-        name:   origin
-      - source: header
-        value:  X-IBM-Proxy
-        name:   proxy
-
 
 ## Properties
 

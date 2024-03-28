@@ -15,10 +15,9 @@ logging:
         in JSON format.
 
 
-        Example:
-
-        logging:
-          json_logging: true
+      x-examples:
+        - logging:
+            json_logging: true
       type: boolean
       default: false
       x-name: JSON Logging
@@ -26,14 +25,11 @@ logging:
     components:
       description: >
         Specifies an array of auditing components to be enabled.
-
-
-        Example:
-
-        logging:
-          components:
-            - audit.authn
-            - audit.azn
+      x-examples:
+        - logging:
+            components:
+              - audit.authn
+              - audit.azn
       type: array
       items:
         description: >
@@ -90,13 +86,12 @@ logging:
         %Z | The raw path string.
 
 
-        Example:
-
-        logging:
-          request_log:
-            file:
-              file_name: request.log
-            format: "%t %a %R"
+      x-examples:
+        - logging:
+            request_log:
+              file:
+                file_name: request.log
+              format: "%t %a %R"
       type: object
       properties:
         file:
@@ -151,23 +146,24 @@ logging:
         Specifies an array of trace components to be enabled.
         Tracing can be used to assist with problem determination in
         the environment.
-
-
-        Example:
-
-        logging:
-          tracing:
-            - file_name: http_trans.log
-              component: pdweb.http.transformation
-              level: 9
-            - file_name: http.log
-              component: pdweb.http
-              level: 5
-              max_file_size: 12
-              max_rollover_files: 10
-              compress: true
+      x-examples:
+        - logging:
+            tracing:
+              - file_name: http_trans.log
+                component: pdweb.http.transformation
+                level: 9
+              - file_name: http.log
+                component: pdweb.http
+                level: 5
+                max_file_size: 12
+                max_rollover_files: 10
+                compress: true
       items:
+        title: LoggingTracing
         type: object
+        x-openapi-required:
+          - component
+          - file_name
         properties:
           component:
             description: >
@@ -224,17 +220,16 @@ logging:
         Defines and enables transaction logging. This
         logging can be used to pinpoint performance issues in the
         environment.
-
-
-        Example:
-
-        logging:
-          transaction:
-            file_name: trans.log
-            max_file_size: 1024
-            max_files: 5
-            compress: true
+      x-examples:
+        - logging:
+            transaction:
+              file_name: trans.log
+              max_file_size: 1024
+              max_files: 5
+              compress: true
       type: object
+      x-openapi-required:
+        - file_name
       properties:
         file_name:
           description: >
@@ -278,16 +273,19 @@ logging:
         in the environment.
 
 
-        Example:
-
-        logging:
-          statistics:
-            server: 127.0.0.1
-            port: 8125
-            frequency: 20
-            components:
-              - iag.authn
+      x-examples:
+        - logging:
+            statistics:
+              server: 127.0.0.1
+              port: 8125
+              frequency: 20
+              components:
+                - iag.authn
       type: object
+      x-openapi-required:
+        - server
+        - frequency
+        - components
       properties:
         server:
           description: >

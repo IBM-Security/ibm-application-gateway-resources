@@ -4,13 +4,6 @@
 
 Specifies the information associated with the HTTP2 configuration of the resource server.
 
-Example:
-resource_servers:
-  - path: "/example"
-    # ...
-    http2:
-      enabled: true
-
 
 ## Properties
 

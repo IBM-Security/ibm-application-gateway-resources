@@ -51,35 +51,54 @@ oidc:
     When an ID token is received each claim will be evaluated against each rule in sequence until a match is found.
     The corresponding code (+|-) will then be used to determine whether the claim will be added to the credential or not.
     If the claim name does not match a configured rule it will by default be added to the credential.
-
-    Example:
-
-    identity:
-      oidc:
-        discovery_endpoint: https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def
-        client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-        client_secret: 1a2b3c4d5e
-        ssl:
-          certificate:
-            - "@www-test-com-ca.pem"
-        mapped_identity: "{sub}"
-        redirect_uri_host: www.test2.com
-        response_type: code
-        response_mode: query
-        proxy: https://www.testproxy.com:443
-        scopes:
-          - profile
-          - email
-        allowed_query_args:
-          - "oidc_test=value"
-        bearer_token_attrs:
-          - "-access_token"
-        id_token_attrs:
-          - "-email"
+  x-examples:
+    - identity:
+        oidc:
+          - discovery_endpoint: https://www.test.com/mga/sps/oauth/oauth20/metadata/oidc_def
+            client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+            client_secret: 1a2b3c4d5e
+            pkce: true
+            ssl:
+              certificate:
+                - "@www-test-com-ca.pem"
+            mapped_identity: "{sub}"
+            redirect_uri_host: www.test2.com
+            response_type: code
+            response_mode: query
+            proxy: https://www.testproxy.com:443
+            scopes:
+              - profile
+              - email
+            allowed_query_args:
+              - "oidc_test=value"
+            bearer_token_attrs:
+              - "-access_token"
+            id_token_attrs:
+              - "-email"
+          - name: other_provider
+            discovery_endpoint: https://www.provider.com/oidc/discovery
+            client_id: 66666666-7777-8888-9999-10101010101010
+            client_secret: 6f7g8h9ij10
 
   type: object
   x-name: OIDC
+  x-openapi-required:
+    - discovery_endpoint
+    - client_id
+    - client_secret
   properties:
+
+    name:
+      description: >
+        The name of this provider. This field is optional and if not supplied
+        the name "default" will be used.
+
+        The name field is used to determine the kick-off URL for this OIDC
+        provider. The format of the kick-off URL is `/pkmsoidc?iss=<name>`.
+
+        Note that each OIDC provider must have a unique name.
+      type: string
+      default: default
 
     discovery_endpoint:
       description: >
@@ -91,23 +110,36 @@ oidc:
         For IBM Security Verify Access, this URL is usually in the format:
         `https://<verify-access-hostname>/<junction>/sps/oauth/oauth20/metadata/<definition_name>`
       type: string
+      x-required: true
+      x-uuid: true
 
     client_id:
       description: >
         The client identity registered with the identity provider.
       type: string
       x-name: Client ID
+      x-required: true
 
     client_secret:
       description: >
         The client secret registered with the identity provider.
       type: string
+      x-required: true
+
+    pkce:
+      description: >
+        Enables Proof Key for Code Exchange (RFC 7636). Enable this option
+        if the OIDC provider requires PKCE.
+      type: boolean
+      x-name: PKCE
 
     ssl:
       description: >
         SSL settings for the OIDC connection.
       type: object
       x-name: SSL
+      x-openapi-required:
+        - certificate
       properties:
         certificate:
           description: >

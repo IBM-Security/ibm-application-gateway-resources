@@ -40,15 +40,18 @@ authorization:
         (AZN_CRED_PRINCIPAL_NAME = "user_a") | Match when the credential attribute "AZN_CRED_PRINCIPAL_NAME" is equal to "user_a".
 
 
-        Example:
-
-        authorization:
-          rules:
-            - name: ruleA
-              rule: (any groupIds = "administrator")
+      x-examples:
+        - authorization:
+            rules:
+              - name: ruleA
+                rule: (any groupIds = "administrator")
       type: array
       items:
+        title: AuthorizationRules
         type: object
+        x-openapi-required:
+          - name
+          - rule
         properties:
           name:
             description: >

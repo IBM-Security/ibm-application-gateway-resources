@@ -81,29 +81,26 @@ ci_oidc:
     When an ID token is received each claim will be evaluated against each rule in sequence until a match is found.
     The corresponding code (+|-) will then be used to determine whether the claim will be added to the credential or not.
     If the claim name does not match a configured rule it will by default be added to the credential.
-
-
-    Example:
-
-    identity:
-      ci_oidc:
-        hostname: www.test.com
-        client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-        client_secret: 1a2b3c4d5e
-        mapped_identity: "{sub}"
-        redirect_uri_host: www.test2.com
-        response_type: code
-        response_mode: query
-        proxy: https://www.testproxy.com:443
-        scopes:
-          - profile
-          - email
-        allowed_query_args:
-          - "oidc_test=value"
-        bearer_token_attrs:
-          - "-access_token"
-        id_token_attrs:
-          - "-email"
+  x-examples:
+    - identity:
+        ci_oidc:
+          hostname: www.test.com
+          client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+          client_secret: 1a2b3c4d5e
+          mapped_identity: "{sub}"
+          redirect_uri_host: www.test2.com
+          response_type: code
+          response_mode: query
+          proxy: https://www.testproxy.com:443
+          scopes:
+            - profile
+            - email
+          allowed_query_args:
+            - "oidc_test=value"
+          bearer_token_attrs:
+            - "-access_token"
+          id_token_attrs:
+            - "-email"
   type: object
   x-name: CI OIDC (deprecated)
   properties:

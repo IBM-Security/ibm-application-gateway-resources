@@ -21,61 +21,17 @@ ignore  | The Authorization header, if provided by the client, will be forwarded
 service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.
 
 
-Example:
-
-resource_servers:
-  - path: "/example"
-    # ...
-    identity_headers:
-      encoding: utf8_uri
-      basic_auth:
-        mode: filter
-      ip_address: true
-      attributes:
-        - attribute: emailAddress
-          header: email_header
-        - attribute: AUTHENTICATION_LEVEL
-          header: auth_level
-      ltpa:
-        key: "@ltpa_keyfile"
-        key_password: passw0rd
-        version: 2
-      session_cookie: true
-      jwt:
-        certificate:
-          - "@jwt.crt"
-          - "@jwt.key"
-        hdr_name: jwt
-        claims:
-          - text: www.ibm.com
-            name: iss
-          - attr: AZN_CRED_PRINCIPAL_NAME
-            name: sub
-          - attr: AZN_*
-  - path: /ibmiis
-    connection_type: "tcp"
-    servers:
-      - host: test.ibm.com
-        port: 80
-    identity_headers:
-      kerberos:
-        resource_spn: HTTP/web.test.ibm.com@IBM.COM
-        always_send_tokens: true
-        user_identity:
-          username: "{preferred_username}"
-
-
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **kerberos** | [**ResourceServerIdentityHeadersKerberos**](ResourceServerIdentityHeadersKerberos.md) |  | [optional] 
 **encoding** | **str** | The encoding type to use for any identity headers passed to the resource server. See the [Encoding](#encoding) table for a  description of the available options.  | [optional] [default to 'utf8_uri']
-**basic\_auth** | [**ResourceServerIdentityHeadersBasicAuth**](ResourceServerIdentityHeadersBasicAuth.md) |  | [optional] 
-**ip\_address** | **bool** | A boolean flag indicating whether or not to provide the client IP address as a HTTP header in requests forwarded to the resource server.  The IP address will be added in the &#x60;iv-remote-address&#x60; HTTP header.  | [optional] [default to False]
-**iv\_creds** | **bool** | A boolean flag indicating whether or not to provide an ASN.1 encoded version of the credential as a HTTP header in requests forwarded to the resource server.  The credential will be added in the &#x60;iv-creds&#x60; HTTP header.  | [optional] [default to False]
+**basic_auth** | [**ResourceServerIdentityHeadersBasicAuth**](ResourceServerIdentityHeadersBasicAuth.md) |  | [optional] 
+**ip_address** | **bool** | A boolean flag indicating whether or not to provide the client IP address as a HTTP header in requests forwarded to the resource server.  The IP address will be added in the &#x60;iv-remote-address&#x60; HTTP header.  | [optional] [default to False]
+**iv_creds** | **bool** | A boolean flag indicating whether or not to provide an ASN.1 encoded version of the credential as a HTTP header in requests forwarded to the resource server.  The credential will be added in the &#x60;iv-creds&#x60; HTTP header.  | [optional] [default to False]
 **attributes** | [**list[ResourceServerIdentityHeadersAttributes]**](ResourceServerIdentityHeadersAttributes.md) | Specifies a list of attributes from the authenticated credential which will be inserted into the HTTP requests sent to the resource server.  | [optional] 
-**session\_cookie** | **bool** | A boolean flag indicating whether or not to forward the reverse proxy cookie to the resource server. The name of this cookie is configured in the &#x60;server/session/cookie\_name&#x60; entry.  | [optional] [default to False]
+**session_cookie** | **bool** | A boolean flag indicating whether or not to forward the reverse proxy cookie to the resource server. The name of this cookie is configured in the &#x60;server/session/cookie_name&#x60; entry.  | [optional] [default to False]
 **jwt** | [**ResourceServerIdentityHeadersJwt**](ResourceServerIdentityHeadersJwt.md) |  | [optional] 
 **ltpa** | [**ResourceServerIdentityHeadersLtpa**](ResourceServerIdentityHeadersLtpa.md) |  | [optional] 
 

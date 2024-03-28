@@ -13,23 +13,20 @@ identity:
 
         If an OIDC identity source is configured, this entry will default to
         the OIDC authentication URI "/pkmsoidc?iss=default".
-
-
-        Example:
-
-        identity:
-          auth_challenge_redirect:
-            url: /eai/login_start
-            parameters:
-              - source: macro
-                value:  HOSTNAME
-                name:   host
-              - source: credential
-                value:  AZN_CRED_NETWORK_ADDRESS_STR
-                name:   origin
-              - source: header
-                value:  X-IBM-Proxy
-                name:   proxy
+      x-examples:
+        - identity:
+            auth_challenge_redirect:
+              url: /eai/login_start
+              parameters:
+                - source: macro
+                  value:  HOSTNAME
+                  name:   host
+                - source: credential
+                  value:  AZN_CRED_NETWORK_ADDRESS_STR
+                  name:   origin
+                - source: header
+                  value:  X-IBM-Proxy
+                  name:   proxy
       type: object
       properties:
         url:
@@ -44,7 +41,11 @@ identity:
             query string arguments.
           type: array
           items:
+            title: IdentityAuthChallengeRedirectParameters
             type: object
+            x-openapi-required:
+              - source
+              - value
             properties:
               source:
                 description: >
@@ -89,23 +90,20 @@ identity:
         These entries can be used to override the default post authentication
         URL which clients will be redirected to once they have successfully
         authenticated.
-
-
-        Example:
-
-        identity:
-          auth_complete_redirect:
-            url: /landing
-            parameters:
-              - source: macro
-                value:  HOSTNAME
-                name:   host
-              - source: credential
-                value:  AZN_CRED_NETWORK_ADDRESS_STR
-                name:   origin
-              - source: header
-                value:  X-IBM-Proxy
-                name:   proxy
+      x-examples:
+        - identity:
+            auth_complete_redirect:
+              url: /landing
+              parameters:
+                - source: macro
+                  value:  HOSTNAME
+                  name:   host
+                - source: credential
+                  value:  AZN_CRED_NETWORK_ADDRESS_STR
+                  name:   origin
+                - source: header
+                  value:  X-IBM-Proxy
+                  name:   proxy
       type: object
       properties:
         url:
@@ -120,7 +118,11 @@ identity:
             query string arguments.
           type: array
           items:
+            title: IdentityAuthCompleteRedirectParameters
             type: object
+            x-openapi-required:
+              - source
+              - value
             properties:
               source:
                 description: >
@@ -158,7 +160,10 @@ identity:
                 type: string
 
     oidc:
-      $ref: "oidc.yaml#/oidc"
+      title: Oidc
+      type: array
+      items:
+        $ref: "oidc.yaml#/oidc"
     oauth:
       description: |
         The configuration entries in this section allow the reverse proxy to accept an OAuth bearer token and use the configured OAuth introspection endpoints to validate the token and create an authenticated session.
@@ -184,40 +189,37 @@ identity:
         When an introspection response token is received each JSON data element will be evaluated against each rule in sequence until a match is found.
         The corresponding code (+|-) will then be used to determine whether the JSON data will be added to the credential or not.
         If the JSON data name does not match a configured rule it will by default be added to the credential.
-
-
-        Example:
-
-        identity:
-          oauth:
-            - name: verify_introspection
-              restricted: false
-              introspection_endpoint: https://ibm-app-gw.verify.ibm.com/v1.0/endpoint/default/introspect
-              client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
-              client_secret: 1a2b3c4d5e
-              auth_method: client_secret_post
-              proxy: https://www.testproxy.com:443
-              token_type_hint: "access_token"
-              ssl:
-                certificate:
-                  - "@www-test-com-ca.pem"
-              mapped_identity: "{sub}"
-              attributes:
-                - "+scope"
-                - "+client_id"
-                - "+iat"
-                - "+exp"
-              multi_valued_scope: true
-              headers:
-                - source: header
-                  value:  host
-                  name:   X-Forwarded-For
-                - source: credential
-                  value:  AZN_CRED_NETWORK_ADDRESS_STR
-                  name:   origin
-                - source: text
-                  value:  green
-                  name:   X-Deployment-Status
+      x-examples:
+        - identity:
+            oauth:
+              - name: verify_introspection
+                restricted: false
+                introspection_endpoint: https://ibm-app-gw.verify.ibm.com/v1.0/endpoint/default/introspect
+                client_id: 11111111-2222-3333-4444-5a5a5a5a5a5a5a
+                client_secret: 1a2b3c4d5e
+                auth_method: client_secret_post
+                proxy: https://www.testproxy.com:443
+                token_type_hint: "access_token"
+                ssl:
+                  certificate:
+                    - "@www-test-com-ca.pem"
+                mapped_identity: "{sub}"
+                attributes:
+                  - "+scope"
+                  - "+client_id"
+                  - "+iat"
+                  - "+exp"
+                multi_valued_scope: true
+                headers:
+                  - source: header
+                    value:  host
+                    name:   X-Forwarded-For
+                  - source: credential
+                    value:  AZN_CRED_NETWORK_ADDRESS_STR
+                    name:   origin
+                  - source: text
+                    value:  green
+                    name:   X-Deployment-Status
 
       type: array
       items:

@@ -27,8 +27,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **position** | **str** | Controls the position in which the &#x60;&lt;script&gt;&#x60; block will be inserted. Refer to the  [Junction Cookie Positions](#junction-cookie-positions) table  above for an explanation of these values.  | [optional] 
 **version** | **str** | Controls how the cookie is set. This option is only valid for the &#x60;inhead&#x60; and &#x60;trailer&#x60; positions. Refer to the  [Junction Cookie Versions](#junction-cookie-versions) table  above for an explanation of these values.  | [optional] 
-**ensure\_unique** | **bool** | A boolean flag indicating whether or not to insert the resource server path or host to ensure that the cookie is unique.  | [optional] [default to False]
-**preserve\_name** | **bool** | A boolean flag indicating whether or not to preserve the original cookie name. When set to &#x60;false&#x60;, non-domain cookies are renamed &#x60;AMWEBJCT!&lt;path&gt;&#x60;.  | [optional] [default to False]
+**ensure_unique** | **bool** | A boolean flag indicating whether or not to insert the resource server path or host to ensure that the cookie is unique.  | [optional] [default to False]
+**preserve_name** | **bool** | A boolean flag indicating whether or not to preserve the original cookie name. When set to &#x60;false&#x60;, non-domain cookies are renamed &#x60;AMWEBJCT!&lt;path&gt;&#x60;.  | [optional] [default to False]
 
 [[Back to README]](../README.md)
 
