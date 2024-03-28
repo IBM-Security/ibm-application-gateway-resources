@@ -1438,529 +1438,15 @@ ace.define("ace/mode/yaml/yaml_parse",[], function(require, exports, module) {
 "use strict";
 
 const schema = {
-      version: "string",
-    secrets: {
-      obf_key: "string",
-      enc_key: "string",
-    },
-    server: {
-      protocols: [
-        "string",
-      ],
-      client_ip_rules: [
-        "string",
-      ],
-      ssl: {
-        front_end: {
-          certificate: [
-            "string",
-          ],
-          tlsv10: true,
-          tlsv11: true,
-          tlsv12: true,
-          tlsv13: true,
-          sni: [
-            {
-              certificate: [
-                "string",
-              ],
-              hostname: "string",
-            },
-          ],
-        },
-        applications: {
-          tlsv10: true,
-          tlsv11: true,
-          tlsv12: true,
-          tlsv13: true,
-        },
-        ciphers: [
-          "string",
-        ],
-        trust_certificates: [
-          "string",
-        ],
-      },
-      failover: {
-        key: "string",
-        cookie_name: "string",
-        domain_cookie: true,
-      },
-      session: {
-        cookie_name: "string",
-        max_sessions: 0,
-        timeout: 0,
-        inactive_timeout: 0,
-        permit_user_switching: true,
-        redis: {
-          enabled: true,
-          client_list_cache_lifetime: 0,
-          concurrent_sessions: {
-            enabled: true,
-            prompt_for_displacement: true,
-            max_user_sessions: 0,
-            user_identity_attribute_name: "string",
-          },
-        },
-        reauth: {
-          login_time_window: 0,
-        },
-      },
-      worker_threads: 0,
-      http2: true,
-      websocket: {
-        worker_threads: {
-          max: 0,
-          idle: 0,
-        },
-        timeouts: {
-          applications: {
-            read: 0,
-            write: 0,
-          },
-          front_end: {
-            read: 0,
-            write: 0,
-          },
-        },
-      },
-      local_pages: {
-        content: "string",
-        type: "string",
-      },
-      management_pages: {
-        content: "string",
-        type: "string",
-      },
-      error_pages: {
-        content: "string",
-        type: "string",
-      },
-      public_assets: {
-        content: "string",
-        type: "string",
-        path_segment: "string",
-      },
-      enabled_languages: [
-        "string",
-      ],
-      credential_service_cache: {
-        cache_enabled: true,
-        cache_size: 0,
-        entry_lifetime: 0,
-        entry_idle_timeout: 0,
-        login_clear_user: true,
-      },
-      local_applications: {
-        cred_viewer: {
-          path_segment: "string",
-          enable_html: true,
-          attributes: [
-            "string",
-          ],
-        },
-        azn_decision: {
-          path_segment: "string",
-          max_cache_size: 0,
-          max_cache_lifetime: 0,
-        },
-        jwks: {
-          path_segment: "string",
-        },
-      },
-      rate_limiting: {
-        cache_size: 0,
-        redis: {
-          collection_name: "string",
-          sync_window: 0,
-        },
-        response_headers: true,
-      },
-      content_security_policy: "string",
-      response_headers: [
+      advanced: {
+      configuration: [
         {
-          header: "string",
-          macro: "string",
-          attribute: "string",
-          text: "string",
-        },
-      ],
-    },
-    identity: {
-      auth_challenge_redirect: {
-        url: "string",
-        parameters: [
-          {
-            source: "string",
-            value: "string",
-            name: "string",
-          },
-        ],
-      },
-      auth_complete_redirect: {
-        url: "string",
-        parameters: [
-          {
-            source: "string",
-            value: "string",
-            name: "string",
-          },
-        ],
-      },
-      oidc: {
-        discovery_endpoint: "string",
-        client_id: "string",
-        client_secret: "string",
-        ssl: {
-          certificate: [
+          entry: "string",
+          operation: "string",
+          stanza: "string",
+          value: [
             "string",
           ],
-        },
-        mapped_identity: "string",
-        redirect_uri_host: "string",
-        response_type: "string",
-        response_mode: "string",
-        proxy: "string",
-        scopes: [
-          "string",
-        ],
-        allowed_query_args: [
-          "string",
-        ],
-        bearer_token_attrs: [
-          "string",
-        ],
-        id_token_attrs: [
-          "string",
-        ],
-      },
-      oauth: [
-        {
-          name: "string",
-          restricted: true,
-          introspection_endpoint: "string",
-          client_id: "string",
-          client_secret: "string",
-          client_id_hdr: "string",
-          auth_method: "string",
-          token_type_hint: "string",
-          ssl: {
-            certificate: [
-              "string",
-            ],
-          },
-          mapped_identity: "string",
-          proxy: "string",
-          attributes: [
-            "string",
-          ],
-          multi_valued_scope: true,
-          headers: [
-            {
-              source: "string",
-              value: "string",
-              name: "string",
-            },
-          ],
-        },
-      ],
-      eai: {
-        triggers: [
-          "string",
-        ],
-      },
-      ci_oidc: {
-        hostname: "string",
-        client_id: "string",
-        client_secret: "string",
-        mapped_identity: "string",
-        redirect_uri_host: "string",
-        response_type: "string",
-        response_mode: "string",
-        proxy: "string",
-        scopes: [
-          "string",
-        ],
-        allowed_query_args: [
-          "string",
-        ],
-        bearer_token_attrs: [
-          "string",
-        ],
-        id_token_attrs: [
-          "string",
-        ],
-      },
-    },
-    resource_servers: [
-      {
-        path: "string",
-        virtual_host: "string",
-        connection_type: "string",
-        transparent_path: true,
-        stateful: true,
-        http2: {
-          enabled: true,
-        },
-        sni: "string",
-        identity_headers: {
-          kerberos: {
-            resource_spn: "string",
-            always_send_tokens: true,
-            user_identity: {
-              username: "string",
-              realm: "string",
-            },
-          },
-          encoding: "string",
-          basic_auth: {
-            mode: "string",
-            password: "string",
-            service: "string",
-            resource_name: "string",
-          },
-          ip_address: true,
-          iv_creds: true,
-          attributes: [
-            {
-              attribute: "string",
-              header: "string",
-            },
-          ],
-          session_cookie: true,
-          jwt: {
-            certificate: [
-              "string",
-            ],
-            hdr_name: "string",
-            claims: [
-              {
-                name: "string",
-                text: "stringarray",
-                type: "string",
-                attr: "string",
-              },
-            ],
-          },
-          ltpa: {
-            key: "string",
-            key_password: "string",
-            version: 0,
-          },
-        },
-        cookies: {
-          junction_cookie: {
-            position: "string",
-            version: "string",
-            ensure_unique: true,
-            preserve_name: true,
-          },
-        },
-        mutual_auth: {
-          basic_auth: {
-            username: "string",
-            password: "string",
-          },
-          certificate_auth: {
-            certificate: [
-              "string",
-            ],
-          },
-        },
-        servers: [
-          {
-            host: "string",
-            port: 0,
-            virtual_host: "string",
-            ssl: {
-              certificate: [
-                "string",
-              ],
-              server_dn: "string",
-            },
-            url_style: {
-              case_insensitive: true,
-              windows: true,
-            },
-            priority: 0,
-            uuid: "string",
-          },
-        ],
-        forms_login: {
-          credential_learning: true,
-          login_resources: [
-            {
-              resource: "string",
-              form_action: "string",
-              form_response_pattern: "string",
-              service: "string",
-              resource_name: "string",
-              fields: [
-                {
-                  name: "string",
-                  source: "string",
-                  value: "string",
-                },
-              ],
-              response_rules: [
-                {
-                  success: true,
-                  response_code: "string",
-                  headers: [
-                    {
-                      name: "string",
-                      value: "string",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        health: {
-          ping: {
-            method: "string",
-            url: "string",
-            policy: {
-              frequency: 0,
-              threshold: 0,
-              timeout: 0,
-              recovery: {
-                frequency: 0,
-                threshold: 0,
-              },
-              rule: [
-                "string",
-              ],
-            },
-            rule: [
-              "string",
-            ],
-          },
-        },
-        worker_threads: {
-          soft_limit: 0,
-          hard_limit: 0,
-        },
-        persistent_connections: {
-          max_cache_size: 0,
-          connection_timeout: 0,
-        },
-        identity: {
-          oauth: "string",
-        },
-      },
-    ],
-    policies: {
-      http_transformations: {
-        request: [
-          {
-            name: "string",
-            host: "string",
-            paths: [
-              "string",
-            ],
-            method: "string",
-            rule: "string",
-          },
-        ],
-        postazn: [
-          {
-            name: "string",
-            host: "string",
-            paths: [
-              "string",
-            ],
-            method: "string",
-            rule: "string",
-          },
-        ],
-        response: [
-          {
-            name: "string",
-            host: "string",
-            paths: [
-              "string",
-            ],
-            method: "string",
-            rule: "string",
-            attributes: [
-              "string",
-            ],
-          },
-        ],
-      },
-      cors: [
-        {
-          name: "string",
-          host: "string",
-          paths: [
-            "string",
-          ],
-          method: "string",
-          policy: {
-            allow_origins: [
-              "string",
-            ],
-            handle_pre_flight: true,
-            allow_headers: [
-              "string",
-            ],
-            max_age: 0,
-            allow_methods: [
-              "string",
-            ],
-            allow_credentials: true,
-            expose_headers: [
-              "string",
-            ],
-          },
-        },
-      ],
-      rate_limiting: [
-        {
-          name: "string",
-          methods: [
-            "string",
-          ],
-          paths: [
-            "string",
-          ],
-          rule: "string",
-        },
-      ],
-      content_injection: [
-        {
-          name: "string",
-          paths: [
-            "string",
-          ],
-          full_line_match: true,
-          location: "string",
-          replace_match: true,
-          content: "string",
-        },
-      ],
-      authorization: [
-        {
-          name: "string",
-          host: "string",
-          paths: [
-            "string",
-          ],
-          methods: [
-            "string",
-          ],
-          rule: "string",
-          action: "string",
-          obligation: {
-            oidc: {
-              acr_values: "string",
-              prompt: "string",
-              max_age: 0,
-            },
-            redirect_url: "string",
-          },
         },
       ],
     },
@@ -1972,17 +1458,624 @@ const schema = {
         },
       ],
     },
+    identity: {
+      auth_challenge_redirect: {
+        parameters: [
+          {
+            name: "string",
+            source: "string",
+            value: "string",
+          },
+        ],
+        url: "string",
+      },
+      auth_complete_redirect: {
+        parameters: [
+          {
+            name: "string",
+            source: "string",
+            value: "string",
+          },
+        ],
+        url: "string",
+      },
+      ci_oidc: {
+        allowed_query_args: [
+          "string",
+        ],
+        bearer_token_attrs: [
+          "string",
+        ],
+        client_id: "string",
+        client_secret: "string",
+        hostname: "string",
+        id_token_attrs: [
+          "string",
+        ],
+        mapped_identity: "string",
+        proxy: "string",
+        redirect_uri_host: "string",
+        response_mode: "string",
+        response_type: "string",
+        scopes: [
+          "string",
+        ],
+      },
+      eai: {
+        triggers: [
+          "string",
+        ],
+      },
+      oauth: [
+        {
+          attributes: [
+            "string",
+          ],
+          auth_method: "string",
+          client_id: "string",
+          client_id_hdr: "string",
+          client_secret: "string",
+          headers: [
+            {
+              name: "string",
+              source: "string",
+              value: "string",
+            },
+          ],
+          introspection_endpoint: "string",
+          mapped_identity: "string",
+          multi_valued_scope: true,
+          name: "string",
+          proxy: "string",
+          restricted: true,
+          ssl: {
+            certificate: [
+              "string",
+            ],
+          },
+          token_type_hint: "string",
+        },
+      ],
+      oidc: [
+        {
+          allowed_query_args: [
+            "string",
+          ],
+          bearer_token_attrs: [
+            "string",
+          ],
+          client_id: "string",
+          client_secret: "string",
+          discovery_endpoint: "string",
+          id_token_attrs: [
+            "string",
+          ],
+          mapped_identity: "string",
+          name: "string",
+          pkce: true,
+          proxy: "string",
+          redirect_uri_host: "string",
+          response_mode: "string",
+          response_type: "string",
+          scopes: [
+            "string",
+          ],
+          ssl: {
+            certificate: [
+              "string",
+            ],
+          },
+        },
+      ],
+    },
+    logging: {
+      components: [
+        "string",
+      ],
+      json_logging: true,
+      request_log: {
+        file: {
+          compress: true,
+          file_name: "string",
+          max_file_size: 0,
+          max_rollover_files: 0,
+        },
+        format: "string",
+      },
+      statistics: {
+        components: [
+          "string",
+        ],
+        frequency: 0,
+        port: 0,
+        server: "string",
+      },
+      tracing: [
+        {
+          component: "string",
+          compress: true,
+          file_name: "string",
+          level: 0,
+          max_file_size: 0,
+          max_rollover_files: 0,
+        },
+      ],
+      transaction: {
+        compress: true,
+        file_name: "string",
+        max_file_size: 0,
+        max_files: 0,
+      },
+    },
+    policies: {
+      authorization: [
+        {
+          action: "string",
+          host: "string",
+          methods: [
+            "string",
+          ],
+          name: "string",
+          obligation: {
+            oidc: {
+              acr_values: "string",
+              max_age: 0,
+              prompt: "string",
+            },
+            redirect_url: "string",
+          },
+          paths: [
+            "string",
+          ],
+          rule: "string",
+        },
+      ],
+      content_injection: [
+        {
+          content: "string",
+          full_line_match: true,
+          location: "string",
+          name: "string",
+          paths: [
+            "string",
+          ],
+          replace_match: true,
+        },
+      ],
+      cors: [
+        {
+          host: "string",
+          method: "string",
+          name: "string",
+          paths: [
+            "string",
+          ],
+          policy: {
+            allow_credentials: true,
+            allow_headers: [
+              "string",
+            ],
+            allow_methods: [
+              "string",
+            ],
+            allow_origins: [
+              "string",
+            ],
+            expose_headers: [
+              "string",
+            ],
+            handle_pre_flight: true,
+            max_age: 0,
+          },
+        },
+      ],
+      http_transformations: {
+        postauthn: [
+          {
+            authentication_mechanisms: [
+              "string",
+            ],
+            host: "string",
+            name: "string",
+            rule: "string",
+          },
+        ],
+        postazn: [
+          {
+            host: "string",
+            method: "string",
+            name: "string",
+            paths: [
+              "string",
+            ],
+            rule: "string",
+          },
+        ],
+        preazn: [
+          {
+            host: "string",
+            method: "string",
+            name: "string",
+            paths: [
+              "string",
+            ],
+            rule: "string",
+          },
+        ],
+        request: [
+          {
+            host: "string",
+            method: "string",
+            name: "string",
+            paths: [
+              "string",
+            ],
+            rule: "string",
+          },
+        ],
+        response: [
+          {
+            host: "string",
+            method: "string",
+            name: "string",
+            paths: [
+              "string",
+            ],
+            rule: "string",
+          },
+        ],
+        secrets: [
+          {
+            name: "string",
+            value: "string",
+          },
+        ],
+      },
+      rate_limiting: [
+        {
+          methods: [
+            "string",
+          ],
+          name: "string",
+          paths: [
+            "string",
+          ],
+          rule: "string",
+        },
+      ],
+    },
+    resource_servers: [
+      {
+        aliases: [
+          "string",
+        ],
+        connection_type: "string",
+        cookies: {
+          junction_cookie: {
+            ensure_unique: true,
+            position: "string",
+            preserve_name: true,
+            version: "string",
+          },
+        },
+        forms_login: {
+          credential_learning: true,
+          login_resources: [
+            {
+              fields: [
+                {
+                  name: "string",
+                  source: "string",
+                  value: "string",
+                },
+              ],
+              form_action: "string",
+              form_response_pattern: "string",
+              resource: "string",
+              resource_name: "string",
+              response_rules: [
+                {
+                  headers: [
+                    {
+                      name: "string",
+                      value: "string",
+                    },
+                  ],
+                  response_code: "string",
+                  success: true,
+                },
+              ],
+              service: "string",
+            },
+          ],
+        },
+        health: {
+          ping: {
+            method: "string",
+            policy: {
+              frequency: 0,
+              recovery: {
+                frequency: 0,
+                threshold: 0,
+              },
+              rule: [
+                "string",
+              ],
+              threshold: 0,
+              timeout: 0,
+            },
+            rule: [
+              "string",
+            ],
+            url: "string",
+          },
+        },
+        http2: {
+          enabled: true,
+        },
+        identity: {
+          oauth: "string",
+        },
+        identity_headers: {
+          attributes: [
+            {
+              attribute: "string",
+              header: "string",
+            },
+          ],
+          basic_auth: {
+            mode: "string",
+            password: "string",
+            resource_name: "string",
+            service: "string",
+          },
+          encoding: "string",
+          ip_address: true,
+          iv_creds: true,
+          jwt: {
+            certificate: [
+              "string",
+            ],
+            claims: [
+              {
+                attr: "string",
+                name: "string",
+                text: "string",
+                type: "string",
+              },
+            ],
+            hdr_name: "string",
+          },
+          kerberos: {
+            always_send_tokens: true,
+            resource_spn: "string",
+            user_identity: {
+              realm: "string",
+              username: "string",
+            },
+          },
+          ltpa: {
+            key: "string",
+            key_password: "string",
+            version: 0,
+          },
+          session_cookie: true,
+        },
+        mutual_auth: {
+          basic_auth: {
+            password: "string",
+            username: "string",
+          },
+          certificate_auth: {
+            certificate: [
+              "string",
+            ],
+          },
+        },
+        path: "string",
+        persistent_connections: {
+          connection_timeout: 0,
+          max_cache_size: 0,
+        },
+        servers: [
+          {
+            host: "string",
+            port: 0,
+            priority: 0,
+            ssl: {
+              certificate: [
+                "string",
+              ],
+              server_dn: "string",
+            },
+            url_style: {
+              case_insensitive: true,
+              windows: true,
+            },
+            uuid: "string",
+            virtual_host: "string",
+          },
+        ],
+        sni: "string",
+        stateful: true,
+        transparent_path: true,
+        virtual_host: "string",
+        worker_threads: {
+          hard_limit: 0,
+          soft_limit: 0,
+        },
+      },
+    ],
+    secrets: {
+      enc_key: "string",
+      obf_key: "string",
+    },
+    server: {
+      client_ip_rules: [
+        "string",
+      ],
+      content_security_policy: "string",
+      credential_service_cache: {
+        cache_enabled: true,
+        cache_size: 0,
+        entry_idle_timeout: 0,
+        entry_lifetime: 0,
+        login_clear_user: true,
+      },
+      enabled_languages: [
+        "string",
+      ],
+      error_pages: {
+        content: "string",
+        type: "string",
+      },
+      failover: {
+        cookie_name: "string",
+        domain_cookie: true,
+        key: "string",
+      },
+      http2: true,
+      local_applications: {
+        azn_decision: {
+          max_cache_lifetime: 0,
+          max_cache_size: 0,
+          path_segment: "string",
+        },
+        cred_viewer: {
+          attributes: [
+            "string",
+          ],
+          enable_html: true,
+          path_segment: "string",
+        },
+        jwks: {
+          path_segment: "string",
+        },
+      },
+      local_pages: {
+        content: "string",
+        type: "string",
+      },
+      management_pages: {
+        content: "string",
+        type: "string",
+      },
+      protocols: [
+        "string",
+      ],
+      public_assets: {
+        content: "string",
+        path_segment: "string",
+        type: "string",
+      },
+      rate_limiting: {
+        cache_size: 0,
+        redis: {
+          collection_name: "string",
+          sync_window: 0,
+        },
+        response_headers: true,
+      },
+      response_headers: [
+        {
+          attribute: "string",
+          header: "string",
+          macro: "string",
+          text: "string",
+        },
+      ],
+      session: {
+        cookie_name: "string",
+        inactive_timeout: 0,
+        max_sessions: 0,
+        permit_user_switching: true,
+        reauth: {
+          login_time_window: 0,
+        },
+        redis: {
+          client_list_cache_lifetime: 0,
+          concurrent_sessions: {
+            enabled: true,
+            max_user_sessions: 0,
+            prompt_for_displacement: true,
+            user_identity_attribute_name: "string",
+          },
+          enabled: true,
+        },
+        timeout: 0,
+      },
+      ssl: {
+        applications: {
+          tlsv10: true,
+          tlsv11: true,
+          tlsv12: true,
+          tlsv13: true,
+        },
+        ciphers: [
+          "string",
+        ],
+        front_end: {
+          certificate: [
+            "string",
+          ],
+          sni: [
+            {
+              certificate: [
+                "string",
+              ],
+              hostname: "string",
+            },
+          ],
+          tlsv10: true,
+          tlsv11: true,
+          tlsv12: true,
+          tlsv13: true,
+        },
+        trust_certificates: [
+          "string",
+        ],
+      },
+      websocket: {
+        timeouts: {
+          applications: {
+            read: 0,
+            write: 0,
+          },
+          front_end: {
+            read: 0,
+            write: 0,
+          },
+        },
+        worker_threads: {
+          idle: 0,
+          max: 0,
+        },
+      },
+      worker_threads: 0,
+    },
     services: {
       credential: [
         {
-          name: "string",
+          authentication: {
+            access_token: {
+              token: "string",
+            },
+            ba: {
+              password: "string",
+              username: "string",
+            },
+            sso: {
+              client_id: "string",
+              client_secret: "string",
+              endpoint: "string",
+              payload: "string",
+            },
+          },
+          enc_key: "string",
           host: "string",
+          name: "string",
           port: "string",
           proxy: "string",
-          url_pattern: "string",
-          user_attribute: "string",
-          user_attribute_encoding: "string",
-          enc_key: "string",
           ssl: {
             certificate: [
               "string",
@@ -1990,39 +2083,25 @@ const schema = {
             server_dn: "string",
             sni: "string",
           },
-          authentication: {
-            sso: {
-              endpoint: "string",
-              client_id: "string",
-              client_secret: "string",
-              payload: "string",
-            },
-            access_token: {
-              token: "string",
-            },
-            ba: {
-              username: "string",
-              password: "string",
-            },
-          },
+          url_pattern: "string",
+          user_attribute: "string",
+          user_attribute_encoding: "string",
         },
       ],
       kerberos: {
-        keytab: "string",
-        keytab_spn: "string",
-        realms: [
+        capaths: [
           {
-            name: "string",
-            kdc: "string",
-            properties: [
+            client_realm: "string",
+            realms: [
               {
-                name: "string",
-                value: "string",
+                inter_realm: "string",
+                server_realm: "string",
               },
             ],
-            hostname: "string",
           },
         ],
+        keytab: "string",
+        keytab_spn: "string",
         libdefaults: {
           properties: [
             {
@@ -2031,107 +2110,59 @@ const schema = {
             },
           ],
         },
-        capaths: [
+        realms: [
           {
-            client_realm: "string",
-            realms: [
+            hostname: "string",
+            kdc: "string",
+            name: "string",
+            properties: [
               {
-                server_realm: "string",
-                inter_realm: "string",
+                name: "string",
+                value: "string",
               },
             ],
           },
         ],
       },
       redis: {
-        key_prefix: "string",
-        default_collection: "string",
         collections: [
           {
-            name: "string",
-            matching_host: "string",
-            max_pooled_connections: 0,
-            idle_timeout: 0,
             connect_timeout: 0,
-            io_timeout: 0,
-            health_check_interval: 0,
             cross_domain_support: {
               master_authn_server_url: "string",
               master_session_code_lifetime: 0,
             },
+            health_check_interval: 0,
+            idle_timeout: 0,
+            io_timeout: 0,
+            matching_host: "string",
+            max_pooled_connections: 0,
+            name: "string",
             servers: [
               {
-                name: "string",
                 host: "string",
-                port: 0,
-                username: "string",
+                name: "string",
                 password: "string",
+                port: 0,
                 ssl: {
-                  trust_certificates: [
-                    "string",
-                  ],
                   client_certificate: [
                     "string",
                   ],
                   sni: "string",
+                  trust_certificates: [
+                    "string",
+                  ],
                 },
+                username: "string",
               },
             ],
           },
         ],
+        default_collection: "string",
+        key_prefix: "string",
       },
     },
-    logging: {
-      json_logging: true,
-      components: [
-        "string",
-      ],
-      request_log: {
-        file: {
-          file_name: "string",
-          max_file_size: 0,
-          max_rollover_files: 0,
-          compress: true,
-        },
-        format: "string",
-      },
-      tracing: [
-        {
-          component: "string",
-          file_name: "string",
-          level: 0,
-          max_file_size: 0,
-          max_rollover_files: 0,
-          compress: true,
-        },
-      ],
-      transaction: {
-        file_name: "string",
-        max_file_size: 0,
-        max_files: 0,
-        compress: true,
-      },
-      statistics: {
-        server: "string",
-        port: 0,
-        frequency: 0,
-        components: [
-          "string",
-        ],
-      },
-    },
-    advanced: {
-      configuration: [
-        {
-          stanza: "string",
-          entry: "string",
-          operation: "string",
-          value: [
-            "string",
-          ],
-        },
-      ],
-    },
+    version: "string",
 
   };
 
@@ -2220,324 +2251,337 @@ const schema = {
 
           validateSchema(editorText, op, schema, index, annots);
 
-                    validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.10"], 0, false, 0, false, annots);
-          validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
+                    validateEntry(op, "advanced.configuration[i].entry", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "advanced.configuration[i].operation", "string", editorText, ["delete","add","set"], 0, false, 0, false, annots);
+          validateEntry(op, "advanced.configuration[i].stanza", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "advanced.configuration[i].value[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "authorization.rules[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "authorization.rules[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_challenge_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.auth_complete_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.allowed_query_args[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.bearer_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.client_id", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.client_secret", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.hostname", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.id_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.proxy", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.redirect_uri_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.response_mode", "string", editorText, ["query","fragment","form_post"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.response_type", "string", editorText, ["code","id_token","id_token token"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.ci_oidc.scopes[i]", "stringarray", editorText, ["profile","email","address","phone"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.eai.triggers[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].attributes[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].auth_method", "string", editorText, ["client_secret_post","client_secret_basic"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].client_id", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].client_id_hdr", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].client_secret", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].source", "string", editorText, ["text","header","credential"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].headers[i2].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].introspection_endpoint", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].multi_valued_scope", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].proxy", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].restricted", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].ssl.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oauth[i].token_type_hint", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].allowed_query_args[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].bearer_token_attrs[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].client_id", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].client_secret", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].discovery_endpoint", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].id_token_attrs[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].pkce", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].proxy", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].redirect_uri_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].response_mode", "string", editorText, ["query","fragment","form_post"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].response_type", "string", editorText, ["code","id_token","id_token token"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].scopes[i2]", "stringarray", editorText, ["profile","email","address","phone"], 0, false, 0, false, annots);
+          validateEntry(op, "identity.oidc[i].ssl.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.components[i]", "stringarray", editorText, ["audit.authn","audit.azn"], 0, false, 0, false, annots);
+          validateEntry(op, "logging.json_logging", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.request_log.file.compress", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.request_log.file.file_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.request_log.file.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.request_log.file.max_rollover_files", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.request_log.format", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.statistics.components[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.statistics.frequency", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.statistics.port", "number", editorText, [], 0, true, 65535, true, annots);
+          validateEntry(op, "logging.statistics.server", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.tracing[i].component", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.tracing[i].compress", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.tracing[i].file_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.tracing[i].level", "number", editorText, [], 0, true, 9, true, annots);
+          validateEntry(op, "logging.tracing[i].max_file_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.tracing[i].max_rollover_files", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.transaction.compress", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.transaction.file_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.transaction.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "logging.transaction.max_files", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "policies.authorization[i].action", "string", editorText, ["permit","deny","obligate","reauth"], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].obligation.oidc.acr_values", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].obligation.oidc.max_age", "number", editorText, [], -1, false, -1, false, annots);
+          validateEntry(op, "policies.authorization[i].obligation.oidc.prompt", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].obligation.redirect_url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].full_line_match", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].location", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.content_injection[i].replace_match", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.allow_credentials", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.allow_headers[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.allow_methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.allow_origins[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.expose_headers[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.handle_pre_flight", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.cors[i].policy.max_age", "number", editorText, [], -1, true, -1, false, annots);
+          validateEntry(op, "policies.http_transformations.postauthn[i].authentication_mechanisms[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postauthn[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postauthn[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postauthn[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.postazn[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.preazn[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.preazn[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.preazn[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.preazn[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.preazn[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.request[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.request[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.request[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.request[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.request[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.response[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.response[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.response[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.response[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.response[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.secrets[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.secrets[i].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.rate_limiting[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.rate_limiting[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.rate_limiting[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.rate_limiting[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].aliases[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].connection_type", "string", editorText, ["tcp","ssl"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].cookies.junction_cookie.ensure_unique", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].cookies.junction_cookie.position", "string", editorText, ["inhead","trailer","httpheader"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].cookies.junction_cookie.preserve_name", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].cookies.junction_cookie.version", "string", editorText, ["onfocus","xhtml10"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.credential_learning", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].source", "string", editorText, ["static","attribute","service"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_action", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_response_pattern", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].headers[i4].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].headers[i4].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].response_code", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].success", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].service", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.frequency", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.recovery.frequency", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.recovery.threshold", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.rule[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.threshold", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.policy.timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.rule[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].health.ping.url", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].http2.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity.oauth", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.attributes[i2].attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.attributes[i2].header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.mode", "string", editorText, ["filter","ignore","supply","service"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.resource_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.service", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.encoding", "string", editorText, ["utf8_bin","utf8_uri","lcp_bin","lcp_uri"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.ip_address", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.iv_creds", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].attr", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].text", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].type", "string", editorText, ["string","bool","int"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.hdr_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.kerberos.always_send_tokens", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.kerberos.resource_spn", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.kerberos.user_identity.realm", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.kerberos.user_identity.username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.ltpa.key", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.ltpa.key_password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.ltpa.version", "number", editorText, [], 1, true, 2, true, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.session_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].mutual_auth.basic_auth.password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].mutual_auth.basic_auth.username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].mutual_auth.certificate_auth.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].path", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].persistent_connections.connection_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].persistent_connections.max_cache_size", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].port", "number", editorText, [], 0, true, 65535, true, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].priority", "number", editorText, [], 1, true, 9, true, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].ssl.certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].ssl.server_dn", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].url_style.case_insensitive", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].url_style.windows", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].uuid", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].servers[i2].virtual_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].sni", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].stateful", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].transparent_path", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].virtual_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].worker_threads.hard_limit", "number", editorText, [], 0, true, 100, true, annots);
+          validateEntry(op, "resource_servers[i].worker_threads.soft_limit", "number", editorText, [], 0, true, 100, true, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
+          validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.client_ip_rules[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.certificate[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.tlsv13", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.sni[i].certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.ssl.front_end.sni[i].hostname", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.content_security_policy", "string", editorText, ["default","disabled"], 0, false, 0, false, annots);
+          validateEntry(op, "server.credential_service_cache.cache_enabled", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.credential_service_cache.cache_size", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.credential_service_cache.entry_idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.credential_service_cache.entry_lifetime", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.credential_service_cache.login_clear_user", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.enabled_languages[i]", "stringarray", editorText, ["C","cs","de","es","fr","hu","it","ja","ko","pl","pt_BR","ru","zh_CN","zh_TW"], 0, false, 0, false, annots);
+          validateEntry(op, "server.error_pages.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.error_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.failover.cookie_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.failover.domain_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.failover.key", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.http2", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_applications.azn_decision.max_cache_lifetime", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "server.local_applications.azn_decision.max_cache_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "server.local_applications.azn_decision.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_applications.cred_viewer.attributes[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_applications.cred_viewer.enable_html", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_applications.cred_viewer.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_applications.jwks.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_pages.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.local_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.management_pages.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.management_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.path_segment", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.public_assets.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.rate_limiting.cache_size", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "server.rate_limiting.redis.collection_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.rate_limiting.redis.sync_window", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.rate_limiting.response_headers", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].macro", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.response_headers[i].text", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.cookie_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.inactive_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.session.max_sessions", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "server.session.permit_user_switching", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.reauth.login_time_window", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.session.redis.client_list_cache_lifetime", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.session.redis.concurrent_sessions.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.redis.concurrent_sessions.max_user_sessions", "number", editorText, [], -1, true, -1, false, annots);
+          validateEntry(op, "server.session.redis.concurrent_sessions.prompt_for_displacement", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.redis.concurrent_sessions.user_identity_attribute_name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.redis.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.session.timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv13", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.ciphers[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.certificate[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.sni[i].certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.sni[i].hostname", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.tlsv13", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.trust_certificates[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.failover.key", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.failover.cookie_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.failover.domain_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.cookie_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.max_sessions", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.session.timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.inactive_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.permit_user_switching", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.client_list_cache_lifetime", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.concurrent_sessions.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.concurrent_sessions.prompt_for_displacement", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.redis.concurrent_sessions.max_user_sessions", "number", editorText, [], -1, true, -1, false, annots);
-          validateEntry(op, "server.session.redis.concurrent_sessions.user_identity_attribute_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.session.reauth.login_time_window", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.worker_threads", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.http2", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.websocket.worker_threads.max", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.websocket.worker_threads.idle", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.websocket.timeouts.applications.read", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.websocket.timeouts.applications.write", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.websocket.timeouts.front_end.read", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.websocket.timeouts.front_end.write", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.local_pages.content", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
-          validateEntry(op, "server.management_pages.content", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.management_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
-          validateEntry(op, "server.error_pages.content", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.error_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
-          validateEntry(op, "server.public_assets.content", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.public_assets.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
-          validateEntry(op, "server.public_assets.path_segment", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.enabled_languages[i]", "stringarray", editorText, ["C","cs","de","es","fr","hu","it","ja","ko","pl","pt_BR","ru","zh_CN","zh_TW"], 0, false, 0, false, annots);
-          validateEntry(op, "server.credential_service_cache.cache_enabled", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.credential_service_cache.cache_size", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.credential_service_cache.entry_lifetime", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.credential_service_cache.entry_idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.credential_service_cache.login_clear_user", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_applications.cred_viewer.path_segment", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_applications.cred_viewer.enable_html", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_applications.cred_viewer.attributes[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_applications.azn_decision.path_segment", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.local_applications.azn_decision.max_cache_size", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.local_applications.azn_decision.max_cache_lifetime", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.local_applications.jwks.path_segment", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.rate_limiting.cache_size", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "server.rate_limiting.redis.collection_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.rate_limiting.redis.sync_window", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "server.rate_limiting.response_headers", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.content_security_policy", "string", editorText, ["default","disabled"], 0, false, 0, false, annots);
-          validateEntry(op, "server.response_headers[i].header", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.response_headers[i].macro", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.response_headers[i].attribute", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "server.response_headers[i].text", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_challenge_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_challenge_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_complete_redirect.url", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_complete_redirect.parameters[i].source", "string", editorText, ["macro","header","credential"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_complete_redirect.parameters[i].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.auth_complete_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.discovery_endpoint", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.client_id", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.client_secret", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.ssl.certificate[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.redirect_uri_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.response_type", "string", editorText, ["code","id_token","id_token token"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.response_mode", "string", editorText, ["query","fragment","form_post"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.proxy", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.scopes[i]", "stringarray", editorText, ["profile","email","address","phone"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.allowed_query_args[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.bearer_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oidc.id_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].restricted", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].introspection_endpoint", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].client_id", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].client_secret", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].client_id_hdr", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].auth_method", "string", editorText, ["client_secret_post","client_secret_basic"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].token_type_hint", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].ssl.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].proxy", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].attributes[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].multi_valued_scope", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].headers[i2].source", "string", editorText, ["text","header","credential"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].headers[i2].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.oauth[i].headers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.eai.triggers[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.hostname", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.client_id", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.client_secret", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.mapped_identity", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.redirect_uri_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.response_type", "string", editorText, ["code","id_token","id_token token"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.response_mode", "string", editorText, ["query","fragment","form_post"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.proxy", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.scopes[i]", "stringarray", editorText, ["profile","email","address","phone"], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.allowed_query_args[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.bearer_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "identity.ci_oidc.id_token_attrs[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].path", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].virtual_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].connection_type", "string", editorText, ["tcp","ssl","tcp_proxy","ssl_proxy"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].transparent_path", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].stateful", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].http2.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].sni", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.kerberos.resource_spn", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.kerberos.always_send_tokens", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.kerberos.user_identity.username", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.kerberos.user_identity.realm", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.encoding", "string", editorText, ["utf8_bin","utf8_uri","lcp_bin","lcp_uri"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.mode", "string", editorText, ["filter","ignore","supply","service"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.password", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.service", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.basic_auth.resource_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.ip_address", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.iv_creds", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.attributes[i2].attribute", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.attributes[i2].header", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.session_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.hdr_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].text[i3]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].type", "string", editorText, ["string","bool","int"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].attr", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.ltpa.key", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.ltpa.key_password", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].identity_headers.ltpa.version", "number", editorText, [], 1, true, 2, true, annots);
-          validateEntry(op, "resource_servers[i].cookies.junction_cookie.position", "string", editorText, ["inhead","trailer","httpheader"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].cookies.junction_cookie.version", "string", editorText, ["onfocus","xhtml10"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].cookies.junction_cookie.ensure_unique", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].cookies.junction_cookie.preserve_name", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].mutual_auth.basic_auth.username", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].mutual_auth.basic_auth.password", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].mutual_auth.certificate_auth.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].port", "number", editorText, [], 0, true, 65535, true, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].virtual_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].ssl.certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].ssl.server_dn", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].url_style.case_insensitive", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].url_style.windows", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].priority", "number", editorText, [], 1, true, 9, true, annots);
-          validateEntry(op, "resource_servers[i].servers[i2].uuid", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.credential_learning", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_action", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].form_response_pattern", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].service", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].resource_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].source", "string", editorText, ["static","attribute","service"], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].fields[i3].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].success", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].response_code", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].headers[i4].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].forms_login.login_resources[i2].response_rules[i3].headers[i4].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.method", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.url", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.frequency", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.threshold", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.recovery.frequency", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.recovery.threshold", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.policy.rule[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].health.ping.rule[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "resource_servers[i].worker_threads.soft_limit", "number", editorText, [], 0, true, 100, true, annots);
-          validateEntry(op, "resource_servers[i].worker_threads.hard_limit", "number", editorText, [], 0, true, 100, true, annots);
-          validateEntry(op, "resource_servers[i].persistent_connections.max_cache_size", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].persistent_connections.connection_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "resource_servers[i].identity.oauth", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.request[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.request[i].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.request[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.request[i].method", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.request[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.postazn[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.postazn[i].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.postazn[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.postazn[i].method", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.postazn[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].method", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.http_transformations.response[i].attributes[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].method", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.allow_origins[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.handle_pre_flight", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.allow_headers[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.max_age", "number", editorText, [], -1, true, -1, false, annots);
-          validateEntry(op, "policies.cors[i].policy.allow_methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.allow_credentials", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.cors[i].policy.expose_headers[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.rate_limiting[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.rate_limiting[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.rate_limiting[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.rate_limiting[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].full_line_match", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].location", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].replace_match", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.content_injection[i].content", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].action", "string", editorText, ["permit","deny","obligate","reauth"], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].obligation.oidc.acr_values", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].obligation.oidc.prompt", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "policies.authorization[i].obligation.oidc.max_age", "number", editorText, [], -1, false, -1, false, annots);
-          validateEntry(op, "policies.authorization[i].obligation.redirect_url", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "authorization.rules[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "authorization.rules[i].rule", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.websocket.worker_threads.idle", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.websocket.worker_threads.max", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.worker_threads", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.credential[i].authentication.access_token.token", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.ba.password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.ba.username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.sso.client_id", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.sso.client_secret", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.sso.endpoint", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].authentication.sso.payload", "string", editorText, ["basic","form"], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].port", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].proxy", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].url_pattern", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].user_attribute", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].user_attribute_encoding", "string", editorText, ["url","base64url"], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].ssl.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].ssl.server_dn", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.credential[i].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.sso.endpoint", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.sso.client_id", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.sso.client_secret", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.sso.payload", "string", editorText, ["basic","form"], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.access_token.token", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.ba.username", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.credential[i].authentication.ba.password", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].url_pattern", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].user_attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.credential[i].user_attribute_encoding", "string", editorText, ["url","base64url"], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.capaths[i].client_realm", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.capaths[i].realms[i2].inter_realm", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.capaths[i].realms[i2].server_realm", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.keytab", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.keytab_spn", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.realms[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.realms[i].kdc", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.realms[i].properties[i2].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.realms[i].properties[i2].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.realms[i].hostname", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.libdefaults.properties[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.kerberos.libdefaults.properties[i].value", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.capaths[i].client_realm", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.capaths[i].realms[i2].server_realm", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.kerberos.capaths[i].realms[i2].inter_realm", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.collections[i].name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.collections[i].matching_host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.collections[i].max_pooled_connections", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.kerberos.realms[i].hostname", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.realms[i].kdc", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.realms[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.realms[i].properties[i2].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.kerberos.realms[i].properties[i2].value", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].connect_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].io_timeout", "number", editorText, [], 0, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].health_check_interval", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].cross_domain_support.master_authn_server_url", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].cross_domain_support.master_session_code_lifetime", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].servers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].health_check_interval", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].io_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].matching_host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].max_pooled_connections", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.collections[i].servers[i2].port", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].password", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.trust_certificates[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].port", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].ssl.client_certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.json_logging", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.components[i]", "stringarray", editorText, ["audit.authn","audit.azn"], 0, false, 0, false, annots);
-          validateEntry(op, "logging.request_log.file.file_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.request_log.file.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.request_log.file.max_rollover_files", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.request_log.file.compress", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.request_log.format", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.tracing[i].component", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.tracing[i].file_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.tracing[i].level", "number", editorText, [], 0, true, 9, true, annots);
-          validateEntry(op, "logging.tracing[i].max_file_size", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.tracing[i].max_rollover_files", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.tracing[i].compress", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.transaction.file_name", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.transaction.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.transaction.max_files", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.transaction.compress", "boolean", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.statistics.server", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "logging.statistics.port", "number", editorText, [], 0, true, 65535, true, annots);
-          validateEntry(op, "logging.statistics.frequency", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "logging.statistics.components[i]", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "advanced.configuration[i].stanza", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "advanced.configuration[i].entry", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "advanced.configuration[i].operation", "string", editorText, ["delete","add","set"], 0, false, 0, false, annots);
-          validateEntry(op, "advanced.configuration[i].value[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.trust_certificates[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03"], 0, false, 0, false, annots);
 
       }
 
