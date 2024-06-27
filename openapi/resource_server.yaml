@@ -445,15 +445,21 @@ resource_server:
                     description: >
                       The type of textual data which is being provided.  This
                       will control the JSON type which is used in the JWT.
-                      Please note that this field is only valid if a `text`
-                      value has been specified and will be ignored if an
-                      `attr` value is specified.
                     type: string
                     default: string
                     enum:
                       - string
                       - bool
                       - int
+
+                  array:
+                    description: >
+                      Controls whether or not this claim will always be added 
+                      as an array type.  If this value is not specified, any
+                      single value attributes will be added as single values
+                      and any multi-valued attributes as arrays.
+                    type: boolean
+                    default: false
 
                   attr:
                     description: >
