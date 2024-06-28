@@ -1838,6 +1838,7 @@ const schema = {
             ],
             claims: [
               {
+                array: true,
                 attr: "string",
                 name: "string",
                 text: "string",
@@ -2427,6 +2428,7 @@ const schema = {
           validateEntry(op, "resource_servers[i].identity_headers.ip_address", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.iv_creds", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.jwt.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].array", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].attr", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].identity_headers.jwt.claims[i2].text", "string", editorText, [], 0, false, 0, false, annots);
@@ -2581,7 +2583,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06"], 0, false, 0, false, annots);
 
       }
 
