@@ -40,6 +40,11 @@ from ibm_application_gateway.config.policies_http_transformations_secrets import
 from ibm_application_gateway.config.policies_obligation import *
 from ibm_application_gateway.config.policies_obligation_oidc import *
 from ibm_application_gateway.config.policies_rate_limiting import *
+from ibm_application_gateway.config.policies_waf import *
+from ibm_application_gateway.config.policies_waf_configuration import *
+from ibm_application_gateway.config.policies_waf_phases import *
+from ibm_application_gateway.config.policies_waf_request_match import *
+from ibm_application_gateway.config.policies_waf_rules import *
 from ibm_application_gateway.config.resource_server import *
 from ibm_application_gateway.config.resource_server_cookies import *
 from ibm_application_gateway.config.resource_server_cookies_junction_cookie import *

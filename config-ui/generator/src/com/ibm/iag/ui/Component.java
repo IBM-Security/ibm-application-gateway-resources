@@ -1854,11 +1854,11 @@ public class Component {
     private void addGlobalEntries(String pageName, String name)
     {
         // Add the route for this new page
-        String route = Constants.ROUTE_TEMPLATE.replaceAll(Constants.ROUTE_MACRO, name).replaceAll(Constants.COMP_MACRO, pageName);
+        String route = Constants.ROUTE_TEMPLATE.replaceAll(Constants.ROUTE_MACRO, name).replaceAll(Constants.COMP_MACRO, Constants.toUpperCasename(pageName));
         _routes.add(route);
         
         // Add the import for this new page
-        String importStr = Constants.IMPORT_TEMPLATE.replaceAll(Constants.IMP_MACRO, pageName).replaceAll(Constants.FROM_MACRO, pageName);
+        String importStr = Constants.IMPORT_TEMPLATE.replaceAll(Constants.IMP_MACRO, Constants.toUpperCasename(pageName)).replaceAll(Constants.FROM_MACRO, pageName);
         _imports.add(importStr);
         
         // Update the header menu with a link to this new page
