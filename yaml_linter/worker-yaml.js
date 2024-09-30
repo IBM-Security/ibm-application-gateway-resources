@@ -1743,6 +1743,30 @@ const schema = {
           rule: "string",
         },
       ],
+      waf: {
+        configuration: {
+          content: "string",
+          type: "string",
+        },
+        request_match: [
+          {
+            method: "string",
+            path: "string",
+            phases: {
+              logging: true,
+              request_body: true,
+              request_headers: true,
+              response_body: true,
+              response_headers: true,
+            },
+            version: "string",
+          },
+        ],
+        rules: {
+          content: "string",
+          type: "string",
+        },
+      },
     },
     resource_servers: [
       {
@@ -2388,6 +2412,18 @@ const schema = {
           validateEntry(op, "policies.rate_limiting[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.configuration.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.configuration.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].method", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].path", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].phases.logging", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].phases.request_body", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].phases.request_headers", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].phases.response_body", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].phases.response_headers", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.request_match[i].version", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.rules.content", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.waf.rules.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].aliases[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].connection_type", "string", editorText, ["tcp","ssl"], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].cookies.junction_cookie.ensure_unique", "boolean", editorText, [], 0, false, 0, false, annots);
@@ -2583,7 +2619,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09"], 0, false, 0, false, annots);
 
       }
 
