@@ -350,18 +350,23 @@ class CIOidcRp(OidcRp):
                 continue
             return m.group(1)
 
-        # JavaScript idSources (September 2020)
 
-        idSources_pattern = 'const idSources = (.+?);'
+        idSources_patterns = [
+            # JavaScript idSources (September 2020)
+            'const idSources = (.+?);',
+            # meta tag idSources (September 2024)
+            '<meta id="idSourcesMeta" content=\'(.+?)\''
+        ]
 
-        m = re.search(idSources_pattern, body)
-        if m:
-            auth_json = json.loads(m.group(1))
+        for pattern in idSources_patterns:
+            m = re.search(pattern, body)
+            if m:
+                auth_json = json.loads(m.group(1))
 
-            for id_source in auth_json:
-                if id_source["type"] == "CLOUDDIRECTORY":
-                    url = urlparse(id_source["loginUrl"])
-                    return "{url.path}?{url.query}".format(url=url)
+                for id_source in auth_json:
+                    if id_source["type"] == "CLOUDDIRECTORY":
+                        url = urlparse(id_source["loginUrl"])
+                        return "{url.path}?{url.query}".format(url=url)
 
         message = "Failed to parse the auth URI from the CI login page: {0}" \
             .format(body)

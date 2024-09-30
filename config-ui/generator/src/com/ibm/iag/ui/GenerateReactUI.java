@@ -31,6 +31,7 @@ public class GenerateReactUI
 {
     public static String HEADER_FILE = "components/IAGHeader/IAGHeader.js";
     public static String APP_FILE = "App.js";
+    public static String INDEX_FILE = "index.js";
     public static String CUSTOM_VALIDATION_FILE = "/public/yaml_linter/worker-yaml.js";
     public static String LANDING_PAGE_FILE = "/src/content/landingPage/landingPage.js";
     public static String INDEX_HTML_FILE = "/public/index.html";
@@ -424,7 +425,7 @@ public class GenerateReactUI
             if(parts[0].endsWith("Page"))
             {
                 // Create the index
-                String indexContent = Constants.COMPONENT_INDEX_PAGE.replaceAll(Constants.PAGENAME_MACRO, parts[0]);
+                String indexContent = Constants.COMPONENT_INDEX_PAGE.replaceAll(Constants.PAGENAME_MACRO, parts[0]).replaceAll(Constants.COMPONENT_MACRO, Constants.toUpperCasename(parts[0]));
                 
                 realFileName = contentDir + "/index.js";
                 updateFile(realFileName, indexContent);
@@ -635,7 +636,7 @@ public class GenerateReactUI
      */
     private static void updateRoutes() throws Exception
     {
-        String fileName = _outputDir + "/src/" + APP_FILE;
+        String fileName = _outputDir + "/src/" + INDEX_FILE;
         File file = new File(fileName);
         if(file.exists())
         {

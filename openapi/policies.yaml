@@ -705,6 +705,176 @@ policies:
                   the available macros.
                 type: string
                 x-name: Redirect URL
+    waf:
+      description: >
+        The gateway can act as a Web Application Firewall using the ModSecurity
+        engine.
+
+        The Web Application Firewall policy must at a minimum contain:
+          * configuration
+          * rules
+        
+        If there are no request_match entries defined, the WAF will only be
+        active when the Control.triggerWAF function has been called from 
+        within a Lua HTTP Transformation. 
+
+      x-openapi-required:
+        - configuration
+        - rules
+        - request_match
+      x-examples:
+        - policies:
+            waf:
+              configuration:
+                content: "wafConfigDir"
+                type: path
+              rules:
+                content: "@wafRules.zip"
+                type: zip
+              request_match:
+                - method: GET
+                  path: "/index.html"
+                  version: "HTTP/1.1"
+                - method: GET
+                  path: "/jct/*"
+                - method: GET
+                  path: "/login/*"
+                  phases:
+                    request_headers: true
+                    request_body: true
+                    response_headers: false
+                    response_body: false
+                    logging: true
+      type: object
+      x-name: "Web Application Firewall"
+      properties:
+        configuration:
+          description: >
+            Defines configuration files for the ModSecurity engine. This entry
+            must be either a zip file or a path which is relative to the 
+            `/var/iag/config` directory of the container. The specified 
+            location must contain at least one file, named `modsecurity.conf`.
+            The `modsecurity.conf` configuration will be applied first, other
+            configuration files (with the `.conf` suffix) will be applied in
+            alphabetical order.
+          type: object
+          x-openapi-required:
+            - content
+            - type
+          properties:
+            content:
+              description: >
+                The content which will be used for configuring the ModSecurity 
+                engine.
+              type: string
+            type:
+              description: >
+                The type of content which is being supplied.  Either a zip 
+                file or a directory name.
+              type: string
+              enum:
+                - zip
+                - path
+
+        rules:
+          description: >
+            Defines the rule files for the ModSecurity engine. This entry must 
+            be either a zip file or a path which is relative to the 
+            `/var/iag/config` directory of the container. The specified 
+            location must contain at least one file. Files with a `.conf` 
+            suffix will be treated as configuration files, other files will be
+            treated as data files.
+          x-openapi-required:
+            - content
+            - type
+          type: object
+          properties:
+            content:
+              description: >
+                The content which will be used as rules for the ModSecurity 
+                engine.
+              type: string
+            type:
+              description: >
+                The type of content which is being supplied.  Either a zip 
+                file or a directory name.
+              type: string
+              enum:
+                - zip
+                - path
+        request_match:
+          description: > 
+            This entry defines a list of request matches for which the Web 
+            Application Firewall will be run.
+            
+            Each defined request match must contain at least:
+              * method
+              * path
+          type: array
+          items:
+            type: object
+            x-openapi-required:
+              - method
+              - path
+            properties:
+              method:
+                description: >
+                  The HTTP method for which this match should be triggered. This
+                  value can include the wildcard `*` character to match multiple
+                  methods.
+                type: string
+                x-uuid: true
+              path:
+                description: >
+                  The HTTP path for which this match should be triggered. This
+                  value can include the wildcard `*` character to match multiple
+                  paths.
+                type: string
+                x-uuid: true
+              version:
+                description: >
+                  The HTTP version string for which this match should be 
+                  triggered. This value can include the wildcard `*` character
+                  to match multiple versions.
+                type: string
+                default: "*"
+                x-uuid: true
+              phases:
+                description: >
+                  The phases of the request cycle for which this match should be
+                  triggered. The default is to trigger at each phase of the 
+                  request cycle.
+                type: object
+                properties:
+                  request_headers:
+                    description: >
+                      Whether or not to run the WAF rules after the HTTP request 
+                      headers have been received.
+                    type: boolean
+                    default: true
+                  request_body:
+                    description: >
+                      Whether or not to run the WAF rules after the HTTP request
+                      body has been received.
+                    type: boolean
+                    default: true
+                  response_headers:
+                    description: >
+                      Whether or not to run the WAF rules after the HTTP response
+                      headers have been received.
+                    type: boolean
+                    default: true
+                  response_body:
+                    description: >
+                      Whether or not to run the WAF rules after the HTTP response
+                      body has been received.
+                    type: boolean
+                    default: true
+                  logging:
+                    description: >
+                      Whether or not to run the WAF rules during the logging phase.
+                    type: boolean
+                    default: true
 
 PoliciesHttpTransformationRule:
   type: object

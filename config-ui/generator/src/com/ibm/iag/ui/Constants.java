@@ -56,7 +56,7 @@ public class Constants
     public static String ROUTES_MACRO = "<ADD_ROUTES_HERE>";
     public static String ROUTE_MACRO = "<ADD_ROUTE>";
     public static String COMP_MACRO = "<ADD_COMPONENT>";
-    public static String ROUTE_TEMPLATE = "<Route path=\"/" + ROUTE_MACRO + "\" component= {" + COMP_MACRO + "} />";
+    public static String ROUTE_TEMPLATE = "{ path: \"/" + ROUTE_MACRO + "\", element: <" + COMP_MACRO + " /> },";
     public static String IMPORT_MACRO = "<ADD_IMPORTS_HERE>";
     public static String IMP_MACRO = "<ADD_IMPORT>";
     public static String FROM_MACRO = "<ADD_FROM>";
@@ -79,6 +79,7 @@ public class Constants
     public static String ADD_SCHEMA_HERE = "<ADD_SCHEMA_HERE>";
    
     // Component page constants
+    public static String COMPONENT_MACRO = "<COMPONENT_MACRO>";
     public static String PAGENAME_MACRO = "<PAGENAME_MACRO>";
     public static String PAGECONTENT_MACRO = "<PAGECONTENT_MACRO>";
     public static String PAGECONTENT_INDENT = "                ";
@@ -584,8 +585,8 @@ public class Constants
     public static String SELECT_ITEM = "                  <SelectItem text=\"" + SELECT_TEXT + "\" value=\"" + SELECT_VALUE + "\" />"; 
     
     // Templates for tooltip widgets
-    public static String TOOLTIP_FIELDS = " onFocus={(e) => ReactTooltip.show(e.target)} onBlur={(e) => ReactTooltip.hide(e.target)} data-tip data-for={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} ";
-    public static String TOOLTIP = "          <ReactTooltip id={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} place=\"top\" effect=\"solid\" " + ADD_TT_DELAY + "><div style={{ maxWidth: " + ADD_TT_WIDTH + " }}>" + ADD_TT_TEXT + "</div></ReactTooltip>\n";
+    public static String TOOLTIP_FIELDS = " data-tooltip-id={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} ";
+    public static String TOOLTIP = "          <ReactTooltip id={\"" + ADD_NAME + "_tooltip_id\" + idPrefix} clickable={true} place=\"top\" effect=\"solid\" " + ADD_TT_DELAY + "><div style={{ maxWidth: " + ADD_TT_WIDTH + " }}>" + ADD_TT_TEXT + "</div></ReactTooltip>\n";
     
     // Template for grid update html code
     public static String GRID_UPDATE_HTML = "                  <Suspense fallback={<div></div>}>\n" +
@@ -678,7 +679,7 @@ public class Constants
             "  SelectItem,\n" + 
             "  Checkbox,\n" + 
             "} from 'carbon-components-react';\n" + 
-            "import ReactTooltip from \"react-tooltip\";\n" +
+            "import { Tooltip as ReactTooltip } from \"react-tooltip\";\n" +
             "\n" + 
             "import { safeLoad, getDivHeight, jsonToYaml, updateStyle, updateStyle2, validateField, toggleDescription } from '../../helpers';" +
             "\n\n" +
@@ -784,7 +785,7 @@ public class Constants
             "  TableToolbar,\n" + 
             "  TableToolbarContent,\n" + 
             "} from 'carbon-components-react';\n" + 
-            "import ReactTooltip from \"react-tooltip\";\n" +
+            "import { Tooltip as ReactTooltip } from \"react-tooltip\";\n" +
             "\n" + 
             "import { safeLoad, getDivHeight, jsonToYaml, updateStyle, updateStyle2, validateField, toggleDescription } from '../../helpers';" +
             "\n\n" +
@@ -1067,7 +1068,7 @@ public class Constants
             "import Collapsible from 'react-collapsible';" +
             "\n" +
             "import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';\n" + 
-            "import ReactTooltip from \"react-tooltip\";\n" +
+            "import { Tooltip as ReactTooltip } from \"react-tooltip\";\n" +
             "\n" + 
             "import { safeLoad, getDivHeight, jsonToYaml, updateStyle, updateStyle2, validateField, toggleDescription } from '../../helpers';\n" +
             "\n\n" +
@@ -1181,7 +1182,7 @@ public class Constants
             "import Collapsible from 'react-collapsible';" +
             "\n" +
             "import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';\n" + 
-            "import ReactTooltip from \"react-tooltip\";\n" +
+            "import { Tooltip as ReactTooltip } from \"react-tooltip\";\n" +
             "\n" + 
             "import { safeLoad, getDivHeight, jsonToYaml, updateStyle, updateStyle2, editProps, validateField, toggleDescription } from '../../helpers';\n" +
             "\n\n" +
@@ -1463,7 +1464,7 @@ public class Constants
             "import Collapsible from 'react-collapsible';" +
             "\n" +
             "import { Tabs, Tab, TabPanel, TabList } from 'react-web-tabs';\n" + 
-            "import ReactTooltip from \"react-tooltip\";\n" +
+            "import { Tooltip as ReactTooltip } from \"react-tooltip\";\n" +
             "\n\n" +
             "import { safeLoad, getDivHeight, jsonToYaml, updateStyle, updateStyle2, validateField, toggleDescription } from '../../helpers';\n" +
             "\n" +
@@ -1803,7 +1804,7 @@ public class Constants
     /**
      * The component index page contains the template that is used to generated the index.js file for each YAML component.
      */
-    public static String COMPONENT_INDEX_PAGE = "import " + PAGENAME_MACRO + " from './" + PAGENAME_MACRO + "';\n" + 
-            "export default " + PAGENAME_MACRO + ";";
+    public static String COMPONENT_INDEX_PAGE = "import " + COMPONENT_MACRO + " from './" + PAGENAME_MACRO + "';\n" + 
+            "export default " + COMPONENT_MACRO + ";";
     
 }
