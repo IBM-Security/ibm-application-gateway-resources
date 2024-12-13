@@ -66,7 +66,7 @@ class OidcRp(object):
         # The third request should be to the OIDC OP.
         rsp = self.authenticate_at_op(rsp.headers['location'], user, password, session)
 
-        self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
+        self.check_rsp_code(rsp, [302, 303], "The OIDC flow failed at the OP")
 
         # Now we can complete the OIDC flow.  We have to massage the location
         # which is returned by the OP, substituting the fake host with the
@@ -121,7 +121,7 @@ class OidcRp(object):
         # The third request should be to the OIDC OP.
         rsp = self.authenticate_at_op(rsp.headers['location'], user, password, session)
 
-        self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
+        self.check_rsp_code(rsp, [302, 303], "The OIDC flow failed at the OP")
 
         # Now we can complete the OIDC flow.  We have to massage the location
         # which is returned by the OP, substituting the fake host with the
@@ -175,7 +175,7 @@ class OidcRp(object):
         # The third request should be to the OIDC OP.
         rsp = self.reauthenticate_at_op(rsp.headers['location'], session, user, password)
 
-        self.check_rsp_code(rsp, 302, "The OIDC flow failed at the OP")
+        self.check_rsp_code(rsp, [302, 303], "The OIDC flow failed at the OP")
 
         # Now we can complete the OIDC flow.  We have to massage the location
         # which is returned by the OP, substituting the fake host with the
@@ -230,7 +230,10 @@ class OidcRp(object):
         is received.
         """
 
-        if expected != rsp.status_code:
+        if not isinstance(expected, list):
+            expected = [ expected ]
+
+        if not rsp.status_code in expected:
             message = "{0}\nstatus: {1}\nheaders: {2}\nbody: {3}".format(
                 description, rsp, rsp.headers, rsp.text)
 
@@ -285,7 +288,7 @@ class CIOidcRp(OidcRp):
         # OIDC flow.
         rsp = session.get(location, verify=False, allow_redirects=False)
 
-        self.check_rsp_code(rsp, 302, "The OIDC flow failed in IBM Verify")
+        self.check_rsp_code(rsp, [302, 303], "The OIDC flow failed in IBM Verify")
 
         logger.info("Successfully authenticated to IBM Verify.")
 
@@ -341,7 +344,8 @@ class CIOidcRp(OidcRp):
         auth_uri_patterns = [
             'var action = "(.+?)"',
             'const action = "(.+?)"',
-            '<body action="(.+?)"'
+            '<body action="(.+?)"',
+            '<meta name="action" content="(.+?)"'
         ]
 
         for uri_pattern in auth_uri_patterns:
