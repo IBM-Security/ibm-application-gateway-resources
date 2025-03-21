@@ -1573,6 +1573,7 @@ const schema = {
         "string",
       ],
       json_logging: true,
+      language: "string",
       request_log: {
         file: {
           compress: true,
@@ -2336,6 +2337,7 @@ const schema = {
           validateEntry(op, "identity.oidc[i].ssl.certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.components[i]", "stringarray", editorText, ["audit.authn","audit.azn"], 0, false, 0, false, annots);
           validateEntry(op, "logging.json_logging", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "logging.language", "string", editorText, ["cs","de","en","es","fr","hu","it","ja","ko","pl","pt","ru","zh_CN","zh_TW"], 0, false, 0, false, annots);
           validateEntry(op, "logging.request_log.file.compress", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.request_log.file.file_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "logging.request_log.file.max_file_size", "number", editorText, [], 1, true, -1, false, annots);
@@ -2619,7 +2621,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03"], 0, false, 0, false, annots);
 
       }
 
