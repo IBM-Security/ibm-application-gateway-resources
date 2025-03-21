@@ -9,6 +9,7 @@ The `logging` node defines the configuration entries which are used to manage th
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**language** | **str** | Specifies the language in which the log messages will be displayed. The LANG environment variable, if set, will take precedence over this configuration entry.  The following languages are supported: Language Code | Language ------------- | -------- cs | Czech de | German en | English es | Spanish fr | French hu | Hungarian it | Italian ja | Japanese ko | Korean pl | Polish pt | Brazilian Portuguese ru | Russian zh_CN | Chinese (Simplified) zh_TW | Chinese (Traditional)  | [optional] [default to 'en']
 **json_logging** | **bool** | A boolean which indicates whether the logging will be in JSON format or not. If not specified logging will not be in JSON format.  | [optional] [default to False]
 **components** | **list[str]** | Specifies an array of auditing components to be enabled.  | [optional] 
 **request_log** | [**LoggingRequestLog**](LoggingRequestLog.md) |  | [optional] 

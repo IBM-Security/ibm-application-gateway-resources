@@ -1,7 +1,7 @@
 # Copyright contributors to the Application Gateway project
 
 ---
-version: 24.12
+version: 25.03
 
 identity:
   oidc:

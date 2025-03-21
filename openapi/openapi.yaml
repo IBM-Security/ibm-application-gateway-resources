@@ -1,7 +1,7 @@
 # Copyright contributors to the Application Gateway project
 openapi: '3.0.0'
 info:
-  version: 24.12
+  version: 25.03
   title: IBM Application Gateway Configuration Specification (OpenAPI)
 components:
   schemas:
@@ -26,6 +26,7 @@ components:
         - 24.06
         - 24.09
         - 24.12
+        - 25.03
     secrets:
       $ref: "secrets.yaml#/secrets"
     server:
