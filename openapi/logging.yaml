@@ -8,6 +8,51 @@ logging:
   type: object
   properties:
 
+    language:
+      type: string
+      description: >
+        Specifies the language in which the log messages will be displayed.
+        The LANG environment variable, if set, will take precedence over
+        this configuration entry.  The following languages are supported:
+
+        Language Code | Language
+        ------------- | --------
+        cs | Czech
+        de | German
+        en | English
+        es | Spanish
+        fr | French
+        hu | Hungarian
+        it | Italian
+        ja | Japanese
+        ko | Korean
+        pl | Polish
+        pt | Brazilian Portuguese
+        ru | Russian
+        zh_CN | Chinese (Simplified)
+        zh_TW | Chinese (Traditional)
+
+      default: en
+      x-name: Language
+      x-examples:
+        - logging:
+            language: de
+      enum:
+        - cs
+        - de
+        - en
+        - es
+        - fr
+        - hu
+        - it
+        - ja
+        - ko
+        - pl
+        - pt
+        - ru
+        - zh_CN
+        - zh_TW
+
     json_logging:
       description: >
         A boolean which indicates whether the logging will be
@@ -328,4 +373,3 @@ logging:
             - iag.sescache
             - iag.threads
             - iag.websocket
-
