@@ -246,7 +246,7 @@ class DockerContainer(object):
                                 self.cfgFile_, Container.config_volume_path)]
 
 
-        self.container_ = self.client_.containers.run(image, auto_remove=True,
+        self.container_ = self.client_.containers.run(image,
                                 environment=self.env_, detach=True,
                                 publish_all_ports=True,
                                 volumes = volumes)
@@ -321,10 +321,12 @@ class DockerContainer(object):
         if self.container_ is not None:
             logger.info("Stopping the container: {0}".format(
                                             self.container_.name))
+
             logger.info("Container log: {0}".format(
                                     self.container_.logs().decode("utf-8")))
 
             self.container_.stop()
+            self.container_.remove()
 
             self.container_ = None
 
@@ -719,7 +721,7 @@ class KubernetesContainer(object):
     def createKubernetesConfigMap(self, config_map_name, config_map_data):
         """
         The following command is used to create a Kubernetes ConfigMap.
-        Returns True if successful. 
+        Returns True if successful.
         Returns False if there was an error.
         """
         from kubernetes import client, config
@@ -747,7 +749,7 @@ class KubernetesContainer(object):
         """
         The following command is used to remove a Kubernetes ConfigMap from the
         current Kubernetes namespace.
-        Returns True if successful or there was nothing to be deleted. 
+        Returns True if successful or there was nothing to be deleted.
         Returns False if there was an error.
         """
         from kubernetes import client, config
@@ -916,7 +918,7 @@ class KubernetesContainer(object):
         """
 
         import kubernetes
-        
+
         log = None
 
         if self.port_https_ is not None or self.port_http_ is not None:

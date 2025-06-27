@@ -7,6 +7,7 @@ Copyright contributors to the Application Gateway project
 import logging as sys_logging
 import os
 import base64
+import sys
 import traceback
 import yaml
 
@@ -26,7 +27,7 @@ class Configurator(object):
     """
 
     def __init__(self,
-                    version          = "25.03",
+                    version          = "25.06",
                     server           = None,
                     identity         = None,
                     authorization    = None,
@@ -86,6 +87,10 @@ class Configurator(object):
 
         self.resource_servers = \
                 self.__validateList(ResourceServer, resource_servers)
+
+        # Set the temporary directory.
+        if sys.platform != "darwin":
+            os.environ['TMPDIR'] = "/tmp"
 
     def addCustomData(self, custom_data):
         """

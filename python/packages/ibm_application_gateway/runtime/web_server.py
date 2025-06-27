@@ -8,15 +8,9 @@ import atexit
 import requests
 import time
 import socket
-import sys
 import ssl
-import os
 
 from flask import Flask
-from flask import request
-from flask_basicauth import BasicAuth
-
-from ibm_application_gateway.system.environment import Environment
 
 logger = logging.getLogger(__name__)
 
@@ -111,7 +105,7 @@ class WebServer:
 
                 running = True
 
-                # If we are using SSL we also need to grab the CA certificate 
+                # If we are using SSL we also need to grab the CA certificate
                 # from the server.
                 if self.ssl_:
                     self.caCert_ = ssl.get_server_certificate((
@@ -153,8 +147,8 @@ class WebServer:
         self.clientCert_ = client_cert
 
         self.thread = threading.Thread(
-                    target=self._runServerVerifyCert, 
-                    args=(ca_cert, web_server_cert, web_server_key,), 
+                    target=self._runServerVerifyCert,
+                    args=(ca_cert, web_server_cert, web_server_key,),
                     daemon=True)
 
         self.thread.start()
@@ -193,6 +187,7 @@ class WebServer:
         """
 
         if self.thread is not None:
+
             logger.info("Stopping the Web server.")
 
             if self.ssl_:
@@ -200,15 +195,18 @@ class WebServer:
             else:
                 protocol="http"
 
-            response = requests.get("{0}://{1}:{2}/shutdown".format(
+            response = None
+
+            try:
+                response = requests.get("{0}://{1}:{2}/shutdown".format(
                     protocol, self.host_, self.port_),
                     cert=(self.clientCert_), verify=False, timeout=10)
+            except Exception as e:
+                pass
 
-            if (response.status_code == 200):
-                self.thread.join(timeout=2)
-            else:
-                logger.info("Failed to stop the Web server, it will be "
-                    "terminated when the test case exits.")
+            self.thread.join(timeout=2)
+
+            logger.info("Stopped the Web server.")
 
     def port(self):
         """
@@ -250,7 +248,7 @@ class WebServer:
             ssl_context = None
 
         self.app.run(ssl_context=ssl_context, host="0.0.0.0",
-                        port=self.port_, use_reloader=False)
+                        port=self.port_, use_reloader=False, threaded=False)
 
 
     def _runServerVerifyCert(self, ca_cert, web_server_cert, web_server_key):
@@ -264,21 +262,17 @@ class WebServer:
         context.load_verify_locations(ca_cert)
         context.load_cert_chain(web_server_cert, web_server_key)
         self.app.run(ssl_context=context, host="0.0.0.0",
-                       port=self.port_, use_reloader=False)
+                       port=self.port_, use_reloader=False, threaded=False)
 
     @app.route('/shutdown', methods=['GET','POST'])
     def shutdown():
         """
         The following route is used to handle a request to shutdown the
-        Web server.
+        Web server.  In the past we were able to perform a graceful
+        shutdown using 'werkzeug.server.shutdown', but this has been
+        deprecated.  So, the only way to do this now is to exit from
+        the thread.
         """
 
-        func = request.environ.get('werkzeug.server.shutdown')
-
-        if func is None:
-            raise RuntimeError('Not running with the Werkzeug Server')
-
-        func()
-
-        return 'Server shutting down...'
-
+        logger.info("The Web server has received the /shutdown request.")
+        raise SystemExit()

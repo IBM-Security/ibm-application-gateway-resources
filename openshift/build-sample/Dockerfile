@@ -1,7 +1,7 @@
 # Copyright contributors to the Application Gateway project
 
 # The container is based on the IAG container.
-FROM icr.io/ibmappgateway/ibm-application-gateway:25.03
+FROM icr.io/ibmappgateway/ibm-application-gateway:25.06
 
 # Copy the configuration files from the config directory
 # to the docker image.
