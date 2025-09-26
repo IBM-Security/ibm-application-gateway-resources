@@ -6,6 +6,13 @@ authorization:
   type: object
   properties:
 
+    include_query_string:
+      description: >
+        Should query string parameters be considered when matching a request URL
+        to an authorization rule?
+      type: boolean
+      default: true
+
     rules:
       description: |
         The gateway can apply authorization rules to incoming requests. These rules can be either:

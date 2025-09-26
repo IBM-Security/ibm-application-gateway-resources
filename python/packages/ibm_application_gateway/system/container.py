@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 def run_kubernetes():
     """
     Determine whether we are running in kubernetes or docker.
@@ -25,11 +26,13 @@ def run_kubernetes():
 
     return env_name in os.environ and os.environ[env_name] == "kubernetes"
 
+
 if run_kubernetes():
     import kubernetes
     import uuid
 else:
     import docker
+
 
 class VersionException(Exception):
     """
@@ -37,6 +40,7 @@ class VersionException(Exception):
     than the version of the IBM Application Gateway container.
     """
     pass
+
 
 class Container(object):
     """
@@ -48,7 +52,7 @@ class Container(object):
 
     config_volume_path = "/var/iag/config"
 
-    def __init__(self, config_file = None):
+    def __init__(self, config_file=None):
         """
         Initialize this class.  Note that a VersionException will be raised
         if the version number contained within the configuration file is
@@ -92,7 +96,7 @@ class Container(object):
 
         self.client_.addSecretToEnv(name)
 
-    def startContainer(self, removeAtExit = True, protocol = "https"):
+    def startContainer(self, removeAtExit=True, protocol="https"):
         """
         The following command is used to start the IBM Application Gateway
         container using the supplied configuration.
@@ -106,9 +110,9 @@ class Container(object):
                   the http/https interfaces.
         """
 
-        image  = "{0}:{1}".format(
-                    Environment().get("image.name"),
-                    Environment().get("image.tag"))
+        image = "{0}:{1}".format(
+            Environment().get("image.name"),
+            Environment().get("image.tag"))
 
         logger.info("Starting the container from {0}".format(image))
 
@@ -139,8 +143,8 @@ class Container(object):
                     logger.info("Port in loop {0}".format(self.port(protocol)))
                     logger.info("IP in loop {0}".format(self.ipaddr()))
                     requests.get("{0}://{1}:{2}".format(
-                            protocol, self.ipaddr(), self.port(protocol)),
-                            verify=False, allow_redirects=False, timeout=2)
+                        protocol, self.ipaddr(), self.port(protocol)),
+                        verify=False, allow_redirects=False, timeout=2)
 
                     running = True
             except:
@@ -156,19 +160,25 @@ class Container(object):
 
         logger.info("The container has started")
 
-    def port(self, protocol = "https"):
+    def port(self, protocol="https"):
         """
         Retrieve the port for the current running container.
         """
 
+        if 'iag_port' in os.environ:
+            return os.environ['iag_port']
+
         return self.client_.port(protocol)
 
-    def ipaddr(self, protocol = "https"):
+    def ipaddr(self, protocol="https", ipv6=False):
         """
         Retrieve the IP address which can be used to access the container.
         """
 
-        return self.client_.ipaddr(protocol)
+        if 'iag_address' in os.environ:
+            return os.environ['iag_address']
+
+        return self.client_.ipaddr(protocol,ipv6)
 
     def stopContainer(self):
         """
@@ -189,6 +199,7 @@ class Container(object):
 
         return self.client_.runCommand(command)
 
+
 class DockerContainer(object):
     """
     This class is used to manage the IBM Application Gateway docker container.
@@ -199,9 +210,9 @@ class DockerContainer(object):
     def __init__(self, config_file=None):
         super(DockerContainer, self).__init__()
 
-        self.env_       = {}
-        self.cfgFile_   = config_file
-        self.client_    = docker.from_env()
+        self.env_ = {}
+        self.cfgFile_ = config_file
+        self.client_ = docker.from_env()
         self.container_ = None
 
     def setEnv(self, name, value):
@@ -230,7 +241,7 @@ class DockerContainer(object):
                 "A container has already been started in this object.")
 
             raise Exception(
-                    "A container has already been started in this object.")
+                "A container has already been started in this object.")
 
         volumes = []
 
@@ -243,13 +254,17 @@ class DockerContainer(object):
             }
         elif self.cfgFile_ is not None:
             volumes = ["{0}:{1}/config.yaml".format(
-                                self.cfgFile_, Container.config_volume_path)]
+                self.cfgFile_, Container.config_volume_path)]
 
+        network = None
+        if Environment.is_container_context():
+            network = Environment.get("docker.network_name")
 
         self.container_ = self.client_.containers.run(image,
-                                environment=self.env_, detach=True,
-                                publish_all_ports=True,
-                                volumes = volumes)
+                                                      environment=self.env_, detach=True,
+                                                      publish_all_ports=True,
+                                                      volumes=volumes,
+                                                      network=network)
 
     def reload(self):
         """
@@ -263,7 +278,7 @@ class DockerContainer(object):
 
         self.container_.reload()
 
-    def port(self, protocol = "https"):
+    def port(self, protocol="https"):
         """
         Retrieve the HTTPS port for the current running container.
         """
@@ -282,10 +297,9 @@ class DockerContainer(object):
 
             raise Exception("An invalid protocol was specified!")
 
-        return self.container_.attrs['NetworkSettings']['Ports'][port]\
-                [0]['HostPort']
+        return self.container_.attrs['NetworkSettings']['Ports'][port][0]['HostPort']
 
-    def ipaddr(self, protocol = "https"):
+    def ipaddr(self, protocol="https", ipv6=False):
         """
         Retrieve the IP address which can be used to access the container.
         """
@@ -304,13 +318,20 @@ class DockerContainer(object):
 
             raise Exception("An invalid protocol was specified!")
 
-        ipaddr = self.container_.attrs['NetworkSettings']['Ports'][port]\
-                [0]['HostIp']
+        if ipv6:
+            ipaddr = self.container_.attrs['NetworkSettings']['Ports'][port][1]['HostIp']
 
-        if ipaddr == "0.0.0.0":
-            ipaddr = Environment.get("docker.ip")
+            if ipaddr == "::":
+                ipaddr = Environment.get("docker.ipv6")
+            
+            return ipaddr
+        else:
+            ipaddr = self.container_.attrs['NetworkSettings']['Ports'][port][0]['HostIp']
 
-        return ipaddr
+            if ipaddr == "0.0.0.0":
+                ipaddr = Environment.get("docker.ip")
+
+            return ipaddr
 
     def stopContainer(self):
         """
@@ -320,10 +341,10 @@ class DockerContainer(object):
 
         if self.container_ is not None:
             logger.info("Stopping the container: {0}".format(
-                                            self.container_.name))
+                self.container_.name))
 
             logger.info("Container log: {0}".format(
-                                    self.container_.logs().decode("utf-8")))
+                self.container_.logs().decode("utf-8")))
 
             self.container_.stop()
             self.container_.remove()
@@ -358,6 +379,7 @@ class DockerContainer(object):
         self.container_.reload()
         return self.container_.attrs["State"]["Health"]["Status"] == "healthy"
 
+
 class KubernetesContainer(object):
     """
     This class is used to manage the IBM Application Gateway Kubernetes
@@ -383,23 +405,23 @@ class KubernetesContainer(object):
         else:
             kubernetes.config.load_kube_config()
 
-        self.env_            = []
-        self.secrets_        = []
-        self.config_file_    = config_file
-        self.apps_api_       = kubernetes.client.AppsV1Api()
-        self.core_api_       = kubernetes.client.CoreV1Api()
-        self.ext_api_        = kubernetes.client.ApiextensionsV1beta1Api()
-        self.obj_api_        = kubernetes.client.CustomObjectsApi()
-        self.namespace_      = Environment.get("kubernetes.namespace")
-        self.port_https_     = None
-        self.port_http_      = None
+        self.env_ = []
+        self.secrets_ = []
+        self.config_file_ = config_file
+        self.apps_api_ = kubernetes.client.AppsV1Api()
+        self.core_api_ = kubernetes.client.CoreV1Api()
+        self.ext_api_ = kubernetes.client.ApiextensionsV1beta1Api()
+        self.obj_api_ = kubernetes.client.CustomObjectsApi()
+        self.namespace_ = Environment.get("kubernetes.namespace")
+        self.port_https_ = None
+        self.port_http_ = None
         self.deploymentName_ = "ibm-app-gw-{0}".format(uuid.uuid1())
-        self.configmapName_  = "ibm-app-gw.config.{0}".format(uuid.uuid1())
-        self.useCRD_         = self.useCRD()
+        self.configmapName_ = "ibm-app-gw.config.{0}".format(uuid.uuid1())
+        self.useCRD_ = self.useCRD()
 
         logger.info("Using a kubernetes public IP of {0}.  Use the "
-            "kubernetes.ip configuration entry to change the IP to suit "
-            "your environment.".format(Environment.get("kubernetes.ip")))
+                    "kubernetes.ip configuration entry to change the IP to suit "
+                    "your environment.".format(Environment.get("kubernetes.ip")))
 
     def setEnv(self, name, value):
         """
@@ -410,8 +432,8 @@ class KubernetesContainer(object):
         import kubernetes
 
         self.env_.append(kubernetes.client.V1EnvVar(
-                            name  = name,
-                            value = value))
+            name=name,
+            value=value))
 
     def addSecretToEnv(self, name):
         """
@@ -422,9 +444,9 @@ class KubernetesContainer(object):
         import kubernetes
 
         self.secrets_.append(kubernetes.client.V1EnvFromSource(
-                secret_ref = kubernetes.client.V1SecretEnvSource(
-                    name = name
-                )
+            secret_ref=kubernetes.client.V1SecretEnvSource(
+                name=name
+            )
         ))
 
     def useCRD(self):
@@ -440,10 +462,10 @@ class KubernetesContainer(object):
 
         for item in crds.items:
             if item.metadata.name == self.__crd_name:
-                self.crdGroup_   = item.spec.group
+                self.crdGroup_ = item.spec.group
                 self.crdVersion_ = item.spec.version
-                self.crdPlural_  = item.spec.names.plural
-                self.crdKind_    = item.spec.names.kind
+                self.crdPlural_ = item.spec.names.plural
+                self.crdKind_ = item.spec.names.kind
 
                 return True
 
@@ -462,73 +484,73 @@ class KubernetesContainer(object):
                 "A container has already been started in this object.")
 
             raise Exception(
-                    "A container has already been started in this object.")
+                "A container has already been started in this object.")
 
         # If the configuration file has been specified we need to first
         # create the custom object or configmap.
         if self.config_file_ is not None:
             if self.useCRD_:
                 api_response = self.obj_api_.create_namespaced_custom_object(
-                    group     = self.crdGroup_,
-                    version   = self.crdVersion_,
-                    namespace = self.namespace_,
-                    plural    = self.crdPlural_,
-                    body      = self.__createCustomObject()
+                    group=self.crdGroup_,
+                    version=self.crdVersion_,
+                    namespace=self.namespace_,
+                    plural=self.crdPlural_,
+                    body=self.__createCustomObject()
                 )
 
                 logger.debug("Custom Object created: status='{0}'".format(
-                        api_response))
+                    api_response))
             else:
                 api_response = self.core_api_.create_namespaced_config_map(
-                    namespace = self.namespace_,
-                    body      = self.__createConfigMap()
+                    namespace=self.namespace_,
+                    body=self.__createConfigMap()
                 )
 
                 logger.debug("ConfigMap created: status='{0}'".format(
-                        api_response))
+                    api_response))
 
         # Create the deployment.
         deployment = self.__createDeploymentObject(image)
 
         api_response = self.apps_api_.create_namespaced_deployment(
-            body      = deployment,
-            namespace = self.namespace_)
+            body=deployment,
+            namespace=self.namespace_)
 
         logger.debug("Deployment created: status='{0}'".format(
-                        api_response.status))
+            api_response.status))
 
         service_type = "ClusterIP" if "KUBERNETES_SERVICE_PORT" in os.environ \
-                    else "NodePort"
+            else "NodePort"
 
         # Create the service.
         service = kubernetes.client.V1Service(
-                    api_version = "v1",
-                    kind        = "Service",
-                    metadata    = kubernetes.client.V1ObjectMeta(
-                        name = self.deploymentName_
-                    ),
-                    spec        = kubernetes.client.V1ServiceSpec(
-                        type     = service_type,
-                        selector = { "app" : self.deploymentName_ },
-                        ports    = [
-                            kubernetes.client.V1ServicePort(port = 8443, name = "https"),
-                            kubernetes.client.V1ServicePort(port = 8080, name = "http")
-                        ]
-                    )
-                )
+            api_version="v1",
+            kind="Service",
+            metadata=kubernetes.client.V1ObjectMeta(
+                name=self.deploymentName_
+            ),
+            spec=kubernetes.client.V1ServiceSpec(
+                type=service_type,
+                selector={"app": self.deploymentName_},
+                ports=[
+                    kubernetes.client.V1ServicePort(port=8443, name="https"),
+                    kubernetes.client.V1ServicePort(port=8080, name="http")
+                ]
+            )
+        )
 
         api_response = self.core_api_.create_namespaced_service(
-                            body      = service,
-                            namespace = self.namespace_)
+            body=service,
+            namespace=self.namespace_)
 
         self.port_https_ = 8443 if "KUBERNETES_SERVICE_PORT" in os.environ \
-                        else api_response.spec.ports[0].node_port
+            else api_response.spec.ports[0].node_port
 
         self.port_http_ = 8080 if "KUBERNETES_SERVICE_PORT" in os.environ \
-                        else api_response.spec.ports[1].node_port
+            else api_response.spec.ports[1].node_port
 
         logger.debug("Service created: status='{0}'".format(
-                        api_response.status))
+            api_response.status))
 
     def reload(self):
         """
@@ -537,28 +559,30 @@ class KubernetesContainer(object):
 
         # Nothing to do here.
 
-    def port(self, protocol = "https"):
+    def port(self, protocol="https"):
         """
         Retrieve the port for the current running container.
         """
 
         if protocol == "https":
             if self.port_https_ is None:
-                logger.critical("Error> the container is not currently running!")
+                logger.critical(
+                    "Error> the container is not currently running!")
 
                 raise Exception("The container is not currently running!")
             return self.port_https_
         elif protocol == "http":
             if self.port_http_ is None:
-                logger.critical("Error> the container is not currently running!")
+                logger.critical(
+                    "Error> the container is not currently running!")
 
                 raise Exception("The container is not currently running!")
             return self.port_http_
         else:
             logger.critical("Error> invalid protocol!")
 
-            raise Exception("An attempt was made to return the port for an invalid protocol")
-
+            raise Exception(
+                "An attempt was made to return the port for an invalid protocol")
 
     def ipaddr(self, protocol="https"):
         """
@@ -571,7 +595,7 @@ class KubernetesContainer(object):
             raise Exception("The container is not currently running!")
 
         return self.deploymentName_ if "KUBERNETES_SERVICE_PORT" in os.environ \
-                else Environment.get("kubernetes.ip")
+            else Environment.get("kubernetes.ip")
 
     def stopContainer(self):
         """
@@ -583,7 +607,7 @@ class KubernetesContainer(object):
 
         if self.port_https_ is not None or self.port_http_ is not None:
             logger.info("Stopping the deployment: {0}".format(
-                                            self.deploymentName_))
+                self.deploymentName_))
 
             try:
                 # Grab the log file of the pod.  The first thing to do is
@@ -591,45 +615,44 @@ class KubernetesContainer(object):
                 # the pod.
                 api_response = self.core_api_.list_namespaced_pod(
                     self.namespace_,
-                    label_selector = "app = {0}".format(self.deploymentName_))
+                    label_selector="app = {0}".format(self.deploymentName_))
 
                 api_response = self.core_api_.read_namespaced_pod_log(
-                                api_response.items[0].metadata.name,
-                                self.namespace_)
+                    api_response.items[0].metadata.name,
+                    self.namespace_)
 
                 logger.info("Container log: {0}".format(api_response))
             except kubernetes.client.rest.ApiException as e:
                 logger.error(
-                    "Failed to retrieve the log file from the pod: {0}".\
+                    "Failed to retrieve the log file from the pod: {0}".
                     format(e))
 
             # Now we can delete the deployment and service.
             try:
                 api_response = self.apps_api_.delete_namespaced_deployment(
-                        name      = self.deploymentName_,
-                        namespace = self.namespace_,
-                        body      = kubernetes.client.V1DeleteOptions(
-                            propagation_policy   = 'Foreground',
-                            grace_period_seconds = 5
-                        ))
+                    name=self.deploymentName_,
+                    namespace=self.namespace_,
+                    body=kubernetes.client.V1DeleteOptions(
+                        propagation_policy='Foreground',
+                        grace_period_seconds=5
+                    ))
 
                 logger.debug("Deployment deleted: status={0}".format(
-                                                api_response.status))
+                    api_response.status))
             except Exception as exc:
                 logger.error(exc)
 
-
             try:
                 api_response = self.core_api_.delete_namespaced_service(
-                        name      = self.deploymentName_,
-                        namespace = self.namespace_,
-                        body      = kubernetes.client.V1DeleteOptions(
-                            propagation_policy   = 'Foreground',
-                            grace_period_seconds = 5
-                        ))
+                    name=self.deploymentName_,
+                    namespace=self.namespace_,
+                    body=kubernetes.client.V1DeleteOptions(
+                        propagation_policy='Foreground',
+                        grace_period_seconds=5
+                    ))
 
                 logger.debug("Service deleted: status={0}".format(
-                                                api_response.status))
+                    api_response.status))
             except Exception as exc:
                 logger.error(exc)
 
@@ -638,27 +661,27 @@ class KubernetesContainer(object):
                 try:
                     if self.useCRD_:
                         api_response = self.obj_api_.delete_namespaced_custom_object(
-                            group     = self.crdGroup_,
-                            version   = self.crdVersion_,
-                            namespace = self.namespace_,
-                            plural    = self.crdPlural_,
-                            name      = self.configmapName_,
-                            body      = kubernetes.client.V1DeleteOptions(),
+                            group=self.crdGroup_,
+                            version=self.crdVersion_,
+                            namespace=self.namespace_,
+                            plural=self.crdPlural_,
+                            name=self.configmapName_,
+                            body=kubernetes.client.V1DeleteOptions(),
                         )
 
                         logger.debug("Custom Object deleted: status={0}".format(
-                                                api_response))
+                            api_response))
                     else:
                         api_response = self.core_api_.delete_namespaced_config_map(
-                            name      = self.configmapName_,
-                            namespace = self.namespace_,
-                            body      = kubernetes.client.V1DeleteOptions(
-                                propagation_policy   = 'Foreground',
-                                grace_period_seconds = 5
+                            name=self.configmapName_,
+                            namespace=self.namespace_,
+                            body=kubernetes.client.V1DeleteOptions(
+                                propagation_policy='Foreground',
+                                grace_period_seconds=5
                             ))
 
                         logger.debug("Configmap deleted: status={0}".format(
-                                                api_response))
+                            api_response))
                 except Exception as exc:
                     logger.error(exc)
 
@@ -674,13 +697,15 @@ class KubernetesContainer(object):
         from kubernetes import client, config
         v1 = client.CoreV1Api()
         try:
-            api_response = v1.read_namespaced_secret(secret_name, self.namespace_)
+            api_response = v1.read_namespaced_secret(
+                secret_name, self.namespace_)
             if api_response.kind == 'Secret':
                 logger.debug("Secret already exists")
                 return False
 
         except kubernetes.client.rest.ApiException as e:
-            logger.debug("No secret with name: {0} exists. Creating new secret.".format(secret_name))
+            logger.debug(
+                "No secret with name: {0} exists. Creating new secret.".format(secret_name))
 
             import base64
             b64_data = {}
@@ -692,7 +717,8 @@ class KubernetesContainer(object):
             data = b64_data
             api_version = 'v1'
             kind = 'Secret'
-            body = kubernetes.client.V1Secret(api_version, data, kind, metadata, type=secret_type)
+            body = kubernetes.client.V1Secret(
+                api_version, data, kind, metadata, type=secret_type)
 
             api_response = v1.create_namespaced_secret(self.namespace_, body)
             # Check to make sure response is success
@@ -709,13 +735,15 @@ class KubernetesContainer(object):
         v1 = client.CoreV1Api()
 
         try:
-            api_response = v1.read_namespaced_secret(secret_name, self.namespace_)
+            api_response = v1.read_namespaced_secret(
+                secret_name, self.namespace_)
         except kubernetes.client.rest.ApiException as e:
             if e.status == 404:
                 return True
 
         # Check to make sure response is secret exists and only then delete it
-        api_response = v1.delete_namespaced_secret(secret_name, self.namespace_)
+        api_response = v1.delete_namespaced_secret(
+            secret_name, self.namespace_)
         return api_response.status == "Success"
 
     def createKubernetesConfigMap(self, config_map_name, config_map_data):
@@ -727,21 +755,25 @@ class KubernetesContainer(object):
         from kubernetes import client, config
         v1 = client.CoreV1Api()
         try:
-            api_response = v1.read_namespaced_config_map(config_map_name, self.namespace_)
+            api_response = v1.read_namespaced_config_map(
+                config_map_name, self.namespace_)
             if api_response.kind == 'ConfigMap':
                 logger.debug("ConfigMap already exists")
                 return False
 
         except kubernetes.client.rest.ApiException as e:
-            logger.debug("No ConfigMap with name: {0} exists. Creating new ConfigMap.".format(config_map_name))
+            logger.debug("No ConfigMap with name: {0} exists. Creating new ConfigMap.".format(
+                config_map_name))
 
             metadata = {'name': config_map_name, 'namespace': self.namespace_}
             data = config_map_data
             api_version = 'v1'
             kind = 'ConfigMap'
-            body = kubernetes.client.V1ConfigMap(api_version, None, data, kind, metadata)
+            body = kubernetes.client.V1ConfigMap(
+                api_version, None, data, kind, metadata)
 
-            api_response = v1.create_namespaced_config_map(self.namespace_, body)
+            api_response = v1.create_namespaced_config_map(
+                self.namespace_, body)
             # Check to make sure response is success
             return api_response.kind == 'ConfigMap'
 
@@ -757,13 +789,15 @@ class KubernetesContainer(object):
         v1 = client.CoreV1Api()
 
         try:
-            api_response = v1.read_namespaced_config_map(config_map_name, self.namespace_)
+            api_response = v1.read_namespaced_config_map(
+                config_map_name, self.namespace_)
         except kubernetes.client.rest.ApiException as e:
             if e.status == 404:
                 return True
 
         # Check to make sure response is ConfigMap exists and only then delete it
-        api_response = v1.delete_namespaced_config_map(config_map_name, self.namespace_)
+        api_response = v1.delete_namespaced_config_map(
+            config_map_name, self.namespace_)
         return api_response.status == "Success"
 
     def __createDeploymentObject(self, image):
@@ -775,7 +809,7 @@ class KubernetesContainer(object):
 
         # If a configuration file has been specified we want to mount the
         # configmap.
-        volumes       = []
+        volumes = []
         volume_mounts = []
 
         if self.config_file_ is not None:
@@ -783,34 +817,36 @@ class KubernetesContainer(object):
                 self.setEnv("CONFIG_CUSTOM_OBJECT_NAME", self.configmapName_)
             else:
                 volumes.append(kubernetes.client.V1Volume(
-                    config_map = kubernetes.client.V1ConfigMapVolumeSource(
-                            items = [
-                                kubernetes.client.V1KeyToPath(
-                                    path = "config.yaml",
-                                    key  = self.__config_map_key
-                                )
-                            ],
-                            name = self.configmapName_
+                    config_map=kubernetes.client.V1ConfigMapVolumeSource(
+                        items=[
+                            kubernetes.client.V1KeyToPath(
+                                path="config.yaml",
+                                key=self.__config_map_key
+                            )
+                        ],
+                        name=self.configmapName_
                     ),
-                    name = self.deploymentName_
+                    name=self.deploymentName_
                 ))
 
                 volume_mounts.append(kubernetes.client.V1VolumeMount(
-                    mount_path = Container.config_volume_path,
-                    name       = self.deploymentName_
+                    mount_path=Container.config_volume_path,
+                    name=self.deploymentName_
                 ))
 
         # Create the pod template container
         container = kubernetes.client.V1Container(
-            name          = self.deploymentName_,
-            image         = image,
-            ports         = [
-                    kubernetes.client.V1ContainerPort(container_port=8443, name="https"),
-                    kubernetes.client.V1ContainerPort(container_port=8080, name="http")
-                ],
-            env           = self.env_,
-            volume_mounts = volume_mounts,
-            env_from      = self.secrets_,
+            name=self.deploymentName_,
+            image=image,
+            ports=[
+                kubernetes.client.V1ContainerPort(
+                    container_port=8443, name="https"),
+                kubernetes.client.V1ContainerPort(
+                    container_port=8080, name="http")
+            ],
+            env=self.env_,
+            volume_mounts=volume_mounts,
+            env_from=self.secrets_,
             readiness_probe=kubernetes.client.V1Probe(
                 _exec=kubernetes.client.V1ExecAction(
                     command=[
@@ -833,33 +869,33 @@ class KubernetesContainer(object):
 
         # Create the secret which is used when pulling the IAG image.
         secret = kubernetes.client.V1LocalObjectReference(
-                        name = Environment.get("kubernetes.image_pull_secret")
+            name=Environment.get("kubernetes.image_pull_secret")
         )
 
         # Create and configurate a spec section
         template = kubernetes.client.V1PodTemplateSpec(
-            metadata = kubernetes.client.V1ObjectMeta(
-                            labels = {"app": self.deploymentName_}),
-            spec     = kubernetes.client.V1PodSpec(
-                            containers         = [ container ],
-                            image_pull_secrets = [ secret ],
-                            volumes            = volumes )
+            metadata=kubernetes.client.V1ObjectMeta(
+                labels={"app": self.deploymentName_}),
+            spec=kubernetes.client.V1PodSpec(
+                containers=[container],
+                image_pull_secrets=[secret],
+                volumes=volumes)
         )
 
         # Create the specification of the deployment
         spec = kubernetes.client.V1DeploymentSpec(
-            replicas = 1,
-            template = template,
-            selector = {'matchLabels': {'app': self.deploymentName_}}
+            replicas=1,
+            template=template,
+            selector={'matchLabels': {'app': self.deploymentName_}}
         )
 
         # Instantiate the deployment object
         deployment = kubernetes.client.V1Deployment(
-            api_version = "apps/v1",
-            kind        = "Deployment",
-            metadata    = kubernetes.client.V1ObjectMeta(
-                                    name = self.deploymentName_),
-            spec        = spec)
+            api_version="apps/v1",
+            kind="Deployment",
+            metadata=kubernetes.client.V1ObjectMeta(
+                name=self.deploymentName_),
+            spec=spec)
 
         return deployment
 
@@ -872,11 +908,11 @@ class KubernetesContainer(object):
         import kubernetes
 
         metadata = kubernetes.client.V1ObjectMeta(
-            annotations                   = { 'app': self.deploymentName_ },
-            deletion_grace_period_seconds = 30,
-            labels                        = { 'app' : self.deploymentName_ },
-            name                          = self.configmapName_,
-            namespace                     = self.namespace_
+            annotations={'app': self.deploymentName_},
+            deletion_grace_period_seconds=30,
+            labels={'app': self.deploymentName_},
+            name=self.configmapName_,
+            namespace=self.namespace_
         )
 
         # Get the file content.
@@ -885,11 +921,11 @@ class KubernetesContainer(object):
 
         # Instantiate the configmap object
         configmap = kubernetes.client.V1ConfigMap(
-                        api_version = "v1",
-                        kind        = "ConfigMap",
-                        data        = { self.__config_map_key: file_content },
-                        metadata    = metadata
-                    )
+            api_version="v1",
+            kind="ConfigMap",
+            data={self.__config_map_key: file_content},
+            metadata=metadata
+        )
 
         return configmap
 
@@ -928,15 +964,15 @@ class KubernetesContainer(object):
                 # the pod.
                 api_response = self.core_api_.list_namespaced_pod(
                     self.namespace_,
-                    label_selector = "app = {0}".format(self.deploymentName_))
+                    label_selector="app = {0}".format(self.deploymentName_))
 
                 log = self.core_api_.read_namespaced_pod_log(
-                                api_response.items[0].metadata.name,
-                                self.namespace_)
+                    api_response.items[0].metadata.name,
+                    self.namespace_)
 
             except kubernetes.client.rest.ApiException as e:
                 logger.error(
-                    "Failed to retrieve the log file from the pod: {0}".\
+                    "Failed to retrieve the log file from the pod: {0}".
                     format(e))
 
         return log
@@ -959,21 +995,21 @@ class KubernetesContainer(object):
                 # exec.
                 api_response = self.core_api_.list_namespaced_pod(
                     self.namespace_,
-                    label_selector = "app = {0}".format(self.deploymentName_))
+                    label_selector="app = {0}".format(self.deploymentName_))
 
                 outputStream = stream(self.core_api_.connect_get_namespaced_pod_exec,
-                              api_response.items[0].metadata.name,
-                              self.namespace_,
-                              command=command,
-                              stderr=False, stdin=False,
-                              stdout=True, tty=False)
+                                      api_response.items[0].metadata.name,
+                                      self.namespace_,
+                                      command=command,
+                                      stderr=False, stdin=False,
+                                      stdout=True, tty=False)
 
                 output = outputStream
 
             except kubernetes.client.rest.ApiException as e:
                 rc = 1
                 logger.error(
-                    "Failed to execute a command in the pod: {0}".\
+                    "Failed to execute a command in the pod: {0}".
                     format(e))
 
         return rc, output

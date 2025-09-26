@@ -30,7 +30,7 @@ class WebServer:
 
     app = Flask(__name__)
 
-    def __init__(self, ssl = False, port=0):
+    def __init__(self, ssl = False, port=0, ipv6=False):
         """
         Initialise this object.
 
@@ -41,9 +41,14 @@ class WebServer:
 
         # Get an ephemeral port on which the Web server can listen.
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            if ipv6:
+                s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 
-            s.bind(("0.0.0.0", port))
+                s.bind(("::", port))
+            else:
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+                s.bind(("0.0.0.0", port))
 
             self.port_ = s.getsockname()[1]
         except:
@@ -55,13 +60,26 @@ class WebServer:
         self.host_ = None
 
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            if ipv6:
+                s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
 
-            s.connect(('10.255.255.255', 1))
+                # This is the Quad9 address. We don't actually establish
+                # a connection, we just use it to force the OS to choose a local
+                # IPv6 address that would be used for outbound communication.
+                # In lieu of a IPv6 local broadcast address, Quad9 seemed a
+                # reasonable choice
+                s.connect(("2620:fe::fe",53))
+            else:
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+                s.connect(('10.255.255.255', 1))
 
             self.host_ = s.getsockname()[0]
         except:
-            self.host_ = "127.0.0.1"
+            if ipv6:
+                self.host_ = "::1"
+            else:
+                self.host_ = "127.0.0.1"
         finally:
             s.close()
 
@@ -69,6 +87,7 @@ class WebServer:
         self.ssl_        = ssl
         self.caCert_     = None
         self.clientCert_ = None
+        self.ipv6_       = ipv6
 
 
     def start(self):
@@ -78,7 +97,7 @@ class WebServer:
         reachable before returning.
         """
 
-        logger.info("Starting the Web server: 0.0.0.0:{0}".format(self.port_))
+        logger.info("Starting the Web server: {}:{}".format("::" if self.ipv6_ else "0.0.0.0", self.port_))
 
         self.thread = threading.Thread(
                     target=self.__runServer, args=(self.ssl_,), daemon=True)
@@ -100,8 +119,8 @@ class WebServer:
             time.sleep(1)
 
             try:
-                resp = requests.get("{0}://{1}:{2}".format(protocol, self.host_,
-                                self.port_), verify=False, timeout=2)
+                resp = requests.get("{}://{}:{}".format(protocol, "[{}]".format(self.host_) if self.ipv6_ else self.host_, self.port_),
+                                     verify=False, timeout=2)
 
                 running = True
 
@@ -142,7 +161,7 @@ class WebServer:
                                       that the web server started correctly.
         """
 
-        logger.info("Starting the Web server: 0.0.0.0:{0}".format(self.port_))
+        logger.info("Starting the Web server: {}:{}".format("::" if self.ipv6_ else "0.0.0.0", self.port_))
 
         self.clientCert_ = client_cert
 
@@ -163,7 +182,7 @@ class WebServer:
             time.sleep(1)
 
             try:
-                requests.get("https://{0}:{1}".format(self.host_, self.port_),
+                requests.get("https://{}:{}".format("[{}]".format(self.host_) if self.ipv6_ else self.host_, self.port_),
                     cert=(client_cert), verify=False, timeout=2)
 
                 running = True
@@ -198,8 +217,7 @@ class WebServer:
             response = None
 
             try:
-                response = requests.get("{0}://{1}:{2}/shutdown".format(
-                    protocol, self.host_, self.port_),
+                response = requests.get("{}://{}:{}/shutdown".format(protocol, "[{}]".format(self.host_) if self.ipv6_ else self.host_, self.port_),
                     cert=(self.clientCert_), verify=False, timeout=10)
             except Exception as e:
                 pass
@@ -235,7 +253,7 @@ class WebServer:
         Return the CA certificate (in PEM format) of this server.
         """
 
-        return self.caCert_;
+        return self.caCert_
 
     def __runServer(self, ssl):
         """
@@ -247,7 +265,7 @@ class WebServer:
         else:
             ssl_context = None
 
-        self.app.run(ssl_context=ssl_context, host="0.0.0.0",
+        self.app.run(ssl_context=ssl_context, host="{}".format("::" if self.ipv6_ else "0.0.0.0"),
                         port=self.port_, use_reloader=False, threaded=False)
 
 
@@ -261,7 +279,7 @@ class WebServer:
         context.verify_mode = ssl.CERT_REQUIRED
         context.load_verify_locations(ca_cert)
         context.load_cert_chain(web_server_cert, web_server_key)
-        self.app.run(ssl_context=context, host="0.0.0.0",
+        self.app.run(ssl_context=context, host="{}".format("::" if self.ipv6_ else "0.0.0.0"),
                        port=self.port_, use_reloader=False, threaded=False)
 
     @app.route('/shutdown', methods=['GET','POST'])
