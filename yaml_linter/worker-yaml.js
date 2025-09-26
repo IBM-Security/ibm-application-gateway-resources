@@ -1451,6 +1451,7 @@ const schema = {
       ],
     },
     authorization: {
+      include_query_string: true,
       rules: [
         {
           name: "string",
@@ -1986,6 +1987,7 @@ const schema = {
         content: "string",
         type: "string",
       },
+      max_concurrent_connections_per_ip: 0,
       protocols: [
         "string",
       ],
@@ -2032,6 +2034,10 @@ const schema = {
       },
       ssl: {
         applications: {
+          key_agreement: "string",
+          supported_groups: [
+            "string",
+          ],
           tlsv10: true,
           tlsv11: true,
           tlsv12: true,
@@ -2044,6 +2050,7 @@ const schema = {
           certificate: [
             "string",
           ],
+          key_agreement: "string",
           sni: [
             {
               certificate: [
@@ -2051,6 +2058,9 @@ const schema = {
               ],
               hostname: "string",
             },
+          ],
+          supported_groups: [
+            "string",
           ],
           tlsv10: true,
           tlsv11: true,
@@ -2281,6 +2291,7 @@ const schema = {
           validateEntry(op, "advanced.configuration[i].operation", "string", editorText, ["delete","add","set"], 0, false, 0, false, annots);
           validateEntry(op, "advanced.configuration[i].stanza", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "advanced.configuration[i].value[i2]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "authorization.include_query_string", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "authorization.rules[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "authorization.rules[i].rule", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "identity.auth_challenge_redirect.parameters[i].name", "string", editorText, [], 0, false, 0, false, annots);
@@ -2528,6 +2539,7 @@ const schema = {
           validateEntry(op, "server.local_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
           validateEntry(op, "server.management_pages.content", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.management_pages.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
+          validateEntry(op, "server.max_concurrent_connections_per_ip", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.protocols[i]", "stringarray", editorText, ["http","https","http_proxy","https_proxy"], 0, false, 0, false, annots);
           validateEntry(op, "server.public_assets.content", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.public_assets.path_segment", "string", editorText, [], 0, false, 0, false, annots);
@@ -2552,14 +2564,18 @@ const schema = {
           validateEntry(op, "server.session.redis.concurrent_sessions.user_identity_attribute_name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.session.redis.enabled", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.session.timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.ssl.applications.key_agreement", "string", editorText, ["hybrid-pqc-supported","nonhybrid-pqc-supported","provider-default","custom"], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.applications.supported_groups[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.applications.tlsv13", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.ciphers[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.certificate[i]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.key_agreement", "string", editorText, ["hybrid-pqc-supported","nonhybrid-pqc-supported","provider-default","custom"], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.sni[i].certificate[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.sni[i].hostname", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.ssl.front_end.supported_groups[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.tlsv10", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.tlsv11", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.ssl.front_end.tlsv12", "boolean", editorText, [], 0, false, 0, false, annots);
@@ -2621,7 +2637,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09"], 0, false, 0, false, annots);
 
       }
 
