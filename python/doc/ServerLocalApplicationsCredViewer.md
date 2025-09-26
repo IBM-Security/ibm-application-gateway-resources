@@ -5,6 +5,8 @@
 Specifies the configuration information related to the embedded credential viewer application.
 The credential viewer application can be used to display information about the credential associated with the current user session.
 
+Note: The credential viewer application is not accessible through a virtual host junction. This is because, in the case of a virtual host junction, the back-end server is mounted at the root of the object space. As a result, any attempt to access local applications results in trying to source the application from the back-end server instead of locally.
+
 ### Attributes Format
 
 The rules which define the credential attributes which will be included in the response data.
