@@ -27,7 +27,7 @@ class OidcRp(object):
         """
         Initialise this object.
 
-        \param url  [in] : The URL to the IBM Application Gateway.
+        param url  [in] : The URL to the IBM Application Gateway.
         """
 
         super(OidcRp, self).__init__()

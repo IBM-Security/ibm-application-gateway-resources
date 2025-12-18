@@ -227,7 +227,6 @@ server:
                   - `ECDHE_SECP384R1`
                   - `ECDHE_SECP521R1`
                   - `ECDHE_X448`
-                  - `MLKEM512`
                   - `MLKEM768`
                   - `MLKEM1024`
 
@@ -238,7 +237,6 @@ server:
                   - `ECDHE_X25519MLKEM768`
                   - `ECDHE_SecP256r1MLKEM768`
                   - `ECDHE_SecP384r1MLKEM1024`
-                  - `MLKEM512`
                   - `MLKEM768`
                   - `MLKEM1024`
               type: array
@@ -329,7 +327,6 @@ server:
                   - `ECDHE_SECP384R1`
                   - `ECDHE_SECP521R1`
                   - `ECDHE_X448`
-                  - `MLKEM512`
                   - `MLKEM768`
                   - `MLKEM1024`
 
@@ -340,7 +337,6 @@ server:
                   - `ECDHE_X25519MLKEM768`
                   - `ECDHE_SecP256r1MLKEM768`
                   - `ECDHE_SecP384r1MLKEM1024`
-                  - `MLKEM512`
                   - `MLKEM768`
                   - `MLKEM1024`
               type: array
