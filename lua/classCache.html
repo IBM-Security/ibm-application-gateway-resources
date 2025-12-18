@@ -76,10 +76,18 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af1278a590c4ed5a6c906db792f8911cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99f824266a2544f8c999892bd6d60059"><td class="memItemLeft" align="right" valign="top">nil&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a99f824266a2544f8c999892bd6d60059">add</a> (string key, string data, number maxLifetime)</td></tr>
 <tr class="separator:a99f824266a2544f8c999892bd6d60059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f5601afcaa0077a6c3669f40c76fdf2"><td class="memItemLeft" align="right" valign="top">nil&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a0f5601afcaa0077a6c3669f40c76fdf2">put</a> (string key, string data, number maxLifetime)</td></tr>
+<tr class="separator:a0f5601afcaa0077a6c3669f40c76fdf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b2cc90502006d50a315b554788e0f8e"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a3b2cc90502006d50a315b554788e0f8e">get</a> (string key)</td></tr>
 <tr class="separator:a3b2cc90502006d50a315b554788e0f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fb0fd610f7b31e64c6441e53f57c87"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#ab4fb0fd610f7b31e64c6441e53f57c87">getAndRemove</a> (string key)</td></tr>
+<tr class="separator:ab4fb0fd610f7b31e64c6441e53f57c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade9b150cc8ff63e182bfa6ee0535223e"><td class="memItemLeft" align="right" valign="top">nil&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#ade9b150cc8ff63e182bfa6ee0535223e">remove</a> (string key)</td></tr>
 <tr class="separator:ade9b150cc8ff63e182bfa6ee0535223e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8ffaa30cc0555cdfc047800be05ec7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#aed8ffaa30cc0555cdfc047800be05ec7">exists</a> (string key)</td></tr>
+<tr class="separator:aed8ffaa30cc0555cdfc047800be05ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6943de5b2403c82c4971ff7220ade1ee"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a6943de5b2403c82c4971ff7220ade1ee">incr</a> (string key, number maxLifetime)</td></tr>
+<tr class="separator:a6943de5b2403c82c4971ff7220ade1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This module allows you to cache data for a particular rule. This data is available to all requests which are processed by this rule. The data is stored in an expiring LRU cache. The default maximum size of the cache is set to 8192 records. </p>
@@ -115,7 +123,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Adds a new entry to the cache.</p>
+<p>Adds a new entry to the cache. This will overwrite any existing entry for the key provided. This is an alias for put.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">key</td><td>: The key for the entry. </td></tr>
@@ -133,6 +141,42 @@ Public Member Functions</h2></td></tr>
 <dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a99f824266a2544f8c999892bd6d60059">add</a>(<span class="stringliteral">&quot;my-key&quot;</span>, <span class="stringliteral">&quot;my-data&quot;</span>, 1800)</div>
 <div class="ttc" id="aclassCache_html"><div class="ttname"><a href="classCache.html">Cache</a></div><div class="ttdoc">This module allows you to cache data for a particular rule. This data is available to all requests wh...</div><div class="ttdef"><b>Definition:</b> LuaCache.api:33</div></div>
 <div class="ttc" id="aclassCache_html_a99f824266a2544f8c999892bd6d60059"><div class="ttname"><a href="classCache.html#a99f824266a2544f8c999892bd6d60059">Cache::add</a></div><div class="ttdeci">nil add(string key, string data, number maxLifetime)</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="aed8ffaa30cc0555cdfc047800be05ec7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8ffaa30cc0555cdfc047800be05ec7">&#9670;&nbsp;</a></span>exists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean Cache::exists </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Checks whether an entry exists in the cache. The result reflects the cache state at the time the call is made, as the cache entry may expire between a call to this function and a later call to <a class="el" href="classCache.html#a3b2cc90502006d50a315b554788e0f8e">get()</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>: The key for the entry.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>if the key exists in the cache, <em>false</em> otherwise.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#aed8ffaa30cc0555cdfc047800be05ec7">exists</a>(<span class="stringliteral">&quot;my-key&quot;</span>) then</div>
+<div class="line">    print(<span class="stringliteral">&quot;Key exists&quot;</span>)</div>
+<div class="line">end</div>
+<div class="ttc" id="aclassCache_html_aed8ffaa30cc0555cdfc047800be05ec7"><div class="ttname"><a href="classCache.html#aed8ffaa30cc0555cdfc047800be05ec7">Cache::exists</a></div><div class="ttdeci">boolean exists(string key)</div></div>
 </div><!-- fragment --> </dd></dl>
 
 </div>
@@ -167,6 +211,140 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">print(<a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a3b2cc90502006d50a315b554788e0f8e">get</a>(<span class="stringliteral">&quot;my-key&quot;</span>))</div>
 <div class="ttc" id="aclassCache_html_a3b2cc90502006d50a315b554788e0f8e"><div class="ttname"><a href="classCache.html#a3b2cc90502006d50a315b554788e0f8e">Cache::get</a></div><div class="ttdeci">string get(string key)</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="ab4fb0fd610f7b31e64c6441e53f57c87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fb0fd610f7b31e64c6441e53f57c87">&#9670;&nbsp;</a></span>getAndRemove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Cache::getAndRemove </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Atomically retrieves an entry from the cache and removes it.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>: The key for the entry.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>data which has been cached, or <em>nil</em> if no data was found.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">local data = <a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#ab4fb0fd610f7b31e64c6441e53f57c87">getAndRemove</a>(<span class="stringliteral">&quot;my-key&quot;</span>)</div>
+<div class="line"><span class="keywordflow">if</span> data then</div>
+<div class="line">    print(<span class="stringliteral">&quot;Retrieved and removed: &quot;</span> .. data)</div>
+<div class="line">end</div>
+<div class="ttc" id="aclassCache_html_ab4fb0fd610f7b31e64c6441e53f57c87"><div class="ttname"><a href="classCache.html#ab4fb0fd610f7b31e64c6441e53f57c87">Cache::getAndRemove</a></div><div class="ttdeci">string getAndRemove(string key)</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a6943de5b2403c82c4971ff7220ade1ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6943de5b2403c82c4971ff7220ade1ee">&#9670;&nbsp;</a></span>incr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">number Cache::incr </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>maxLifetime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The cache can also be used to store a counter. This function will atomically increment the counter for the specified key and return the current count value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>: The key for the entry. </td></tr>
+    <tr><td class="paramname">maxLifetime</td><td>: The maximum lifetime of the entry (in seconds). This value is only used if the key does not already exist in the cache.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>current count value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">print(<a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a6943de5b2403c82c4971ff7220ade1ee">incr</a>(<span class="stringliteral">&quot;my-key&quot;</span>, 1800))</div>
+<div class="ttc" id="aclassCache_html_a6943de5b2403c82c4971ff7220ade1ee"><div class="ttname"><a href="classCache.html#a6943de5b2403c82c4971ff7220ade1ee">Cache::incr</a></div><div class="ttdeci">number incr(string key, number maxLifetime)</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a0f5601afcaa0077a6c3669f40c76fdf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f5601afcaa0077a6c3669f40c76fdf2">&#9670;&nbsp;</a></span>put()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nil Cache::put </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>maxLifetime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a new entry to the cache. This will overwrite any existing entry for the key provided. This is an alias for add.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>: The key for the entry. </td></tr>
+    <tr><td class="paramname">data</td><td>: The data to be cached for the key. </td></tr>
+    <tr><td class="paramname">maxLifetime</td><td>: The maximum lifetime of the entry (in seconds).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">nil</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a0f5601afcaa0077a6c3669f40c76fdf2">put</a>(<span class="stringliteral">&quot;my-key&quot;</span>, <span class="stringliteral">&quot;my-data&quot;</span>, 1800)</div>
+<div class="ttc" id="aclassCache_html_a0f5601afcaa0077a6c3669f40c76fdf2"><div class="ttname"><a href="classCache.html#a0f5601afcaa0077a6c3669f40c76fdf2">Cache::put</a></div><div class="ttdeci">nil put(string key, string data, number maxLifetime)</div></div>
 </div><!-- fragment --> </dd></dl>
 
 </div>

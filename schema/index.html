@@ -52,7 +52,7 @@
     <a href="#version" onclick="anchorLink('version')">version</a></div><span class="badge badge-dark value-type">Type: enum (of number)</span><br/>
 <div class="enum-value" id="version_enum">
             <h4>Must be one of:</h4>
-            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li></ul>
+            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li><li class="list-group-item enum-item">25.12</li></ul>
             </div>
         
 
@@ -1411,7 +1411,6 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
 <li><code>ECDHE_SECP384R1</code></li>
 <li><code>ECDHE_SECP521R1</code></li>
 <li><code>ECDHE_X448</code></li>
-<li><code>MLKEM512</code></li>
 <li><code>MLKEM768</code></li>
 <li><code>MLKEM1024</code></li>
 </ul>
@@ -1424,7 +1423,6 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
 <li><code>ECDHE_X25519MLKEM768</code></li>
 <li><code>ECDHE_SecP256r1MLKEM768</code></li>
 <li><code>ECDHE_SecP384r1MLKEM1024</code></li>
-<li><code>MLKEM512</code></li>
 <li><code>MLKEM768</code></li>
 <li><code>MLKEM1024</code></li>
 </ul>
@@ -1889,7 +1887,6 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
 <li><code>ECDHE_SECP384R1</code></li>
 <li><code>ECDHE_SECP521R1</code></li>
 <li><code>ECDHE_X448</code></li>
-<li><code>MLKEM512</code></li>
 <li><code>MLKEM768</code></li>
 <li><code>MLKEM1024</code></li>
 </ul>
@@ -1902,7 +1899,6 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
 <li><code>ECDHE_X25519MLKEM768</code></li>
 <li><code>ECDHE_SecP256r1MLKEM768</code></li>
 <li><code>ECDHE_SecP384r1MLKEM1024</code></li>
-<li><code>MLKEM512</code></li>
 <li><code>MLKEM768</code></li>
 <li><code>MLKEM1024</code></li>
 </ul>
@@ -23570,7 +23566,7 @@ This entry is an array and can define multiple content injection points.</p>
             />
         </svg>
     <a href="#policies_authorization_items_paths" onclick="anchorLink('policies_authorization_items_paths')">paths</a></div><span class="badge badge-dark value-type">Type: array of string</span><br/>
-<span class="description"><p>The paths which this policy will be applied. Each path may contain the <code>*?</code> pattern matching characters. This entry is an array and can be used to specify multiple paths.</p>
+<span class="description"><p>The paths which this policy will be applied. Each path may contain the <code>*?</code> pattern matching characters. This entry is an array and can be used to specify multiple paths.  Please note that if a character immediately follows the '<em>', the wildcard will  match any sequence of characters up to but not including the first  occurrence of that specific character.  For example, the path "/foo/</em>a" will match "/foo/ba" but not "/foo/baa".  </p>
 </span>
         
 
@@ -23627,6 +23623,61 @@ This entry is an array and can define multiple content injection points.</p>
         
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_authorization_items_include_subpaths">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_authorization_items_include_subpaths">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_authorization_items_include_subpaths"
+                        aria-expanded="" aria-controls="policies_authorization_items_include_subpaths" onclick="setAnchor('#policies_authorization_items_include_subpaths')"><span class="property-name">include_subpaths</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_authorization_items_include_subpaths"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_authorization_items_include_subpaths"
+             data-parent="#accordionpolicies_authorization_items_include_subpaths">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_authorization" onclick="anchorLink('policies_authorization')">authorization</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_authorization_items" onclick="anchorLink('policies_authorization_items')">PoliciesAuthorization</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_authorization_items_include_subpaths" onclick="anchorLink('policies_authorization_items_include_subpaths')">include_subpaths</a></div><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: false</span><br/>
+<span class="description"><p>Should any sub-paths of the matching path also be included in the match.</p>
+</span>
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -24322,6 +24373,7 @@ This URL can contain embedded macros to include contextual information about the
 <span class="w">    </span><span class="nt">rule</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acr = &quot;urn:ibm:security:policy:id:2&quot;</span>
 <span class="w">    </span><span class="nt">paths</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/sensitive</span>
+<span class="w">    </span><span class="nt">include_subpaths</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">permit</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mfa_required_obligate</span>
 <span class="w">    </span><span class="nt">rule</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">acr != &quot;urn:ibm:security:policy:id:2&quot;</span>

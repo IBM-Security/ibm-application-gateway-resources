@@ -1614,6 +1614,7 @@ const schema = {
         {
           action: "string",
           host: "string",
+          include_subpaths: true,
           methods: [
             "string",
           ],
@@ -2370,6 +2371,7 @@ const schema = {
           validateEntry(op, "logging.transaction.max_files", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "policies.authorization[i].action", "string", editorText, ["permit","deny","obligate","reauth"], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].host", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.authorization[i].include_subpaths", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.authorization[i].obligation.oidc.acr_values", "string", editorText, [], 0, false, 0, false, annots);
@@ -2637,7 +2639,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12"], 0, false, 0, false, annots);
 
       }
 
