@@ -521,6 +521,7 @@ policies:
                 rule: 'acr = "urn:ibm:security:policy:id:2"'
                 paths:
                   - "/sensitive"
+                include_subpaths: true
                 action: "permit"
 
               - name: mfa_required_obligate
@@ -579,13 +580,24 @@ policies:
             description: >
               The paths which this policy will be applied. Each path
               may contain the `*?` pattern matching characters. This entry
-              is an array and can be used to specify multiple paths.
+              is an array and can be used to specify multiple paths.  Please note
+              that if a character immediately follows the '*', the wildcard will 
+              match any sequence of characters up to but not including the first 
+              occurrence of that specific character.  For example, the path
+              "/foo/*a" will match "/foo/ba" but not "/foo/baa".  
             type: array
             items:
               type: string
               x-uuid: true
               x-required: true
               x-name: Path
+
+          include_subpaths:
+            description: >
+              Should any sub-paths of the matching path also be included
+              in the match.
+            type: boolean
+            default: false
 
           methods:
             description: >

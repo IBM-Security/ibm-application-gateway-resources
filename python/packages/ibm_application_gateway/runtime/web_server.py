@@ -34,7 +34,7 @@ class WebServer:
         """
         Initialise this object.
 
-        \param ssl [in] : Should we use http or https?
+        param ssl [in] : Should we use http or https?
         """
 
         super(WebServer, self).__init__()
@@ -150,15 +150,15 @@ class WebServer:
         separate thread and this function will wait until the Web server is
         reachable before returning.
 
-        \param ca_cert         [in] : CA certificate for the webserver to trust
-                                      for verification in the SSL context.
-        \param web_server_cert [in] : Certificate for the web server SSL
-                                      context.
-        \param web_server_key  [in] : Private key for the web server
-                                      certificate.
-        \param client_cert     [in] : Certificate and private key to be used by
-                                      by the client. It is used here to verify
-                                      that the web server started correctly.
+        param ca_cert         [in] : CA certificate for the webserver to trust
+                                     for verification in the SSL context.
+        param web_server_cert [in] : Certificate for the web server SSL
+                                     context.
+        param web_server_key  [in] : Private key for the web server
+                                     certificate.
+        param client_cert     [in] : Certificate and private key to be used by
+                                     by the client. It is used here to verify
+                                     that the web server started correctly.
         """
 
         logger.info("Starting the Web server: {}:{}".format("::" if self.ipv6_ else "0.0.0.0", self.port_))
