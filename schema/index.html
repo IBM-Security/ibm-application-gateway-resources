@@ -52,7 +52,7 @@
     <a href="#version" onclick="anchorLink('version')">version</a></div><span class="badge badge-dark value-type">Type: enum (of number)</span><br/>
 <div class="enum-value" id="version_enum">
             <h4>Must be one of:</h4>
-            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li><li class="list-group-item enum-item">25.12</li></ul>
+            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li><li class="list-group-item enum-item">25.12</li><li class="list-group-item enum-item">26.03</li></ul>
             </div>
         
 
@@ -19855,6 +19855,487 @@ Header values are case sensitive.</p>
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionresource_servers_items_request_headers">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers" onclick="setAnchor('#resource_servers_items_request_headers')"><span class="property-name">request_headers</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers"
+             data-parent="#accordionresource_servers_items_request_headers">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a></div><span class="badge badge-dark value-type">Type: array of object</span><br/>
+<span class="description"><p>This entry can be used to set HTTP headers which are set in requests sent to this resource server. These entries are processed after the global  request headers specified under policies, so can be used to overwrite or append to request headers specified in that section.<br />
+For each entry, only one of <code>request_property</code>, <code>credential_attribute</code>, <code>http_header</code> or <code>text</code> can be specified.</p>
+</span>
+        
+
+        
+        
+
+         <span class="badge badge-info no-additional">No Additional Items</span><h4>Each item of this array must be:</h4>
+    <div class="card">
+        <div class="card-body items-definition" id="resource_servers_items_request_headers_items">
+            
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a></div><h4>ResourceServerRequestHeader</h4><span class="badge badge-dark value-type">Type: object</span><br/>
+<span class="description"><p>Each entry corresponds to a single HTTP header. </p>
+</span>
+        
+
+        
+        
+
+        
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_header">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_header">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_header"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_header" onclick="setAnchor('#resource_servers_items_request_headers_items_header')"><span class="property-name">header</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_header"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_header"
+             data-parent="#accordionresource_servers_items_request_headers_items_header">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_header" onclick="anchorLink('resource_servers_items_request_headers_items_header')">header</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of the HTTP header to set in the request.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_append">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_append">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_append"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_append" onclick="setAnchor('#resource_servers_items_request_headers_items_append')"><span class="property-name">append</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_append"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_append"
+             data-parent="#accordionresource_servers_items_request_headers_items_append">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_append" onclick="anchorLink('resource_servers_items_request_headers_items_append')">append</a></div><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: false</span><br/>
+<span class="description"><p>Specifies whether the value will be appended to any existing  value, or will overwrite any existing value for the specified  header.<br />
+The default is to overwrite any existing value.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_request_property">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_request_property">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_request_property"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_request_property" onclick="setAnchor('#resource_servers_items_request_headers_items_request_property')"><span class="property-name">request_property</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_request_property"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_request_property"
+             data-parent="#accordionresource_servers_items_request_headers_items_request_property">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_request_property" onclick="anchorLink('resource_servers_items_request_headers_items_request_property')">request_property</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span><br/>
+<span class="description"><p>The name of the request attribute which the value will be taken from.</p>
+</span><div class="enum-value" id="resource_servers_items_request_headers_items_request_property_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"server-name"</li><li class="list-group-item enum-item">"client-ip-v4"</li><li class="list-group-item enum-item">"client-ip-v6"</li><li class="list-group-item enum-item">"client-port"</li><li class="list-group-item enum-item">"host-name"</li><li class="list-group-item enum-item">"junction-name"</li><li class="list-group-item enum-item">"correlation-id"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_credential_attribute">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_credential_attribute">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_credential_attribute"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_credential_attribute" onclick="setAnchor('#resource_servers_items_request_headers_items_credential_attribute')"><span class="property-name">credential_attribute</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_credential_attribute"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_credential_attribute"
+             data-parent="#accordionresource_servers_items_request_headers_items_credential_attribute">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_credential_attribute" onclick="anchorLink('resource_servers_items_request_headers_items_credential_attribute')">credential_attribute</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of a credential attribute which the value will be taken from.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_http_header">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_http_header">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_http_header"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_http_header" onclick="setAnchor('#resource_servers_items_request_headers_items_http_header')"><span class="property-name">http_header</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_http_header"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_http_header"
+             data-parent="#accordionresource_servers_items_request_headers_items_http_header">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_http_header" onclick="anchorLink('resource_servers_items_request_headers_items_http_header')">http_header</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of an HTTP header which the value will be taken from.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_request_headers_items_text">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_request_headers_items_text">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_request_headers_items_text"
+                        aria-expanded="" aria-controls="resource_servers_items_request_headers_items_text" onclick="setAnchor('#resource_servers_items_request_headers_items_text')"><span class="property-name">text</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_request_headers_items_text"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_request_headers_items_text"
+             data-parent="#accordionresource_servers_items_request_headers_items_text">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers" onclick="anchorLink('resource_servers_items_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items" onclick="anchorLink('resource_servers_items_request_headers_items')">ResourceServerRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_request_headers_items_text" onclick="anchorLink('resource_servers_items_request_headers_items_text')">text</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>String content which will be inserted into the header verbatim.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div><br/>
+<div class="badge badge-secondary">Example:</div>
+<br/><button class="btn btn-light example-show collapsed" data-toggle="collapse" data-target="#resource_servers_items_request_headers_ex1" aria-controls="resource_servers_items_request_headers_ex1"></button><div id="resource_servers_items_request_headers_ex1" class="collapse jumbotron examples"><div class="highlight"><pre><span></span><span class="nt">resource_servers</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/example</span>
+<span class="w">  </span><span class="nt">request_headers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Forwarded-For</span>
+<span class="w">    </span><span class="nt">append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">request_property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client-ip-v4</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Forwarded-Host</span>
+<span class="w">    </span><span class="nt">http_header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Deployment-Status</span>
+<span class="w">    </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span>
+</pre></div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
             </div>
@@ -21142,9 +21623,9 @@ The name of the authentication mechanism is located within the AZN<em>CRED</em>A
         </svg>
     <a href="#policies_http_transformations_secrets" onclick="anchorLink('policies_http_transformations_secrets')">secrets</a></div><span class="badge badge-dark value-type">Type: array of object</span><br/>
 <div class="description collapse" id="collapseDescription_policies_http_transformations_secrets">
-            <p>This node contains secrets which can be loaded in Lua HTTP  Transformation rules.<br />
+            <p>This node contains secrets which can be loaded in Lua HTTP Transformation rules.<br />
 The secret values can be loaded using the <code>Control.getConfig</code> method, passing a nil value for the first parameter and the secret name for the second parameter.<br />
-For example, the following Lua snippet loads the value of a  secret named "serviceApiKey":<br />
+For example, the following Lua snippet loads the value of a secret named "serviceApiKey":<br />
 <code>value = Control.getConfig(nil, "serviceApiKey")</code></p>
 
         </div>
@@ -21249,7 +21730,7 @@ For example, the following Lua snippet loads the value of a  secret named "servi
             />
         </svg>
     <a href="#policies_http_transformations_secrets_items_name" onclick="anchorLink('policies_http_transformations_secrets_items_name')">name</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
-<span class="description"><p>Name of the secret. This is the name which can be used when  loading the secret data.</p>
+<span class="description"><p>Name of the secret. This is the name which can be used when loading the secret data.</p>
 </span>
         
 
@@ -21333,6 +21814,240 @@ For example, the following Lua snippet loads the value of a  secret named "servi
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SERVICE_API_KEY</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">serviceApiEndpoint</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://api.myservice.ibm.com/v1</span>
+</pre></div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_http_transformations_utilities">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_http_transformations_utilities">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_http_transformations_utilities"
+                        aria-expanded="" aria-controls="policies_http_transformations_utilities" onclick="setAnchor('#policies_http_transformations_utilities')"><span class="property-name">utilities</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_http_transformations_utilities"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_http_transformations_utilities"
+             data-parent="#accordionpolicies_http_transformations_utilities">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations" onclick="anchorLink('policies_http_transformations')">http_transformations</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities" onclick="anchorLink('policies_http_transformations_utilities')">utilities</a></div><span class="badge badge-dark value-type">Type: array of object</span><br/>
+<div class="description collapse" id="collapseDescription_policies_http_transformations_utilities">
+            <p>This node contains utility Lua scripts that can be included and reused across multiple HTTP transformation rules. These scripts are not executed directly but can be loaded using the <code>require</code> function within any transformation rule.<br />
+For example, if you define a utility script named "common_utils", you can include it in your transformation rules with:<br />
+<code>local utils = require("common_utils")</code></p>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_policies_http_transformations_utilities"
+               aria-expanded="false" aria-controls="collapseDescriptionpolicies_http_transformations_utilities"
+            ></a>
+        </div>
+        
+
+        
+        
+
+         <span class="badge badge-info no-additional">No Additional Items</span><h4>Each item of this array must be:</h4>
+    <div class="card">
+        <div class="card-body items-definition" id="policies_http_transformations_utilities_items">
+            
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations" onclick="anchorLink('policies_http_transformations')">http_transformations</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities" onclick="anchorLink('policies_http_transformations_utilities')">utilities</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities_items" onclick="anchorLink('policies_http_transformations_utilities_items')">utilities items</a></div><span class="badge badge-dark value-type">Type: object</span><br/>
+
+        
+
+        
+        
+
+        
+<div class="accordion" id="accordionpolicies_http_transformations_utilities_items_name">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_http_transformations_utilities_items_name">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_http_transformations_utilities_items_name"
+                        aria-expanded="" aria-controls="policies_http_transformations_utilities_items_name" onclick="setAnchor('#policies_http_transformations_utilities_items_name')"><span class="property-name">name</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_http_transformations_utilities_items_name"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_http_transformations_utilities_items_name"
+             data-parent="#accordionpolicies_http_transformations_utilities_items_name">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations" onclick="anchorLink('policies_http_transformations')">http_transformations</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities" onclick="anchorLink('policies_http_transformations_utilities')">utilities</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities_items" onclick="anchorLink('policies_http_transformations_utilities_items')">utilities items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities_items_name" onclick="anchorLink('policies_http_transformations_utilities_items_name')">name</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>Name of the utility script. This is the name which can be used when requiring the script in transformation rules.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_http_transformations_utilities_items_rule">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_http_transformations_utilities_items_rule">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_http_transformations_utilities_items_rule"
+                        aria-expanded="" aria-controls="policies_http_transformations_utilities_items_rule" onclick="setAnchor('#policies_http_transformations_utilities_items_rule')"><span class="property-name">rule</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_http_transformations_utilities_items_rule"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_http_transformations_utilities_items_rule"
+             data-parent="#accordionpolicies_http_transformations_utilities_items_rule">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations" onclick="anchorLink('policies_http_transformations')">http_transformations</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities" onclick="anchorLink('policies_http_transformations_utilities')">utilities</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities_items" onclick="anchorLink('policies_http_transformations_utilities_items')">utilities items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_http_transformations_utilities_items_rule" onclick="anchorLink('policies_http_transformations_utilities_items_rule')">rule</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The Lua script content for this utility.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div><br/>
+<div class="badge badge-secondary">Example:</div>
+<br/><button class="btn btn-light example-show collapsed" data-toggle="collapse" data-target="#policies_http_transformations_utilities_ex1" aria-controls="policies_http_transformations_utilities_ex1"></button><div id="policies_http_transformations_utilities_ex1" class="collapse jumbotron examples"><div class="highlight"><pre><span></span><span class="nt">policies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">http_transformations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">utilities</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">common_utils</span>
+<span class="w">      </span><span class="nt">rule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;local</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">{}\nfunction</span><span class="nv"> </span><span class="s">M.sanitize_header(value)\n</span><span class="nv">  </span><span class="s">return</span><span class="nv"> </span><span class="s">value:gsub(\&quot;\</span>
+<span class="w">        </span><span class="s">[^%w%s%-_]\&quot;,</span><span class="nv"> </span><span class="s">\&quot;\&quot;)\nend\nreturn</span><span class="nv"> </span><span class="s">M\n&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jwt_helper</span>
+<span class="w">      </span><span class="nt">rule</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;@jwt_utils.lua&#39;</span>
 </pre></div>
 </div>
             </div>
@@ -25486,6 +26201,430 @@ Each defined request match must contain at least:<br />
             </div>
         </div>
     </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers"
+                        aria-expanded="" aria-controls="policies_request_headers" onclick="setAnchor('#policies_request_headers')"><span class="property-name">request_headers</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers"
+             data-parent="#accordionpolicies_request_headers">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a></div><span class="badge badge-dark value-type">Type: array of object</span><br/>
+<span class="description"><p>This entry can be used to set HTTP headers which are set in requests sent to all resource servers.<br />
+For each entry, only one of <code>request_property</code>, <code>credential_attribute</code>, <code>http_header</code> or <code>text</code> can be specified.</p>
+</span>
+        
+
+        
+        
+
+         <span class="badge badge-info no-additional">No Additional Items</span><h4>Each item of this array must be:</h4>
+    <div class="card">
+        <div class="card-body items-definition" id="policies_request_headers_items">
+            
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a></div><h4>PoliciesRequestHeader</h4><span class="badge badge-dark value-type">Type: object</span><br/>
+<span class="description"><p>Each entry corresponds to a single HTTP header. </p>
+</span>
+        
+
+        
+        
+
+        
+<div class="accordion" id="accordionpolicies_request_headers_items_header">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_header">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_header"
+                        aria-expanded="" aria-controls="policies_request_headers_items_header" onclick="setAnchor('#policies_request_headers_items_header')"><span class="property-name">header</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_header"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_header"
+             data-parent="#accordionpolicies_request_headers_items_header">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_header" onclick="anchorLink('policies_request_headers_items_header')">header</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of the HTTP header to set in the request.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers_items_append">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_append">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_append"
+                        aria-expanded="" aria-controls="policies_request_headers_items_append" onclick="setAnchor('#policies_request_headers_items_append')"><span class="property-name">append</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_append"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_append"
+             data-parent="#accordionpolicies_request_headers_items_append">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_append" onclick="anchorLink('policies_request_headers_items_append')">append</a></div><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: false</span><br/>
+<span class="description"><p>Specifies whether the value will be appended to any existing  value, or will overwrite any existing value for the specified  header.<br />
+The default is to overwrite any existing value.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers_items_request_property">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_request_property">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_request_property"
+                        aria-expanded="" aria-controls="policies_request_headers_items_request_property" onclick="setAnchor('#policies_request_headers_items_request_property')"><span class="property-name">request_property</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_request_property"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_request_property"
+             data-parent="#accordionpolicies_request_headers_items_request_property">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_request_property" onclick="anchorLink('policies_request_headers_items_request_property')">request_property</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span><br/>
+<span class="description"><p>The name of the request property which the value will be taken from.</p>
+</span><div class="enum-value" id="policies_request_headers_items_request_property_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"server-name"</li><li class="list-group-item enum-item">"client-ip-v4"</li><li class="list-group-item enum-item">"client-ip-v6"</li><li class="list-group-item enum-item">"client-port"</li><li class="list-group-item enum-item">"host-name"</li><li class="list-group-item enum-item">"junction-name"</li><li class="list-group-item enum-item">"correlation-id"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers_items_credential_attribute">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_credential_attribute">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_credential_attribute"
+                        aria-expanded="" aria-controls="policies_request_headers_items_credential_attribute" onclick="setAnchor('#policies_request_headers_items_credential_attribute')"><span class="property-name">credential_attribute</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_credential_attribute"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_credential_attribute"
+             data-parent="#accordionpolicies_request_headers_items_credential_attribute">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_credential_attribute" onclick="anchorLink('policies_request_headers_items_credential_attribute')">credential_attribute</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of a credential attribute which the value will be taken from.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers_items_http_header">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_http_header">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_http_header"
+                        aria-expanded="" aria-controls="policies_request_headers_items_http_header" onclick="setAnchor('#policies_request_headers_items_http_header')"><span class="property-name">http_header</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_http_header"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_http_header"
+             data-parent="#accordionpolicies_request_headers_items_http_header">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_http_header" onclick="anchorLink('policies_request_headers_items_http_header')">http_header</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name of an HTTP header which the value will be taken from.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionpolicies_request_headers_items_text">
+    <div class="card">
+        <div class="card-header" id="headingpolicies_request_headers_items_text">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#policies_request_headers_items_text"
+                        aria-expanded="" aria-controls="policies_request_headers_items_text" onclick="setAnchor('#policies_request_headers_items_text')"><span class="property-name">text</span></button>
+            </h2>
+        </div>
+
+        <div id="policies_request_headers_items_text"
+             class="collapse property-definition-div" aria-labelledby="headingpolicies_request_headers_items_text"
+             data-parent="#accordionpolicies_request_headers_items_text">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies" onclick="anchorLink('policies')">policies</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers" onclick="anchorLink('policies_request_headers')">request_headers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items" onclick="anchorLink('policies_request_headers_items')">PoliciesRequestHeader</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#policies_request_headers_items_text" onclick="anchorLink('policies_request_headers_items_text')">text</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>String content which will be inserted into the header verbatim.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div><br/>
+<div class="badge badge-secondary">Example:</div>
+<br/><button class="btn btn-light example-show collapsed" data-toggle="collapse" data-target="#policies_request_headers_ex1" aria-controls="policies_request_headers_ex1"></button><div id="policies_request_headers_ex1" class="collapse jumbotron examples"><div class="highlight"><pre><span></span><span class="nt">policies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">request_headers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Forwarded-For</span>
+<span class="w">    </span><span class="nt">append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">request_property</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">client-ip-v4</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Forwarded-Host</span>
+<span class="w">    </span><span class="nt">http_header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">header</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">X-Deployment-Status</span>
+<span class="w">    </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">green</span>
+</pre></div>
 </div>
             </div>
         </div>
@@ -30751,6 +31890,291 @@ These entries are only applicable to Redis collections being used  for storing s
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionservices_redis_collections_items_servers_items_ssl_key_agreement">
+    <div class="card">
+        <div class="card-header" id="headingservices_redis_collections_items_servers_items_ssl_key_agreement">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#services_redis_collections_items_servers_items_ssl_key_agreement"
+                        aria-expanded="" aria-controls="services_redis_collections_items_servers_items_ssl_key_agreement" onclick="setAnchor('#services_redis_collections_items_servers_items_ssl_key_agreement')"><span class="property-name">key_agreement</span></button>
+            </h2>
+        </div>
+
+        <div id="services_redis_collections_items_servers_items_ssl_key_agreement"
+             class="collapse property-definition-div" aria-labelledby="headingservices_redis_collections_items_servers_items_ssl_key_agreement"
+             data-parent="#accordionservices_redis_collections_items_servers_items_ssl_key_agreement">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services" onclick="anchorLink('services')">services</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis" onclick="anchorLink('services_redis')">redis</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections" onclick="anchorLink('services_redis_collections')">collections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items" onclick="anchorLink('services_redis_collections_items')">ServicesRedisCollections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers" onclick="anchorLink('services_redis_collections_items_servers')">servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items" onclick="anchorLink('services_redis_collections_items_servers_items')">ServicesRedisServers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl" onclick="anchorLink('services_redis_collections_items_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl_key_agreement" onclick="anchorLink('services_redis_collections_items_servers_items_ssl_key_agreement')">key_agreement</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "provider-default"</span><br/>
+<span class="description"><p>Control the algorithms and parameters used in key agreement for TLSv1.2 and TLSv1.3.<br />
+If custom is specified, the <code>supported_groups</code> configuration  must specify the named groups to use in the key exchange.  For other entries, the named groups will be determined  automatically.</p>
+</span><div class="enum-value" id="services_redis_collections_items_servers_items_ssl_key_agreement_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"hybrid-pqc-supported"</li><li class="list-group-item enum-item">"nonhybrid-pqc-supported"</li><li class="list-group-item enum-item">"provider-default"</li><li class="list-group-item enum-item">"custom"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionservices_redis_collections_items_servers_items_ssl_supported_groups">
+    <div class="card">
+        <div class="card-header" id="headingservices_redis_collections_items_servers_items_ssl_supported_groups">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#services_redis_collections_items_servers_items_ssl_supported_groups"
+                        aria-expanded="" aria-controls="services_redis_collections_items_servers_items_ssl_supported_groups" onclick="setAnchor('#services_redis_collections_items_servers_items_ssl_supported_groups')"><span class="property-name">supported_groups</span></button>
+            </h2>
+        </div>
+
+        <div id="services_redis_collections_items_servers_items_ssl_supported_groups"
+             class="collapse property-definition-div" aria-labelledby="headingservices_redis_collections_items_servers_items_ssl_supported_groups"
+             data-parent="#accordionservices_redis_collections_items_servers_items_ssl_supported_groups">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services" onclick="anchorLink('services')">services</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis" onclick="anchorLink('services_redis')">redis</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections" onclick="anchorLink('services_redis_collections')">collections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items" onclick="anchorLink('services_redis_collections_items')">ServicesRedisCollections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers" onclick="anchorLink('services_redis_collections_items_servers')">servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items" onclick="anchorLink('services_redis_collections_items_servers_items')">ServicesRedisServers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl" onclick="anchorLink('services_redis_collections_items_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl_supported_groups" onclick="anchorLink('services_redis_collections_items_servers_items_ssl_supported_groups')">supported_groups</a></div><span class="badge badge-dark value-type">Type: array of string</span><br/>
+<div class="description collapse" id="collapseDescription_services_redis_collections_items_servers_items_ssl_supported_groups">
+            <p>Control which named groups to allow in the TLSv1.2 and  TLSv1.3 key agreement. It is only used when <code>key_agreement</code> is set to <code>custom</code>.</p>
+
+<h3>Supported Groups</h3>
+
+<ul>
+<li><code>ECDHE_X25519MLKEM768</code></li>
+<li><code>ECDHE_X25519</code></li>
+<li><code>ECDHE_SecP256r1MLKEM768</code></li>
+<li><code>ECDHE_SECP256R1</code></li>
+<li><code>ECDHE_SecP384r1MLKEM1024</code></li>
+<li><code>ECDHE_SECP384R1</code></li>
+<li><code>ECDHE_SECP521R1</code></li>
+<li><code>ECDHE_X448</code></li>
+<li><code>MLKEM768</code></li>
+<li><code>MLKEM1024</code></li>
+</ul>
+
+<h3>Supported Groups for TLSv1.3</h3>
+
+<p>The following groups can only be configured when TLSv1.3 is enabled:</p>
+
+<ul>
+<li><code>ECDHE_X25519MLKEM768</code></li>
+<li><code>ECDHE_SecP256r1MLKEM768</code></li>
+<li><code>ECDHE_SecP384r1MLKEM1024</code></li>
+<li><code>MLKEM768</code></li>
+<li><code>MLKEM1024</code></li>
+</ul>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_services_redis_collections_items_servers_items_ssl_supported_groups"
+               aria-expanded="false" aria-controls="collapseDescriptionservices_redis_collections_items_servers_items_ssl_supported_groups"
+            ></a>
+        </div>
+        
+
+        
+        
+
+         <span class="badge badge-info no-additional">No Additional Items</span><h4>Each item of this array must be:</h4>
+    <div class="card">
+        <div class="card-body items-definition" id="services_redis_collections_items_servers_items_ssl_supported_groups_items">
+            
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services" onclick="anchorLink('services')">services</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis" onclick="anchorLink('services_redis')">redis</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections" onclick="anchorLink('services_redis_collections')">collections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items" onclick="anchorLink('services_redis_collections_items')">ServicesRedisCollections</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers" onclick="anchorLink('services_redis_collections_items_servers')">servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items" onclick="anchorLink('services_redis_collections_items_servers_items')">ServicesRedisServers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl" onclick="anchorLink('services_redis_collections_items_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl_supported_groups" onclick="anchorLink('services_redis_collections_items_servers_items_ssl_supported_groups')">supported_groups</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#services_redis_collections_items_servers_items_ssl_supported_groups_items" onclick="anchorLink('services_redis_collections_items_servers_items_ssl_supported_groups_items')">supported_groups items</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name(s) of the groups which will be permitted.<br />
+For a list of valid ciphers, see:<br />
+  - <a href="#supported-groups">Supported Groups</a><br />
+  - <a href="#supported-groups-for-tlsv13">Supported Groups for TLSv1.3</a></p>
+</span>
+        
+
+        
+        
+
+        
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
         </div>
     </div>
@@ -31076,6 +32500,10 @@ Language Code | Language ------------- | -------- cs | Czech de | German en | En
 <tr>
   <td>%F</td>
   <td>Time taken to serve the request in microseconds.</td>
+</tr>
+<tr>
+  <td>%{attribute}g</td>
+  <td>Cryptographic attribute of the connection. Valid values for attribute are: tls-version, cipher-spec, supported-group, server-sig-scheme, client-sig-scheme</td>
 </tr>
 <tr>
   <td>%h</td>

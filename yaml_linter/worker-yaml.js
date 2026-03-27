@@ -1733,6 +1733,12 @@ const schema = {
             value: "string",
           },
         ],
+        utilities: [
+          {
+            name: "string",
+            rule: "string",
+          },
+        ],
       },
       rate_limiting: [
         {
@@ -1744,6 +1750,16 @@ const schema = {
             "string",
           ],
           rule: "string",
+        },
+      ],
+      request_headers: [
+        {
+          append: true,
+          credential_attribute: "string",
+          header: "string",
+          http_header: "string",
+          request_property: "string",
+          text: "string",
         },
       ],
       waf: {
@@ -1905,6 +1921,16 @@ const schema = {
           connection_timeout: 0,
           max_cache_size: 0,
         },
+        request_headers: [
+          {
+            append: true,
+            credential_attribute: "string",
+            header: "string",
+            http_header: "string",
+            request_property: "string",
+            text: "string",
+          },
+        ],
         servers: [
           {
             host: "string",
@@ -2185,7 +2211,11 @@ const schema = {
                   client_certificate: [
                     "string",
                   ],
+                  key_agreement: "string",
                   sni: "string",
+                  supported_groups: [
+                    "string",
+                  ],
                   trust_certificates: [
                     "string",
                   ],
@@ -2423,10 +2453,18 @@ const schema = {
           validateEntry(op, "policies.http_transformations.response[i].rule", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.secrets[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.http_transformations.secrets[i].value", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.utilities[i].name", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.http_transformations.utilities[i].rule", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].methods[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].name", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].paths[i2]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.rate_limiting[i].rule", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].append", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].credential_attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].http_header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].request_property", "string", editorText, ["server-name","client-ip-v4","client-ip-v6","client-port","host-name","junction-name","correlation-id"], 0, false, 0, false, annots);
+          validateEntry(op, "policies.request_headers[i].text", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.waf.configuration.content", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "policies.waf.configuration.type", "string", editorText, ["zip","path"], 0, false, 0, false, annots);
           validateEntry(op, "policies.waf.request_match[i].method", "string", editorText, [], 0, false, 0, false, annots);
@@ -2499,6 +2537,12 @@ const schema = {
           validateEntry(op, "resource_servers[i].path", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].persistent_connections.connection_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "resource_servers[i].persistent_connections.max_cache_size", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].append", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].credential_attribute", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].http_header", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].request_property", "string", editorText, ["server-name","client-ip-v4","client-ip-v6","client-port","host-name","junction-name","correlation-id"], 0, false, 0, false, annots);
+          validateEntry(op, "resource_servers[i].request_headers[i2].text", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].host", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "resource_servers[i].servers[i2].port", "number", editorText, [], 0, true, 65535, true, annots);
           validateEntry(op, "resource_servers[i].servers[i2].priority", "number", editorText, [], 1, true, 9, true, annots);
@@ -2634,12 +2678,14 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].password", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].port", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].ssl.client_certificate[i3]", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.key_agreement", "string", editorText, ["hybrid-pqc-supported","nonhybrid-pqc-supported","provider-default","custom"], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].ssl.sni", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "services.redis.collections[i].servers[i2].ssl.supported_groups[i3]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].ssl.trust_certificates[i3]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12","26.03"], 0, false, 0, false, annots);
 
       }
 
