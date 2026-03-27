@@ -130,14 +130,14 @@ policies:
 
         secrets:
           description: >
-            This node contains secrets which can be loaded in Lua HTTP 
+            This node contains secrets which can be loaded in Lua HTTP
             Transformation rules.
 
             The secret values can be loaded using the `Control.getConfig`
             method, passing a nil value for the first parameter and the
             secret name for the second parameter.
 
-            For example, the following Lua snippet loads the value of a 
+            For example, the following Lua snippet loads the value of a
             secret named "serviceApiKey":
 
             ```
@@ -157,10 +157,10 @@ policies:
           items:
             type: object
             properties:
-              name: 
+              name:
                 type: string
-                description: > 
-                  Name of the secret. This is the name which can be used when 
+                description: >
+                  Name of the secret. This is the name which can be used when
                   loading the secret data.
 
                 x-uuid: true
@@ -170,6 +170,54 @@ policies:
                 type: string
                 description: The content of the secret.
                 
+                x-required: true
+
+        utilities:
+          description: >
+            This node contains utility Lua scripts that can be included and
+            reused across multiple HTTP transformation rules. These scripts
+            are not executed directly but can be loaded using the `require`
+            function within any transformation rule.
+
+            For example, if you define a utility script named "common_utils",
+            you can include it in your transformation rules with:
+
+            ```
+            local utils = require("common_utils")
+            ```
+
+          x-examples:
+            - policies:
+                http_transformations:
+                  utilities:
+                    - name: common_utils
+                      rule: |
+                        local M = {}
+                        function M.sanitize_header(value)
+                          return value:gsub("[^%w%s%-_]", "")
+                        end
+                        return M
+                    - name: jwt_helper
+                      rule: "@jwt_utils.lua"
+
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: >
+                  Name of the utility script. This is the name which can be
+                  used when requiring the script in transformation rules.
+
+                x-uuid: true
+                x-required: true
+
+              rule:
+                type: string
+                description: >
+                  The Lua script content for this utility.
+
                 x-required: true
 
     cors:
@@ -887,6 +935,71 @@ policies:
                       Whether or not to run the WAF rules during the logging phase.
                     type: boolean
                     default: true
+
+    request_headers:
+      description: >
+        This entry can be used to set HTTP headers which are set in requests sent
+        to all resource servers.
+
+        For each entry, only one of `request_property`, `credential_attribute`, `http_header` or `text` can be specified.
+      x-examples:
+        - policies:
+            request_headers:
+              - header:    X-Forwarded-For
+                append:    True
+                request_property:  client-ip-v4
+              - header:    X-Forwarded-Host
+                http_header: host
+              - header:    X-Deployment-Status
+                text:      green
+      type: array
+      items:
+          title: PoliciesRequestHeader
+          description: >
+            Each entry corresponds to a single HTTP header. 
+          type: object
+          properties:
+            header:
+              description: >
+                The name of the HTTP header to set in the request.
+              type: string
+              x-required: true
+              x-uuid: true
+            append:
+              description: >
+                Specifies whether the value will be appended to any existing 
+                value, or will overwrite any existing value for the specified 
+                header.
+
+                The default is to overwrite any existing value.
+              type: boolean
+              default: False
+            request_property:
+              description: >
+                The name of the request property which the value will be taken from.
+              type: string
+              enum:
+                - server-name
+                - client-ip-v4
+                - client-ip-v6
+                - client-port
+                - host-name
+                - junction-name
+                - correlation-id
+            credential_attribute:
+              description: >
+                The name of a credential attribute which the value will be taken from.
+              type: string
+
+            http_header:
+              description: >
+                The name of an HTTP header which the value will be taken from.
+              type: string
+            text:
+              description: >
+                String content which will be inserted into the header verbatim.
+              type: string
+
 
 PoliciesHttpTransformationRule:
   type: object

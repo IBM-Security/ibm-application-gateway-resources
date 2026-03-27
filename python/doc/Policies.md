@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **content_injection** | [**list[PoliciesContentInjection]**](PoliciesContentInjection.md) | The gateway can inject content into responses. This entry defines the content and when injection should take place. Content injection is performed based on the request path and a specific location within the response. This entry is an array and can define multiple content injection points.  | [optional] 
 **authorization** | [**list[PoliciesAuthorization]**](PoliciesAuthorization.md) | The gateway can apply authorization rules to incoming requests. This entry defines a list of matching requests, rules and actions to perform if matches are found. The rules can be either:   * Defined directly here in an entry.   * Defined in the authorization section and reference by name here in an entry.  This entry defines authorization rules directly. There are also two pre-defined rules which can be used:   * \&quot;anyuser\&quot; : Which allows access to any user, even if they are not authenticated.   * \&quot;anyauth\&quot; : Which allows access to any authenticated user.  | [optional] 
 **waf** | [**PoliciesWaf**](PoliciesWaf.md) |  | [optional] 
+**request_headers** | [**list[PoliciesRequestHeader]**](PoliciesRequestHeader.md) | This entry can be used to set HTTP headers which are set in requests sent to all resource servers. For each entry, only one of &#x60;request_property&#x60;, &#x60;credential_attribute&#x60;, &#x60;http_header&#x60; or &#x60;text&#x60; can be specified.  | [optional] 
 
 [[Back to README]](../README.md)
 

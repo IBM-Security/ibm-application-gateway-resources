@@ -1257,3 +1257,72 @@ resource_server:
             accessing this resource server.
           type: string
           x-name: OAuth
+
+    request_headers:
+      description: >
+        This entry can be used to set HTTP headers which are set in requests sent
+        to this resource server. These entries are processed after the global 
+        request headers specified under policies, so can be used to overwrite or
+        append to request headers specified in that section.
+
+        For each entry, only one of `request_property`, `credential_attribute`, `http_header` or `text` can be specified.
+      x-examples:
+        - resource_servers:
+            - path: "/example"
+              # ...
+              request_headers:
+                - header:    X-Forwarded-For
+                  append:    True
+                  request_property:  client-ip-v4
+                - header:    X-Forwarded-Host
+                  http_header: host
+                - header:    X-Deployment-Status
+                  text:      green
+      type: array
+      items:
+          title: ResourceServerRequestHeader
+          description: >
+            Each entry corresponds to a single HTTP header. 
+          type: object
+          properties:
+            header:
+              description: >
+                The name of the HTTP header to set in the request.
+              type: string
+              x-required: true
+              x-uuid: true
+            append:
+              description: >
+                Specifies whether the value will be appended to any existing 
+                value, or will overwrite any existing value for the specified 
+                header.
+
+                The default is to overwrite any existing value.
+              type: boolean
+              default: False
+            request_property:
+              description: >
+                The name of the request attribute which the value will be taken from.
+              type: string
+              enum:
+                - server-name
+                - client-ip-v4
+                - client-ip-v6
+                - client-port
+                - host-name
+                - junction-name
+                - correlation-id
+            credential_attribute:
+              description: >
+                The name of a credential attribute which the value will be taken from.
+              type: string
+
+            http_header:
+              description: >
+                The name of an HTTP header which the value will be taken from.
+              type: string
+            text:
+              description: >
+                String content which will be inserted into the header verbatim.
+              type: string
+
