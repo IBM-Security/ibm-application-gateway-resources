@@ -52,15 +52,21 @@ class Container(object):
 
     config_volume_path = "/var/iag/config"
 
-    def __init__(self, config_file=None):
+    def __init__(self, config_file=None, startup_timeout=30):
         """
         Initialize this class.  Note that a VersionException will be raised
         if the version number contained within the configuration file is
         greater than the version number of the requested IBM Application
         Gateway image.
+        
+        Args:
+            config_file: Path to the configuration file
+            startup_timeout: Maximum time in seconds to wait for container startup (default: 30)
         """
 
         super(Container, self).__init__()
+
+        self.startup_timeout_ = startup_timeout
 
         # If a configuration file is specified we need to ensure that the
         # IAG version supports the version of the specified configuration
@@ -79,6 +85,15 @@ class Container(object):
             self.client_ = KubernetesContainer(config_file)
         else:
             self.client_ = DockerContainer(config_file=config_file)
+
+    def __enter__(self):
+        self.startContainer()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.stopContainer()
+        return False
+
 
     def setEnv(self, name, value):
         """
@@ -131,7 +146,7 @@ class Container(object):
         running = False
         attempt = 0
 
-        while not running and attempt < 30:
+        while not running and attempt < self.startup_timeout_:
             time.sleep(1)
 
             try:

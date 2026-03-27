@@ -37,9 +37,11 @@ from ibm_application_gateway.config.policies_http_post_authn_transformation_rule
 from ibm_application_gateway.config.policies_http_transformation_rule import *
 from ibm_application_gateway.config.policies_http_transformations import *
 from ibm_application_gateway.config.policies_http_transformations_secrets import *
+from ibm_application_gateway.config.policies_http_transformations_utilities import *
 from ibm_application_gateway.config.policies_obligation import *
 from ibm_application_gateway.config.policies_obligation_oidc import *
 from ibm_application_gateway.config.policies_rate_limiting import *
+from ibm_application_gateway.config.policies_request_header import *
 from ibm_application_gateway.config.policies_waf import *
 from ibm_application_gateway.config.policies_waf_configuration import *
 from ibm_application_gateway.config.policies_waf_phases import *
@@ -71,6 +73,7 @@ from ibm_application_gateway.config.resource_server_mutual_auth import *
 from ibm_application_gateway.config.resource_server_mutual_auth_basic_auth import *
 from ibm_application_gateway.config.resource_server_mutual_auth_certificate_auth import *
 from ibm_application_gateway.config.resource_server_persistent_connections import *
+from ibm_application_gateway.config.resource_server_request_header import *
 from ibm_application_gateway.config.resource_server_servers import *
 from ibm_application_gateway.config.resource_server_ssl import *
 from ibm_application_gateway.config.resource_server_url_style import *

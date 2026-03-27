@@ -26,6 +26,7 @@ Name | Type | Description | Notes
 **worker_threads** | [**ResourceServerWorkerThreads**](ResourceServerWorkerThreads.md) |  | [optional] 
 **persistent_connections** | [**ResourceServerPersistentConnections**](ResourceServerPersistentConnections.md) |  | [optional] 
 **identity** | [**ResourceServerIdentity**](ResourceServerIdentity.md) |  | [optional] 
+**request_headers** | [**list[ResourceServerRequestHeader]**](ResourceServerRequestHeader.md) | This entry can be used to set HTTP headers which are set in requests sent to this resource server. These entries are processed after the global  request headers specified under policies, so can be used to overwrite or append to request headers specified in that section. For each entry, only one of &#x60;request_property&#x60;, &#x60;credential_attribute&#x60;, &#x60;http_header&#x60; or &#x60;text&#x60; can be specified.  | [optional] 
 
 [[Back to README]](../README.md)
 

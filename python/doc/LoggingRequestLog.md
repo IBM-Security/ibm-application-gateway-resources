@@ -18,6 +18,7 @@ Directive | Description
 %{cookie}E | Contents of the Cookie `cookie` in the response.
 %d | Transaction identifier, or session sequence number.
 %F | Time taken to serve the request in microseconds.
+%{attribute}g | Cryptographic attribute of the connection. Valid values for attribute are: tls-version, cipher-spec, supported-group, server-sig-scheme, client-sig-scheme
 %h | Client host.
 %H | Request protocol.
 %{header}i | Contents of the Header `header` in the request.
