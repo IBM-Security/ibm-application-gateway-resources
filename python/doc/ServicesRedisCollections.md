@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **idle_timeout** | **float** | The maximum number of seconds a pooled connection can remain idle before the connection is closed.  | [optional] [default to 10]
 **connect_timeout** | **float** | The maximum number of seconds to wait for a connection to be established with a Redis server.  | [optional] [default to 2]
 **io_timeout** | **float** | The maximum number of seconds to wait for a valid response from a Redis server.  | [optional] [default to 30]
-**health_check_interval** | **float** | The interval (in seconds) between health check requests sent to the Redis server.  | [optional] [default to 10]
+**health_check_interval** | **float** | The interval (in seconds) between health check requests sent to the Redis server. If set to 0, health checks will not be performed (other than an initial health check which is  required).  | [optional] [default to 10]
 **cross_domain_support** | [**ServicesRedisCrossDomainSupport**](ServicesRedisCrossDomainSupport.md) |  | [optional] 
 **servers** | [**list[ServicesRedisServers]**](ServicesRedisServers.md) | Used to define the configuration for the individual Redis servers within the collection.  | [optional] 
 

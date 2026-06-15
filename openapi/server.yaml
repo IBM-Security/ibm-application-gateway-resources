@@ -718,6 +718,131 @@ server:
       default: true
       x-name: HTTP/2
 
+    http2_tuning:
+      description: >
+        Specifies configuration parameters for tuning HTTP/2 connections.
+      x-examples:
+        - server:
+            http2_tuning:
+              max_connection_duration: 120
+      type: object
+      x-name: HTTP/2 Tuning
+      properties:
+
+        max_connection_duration:
+          description: >
+            Maximum duration in seconds for an HTTP/2 connection. The connection
+            will be closed if this limit is reached. This setting applies to HTTP/2
+            connections for all interfaces.
+          x-examples:
+            - server:
+                http2_tuning:
+                  max_connection_duration: 120
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 120
+          x-name: Max Connection Duration
+
+    caching:
+      description: >
+        Specifies configuration parameters for tuning request caching behavior.
+      x-examples:
+        - server:
+            caching:
+              max_request_bytes: 8192
+              max_request_body_read: 32768
+      type: object
+      x-name: Caching
+      properties:
+
+        max_request_bytes:
+          description: >
+            The maximum amount of data cached per request when a user is prompted
+            to authenticate before a request can be fulfilled. This value should
+            account for the maximum size of all request components including headers,
+            cookies, and the request body.
+          x-examples:
+            - server:
+                caching:
+                  max_request_bytes: 8192
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 8192
+          x-name: Max Request Bytes
+
+        max_request_body_read:
+          description: >
+            The maximum number of bytes that will be read from the body of a request.
+          x-examples:
+            - server:
+                caching:
+                  max_request_body_read: 32768
+          type: number
+          minimum: 512
+          maximum: 2147483648
+          default: 32768
+          x-name: Max Request Body Read
+
+    client_connections:
+      description: >
+        Specifies configuration parameters for tuning client connections.
+      x-examples:
+        - server:
+            client_connections:
+              connect_timeout: 120
+              persistent_timeout: 5
+              intra_request_timeout: 60
+      type: object
+      x-name: Client Connections
+      properties:
+
+        connect_timeout:
+          description: >
+            Initial client connection timeout in seconds. This is the maximum time
+            to wait for the initial connection from a client.
+          x-examples:
+            - server:
+                client_connections:
+                  connect_timeout: 120
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 120
+          x-name: Connect Timeout
+
+        persistent_timeout:
+          description: >
+            HTTP/1.1 persistent connection timeout in seconds. This only affects
+            connections to clients, not backend systems.
+          x-examples:
+            - server:
+                client_connections:
+                  persistent_timeout: 5
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 5
+          x-name: Persistent Timeout
+
+        intra_request_timeout:
+          description: >
+            Intra-request timeout in seconds. This is the timeout between data
+            received or sent for a given request, but not the first read. When
+            this value is non-zero, it also enables timeouts on HTTP writes to
+            clients and causes a TCP RST packet to be sent if a connection timeout
+            occurs on non-first data I/O.
+          x-examples:
+            - server:
+                client_connections:
+                  intra_request_timeout: 60
+          type: number
+          minimum: 0
+          maximum: unlimited
+          default: 60
+          x-name: Intra Request Timeout
+
     websocket:
       description: >
         Specifies the configuration for WebSocket support.

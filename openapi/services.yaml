@@ -480,9 +480,11 @@ services:
               health_check_interval:
                 description: >
                   The interval (in seconds) between health check requests
-                  sent to the Redis server.
+                  sent to the Redis server. If set to 0, health checks will
+                  not be performed (other than an initial health check which is 
+                  required).
                 type: number
-                minimum: 1
+                minimum: 0
                 maximum: unlimited
                 default: 10
               cross_domain_support:
