@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><span class="keywordflow">if</span> <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#abcd8962ef21f19b2bbf18164d88327fc">containsCredentialAttribute</a>(<span class="stringliteral">&quot;AZN_CRED_PRINCIPAL_NAME&quot;</span>) then</div>
 <div class="line">  print(<a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a16d296f172a41457da949d45f51331a1">getCredentialAttribute</a>(<span class="stringliteral">&quot;AZN_CRED_PRINCIPAL_NAME&quot;</span>))</div>
 <div class="line">end</div>
-<div class="ttc" id="aclassSession_html"><div class="ttname"><a href="classSession.html">Session</a></div><div class="ttdoc">This module allows you to access details of the current user session. The user session information wi...</div><div class="ttdef"><b>Definition:</b> LuaSession.api:26</div></div>
+<div class="ttc" id="aclassSession_html"><div class="ttname"><a href="classSession.html">Session</a></div><div class="ttdoc">This module allows you to access details of the current user session. The user session information wi...</div><div class="ttdef"><b>Definition:</b> LuaSession.api:27</div></div>
 <div class="ttc" id="aclassSession_html_a16d296f172a41457da949d45f51331a1"><div class="ttname"><a href="classSession.html#a16d296f172a41457da949d45f51331a1">Session::getCredentialAttribute</a></div><div class="ttdeci">string getCredentialAttribute(string name)</div></div>
 <div class="ttc" id="aclassSession_html_abcd8962ef21f19b2bbf18164d88327fc"><div class="ttname"><a href="classSession.html#abcd8962ef21f19b2bbf18164d88327fc">Session::containsCredentialAttribute</a></div><div class="ttdeci">boolean containsCredentialAttribute(string name)</div></div>
 </div><!-- fragment --> </dd></dl>
@@ -226,11 +226,14 @@ Public Member Functions</h2></td></tr>
 <p>Used to retrieve the attribute names from the credential.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">An</td><td>array of attribute names.</td></tr>
+    <tr><td class="paramname">An</td><td>array of attribute names (1-based indexed, compatible with ipairs).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">table = <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a76beb90797ed73fdc6c3e55a5dc634a2">getCredentialAttributeNames</a>()</div>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">names = <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a76beb90797ed73fdc6c3e55a5dc634a2">getCredentialAttributeNames</a>()</div>
+<div class="line"><span class="keywordflow">for</span> i, name in ipairs(names) <span class="keywordflow">do</span></div>
+<div class="line">  print(i, name)</div>
+<div class="line">end</div>
 <div class="ttc" id="aclassSession_html_a76beb90797ed73fdc6c3e55a5dc634a2"><div class="ttname"><a href="classSession.html#a76beb90797ed73fdc6c3e55a5dc634a2">Session::getCredentialAttributeNames</a></div><div class="ttdeci">array getCredentialAttributeNames()</div></div>
 </div><!-- fragment --> </dd></dl>
 
@@ -251,8 +254,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Used to retrieve the values of the specified attribute from the credential into a table. <br  />
-</p>
+<p>Used to retrieve the values of the specified attribute from the credential into a table.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>: The name of the credential attribute.</td></tr>
@@ -261,11 +263,14 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">An</td><td>array which contains the values of the credential attribute, or <em>nil</em> if the credential attribute was not located.</td></tr>
+    <tr><td class="paramname">An</td><td>array which contains the values of the credential attribute (1-based indexed, compatible with ipairs), or <em>nil</em> if the credential attribute was not located.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a653225d66f58c06859096993e6a811ae">getMvCredentialAttribute</a>(<span class="stringliteral">&quot;AZN_CRED_GROUPS&quot;</span>)</div>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">groups = <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a653225d66f58c06859096993e6a811ae">getMvCredentialAttribute</a>(<span class="stringliteral">&quot;AZN_CRED_GROUPS&quot;</span>)</div>
+<div class="line"><span class="keywordflow">for</span> i, group in ipairs(groups) <span class="keywordflow">do</span></div>
+<div class="line">  print(i, group)</div>
+<div class="line">end</div>
 <div class="ttc" id="aclassSession_html_a653225d66f58c06859096993e6a811ae"><div class="ttname"><a href="classSession.html#a653225d66f58c06859096993e6a811ae">Session::getMvCredentialAttribute</a></div><div class="ttdeci">array getMvCredentialAttribute(string name)</div></div>
 </div><!-- fragment --> </dd></dl>
 
@@ -322,11 +327,14 @@ Public Member Functions</h2></td></tr>
 <p>Used to retrieve the attribute names from the session. <a class="el" href="classSession.html" title="This module allows you to access details of the current user session. The user session information wi...">Session</a> attributes can be used to store rule specific data against a session.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">An</td><td>array of attribute names.</td></tr>
+    <tr><td class="paramname">An</td><td>array of attribute names (1-based indexed, compatible with ipairs).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">table = <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a9701aac1faff23a8805a72a743ce122c">getSessionAttributeNames</a>()</div>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">names = <a class="code" href="classSession.html">Session</a>.<a class="code" href="classSession.html#a9701aac1faff23a8805a72a743ce122c">getSessionAttributeNames</a>()</div>
+<div class="line"><span class="keywordflow">for</span> i, name in ipairs(names) <span class="keywordflow">do</span></div>
+<div class="line">  print(i, name)</div>
+<div class="line">end</div>
 <div class="ttc" id="aclassSession_html_a9701aac1faff23a8805a72a743ce122c"><div class="ttname"><a href="classSession.html#a9701aac1faff23a8805a72a743ce122c">Session::getSessionAttributeNames</a></div><div class="ttdeci">array getSessionAttributeNames()</div></div>
 </div><!-- fragment --> </dd></dl>
 

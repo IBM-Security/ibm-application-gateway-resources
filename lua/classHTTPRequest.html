@@ -357,11 +357,14 @@ Public Member Functions</h2></td></tr>
 <p>Used to retrieve the cookie names from the request.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">A</td><td>table of HTTP cookie names.</td></tr>
+    <tr><td class="paramname">A</td><td>table of HTTP cookie names (1-based indexed, compatible with ipairs).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">table = <a class="code" href="classHTTPRequest.html">HTTPRequest</a>.<a class="code" href="classHTTPRequest.html#a3e6def2f93ac478bb62fe166e0de1bc2">getCookieNames</a>()</div>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">names = <a class="code" href="classHTTPRequest.html">HTTPRequest</a>.<a class="code" href="classHTTPRequest.html#a3e6def2f93ac478bb62fe166e0de1bc2">getCookieNames</a>()</div>
+<div class="line"><span class="keywordflow">for</span> i, name in ipairs(names) <span class="keywordflow">do</span></div>
+<div class="line">  print(i, name)</div>
+<div class="line">end</div>
 <div class="ttc" id="aclassHTTPRequest_html_a3e6def2f93ac478bb62fe166e0de1bc2"><div class="ttname"><a href="classHTTPRequest.html#a3e6def2f93ac478bb62fe166e0de1bc2">HTTPRequest::getCookieNames</a></div><div class="ttdeci">table getCookieNames()</div></div>
 </div><!-- fragment --> </dd></dl>
 
@@ -444,11 +447,14 @@ Public Member Functions</h2></td></tr>
 <p>Used to retrieve the header names from the request.</p>
 <dl class="retval"><dt>Return values</dt><dd>
   <table class="retval">
-    <tr><td class="paramname">A</td><td>table of HTTP header names.</td></tr>
+    <tr><td class="paramname">A</td><td>table of HTTP header names (1-based indexed, compatible with ipairs).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">table = <a class="code" href="classHTTPRequest.html">HTTPRequest</a>.<a class="code" href="classHTTPRequest.html#a8e66721749d751af8b2d2ac363daef34">getHeaderNames</a>()</div>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">names = <a class="code" href="classHTTPRequest.html">HTTPRequest</a>.<a class="code" href="classHTTPRequest.html#a8e66721749d751af8b2d2ac363daef34">getHeaderNames</a>()</div>
+<div class="line"><span class="keywordflow">for</span> i, name in ipairs(names) <span class="keywordflow">do</span></div>
+<div class="line">  print(i, name)</div>
+<div class="line">end</div>
 <div class="ttc" id="aclassHTTPRequest_html_a8e66721749d751af8b2d2ac363daef34"><div class="ttname"><a href="classHTTPRequest.html#a8e66721749d751af8b2d2ac363daef34">HTTPRequest::getHeaderNames</a></div><div class="ttdeci">table getHeaderNames()</div></div>
 </div><!-- fragment --> </dd></dl>
 

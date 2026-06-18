@@ -2667,7 +2667,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].connect_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].cross_domain_support.master_authn_server_url", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.collections[i].cross_domain_support.master_session_code_lifetime", "number", editorText, [], 1, true, -1, false, annots);
-          validateEntry(op, "services.redis.collections[i].health_check_interval", "number", editorText, [], 1, true, -1, false, annots);
+          validateEntry(op, "services.redis.collections[i].health_check_interval", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].idle_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].io_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "services.redis.collections[i].matching_host", "string", editorText, [], 0, false, 0, false, annots);
@@ -2685,7 +2685,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12","26.03"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12","26.03","26.06"], 0, false, 0, false, annots);
 
       }
 
