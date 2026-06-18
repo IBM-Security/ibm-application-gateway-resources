@@ -80,9 +80,12 @@ from ibm_application_gateway.config.resource_server_url_style import *
 from ibm_application_gateway.config.resource_server_worker_threads import *
 from ibm_application_gateway.config.secrets import *
 from ibm_application_gateway.config.server import *
+from ibm_application_gateway.config.server_caching import *
+from ibm_application_gateway.config.server_client_connections import *
 from ibm_application_gateway.config.server_credential_service_cache import *
 from ibm_application_gateway.config.server_error_pages import *
 from ibm_application_gateway.config.server_failover import *
+from ibm_application_gateway.config.server_http2_tuning import *
 from ibm_application_gateway.config.server_local_applications import *
 from ibm_application_gateway.config.server_local_applications_azn_decision import *
 from ibm_application_gateway.config.server_local_applications_cred_viewer import *
