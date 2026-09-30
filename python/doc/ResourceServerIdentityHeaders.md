@@ -5,20 +5,20 @@
 Specifies the configuration information associated with the provision of identity information to the resource server.
 
 ### Encoding
-Type | Description
----- | -----------
-utf8_bin | Unencoded UTF-8 data. This setting allows data to be transmitted without data loss, and the user does not need to URI-decode the data.
-utf8_uri | URI encoded UTF-8 data. All white space and non-ASCII bytes are encoded %XY, where X and Y are hex values (0-F).
-lcp_bin | Unencoded local code page data. Data loss can potentially occur with this mode. Use with caution.
-lcp_uri | URI encoded local code page data. Any UTF-8 characters that cannot be converted to a local code page are converted to question marks (?).
+| Type | Description |
+| ---- | ----------- |
+| utf8_bin | Unencoded UTF-8 data. This setting allows data to be transmitted without data loss, and the user does not need to URI-decode the data. |
+| utf8_uri | URI encoded UTF-8 data. All white space and non-ASCII bytes are encoded %XY, where X and Y are hex values (0-F). |
+| lcp_bin | Unencoded local code page data. Data loss can potentially occur with this mode. Use with caution. |
+| lcp_uri | URI encoded local code page data. Any UTF-8 characters that cannot be converted to a local code page are converted to question marks (?). |
 
 ### Basic Authentication Modes
-Mode    | Description
----- ---| -----------
-filter  | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.
-supply  | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the `password` YAML configuration entry to set the static password.
-ignore  | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.
-service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.
+| Mode    | Description |
+| ------- | ----------- |
+| filter  | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified. |
+| supply  | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the `password` YAML configuration entry to set the static password. |
+| ignore  | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged. |
+| service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode. |
 
 
 ## Properties

@@ -36,11 +36,12 @@ ci_oidc:
     ```
 
     ### Response Type Values
-    Name | Description
-    ---- | -----------
-    code | The authorization code flow will be used to retrieve both an access token and identity token.
-    id_token | The implicit flow will be used to retrieve the identity token.
-    id_token token | The implicit flow will be used to retrieve both an access token and identity token.
+
+    | Name | Description |
+    | ---- | ----------- |
+    | code | The authorization code flow will be used to retrieve both an access token and identity token. |
+    | id_token | The implicit flow will be used to retrieve the identity token. |
+    | id_token token | The implicit flow will be used to retrieve both an access token and identity token. |
 
     ### Bearer Token Attrs Format
     A JSON data element from the bearer token response which should be included or excluded in the credential as an extended attribute.
@@ -50,11 +51,11 @@ ci_oidc:
 
     where:
 
-    Element | Description
-    ------- | -----------
-    + | Indicates that this JSON data should be added to the credential.
-    - | Indicates that this JSON data should not be added to the credential.
-    &lt;json-data&gt; | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?).
+    | Element | Description |
+    | ------- | ----------- |
+    | + | Indicates that this JSON data should be added to the credential. |
+    | - | Indicates that this JSON data should not be added to the credential. |
+    | &lt;json-data&gt; | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?). |
 
     For example the value "-access_token" indicates that the access_token should not be added to the credential.
 
@@ -70,11 +71,11 @@ ci_oidc:
 
     where:
 
-    Element | Description
-    ------- | -----------
-    + | Indicates that this claim should be added to the credential.
-    - | Indicates that this claim should not be added to the credential.
-    &lt;claim&gt; | The corresponding claim name, which can also contain pattern matching characters (i.e. * ?).
+    | Element | Description |
+    | ------- | ----------- |
+    | + | Indicates that this claim should be added to the credential. |
+    | - | Indicates that this claim should not be added to the credential. |
+    | &lt;claim&gt; | The corresponding claim name, which can also contain pattern matching characters (i.e. * ?). |
 
     For example the value "-email" indicates that the email claim should not be added to the credential.
 

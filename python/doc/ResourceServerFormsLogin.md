@@ -8,21 +8,21 @@ Specifies the configuration information used for performing form-based single si
 
 Login form fields can be populated with data from three possible sources, indicated by the `source` field:
 
-Source | Usage
--------|------
-service | Data from the credential service will be used to populate this field.
-attribute | A credential attribute value will be used to populate the field.
-static | A static string will be used to populate this field.
+| Source | Usage |
+| ------- | ------ |
+| service | Data from the credential service will be used to populate this field. |
+| attribute | A credential attribute value will be used to populate the field. |
+| static | A static string will be used to populate this field. |
 
 #### Login Form Field Values
 
 Depending on the type of `source` used, the usage of the `value` can differ.
 
-Source | Usage
--------|-------
-service | The field from the credential service data to use. This can be either `username` or `password`
-attribute | The name of a credential attribute for which the value of will be used to populate this field.
-static | A static string literal which will be used to populate this field.
+| Source | Usage |
+| ------- | ------- |
+| service | The field from the credential service data to use. This can be either `username` or `password` |
+| attribute | The name of a credential attribute for which the value of will be used to populate this field. |
+| static | A static string literal which will be used to populate this field. |
 
 In the below example:
 - Forms login will be attempted automatically on requests to the URL `authenticate/login`
