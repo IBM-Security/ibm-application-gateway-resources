@@ -76,6 +76,7 @@ from ibm_application_gateway.config.resource_server_persistent_connections impor
 from ibm_application_gateway.config.resource_server_request_header import *
 from ibm_application_gateway.config.resource_server_servers import *
 from ibm_application_gateway.config.resource_server_ssl import *
+from ibm_application_gateway.config.resource_server_ssl_cfg import *
 from ibm_application_gateway.config.resource_server_url_style import *
 from ibm_application_gateway.config.resource_server_worker_threads import *
 from ibm_application_gateway.config.secrets import *

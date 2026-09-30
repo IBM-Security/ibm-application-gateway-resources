@@ -7,18 +7,18 @@ This is useful for resource servers which dynamically generate URLs that may not
 
 ### Junction Cookie Positions
 
-**position** | Description
----------|---------
-**inhead**     | The junction cookie is set in a JavaScript block within the `<head>` `</head>` tags of the page. This is required for HTML 4.01 compliance.
-**trailer**    | The junction cookie is set in a JavaScript block that is appended to the end of the HTML page.
-**httpheader** | The junction cookie is returned as a standard HTTP cookie in the HTTP response headers.
+| **position** | Description |
+| --------- | --------- |
+| **inhead**     | The junction cookie is set in a JavaScript block within the `<head>` `</head>` tags of the page. This is required for HTML 4.01 compliance. |
+| **trailer**    | The junction cookie is set in a JavaScript block that is appended to the end of the HTML page. |
+| **httpheader** | The junction cookie is returned as a standard HTTP cookie in the HTTP response headers. |
 
 ### Junction Cookie Versions
 
-**version** | Description
----------|---------
-**onfocus**  | The JavaScript block will contain an onfocus event handler to ensure the correct junction cookie is used in a multiple-junction/multiple-browser-window scenario.
-**xhtml10**  | The inserted JavaScript block is HTML 4.01 and XHTML 1.0 compliant.
+| **version** | Description |
+| --------- | --------- |
+| **onfocus**  | The JavaScript block will contain an onfocus event handler to ensure the correct junction cookie is used in a multiple-junction/multiple-browser-window scenario. |
+| **xhtml10**  | The inserted JavaScript block is HTML 4.01 and XHTML 1.0 compliant. |
 
 
 ## Properties

@@ -13,15 +13,16 @@ server:
         Additionally, the server can be configured to expect the [PROXY Protocol](https://www.haproxy.com/blog/haproxy/proxy-protocol/) header by using the `*_proxy` values.
 
         Note that if the proxy protocol is enabled for a given protocol, all traffic for that protocol will be expected to contain the PROXY protocol headers. That is, the following entries are exclusive:
+
          - `http` and `http_proxy`
          - `https` and `https_proxy`
 
-        Protocol      | Port   | Description
-        --------------|--------|-------------
-        `http`        | `8080` | HTTP
-        `https`       | `8443` | HTTPS
-        `http_proxy`  | `8080` | HTTP with Proxy Protocol
-        `https_proxy` | `8443` | HTTPS with Proxy Protocol
+        | Protocol      | Port   | Description |
+        | --------------|--------|------------- |
+        | `http`        | `8080` | HTTP |
+        | `https`       | `8443` | HTTPS |
+        | `http_proxy`  | `8080` | HTTP with Proxy Protocol |
+        | `https_proxy` | `8443` | HTTPS with Proxy Protocol |
       x-examples:
         - server:
             protocols:
@@ -51,11 +52,11 @@ server:
 
         where:
 
-        Element       | Description
-        --------------|-------------
-        `+`           | Indicates that the client is permitted access.
-        `-`           | Indicates that the client is not permitted access.
-        `<client-ip>` | The IP address of the client, which can also contain the pattern matching characters `*` and `?`.
+        | Element       | Description |
+        | --------------|------------- |
+        | `+`           | Indicates that the client is permitted access. |
+        | `-`           | Indicates that the client is not permitted access. |
+        | `<client-ip>` | The IP address of the client, which can also contain the pattern matching characters `*` and `?`. |
 
         The client IP address of a request will be evaluated against each rule in sequence until a match is found.  The corresponding code (+|-) will then be used to determine whether the client connection is accepted.  If the client IP matches no configured rules the client connection will be accepted.
       x-examples:
@@ -86,10 +87,9 @@ server:
             Specifies the configuration the gateway server will use when securely communicating with clients. This configuration includes:
             
               - The certificate to be used for secure communication with clients.  If a certificate is not provided, the gateway will generate a self-signed certificate during bootstrapping.
-            
               - The TLS protocols that are enabled for client communication.
-            
               - Any additional server certificates which should be used for specific hosts using the `server name indication` (SNI) TLS extension.
+
           x-examples:
             - server:
                 ssl:
@@ -245,6 +245,7 @@ server:
                   The name(s) of the groups which will be permitted.
 
                   For a list of valid ciphers, see:
+
                     - [Supported Groups](#supported-groups)
                     - [Supported Groups for TLSv1.3](#supported-groups-for-tlsv13)
                 type: string
@@ -253,10 +254,26 @@ server:
                 x-name: Group Name
               x-name: Supported Groups
 
+            fips_processing:
+              description: >
+                A boolean which indicates whether FIPS 140 certified cryptography
+                providers should be used when communicating with clients.
+                 
+                The FIPS 140 compliance level depends on the version of the 
+                cryptography provider in use. By default, this will be FIPS 140-3. 
+                If version 8 of the cryptography provider is used, due to TLS 1.1 
+                or earlier being enabled, this will be FIPS 140-2.
+  
+                If this setting is not specified, the [SSL setting](#server_ssl) will 
+                be used.
+              type: boolean
+              x-required: false
+
         applications:
           description: >
-            Enables or disables the TLS protocols that are used for communication
-            between the gateway daemon and the protected application.
+            Specifies the configuration the gateway server will use when securely 
+            communicating with applications. This configuration can be overridden
+            for specific [resource servers](#resource_servers_ssl)
           x-examples:
             - server:
                 ssl:
@@ -345,6 +362,7 @@ server:
                   The name(s) of the groups which will be permitted.
 
                   For a list of valid ciphers, see:
+
                     - [Supported Groups](#server_ssl_applications_supported_groups)
                     - [Supported Groups for TLSv1.3](#server_ssl_applications_supported_groups)
                 type: string
@@ -352,6 +370,22 @@ server:
                 x-required: true
                 x-name: Group Name
               x-name: Supported Groups
+
+            fips_processing:
+              description: >
+                A boolean which indicates whether FIPS 140 certified cryptography
+                providers should be used for communication with protected 
+                applications.
+                 
+                The FIPS 140 compliance level depends on the version of the 
+                cryptography provider in use. By default, this will be FIPS 140-3. 
+                If version 8 of the cryptography provider is used, due to TLS 1.1 
+                or earlier being enabled, this will be FIPS 140-2.
+      
+                If this setting is not specified, the [SSL setting](#server_ssl) will 
+                be used.
+              type: boolean
+              x-required: false
 
         ciphers:
           description: |
@@ -437,6 +471,7 @@ server:
               The name(s) of the ciphers and cipher suites which will be permitted.
 
               For a list of valid ciphers, see:
+
                 - [Supported Cipher Names](#server_ssl_ciphers)
                 - [Supported TLSv1.3 Cipher Names](#server_ssl_ciphers)
             type: string
@@ -444,6 +479,22 @@ server:
             x-required: true
             x-name: Cipher
 
+        fips_processing:
+          description: >
+            A boolean which indicates whether FIPS 140 certified cryptography
+            providers should be used.
+             
+            The FIPS 140 compliance level depends on the version of the 
+            cryptography provider in use. By default, this will be FIPS 140-3. 
+            If version 8 of the cryptography provider is used, due to TLS 1.1 
+            or earlier being enabled, this will be FIPS 140-2.
+
+            This setting can be overridden for the [Front End](#server_ssl_front_end)
+            or [Applications](#server_ssl_applications)
+          type: boolean
+          default: false
+          x-required: false
+        
         trust_certificates:
           description: >
             PEM based signer certificates or signer certificate chains which 
@@ -781,7 +832,7 @@ server:
                   max_request_body_read: 32768
           type: number
           minimum: 512
-          maximum: 2147483648
+          maximum: 2147483647
           default: 32768
           x-name: Max Request Body Read
 
@@ -1369,11 +1420,11 @@ server:
 
             where:
 
-            Element | Description
-            ------- | -----------
-            + | Indicates that this attribute should be added to the response.
-            - | Indicates that this attribute should not be added to the response.
-            &lt;attribute-name&gt; | The name of the credential attribute, which can also contain pattern matching characters (i.e. * ?).
+            | Element | Description |
+            | ------- | ----------- |
+            | + | Indicates that this attribute should be added to the response. |
+            | - | Indicates that this attribute should not be added to the response. |
+            | &lt;attribute-name&gt; | The name of the credential attribute, which can also contain pattern matching characters (i.e. * ?). |
 
             For example the value `-AUTHENTICATION_LEVEL` indicates that the authentication level attribute should not be added to the response.
             When constructing a response each credential attribute will be evaluated against each rule in sequence until a match is found.
@@ -1496,11 +1547,11 @@ server:
 
         Additional rate limiting headers can also be enabled. The rate limiting response headers include:
 
-        header | value 
-        -------|-------
-        X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit.
-        X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window.
-        X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets.
+        | header | value  |
+        | -------|------- |
+        | X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit. |
+        | X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window. |
+        | X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets. |
       x-examples:
         - server:
             rate_limiting:
@@ -1562,12 +1613,12 @@ server:
 
         The default policy inserts the following HTTP headers into all responses:
 
-        header | value
-        -------|-------
-        x-frame-options | DENY
-        x-xss-protection | 1
-        content-security-policy | default-src 'self'; frame-ancestors 'self'; form-action 'self';
-        x-content-type-options | nosniff
+        | header | value |
+        | -------|------- |
+        | x-frame-options | DENY |
+        | x-xss-protection | 1 |
+        | content-security-policy | default-src 'self'; frame-ancestors 'self'; form-action 'self'; |
+        | x-content-type-options | nosniff |
       x-examples:
         - server:
             content_security_policy: disabled

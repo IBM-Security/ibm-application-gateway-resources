@@ -11,15 +11,15 @@ Note that a policy can only contain one obligated action, that is, this entry mu
 ### Redirect URL Macros
 The following macros are available:
 
-Macro | Value
-------|------
-%USERNAME% | The current logged in user, or `unauthenticated` for unauthenticated users.
-%METHOD% | The HTTP method of the request which matched this policy.
-%URL% | The URL the client was attempting to access when this policy was matched.
-%HOSTNAME% | The hostname (HTTP Host header) of the client request which matched this policy.
-%PROTOCOL% | The protocol (`http` or `https`) which was used
-%CREDATTR{<attribute_name>}% | The value of the credential attribute named by `<attribute_name>`.
-%HTTPHDR{<header_name>}% | The value of the HTTP header from the client request named by `<header_name>`.
+| Macro | Value |
+| ------ | ------ |
+| %USERNAME% | The current logged in user, or `unauthenticated` for unauthenticated users. |
+| %METHOD% | The HTTP method of the request which matched this policy. |
+| %URL% | The URL the client was attempting to access when this policy was matched. |
+| %HOSTNAME% | The hostname (HTTP Host header) of the client request which matched this policy. |
+| %PROTOCOL% | The protocol (`http` or `https`) which was used |
+| %CREDATTR{<attribute_name>}% | The value of the credential attribute named by `<attribute_name>`. |
+| %HTTPHDR{<header_name>}% | The value of the HTTP header from the client request named by `<header_name>`. |
 
 
 ## Properties

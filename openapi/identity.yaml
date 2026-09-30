@@ -178,11 +178,11 @@ identity:
 
         where:
 
-        Element | Description
-        ------- | -----------
-        + | Indicates that this JSON data should be added to the credential.
-        - | Indicates that this JSON data should not be added to the credential.
-        &lt;json-data&gt; | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?).
+        | Element | Description |
+        | ------- | ----------- |
+        | + | Indicates that this JSON data should be added to the credential. |
+        | - | Indicates that this JSON data should not be added to the credential. |
+        | &lt;json-data&gt; | The corresponding JSON data name, which can also contain pattern matching characters (i.e. * ?). |
 
         For example the value "-exp" indicates that the expiry time of the token should not be added to the credential.
 

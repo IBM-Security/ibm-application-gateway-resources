@@ -16,11 +16,11 @@ The format of the configuration entry is:
 
 where:
 
-Element | Description
-------- | -----------
-+ | Indicates that this attribute should be added to the response.
-- | Indicates that this attribute should not be added to the response.
-&lt;attribute-name&gt; | The name of the credential attribute, which can also contain pattern matching characters (i.e. * ?).
+| Element | Description |
+| ------- | ----------- |
+| + | Indicates that this attribute should be added to the response. |
+| - | Indicates that this attribute should not be added to the response. |
+| &lt;attribute-name&gt; | The name of the credential attribute, which can also contain pattern matching characters (i.e. * ?). |
 
 For example the value `-AUTHENTICATION_LEVEL` indicates that the authentication level attribute should not be added to the response.
 When constructing a response each credential attribute will be evaluated against each rule in sequence until a match is found.

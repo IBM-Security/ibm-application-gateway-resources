@@ -6,11 +6,11 @@ Specifies the global configuration related to rate limiting. Rate limiting polic
 
 Additional rate limiting headers can also be enabled. The rate limiting response headers include:
 
-header | value 
--------|-------
-X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit.
-X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window.
-X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets.
+| header | value  |
+| -------|------- |
+| X-Rate-Limit-Policy    | The name of the rate limiting policy which is closest to being hit. |
+| X-Rate-Limit-Remaining | The number of requests left for the rate limiting policy in the current rate limit window. |
+| X-Rate-Limit-Reset     | The time (UTC Epoch time) at which the rate limiting policy resets. |
 
 
 ## Properties

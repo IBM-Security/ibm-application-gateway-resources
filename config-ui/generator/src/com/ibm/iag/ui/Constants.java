@@ -1176,7 +1176,7 @@ public class Constants
             "} from 'carbon-components-react';\n" + 
             "\n" + 
             "import {\n" +
-            "    iconEdit, iconEditSolid, iconEditOutline,\n" +
+            "    iconEdit,\n" +
             "  } from 'carbon-icons';\n" +
             "\n" +
             "import Collapsible from 'react-collapsible';" +
@@ -1304,9 +1304,9 @@ public class Constants
             "  Button,\n" + 
             "  Icon\n" + 
             "} from  'carbon-components-react';\n" + 
-            "import { \n" + 
-            "  iconDelete, iconDeleteSolid, iconDeleteOutline, \n" + 
-            "} from 'carbon-icons';\n" + 
+            "import { \n" +
+            "  iconDelete, \n" +
+            "} from 'carbon-icons';\n" +
             "\n" + 
             "// This defines a modal controlled by a launcher button. We have one per DataTable row.\n" + 
             "const ModalStateManager = ({\n" + 
@@ -1553,7 +1553,7 @@ public class Constants
      * The helpers file gets generated and contains methods used by all pages.
      */
     public static String HELPERS_FILE = "import {\n" +
-            "    iconEdit, iconEditSolid, iconEditOutline,\n" +
+            "    iconEdit,\n" +
             "} from 'carbon-icons';\n" +
             "import yaml from 'js-yaml';\n" +
             "\n" +
