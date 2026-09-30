@@ -1965,6 +1965,15 @@ const schema = {
       obf_key: "string",
     },
     server: {
+      caching: {
+        max_request_body_read: 0,
+        max_request_bytes: 0,
+      },
+      client_connections: {
+        connect_timeout: 0,
+        intra_request_timeout: 0,
+        persistent_timeout: 0,
+      },
       client_ip_rules: [
         "string",
       ],
@@ -1989,6 +1998,9 @@ const schema = {
         key: "string",
       },
       http2: true,
+      http2_tuning: {
+        max_connection_duration: 0,
+      },
       local_applications: {
         azn_decision: {
           max_cache_lifetime: 0,
@@ -2560,6 +2572,11 @@ const schema = {
           validateEntry(op, "resource_servers[i].worker_threads.soft_limit", "number", editorText, [], 0, true, 100, true, annots);
           validateEntry(op, "secrets.enc_key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "secrets.obf_key", "string", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.caching.max_request_body_read", "number", editorText, [], 512, true, 2147483647, true, annots);
+          validateEntry(op, "server.caching.max_request_bytes", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.client_connections.connect_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.client_connections.intra_request_timeout", "number", editorText, [], 0, true, -1, false, annots);
+          validateEntry(op, "server.client_connections.persistent_timeout", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.client_ip_rules[i]", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.content_security_policy", "string", editorText, ["default","disabled"], 0, false, 0, false, annots);
           validateEntry(op, "server.credential_service_cache.cache_enabled", "boolean", editorText, [], 0, false, 0, false, annots);
@@ -2574,6 +2591,7 @@ const schema = {
           validateEntry(op, "server.failover.domain_cookie", "boolean", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.failover.key", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "server.http2", "boolean", editorText, [], 0, false, 0, false, annots);
+          validateEntry(op, "server.http2_tuning.max_connection_duration", "number", editorText, [], 0, true, -1, false, annots);
           validateEntry(op, "server.local_applications.azn_decision.max_cache_lifetime", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.local_applications.azn_decision.max_cache_size", "number", editorText, [], 1, true, -1, false, annots);
           validateEntry(op, "server.local_applications.azn_decision.path_segment", "string", editorText, [], 0, false, 0, false, annots);
@@ -2685,7 +2703,7 @@ const schema = {
           validateEntry(op, "services.redis.collections[i].servers[i2].username", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.default_collection", "string", editorText, [], 0, false, 0, false, annots);
           validateEntry(op, "services.redis.key_prefix", "string", editorText, [], 0, false, 0, false, annots);
-          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12","26.03","26.06"], 0, false, 0, false, annots);
+          validateEntry(op, "version", "string", editorText, ["19.12","20.01","20.04","20.07","20.09","20.12","21.02","21.04","21.06","21.09","21.12","22.07","23.04","23.1","24.03","24.06","24.09","24.12","25.03","25.06","25.09","25.12","26.03","26.06","26.09"], 0, false, 0, false, annots);
 
       }
 

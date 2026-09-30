@@ -52,7 +52,7 @@
     <a href="#version" onclick="anchorLink('version')">version</a></div><span class="badge badge-dark value-type">Type: enum (of number)</span><br/>
 <div class="enum-value" id="version_enum">
             <h4>Must be one of:</h4>
-            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li><li class="list-group-item enum-item">25.12</li><li class="list-group-item enum-item">26.03</li><li class="list-group-item enum-item">26.06</li></ul>
+            <ul class="list-group"><li class="list-group-item enum-item">19.12</li><li class="list-group-item enum-item">20.01</li><li class="list-group-item enum-item">20.04</li><li class="list-group-item enum-item">20.07</li><li class="list-group-item enum-item">20.09</li><li class="list-group-item enum-item">20.12</li><li class="list-group-item enum-item">21.02</li><li class="list-group-item enum-item">21.04</li><li class="list-group-item enum-item">21.06</li><li class="list-group-item enum-item">21.09</li><li class="list-group-item enum-item">21.12</li><li class="list-group-item enum-item">22.07</li><li class="list-group-item enum-item">23.04</li><li class="list-group-item enum-item">23.1</li><li class="list-group-item enum-item">24.03</li><li class="list-group-item enum-item">24.06</li><li class="list-group-item enum-item">24.09</li><li class="list-group-item enum-item">24.12</li><li class="list-group-item enum-item">25.03</li><li class="list-group-item enum-item">25.06</li><li class="list-group-item enum-item">25.09</li><li class="list-group-item enum-item">25.12</li><li class="list-group-item enum-item">26.03</li><li class="list-group-item enum-item">26.06</li><li class="list-group-item enum-item">26.09</li></ul>
             </div>
         
 
@@ -329,9 +329,12 @@ oYpkxULIexyLR2wUl+mz6Nfki8Pd23Fv0buZZxAuh+Cq1A677NTZwmcWcWN9+MBBVJaISNM0uIVd33/n
 
 <p>Additionally, the server can be configured to expect the <a href="https://www.haproxy.com/blog/haproxy/proxy-protocol/">PROXY Protocol</a> header by using the <code>*_proxy</code> values.</p>
 
-<p>Note that if the proxy protocol is enabled for a given protocol, all traffic for that protocol will be expected to contain the PROXY protocol headers. That is, the following entries are exclusive:<br />
- - <code>http</code> and <code>http_proxy</code><br />
- - <code>https</code> and <code>https_proxy</code></p>
+<p>Note that if the proxy protocol is enabled for a given protocol, all traffic for that protocol will be expected to contain the PROXY protocol headers. That is, the following entries are exclusive:</p>
+
+<ul>
+<li><code>http</code> and <code>http_proxy</code></li>
+<li><code>https</code> and <code>https_proxy</code></li>
+</ul>
 
 <table>
 <thead>
@@ -624,9 +627,9 @@ oYpkxULIexyLR2wUl+mz6Nfki8Pd23Fv0buZZxAuh+Cq1A677NTZwmcWcWN9+MBBVJaISNM0uIVd33/n
             <p>Specifies the configuration the gateway server will use when securely communicating with clients. This configuration includes:</p>
 
 <ul>
-<li><p>The certificate to be used for secure communication with clients.  If a certificate is not provided, the gateway will generate a self-signed certificate during bootstrapping.</p></li>
-<li><p>The TLS protocols that are enabled for client communication.</p></li>
-<li><p>Any additional server certificates which should be used for specific hosts using the <code>server name indication</code> (SNI) TLS extension.</p></li>
+<li>The certificate to be used for secure communication with clients.  If a certificate is not provided, the gateway will generate a self-signed certificate during bootstrapping.</li>
+<li>The TLS protocols that are enabled for client communication.</li>
+<li>Any additional server certificates which should be used for specific hosts using the <code>server name indication</code> (SNI) TLS extension.</li>
 </ul>
 
         </div>
@@ -1479,11 +1482,21 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
             />
         </svg>
     <a href="#server_ssl_front_end_supported_groups_items" onclick="anchorLink('server_ssl_front_end_supported_groups_items')">supported_groups items</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
-<span class="description"><p>The name(s) of the groups which will be permitted.<br />
-For a list of valid ciphers, see:<br />
-  - <a href="#supported-groups">Supported Groups</a><br />
-  - <a href="#supported-groups-for-tlsv13">Supported Groups for TLSv1.3</a></p>
-</span>
+<div class="description collapse" id="collapseDescription_server_ssl_front_end_supported_groups_items">
+            <p>The name(s) of the groups which will be permitted.<br />
+For a list of valid ciphers, see:</p>
+
+<ul>
+<li><a href="#supported-groups">Supported Groups</a></li>
+<li><a href="#supported-groups-for-tlsv13">Supported Groups for TLSv1.3</a></li>
+</ul>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_front_end_supported_groups_items"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_front_end_supported_groups_items"
+            ></a>
+        </div>
         
 
         
@@ -1492,6 +1505,71 @@ For a list of valid ciphers, see:<br />
         
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionserver_ssl_front_end_fips_processing">
+    <div class="card">
+        <div class="card-header" id="headingserver_ssl_front_end_fips_processing">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#server_ssl_front_end_fips_processing"
+                        aria-expanded="" aria-controls="server_ssl_front_end_fips_processing" onclick="setAnchor('#server_ssl_front_end_fips_processing')"><span class="property-name">fips_processing</span></button>
+            </h2>
+        </div>
+
+        <div id="server_ssl_front_end_fips_processing"
+             class="collapse property-definition-div" aria-labelledby="headingserver_ssl_front_end_fips_processing"
+             data-parent="#accordionserver_ssl_front_end_fips_processing">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server" onclick="anchorLink('server')">server</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl" onclick="anchorLink('server_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl_front_end" onclick="anchorLink('server_ssl_front_end')">front_end</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl_front_end_fips_processing" onclick="anchorLink('server_ssl_front_end_fips_processing')">fips_processing</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<div class="description collapse" id="collapseDescription_server_ssl_front_end_fips_processing">
+            <p>A boolean which indicates whether FIPS 140 certified cryptography providers should be used when communicating with clients.</p>
+
+<p>The FIPS 140 compliance level depends on the version of the  cryptography provider in use. By default, this will be FIPS 140-3.  If version 8 of the cryptography provider is used, due to TLS 1.1  or earlier being enabled, this will be FIPS 140-2.<br />
+If this setting is not specified, the <a href="#server_ssl">SSL setting</a> will  be used.</p>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_front_end_fips_processing"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_front_end_fips_processing"
+            ></a>
+        </div>
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -1536,7 +1614,7 @@ For a list of valid ciphers, see:<br />
             />
         </svg>
     <a href="#server_ssl_applications" onclick="anchorLink('server_ssl_applications')">applications</a></div><span class="badge badge-dark value-type">Type: object</span><br/>
-<span class="description"><p>Enables or disables the TLS protocols that are used for communication between the gateway daemon and the protected application.</p>
+<span class="description"><p>Specifies the configuration the gateway server will use when securely  communicating with applications. This configuration can be overridden for specific <a href="#resource_servers_ssl">resource servers</a></p>
 </span>
         
 
@@ -1955,11 +2033,21 @@ If custom is specified, the <code>supported_groups</code> configuration  must sp
             />
         </svg>
     <a href="#server_ssl_applications_supported_groups_items" onclick="anchorLink('server_ssl_applications_supported_groups_items')">supported_groups items</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
-<span class="description"><p>The name(s) of the groups which will be permitted.<br />
-For a list of valid ciphers, see:<br />
-  - <a href="#server_ssl_applications_supported_groups">Supported Groups</a><br />
-  - <a href="#server_ssl_applications_supported_groups">Supported Groups for TLSv1.3</a></p>
-</span>
+<div class="description collapse" id="collapseDescription_server_ssl_applications_supported_groups_items">
+            <p>The name(s) of the groups which will be permitted.<br />
+For a list of valid ciphers, see:</p>
+
+<ul>
+<li><a href="#server_ssl_applications_supported_groups">Supported Groups</a></li>
+<li><a href="#server_ssl_applications_supported_groups">Supported Groups for TLSv1.3</a></li>
+</ul>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_applications_supported_groups_items"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_applications_supported_groups_items"
+            ></a>
+        </div>
         
 
         
@@ -1968,6 +2056,71 @@ For a list of valid ciphers, see:<br />
         
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionserver_ssl_applications_fips_processing">
+    <div class="card">
+        <div class="card-header" id="headingserver_ssl_applications_fips_processing">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#server_ssl_applications_fips_processing"
+                        aria-expanded="" aria-controls="server_ssl_applications_fips_processing" onclick="setAnchor('#server_ssl_applications_fips_processing')"><span class="property-name">fips_processing</span></button>
+            </h2>
+        </div>
+
+        <div id="server_ssl_applications_fips_processing"
+             class="collapse property-definition-div" aria-labelledby="headingserver_ssl_applications_fips_processing"
+             data-parent="#accordionserver_ssl_applications_fips_processing">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server" onclick="anchorLink('server')">server</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl" onclick="anchorLink('server_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl_applications" onclick="anchorLink('server_ssl_applications')">applications</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl_applications_fips_processing" onclick="anchorLink('server_ssl_applications_fips_processing')">fips_processing</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<div class="description collapse" id="collapseDescription_server_ssl_applications_fips_processing">
+            <p>A boolean which indicates whether FIPS 140 certified cryptography providers should be used for communication with protected  applications.</p>
+
+<p>The FIPS 140 compliance level depends on the version of the  cryptography provider in use. By default, this will be FIPS 140-3.  If version 8 of the cryptography provider is used, due to TLS 1.1  or earlier being enabled, this will be FIPS 140-2.<br />
+If this setting is not specified, the <a href="#server_ssl">SSL setting</a> will  be used.</p>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_applications_fips_processing"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_applications_fips_processing"
+            ></a>
+        </div>
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -2132,11 +2285,21 @@ For a list of valid ciphers, see:<br />
             />
         </svg>
     <a href="#server_ssl_ciphers_items" onclick="anchorLink('server_ssl_ciphers_items')">ciphers items</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
-<span class="description"><p>The name(s) of the ciphers and cipher suites which will be permitted.<br />
-For a list of valid ciphers, see:<br />
-  - <a href="#server_ssl_ciphers">Supported Cipher Names</a><br />
-  - <a href="#server_ssl_ciphers">Supported TLSv1.3 Cipher Names</a></p>
-</span>
+<div class="description collapse" id="collapseDescription_server_ssl_ciphers_items">
+            <p>The name(s) of the ciphers and cipher suites which will be permitted.<br />
+For a list of valid ciphers, see:</p>
+
+<ul>
+<li><a href="#server_ssl_ciphers">Supported Cipher Names</a></li>
+<li><a href="#server_ssl_ciphers">Supported TLSv1.3 Cipher Names</a></li>
+</ul>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_ciphers_items"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_ciphers_items"
+            ></a>
+        </div>
         
 
         
@@ -2153,6 +2316,64 @@ For a list of valid ciphers, see:<br />
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TLS_AES_128_CCM_8_SHA256</span>
 </pre></div>
 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionserver_ssl_fips_processing">
+    <div class="card">
+        <div class="card-header" id="headingserver_ssl_fips_processing">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#server_ssl_fips_processing"
+                        aria-expanded="" aria-controls="server_ssl_fips_processing" onclick="setAnchor('#server_ssl_fips_processing')"><span class="property-name">fips_processing</span></button>
+            </h2>
+        </div>
+
+        <div id="server_ssl_fips_processing"
+             class="collapse property-definition-div" aria-labelledby="headingserver_ssl_fips_processing"
+             data-parent="#accordionserver_ssl_fips_processing">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server" onclick="anchorLink('server')">server</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl" onclick="anchorLink('server_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#server_ssl_fips_processing" onclick="anchorLink('server_ssl_fips_processing')">fips_processing</a></div><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: false</span><br/>
+<div class="description collapse" id="collapseDescription_server_ssl_fips_processing">
+            <p>A boolean which indicates whether FIPS 140 certified cryptography providers should be used.</p>
+
+<p>The FIPS 140 compliance level depends on the version of the  cryptography provider in use. By default, this will be FIPS 140-3.  If version 8 of the cryptography provider is used, due to TLS 1.1  or earlier being enabled, this will be FIPS 140-2.<br />
+This setting can be overridden for the <a href="#server_ssl_front_end">Front End</a> or <a href="#server_ssl_applications">Applications</a></p>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_server_ssl_fips_processing"
+               aria-expanded="false" aria-controls="collapseDescriptionserver_ssl_fips_processing"
+            ></a>
+        </div>
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -3707,7 +3928,7 @@ By default, the login<em>time</em>window is set to zero, which means that every 
         
 
         
-        <p><span class="badge badge-light restriction numeric-restriction" id="server_caching_max_request_body_read_number">Value must be greater or equal to <code>512</code> and lesser or equal to <code>2147483648</code></span></p>
+        <p><span class="badge badge-light restriction numeric-restriction" id="server_caching_max_request_body_read_number">Value must be greater or equal to <code>512</code> and lesser or equal to <code>2147483647</code></span></p>
 
         <br/>
 <div class="badge badge-secondary">Example:</div>
@@ -11100,8 +11321,8 @@ For the <code>text</code> type, this is the string literal which will be used as
             <p>External Authentication Interface, which allows an application to assert client identity information to the IBM Application Gateway container.<br />
 Please note that an access policy which allows unauthenticated access to this resource must be created. The URL string patterns are case-sensitive and may contain wild card patterns.</p>
 
-<p>The format for a regular path-based application is: <code>&amp;lt;URL pattern&gt;</code><br />
-The format for a Virtual Host application is: <code>http[s]://virtual-host-name[:port]/&amp;lt;URL pattern&gt;</code><br />
+<p>The format for a regular path-based application is: <code>&lt;URL pattern&gt;</code><br />
+The format for a Virtual Host application is: <code>http[s]://virtual-host-name[:port]/&lt;URL pattern&gt;</code><br />
 For Virtual Host applications to match a trigger they must also have the same protocol (http[s] = TCP/SSL) and have the same <code>virtual-host-name</code> and <code>port</code> as the trigger.</p>
 
         </div>
@@ -12760,12 +12981,32 @@ It is not valid to have both <code>path</code> and <code>virtual_host</code> ent
 
 <h3>Basic Authentication Modes</h3>
 
-<p>Mode    | Description<br />
----- ---| -----------<br />
-filter  | The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.<br />
-supply  | A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the <code>password</code> YAML configuration entry to set the static password.<br />
-ignore  | The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.<br />
-service | A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.</p>
+<table>
+<thead>
+<tr>
+  <th>Mode</th>
+  <th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>filter</td>
+  <td>The Authorization header, if provided by the client, will be removed before the resource request is forwarded to the resource server.  This is the default option if no option is specified.</td>
+</tr>
+<tr>
+  <td>supply</td>
+  <td>A new Authorization header will be created by the gateway and forwarded to the resource server.  The Basic Authentication information contained in the header will consist of the name of the authenticated user, along with a static password.  Use the <code>password</code> YAML configuration entry to set the static password.</td>
+</tr>
+<tr>
+  <td>ignore</td>
+  <td>The Authorization header, if provided by the client, will be forwarded to the resource server unchanged.</td>
+</tr>
+<tr>
+  <td>service</td>
+  <td>A new Authorization header will be constructed using a username and password retrieved from a configured credential service. See "services/credential" for more information about configuring a credential service. The YAML entries "service" and "resource_name" must be specified when using this mode.</td>
+</tr>
+</tbody>
+</table>
 
         </div>
         <div>
@@ -20804,6 +21045,539 @@ The default is to overwrite any existing value.</p>
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionresource_servers_items_ssl">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl" onclick="setAnchor('#resource_servers_items_ssl')"><span class="property-name">ssl</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl"
+             data-parent="#accordionresource_servers_items_ssl">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a></div><h4>ResourceServerSslCfg</h4><span class="badge badge-dark value-type">Type: object</span><br/>
+<span class="description"><p>Specifies the configuration the gateway server will use when securely  communicating with the resource server.<br />
+This configuration overrides the <a href="#server_ssl_applications">Server settings</a></p>
+</span>
+        
+
+        
+        
+
+        <br/>
+<div class="badge badge-secondary">Example:</div>
+<br/><button class="btn btn-light example-show collapsed" data-toggle="collapse" data-target="#resource_servers_items_ssl_ex1" aria-controls="resource_servers_items_ssl_ex1"></button><div id="resource_servers_items_ssl_ex1" class="collapse jumbotron examples"><div class="highlight"><pre><span></span><span class="nt">resource_servers</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/example</span>
+<span class="w">  </span><span class="nt">ssl</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">tlsv13</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_tlsv10">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_tlsv10">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_tlsv10"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_tlsv10" onclick="setAnchor('#resource_servers_items_ssl_tlsv10')"><span class="property-name">tlsv10</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_tlsv10"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_tlsv10"
+             data-parent="#accordionresource_servers_items_ssl_tlsv10">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_tlsv10" onclick="anchorLink('resource_servers_items_ssl_tlsv10')">tlsv10</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<span class="description"><p>A boolean which indicates whether or not TLS v1.0 is enabled.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_tlsv11">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_tlsv11">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_tlsv11"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_tlsv11" onclick="setAnchor('#resource_servers_items_ssl_tlsv11')"><span class="property-name">tlsv11</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_tlsv11"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_tlsv11"
+             data-parent="#accordionresource_servers_items_ssl_tlsv11">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_tlsv11" onclick="anchorLink('resource_servers_items_ssl_tlsv11')">tlsv11</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<span class="description"><p>A boolean which indicates whether or not TLS v1.1 is enabled.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_tlsv12">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_tlsv12">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_tlsv12"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_tlsv12" onclick="setAnchor('#resource_servers_items_ssl_tlsv12')"><span class="property-name">tlsv12</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_tlsv12"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_tlsv12"
+             data-parent="#accordionresource_servers_items_ssl_tlsv12">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_tlsv12" onclick="anchorLink('resource_servers_items_ssl_tlsv12')">tlsv12</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<span class="description"><p>A boolean which indicates whether or not TLS v1.2 is enabled.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_tlsv13">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_tlsv13">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_tlsv13"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_tlsv13" onclick="setAnchor('#resource_servers_items_ssl_tlsv13')"><span class="property-name">tlsv13</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_tlsv13"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_tlsv13"
+             data-parent="#accordionresource_servers_items_ssl_tlsv13">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_tlsv13" onclick="anchorLink('resource_servers_items_ssl_tlsv13')">tlsv13</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<span class="description"><p>A boolean which indicates whether or not TLS v1.3 is enabled.</p>
+</span>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_key_agreement">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_key_agreement">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_key_agreement"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_key_agreement" onclick="setAnchor('#resource_servers_items_ssl_key_agreement')"><span class="property-name">key_agreement</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_key_agreement"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_key_agreement"
+             data-parent="#accordionresource_servers_items_ssl_key_agreement">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_key_agreement" onclick="anchorLink('resource_servers_items_ssl_key_agreement')">key_agreement</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span><br/>
+<span class="description"><p>Control the algorithms and parameters used in key agreement for TLSv1.2 and TLSv1.3.<br />
+If custom is specified, the <code>supported_groups</code> configuration  must specify the named groups to use in the key exchange.  For other entries, the named groups will be determined  automatically.</p>
+</span><div class="enum-value" id="resource_servers_items_ssl_key_agreement_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"hybrid-pqc-supported"</li><li class="list-group-item enum-item">"nonhybrid-pqc-supported"</li><li class="list-group-item enum-item">"provider-default"</li><li class="list-group-item enum-item">"custom"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_supported_groups">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_supported_groups">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_supported_groups"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_supported_groups" onclick="setAnchor('#resource_servers_items_ssl_supported_groups')"><span class="property-name">supported_groups</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_supported_groups"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_supported_groups"
+             data-parent="#accordionresource_servers_items_ssl_supported_groups">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_supported_groups" onclick="anchorLink('resource_servers_items_ssl_supported_groups')">supported_groups</a></div><span class="badge badge-dark value-type">Type: array of string</span><br/>
+<div class="description collapse" id="collapseDescription_resource_servers_items_ssl_supported_groups">
+            <p>Control which named groups to allow in the TLSv1.2 and  TLSv1.3 key agreement. It is only used when <code>key_agreement</code> is set to <code>custom</code>. ### Supported Groups<br />
+  - <code>ECDHE_X25519MLKEM768</code><br />
+  - <code>ECDHE_X25519</code><br />
+  - <code>ECDHE_SecP256r1MLKEM768</code><br />
+  - <code>ECDHE_SECP256R1</code><br />
+  - <code>ECDHE_SecP384r1MLKEM1024</code><br />
+  - <code>ECDHE_SECP384R1</code><br />
+  - <code>ECDHE_SECP521R1</code><br />
+  - <code>ECDHE_X448</code><br />
+  - <code>MLKEM768</code><br />
+  - <code>MLKEM1024</code></p>
+
+<h3>Supported Groups for TLSv1.3 The following groups can only be configured when TLSv1.3 is enabled:</h3>
+
+<ul>
+<li><code>ECDHE_X25519MLKEM768</code></li>
+<li><code>ECDHE_SecP256r1MLKEM768</code></li>
+<li><code>ECDHE_SecP384r1MLKEM1024</code></li>
+<li><code>MLKEM768</code></li>
+<li><code>MLKEM1024</code></li>
+</ul>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_resource_servers_items_ssl_supported_groups"
+               aria-expanded="false" aria-controls="collapseDescriptionresource_servers_items_ssl_supported_groups"
+            ></a>
+        </div>
+        
+
+        
+        
+
+         <span class="badge badge-info no-additional">No Additional Items</span><h4>Each item of this array must be:</h4>
+    <div class="card">
+        <div class="card-body items-definition" id="resource_servers_items_ssl_supported_groups_items">
+            
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_supported_groups" onclick="anchorLink('resource_servers_items_ssl_supported_groups')">supported_groups</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_supported_groups_items" onclick="anchorLink('resource_servers_items_ssl_supported_groups_items')">supported_groups items</a></div><span class="badge badge-dark value-type">Type: string</span><br/>
+<span class="description"><p>The name(s) of the groups which will be permitted. For a list of valid ciphers, see:<br />
+  - <a href="#resource_servers_ssl_supported_groups">Supported Groups</a><br />
+  - <a href="#resource_servers_ssl_supported_groups">Supported Groups for TLSv1.3</a></p>
+</span>
+        
+
+        
+        
+
+        
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionresource_servers_items_ssl_fips_processing">
+    <div class="card">
+        <div class="card-header" id="headingresource_servers_items_ssl_fips_processing">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#resource_servers_items_ssl_fips_processing"
+                        aria-expanded="" aria-controls="resource_servers_items_ssl_fips_processing" onclick="setAnchor('#resource_servers_items_ssl_fips_processing')"><span class="property-name">fips_processing</span></button>
+            </h2>
+        </div>
+
+        <div id="resource_servers_items_ssl_fips_processing"
+             class="collapse property-definition-div" aria-labelledby="headingresource_servers_items_ssl_fips_processing"
+             data-parent="#accordionresource_servers_items_ssl_fips_processing">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers" onclick="anchorLink('resource_servers')">resource_servers</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items" onclick="anchorLink('resource_servers_items')">resource_servers items</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl" onclick="anchorLink('resource_servers_items_ssl')">ssl</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#resource_servers_items_ssl_fips_processing" onclick="anchorLink('resource_servers_items_ssl_fips_processing')">fips_processing</a></div><span class="badge badge-dark value-type">Type: boolean</span><br/>
+<div class="description collapse" id="collapseDescription_resource_servers_items_ssl_fips_processing">
+            <p>A boolean which indicates whether FIPS 140 certified cryptography providers should be used for communication with the protected  application.</p>
+
+<p>The FIPS 140 compliance level depends on the version of the  cryptography provider in use. By default, this will be FIPS 140-3.  If version 8 of the cryptography provider is used, due to TLS 1.1  or earlier being enabled, this will be FIPS 140-2.</p>
+
+        </div>
+        <div>
+            <a class="collapse-description-link collapsed" data-toggle="collapse" href="#collapseDescription_resource_servers_items_ssl_fips_processing"
+               aria-expanded="false" aria-controls="collapseDescriptionresource_servers_items_ssl_fips_processing"
+            ></a>
+        </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
         </div>
     </div>
             </div>
@@ -24749,7 +25523,7 @@ This entry is an array and can define multiple content injection points.</p>
             />
         </svg>
     <a href="#policies_authorization_items_paths" onclick="anchorLink('policies_authorization_items_paths')">paths</a></div><span class="badge badge-dark value-type">Type: array of string</span><br/>
-<span class="description"><p>The paths which this policy will be applied. Each path may contain the <code>*?</code> pattern matching characters. This entry is an array and can be used to specify multiple paths.  Please note that if a character immediately follows the '<em>', the wildcard will  match any sequence of characters up to but not including the first  occurrence of that specific character.  For example, the path "/foo/</em>a" will match "/foo/ba" but not "/foo/baa".  </p>
+<span class="description"><p>The paths which this policy will be applied. Each path may contain the <code>*?</code> pattern matching characters. This entry is an array and can be used to specify multiple paths.  Please note that if a character immediately follows the <code>*</code>, the wildcard will  match any sequence of characters up to but not including the first  occurrence of that specific character.  For example, the path <code>/foo/*a</code> will match <code>/foo/ba</code> but not <code>/foo/baa</code>.</p>
 </span>
         
 
@@ -27205,9 +27979,12 @@ The default is to overwrite any existing value.</p>
         </svg>
     <a href="#authorization_rules" onclick="anchorLink('authorization_rules')">rules</a></div><span class="badge badge-dark value-type">Type: array of object</span><br/>
 <div class="description collapse" id="collapseDescription_authorization_rules">
-            <p>The gateway can apply authorization rules to incoming requests. These rules can be either:<br />
-  * Defined directly in a policies:authorization entry.<br />
-  * Defined here in the authorization section and reference by name in a policies:authorization entry.</p>
+            <p>The gateway can apply authorization rules to incoming requests. These rules can be either:</p>
+
+<ul>
+<li>Defined directly in a policies:authorization entry.</li>
+<li>Defined here in the authorization section and reference by name in a policies:authorization entry.</li>
+</ul>
 
 <p>This entry defines authorization rules which can be referred to by name in a policies/authorization entry.</p>
 
@@ -32730,7 +33507,7 @@ For a list of valid ciphers, see:<br />
     <a href="#logging_language" onclick="anchorLink('logging_language')">language</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "en"</span><br/>
 <div class="description collapse" id="collapseDescription_logging_language">
             <p>Specifies the language in which the log messages will be displayed. The LANG environment variable, if set, will take precedence over this configuration entry.  The following languages are supported:<br />
-Language Code | Language ------------- | -------- cs | Czech de | German en | English es | Spanish fr | French hu | Hungarian it | Italian ja | Japanese ko | Korean pl | Polish pt | Brazilian Portuguese ru | Russian zh<em>CN | Chinese (Simplified) zh</em>TW | Chinese (Traditional)</p>
+| Language Code | Language | | ------------- | -------- | | cs | Czech | | de | German | | en | English | | es | Spanish | | fr | French | | hu | Hungarian | | it | Italian | | ja | Japanese | | ko | Korean | | pl | Polish | | pt | Brazilian Portuguese | | ru | Russian | | zh<em>CN | Chinese (Simplified) | | zh</em>TW | Chinese (Traditional) |</p>
 
         </div>
         <div>

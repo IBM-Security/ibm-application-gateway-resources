@@ -88,6 +88,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aed8ffaa30cc0555cdfc047800be05ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6943de5b2403c82c4971ff7220ade1ee"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a6943de5b2403c82c4971ff7220ade1ee">incr</a> (string key, number maxLifetime)</td></tr>
 <tr class="separator:a6943de5b2403c82c4971ff7220ade1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a91311c57214ef45171a7b06614b9e7"><td class="memItemLeft" align="right" valign="top">number&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCache.html#a6a91311c57214ef45171a7b06614b9e7">decr</a> (string key, number maxLifetime)</td></tr>
+<tr class="separator:a6a91311c57214ef45171a7b06614b9e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This module allows you to cache data for a particular rule. This data is available to all requests which are processed by this rule. The data is stored in an expiring LRU cache. The default maximum size of the cache is set to 8192 records. </p>
@@ -141,6 +143,51 @@ Public Member Functions</h2></td></tr>
 <dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line"><a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a99f824266a2544f8c999892bd6d60059">add</a>(<span class="stringliteral">&quot;my-key&quot;</span>, <span class="stringliteral">&quot;my-data&quot;</span>, 1800)</div>
 <div class="ttc" id="aclassCache_html"><div class="ttname"><a href="classCache.html">Cache</a></div><div class="ttdoc">This module allows you to cache data for a particular rule. This data is available to all requests wh...</div><div class="ttdef"><b>Definition:</b> LuaCache.api:33</div></div>
 <div class="ttc" id="aclassCache_html_a99f824266a2544f8c999892bd6d60059"><div class="ttname"><a href="classCache.html#a99f824266a2544f8c999892bd6d60059">Cache::add</a></div><div class="ttdeci">nil add(string key, string data, number maxLifetime)</div></div>
+</div><!-- fragment --> </dd></dl>
+
+</div>
+</div>
+<a id="a6a91311c57214ef45171a7b06614b9e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a91311c57214ef45171a7b06614b9e7">&#9670;&nbsp;</a></span>decr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">number Cache::decr </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">number&#160;</td>
+          <td class="paramname"><em>maxLifetime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The cache can also be used to store a counter. This function will atomically decrement the counter for the specified key and return the current count value. Please note that it is possible for a counter to have a negative value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>: The key for the entry. </td></tr>
+    <tr><td class="paramname">maxLifetime</td><td>: The maximum lifetime of the entry (in seconds). This value is only used if the key does not already exist in the cache.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">The</td><td>current count value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section user"><dt>Examples</dt><dd><div class="fragment"><div class="line">print(<a class="code" href="classCache.html">Cache</a>.<a class="code" href="classCache.html#a6a91311c57214ef45171a7b06614b9e7">decr</a>(<span class="stringliteral">&quot;my-key&quot;</span>, 1800))</div>
+<div class="ttc" id="aclassCache_html_a6a91311c57214ef45171a7b06614b9e7"><div class="ttname"><a href="classCache.html#a6a91311c57214ef45171a7b06614b9e7">Cache::decr</a></div><div class="ttdeci">number decr(string key, number maxLifetime)</div></div>
 </div><!-- fragment --> </dd></dl>
 
 </div>
